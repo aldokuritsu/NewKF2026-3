@@ -41,8 +41,8 @@ const { block } = Astro.props
       {block.steps.map((step, i) => (
         <div class="process__step">
 
-          <!-- Connecteur entre étapes -->
-          {i < block.steps.length - 1 && (
+          <!-- Connecteur entre étapes (avant chaque step sauf le premier) -->
+          {i > 0 && (
             <div class="process__connector" aria-hidden="true">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

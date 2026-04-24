@@ -7,7 +7,7 @@
 
 backend:
   name: github
-  repo: owner/repo          # à remplacer quand le dépôt distant sera créé
+  repo: aldokuritsu/NewKF2026-3
   branch: main
 
 media_folder: public/assets

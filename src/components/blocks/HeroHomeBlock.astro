@@ -1,0 +1,311 @@
+---
+/**
+ * HeroHomeBlock — Hero plein-écran pour la page d'accueil
+ * - Image de fond avec overlay sombre
+ * - H1 fort + sous-titre + description
+ * - 2 CTAs (devis + réalisations)
+ * - Barre de stats intégrée en bas du hero
+ */
+
+interface Stat {
+  value: string
+  label: string
+}
+
+interface Cta {
+  label: string
+  href:  string
+  variant?: 'primary' | 'secondary'
+}
+
+interface Props {
+  block: {
+    heading:     string
+    subheading?: string
+    description?: string
+    bgImage?:    string
+    ctas?:       Cta[]
+    stats?:      Stat[]
+    certifs?:    Array<string | { label: string }>   // string ou objet TinaCMS { label }
+  }
+}
+
+const { block } = Astro.props
+---
+
+<section class="hero-home" style={block.bgImage ? `background-image:url('${block.bgImage}')` : undefined}>
+  <div class="hero-home__overlay" aria-hidden="true"></div>
+
+  <div class="hero-home__inner">
+
+    <div class="hero-home__content">
+
+      {block.certifs && block.certifs.length > 0 && (
+        <div class="hero-home__certifs">
+          {block.certifs.map(c => (
+            <span class="hero-home__certif-badge">{typeof c === 'string' ? c : c.label}</span>
+          ))}
+        </div>
+      )}
+
+      <h1 class="hero-home__heading">{block.heading}</h1>
+
+      {block.subheading && (
+        <p class="hero-home__subheading">{block.subheading}</p>
+      )}
+
+      {block.description && (
+        <p class="hero-home__description">{block.description}</p>
+      )}
+
+      {block.ctas && block.ctas.length > 0 && (
+        <div class="hero-home__ctas">
+          {block.ctas.map(cta => (
+            cta.href === '#devis'
+              ? (
+                <button
+                  type="button"
+                  data-open-devis
+                  class:list={['hero-home__btn', cta.variant === 'secondary' ? 'hero-home__btn--secondary' : 'hero-home__btn--primary']}
+                >
+                  {cta.label}
+                </button>
+              )
+              : (
+                <a
+                  href={cta.href}
+                  class:list={['hero-home__btn', cta.variant === 'secondary' ? 'hero-home__btn--secondary' : 'hero-home__btn--primary']}
+                >
+                  {cta.label}
+                </a>
+              )
+          ))}
+        </div>
+      )}
+
+    </div>
+
+  </div>
+
+  {block.stats && block.stats.length > 0 && (
+    <div class="hero-home__stats-bar">
+      <div class="hero-home__stats-inner">
+        {block.stats.map((s, i) => (
+          <>
+            <div class="hero-home__stat">
+              <span class="hero-home__stat-value">{s.value}</span>
+              <span class="hero-home__stat-label">{s.label}</span>
+            </div>
+            {i < (block.stats?.length ?? 0) - 1 && (
+              <div class="hero-home__stat-divider" aria-hidden="true"></div>
+            )}
+          </>
+        ))}
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  .hero-home {
+    position: relative;
+    background-color: var(--dark);
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-home__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(26, 26, 46, 0.82) 0%,
+      rgba(26, 26, 46, 0.55) 60%,
+      rgba(26, 26, 46, 0.30) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-home__inner {
+    position: relative;
+    z-index: 2;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 80px 24px 100px;
+    width: 100%;
+  }
+
+  .hero-home__content {
+    max-width: 640px;
+  }
+
+  /* ── Certifs ── */
+  .hero-home__certifs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .hero-home__certif-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(4px);
+    letter-spacing: .02em;
+  }
+
+  /* ── Heading ── */
+  .hero-home__heading {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -.03em;
+    margin: 0 0 20px;
+  }
+
+  .hero-home__subheading {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 16px;
+    line-height: 1.5;
+  }
+
+  .hero-home__description {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.70);
+    line-height: 1.7;
+    margin: 0 0 36px;
+    max-width: 540px;
+  }
+
+  /* ── CTAs ── */
+  .hero-home__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hero-home__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 30px;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+
+  .hero-home__btn--primary {
+    background: var(--rose);
+    color: var(--white);
+    border: 2px solid var(--rose);
+  }
+  .hero-home__btn--primary:hover {
+    background: var(--rose-dark);
+    border-color: var(--rose-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(232, 70, 124, .35);
+  }
+
+  .hero-home__btn--secondary {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.55);
+  }
+  .hero-home__btn--secondary:hover {
+    background: rgba(255, 255, 255, 0.10);
+    border-color: var(--white);
+  }
+
+  /* ── Stats bar ── */
+  .hero-home__stats-bar {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+  }
+
+  .hero-home__stats-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .hero-home__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 40px;
+    text-align: center;
+  }
+
+  .hero-home__stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+
+  .hero-home__stat-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 4px;
+    white-space: nowrap;
+  }
+
+  .hero-home__stat-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero-home {
+      min-height: 480px;
+    }
+
+    .hero-home__inner {
+      padding: 60px 20px 80px;
+    }
+
+    .hero-home__stat {
+      padding: 8px 20px;
+    }
+
+    .hero-home__stat-value {
+      font-size: 24px;
+    }
+
+    .hero-home__stat-divider {
+      display: none;
+    }
+  }
+</style>

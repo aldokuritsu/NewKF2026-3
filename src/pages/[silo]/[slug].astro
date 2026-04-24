@@ -1,0 +1,58 @@
+---
+/**
+ * Page enfant dynamique — /[silo]/[slug]/
+ *
+ * Lit le JSON dans src/content/pages/[silo]/[slug].json directement
+ * (format natif Sveltia CMS — plus de GraphQL).
+ */
+import ChildLayout   from '../../layouts/ChildLayout.astro'
+import { silos }     from '../../data/silos'
+import { readFileSync } from 'node:fs'
+import { resolve }      from 'node:path'
+
+export async function getStaticPaths() {
+  const paths: { params: any; props: any }[] = []
+
+  for (const silo of silos) {
+    for (const child of silo.children) {
+      const slug = child.href.split('/').filter(Boolean).pop()!
+
+      let pageData: any = null
+      try {
+        const abs = resolve(process.cwd(), `src/content/pages/${silo.slug}/${slug}.json`)
+        pageData = JSON.parse(readFileSync(abs, 'utf-8'))
+      } catch {
+        // Fichier pas encore créé — la page sera rendue vide
+      }
+
+      paths.push({
+        params: { silo: silo.slug, slug },
+        props:  { silo, child, slug, pageData },
+      })
+    }
+  }
+
+  return paths
+}
+
+const { silo, child, slug, pageData } = Astro.props as {
+  silo:     (typeof silos)[number]
+  child:    (typeof silos)[number]['children'][number]
+  slug:     string
+  pageData: any | null
+}
+
+const currentPath = `/${silo.slug}/${slug}/`
+const blocks = (pageData?.blocks ?? []) as any[]
+---
+
+<ChildLayout
+  seoTitle={pageData?.seoTitle      ?? `${child.label} | ${silo.label} | KONTFEEL`}
+  seoDescription={pageData?.seoDescription ?? `Découvrez ${child.label} sur mesure par KONTFEEL. Fabrication française, devis gratuit sous 24h.`}
+  siloSlug={silo.slug}
+  siloLabel={silo.label}
+  pageLabel={child.label}
+  currentPath={currentPath}
+  ogImage={pageData?.ogImage ?? undefined}
+  blocks={blocks}
+/>

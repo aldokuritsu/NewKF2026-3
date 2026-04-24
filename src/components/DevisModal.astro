@@ -1,0 +1,433 @@
+---
+/**
+ * DevisModal — Modale de demande de devis
+ *
+ * Ouverture : tout élément avec href="#devis" ou data-open-devis
+ *             (ex : <a href="#devis">, <button data-open-devis>)
+ *
+ * Soumission : fetch() POST JSON vers PUBLIC_DEVIS_ENDPOINT (variable .env)
+ *
+ * Payload envoyé au PHP :
+ *   { nom, societe, telephone, email, quantite, message, source, sentAt }
+ */
+
+const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
+---
+
+<dialog
+  id="devis-modal"
+  class="devis-modal"
+  aria-label="Demande de devis"
+  aria-modal="true"
+>
+  <div class="devis-modal__inner">
+
+    <!-- Bouton fermeture -->
+    <button class="devis-modal__close" aria-label="Fermer la fenêtre" data-close-devis>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M1 1l16 16M17 1L1 17" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <!-- ── Formulaire ──────────────────────────────────────────────── -->
+    <div id="devis-form-wrapper">
+
+      <h2 class="devis-modal__title">Ce produit vous intéresse&nbsp;?</h2>
+      <p class="devis-modal__subtitle">
+        Complétez ce formulaire et nous vous revenons sous <strong>48h ouvrées</strong>.
+      </p>
+
+      <form id="devis-form" novalidate>
+
+        <div class="devis-form__grid">
+          <div class="devis-form__field">
+            <label for="devis-nom">Nom et prénom</label>
+            <input id="devis-nom"       type="text"  name="nom"       placeholder="Nom/Prénom *"  required autocomplete="name" />
+          </div>
+          <div class="devis-form__field">
+            <label for="devis-societe">Société</label>
+            <input id="devis-societe"   type="text"  name="societe"   placeholder="Société *"     required autocomplete="organization" />
+          </div>
+          <div class="devis-form__field">
+            <label for="devis-tel">N° de téléphone</label>
+            <input id="devis-tel"       type="tel"   name="telephone" placeholder="Téléphone *"   required autocomplete="tel" />
+          </div>
+          <div class="devis-form__field">
+            <label for="devis-email">Email</label>
+            <input id="devis-email"     type="email" name="email"     placeholder="Email *"       required autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="devis-form__field">
+          <label for="devis-quantite">Quantité souhaitée</label>
+          <input id="devis-quantite" type="text" name="quantite" placeholder="Quantité *" required />
+        </div>
+
+        <div class="devis-form__field">
+          <label for="devis-message">Message <span class="devis-form__optional">(optionnel)</span></label>
+          <textarea
+            id="devis-message"
+            name="message"
+            placeholder="Précisions sur votre projet, délai souhaité…"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Zone de statut (erreur) -->
+        <p id="devis-status" class="devis-form__status" aria-live="polite" hidden></p>
+
+        <div class="devis-form__footer">
+          <p class="devis-form__mention">* Champs obligatoires</p>
+          <button type="submit" class="devis-form__submit" id="devis-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Envoyer ma demande
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- ── Message de succès ───────────────────────────────────────── -->
+    <div id="devis-success" class="devis-modal__success" hidden>
+      <div class="devis-success__icon" aria-hidden="true">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="24" fill="var(--rose)" opacity=".12"/>
+          <path d="M14 24l7 7 13-13" stroke="var(--rose)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3>Demande envoyée&nbsp;!</h3>
+      <p>Merci pour votre intérêt. Notre équipe vous contacte sous <strong>48h ouvrées</strong>.</p>
+      <button class="devis-form__submit" data-close-devis style="margin-top:24px">
+        Fermer
+      </button>
+    </div>
+
+  </div>
+</dialog>
+
+<style>
+  /* ── Dialog natif ─────────────────────────────────────────────────── */
+  .devis-modal {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    width: min(640px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+    border: none;
+    border-radius: 16px;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, .22);
+  }
+
+  .devis-modal::backdrop {
+    background: rgba(15, 20, 30, .55);
+    backdrop-filter: blur(3px);
+  }
+
+  /* Ouverture animée */
+  .devis-modal[open] {
+    animation: devis-in .22s ease-out;
+  }
+  @keyframes devis-in {
+    from { opacity: 0; transform: translateY(12px) scale(.97); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── Contenu intérieur ───────────────────────────────────────────── */
+  .devis-modal__inner {
+    position: relative;
+    padding: 48px 48px 40px;
+  }
+
+  @media (max-width: 600px) {
+    .devis-modal__inner { padding: 40px 20px 32px; }
+  }
+
+  /* ── Bouton close ────────────────────────────────────────────────── */
+  .devis-modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gray-100, #f5f5f5);
+    border: none;
+    border-radius: 50%;
+    color: var(--dark, #1a1a2e);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .devis-modal__close:hover { background: var(--gray-200, #e8e8e8); }
+
+  /* ── Titre ────────────────────────────────────────────────────────── */
+  .devis-modal__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark, #1a1a2e);
+    margin: 0 0 6px;
+  }
+  .devis-modal__subtitle {
+    font-size: 14px;
+    color: var(--gray-500, #6b7280);
+    margin: 0 0 28px;
+  }
+
+  /* ── Grille 2 colonnes ───────────────────────────────────────────── */
+  .devis-form__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 500px) {
+    .devis-form__grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── Champ ───────────────────────────────────────────────────────── */
+  .devis-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .devis-form__grid .devis-form__field {
+    margin-bottom: 0;
+  }
+
+  .devis-form__field label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark, #1a1a2e);
+  }
+  .devis-form__optional {
+    font-weight: 400;
+    color: var(--gray-400, #9ca3af);
+    font-size: 12px;
+  }
+
+  .devis-form__field input,
+  .devis-form__field textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--dark, #1a1a2e);
+    background: #f9fafb;
+    transition: border-color .15s, box-shadow .15s;
+    box-sizing: border-box;
+  }
+  .devis-form__field input::placeholder,
+  .devis-form__field textarea::placeholder {
+    color: #b0b8c1;
+  }
+  .devis-form__field input:focus,
+  .devis-form__field textarea:focus {
+    outline: none;
+    border-color: var(--rose, #E8336D);
+    box-shadow: 0 0 0 3px rgba(232, 51, 109, .12);
+    background: #fff;
+  }
+  .devis-form__field input.is-invalid,
+  .devis-form__field textarea.is-invalid {
+    border-color: #ef4444;
+  }
+  .devis-form__field textarea { resize: vertical; }
+
+  /* ── Footer formulaire ───────────────────────────────────────────── */
+  .devis-form__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .devis-form__mention {
+    font-size: 12px;
+    color: var(--gray-400, #9ca3af);
+    margin: 0;
+  }
+
+  /* ── Bouton submit ───────────────────────────────────────────────── */
+  .devis-form__submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, var(--rose, #E8336D) 0%, #D0356A 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: .03em;
+    cursor: pointer;
+    transition: opacity .15s, transform .15s;
+    white-space: nowrap;
+  }
+  .devis-form__submit:hover  { opacity: .9; transform: translateY(-1px); }
+  .devis-form__submit:active { transform: none; }
+  .devis-form__submit:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Spinner pendant l'envoi */
+  .devis-form__submit.is-loading svg {
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Statut erreur ───────────────────────────────────────────────── */
+  .devis-form__status {
+    font-size: 13px;
+    color: #ef4444;
+    margin: 0 0 12px;
+    padding: 10px 14px;
+    background: #fef2f2;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+  }
+
+  /* ── Succès ──────────────────────────────────────────────────────── */
+  .devis-modal__success {
+    text-align: center;
+    padding: 16px 0 8px;
+  }
+  .devis-success__icon { margin-bottom: 20px; }
+  .devis-modal__success h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark, #1a1a2e);
+    margin: 0 0 10px;
+  }
+  .devis-modal__success p {
+    font-size: 15px;
+    color: var(--gray-500, #6b7280);
+    margin: 0;
+    line-height: 1.6;
+  }
+</style>
+
+<script define:vars={{ endpoint }}>
+  const modal   = /** @type {HTMLDialogElement} */ (document.getElementById('devis-modal'))
+  const form    = /** @type {HTMLFormElement}   */ (document.getElementById('devis-form'))
+  const wrapper = document.getElementById('devis-form-wrapper')
+  const success = document.getElementById('devis-success')
+  const status  = document.getElementById('devis-status')
+  const submit  = /** @type {HTMLButtonElement} */ (document.getElementById('devis-submit'))
+
+  // ── Ouverture ─────────────────────────────────────────────────────
+  document.addEventListener('click', (e) => {
+    const trigger = /** @type {Element} */ (e.target)?.closest(
+      'a[href="#devis"], button[data-open-devis], [data-open-devis]'
+    )
+    if (!trigger) return
+    e.preventDefault()
+    // Reset si on rouvre après un succès
+    resetModal()
+    modal.showModal()
+  })
+
+  // ── Fermeture ─────────────────────────────────────────────────────
+  // Backdrop click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.close()
+  })
+  // Boutons data-close-devis
+  modal.addEventListener('click', (e) => {
+    if (/** @type {Element} */ (e.target)?.closest('[data-close-devis]')) {
+      modal.close()
+    }
+  })
+
+  // ── Soumission ────────────────────────────────────────────────────
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    // Validation HTML5 custom
+    const fields = [...form.querySelectorAll('input[required], textarea[required]')]
+    let valid = true
+    fields.forEach((f) => {
+      const input = /** @type {HTMLInputElement} */ (f)
+      input.classList.toggle('is-invalid', !input.validity.valid)
+      if (!input.validity.valid) valid = false
+    })
+    if (!valid) {
+      showStatus('Veuillez remplir tous les champs obligatoires.')
+      return
+    }
+
+    // Envoi
+    submit.disabled = true
+    submit.classList.add('is-loading')
+    hideStatus()
+
+    const payload = {
+      ...Object.fromEntries(new FormData(form)),
+      source:  window.location.href,
+      sentAt:  new Date().toISOString(),
+    }
+
+    try {
+      if (!endpoint) throw new Error('Endpoint non configuré (PUBLIC_DEVIS_ENDPOINT)')
+
+      const res = await fetch(endpoint, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body:    JSON.stringify(payload),
+      })
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+
+      // Succès
+      wrapper.hidden = true
+      success.hidden = false
+
+    } catch (err) {
+      console.error('[DevisModal] Erreur envoi :', err)
+      showStatus(
+        endpoint
+          ? 'Une erreur est survenue. Merci de réessayer ou de nous contacter directement.'
+          : '⚙️ Endpoint non configuré — ajoutez PUBLIC_DEVIS_ENDPOINT dans votre fichier .env'
+      )
+      submit.disabled = false
+      submit.classList.remove('is-loading')
+    }
+  })
+
+  // Retire la marque is-invalid à la saisie
+  form.addEventListener('input', (e) => {
+    /** @type {HTMLInputElement} */ (e.target)?.classList.remove('is-invalid')
+  })
+
+  // ── Helpers ───────────────────────────────────────────────────────
+  function showStatus(msg) {
+    status.textContent = msg
+    status.hidden = false
+  }
+  function hideStatus() {
+    status.hidden = true
+    status.textContent = ''
+  }
+  function resetModal() {
+    form.reset()
+    form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'))
+    hideStatus()
+    submit.disabled = false
+    submit.classList.remove('is-loading')
+    wrapper.hidden = false
+    success.hidden = true
+  }
+</script>

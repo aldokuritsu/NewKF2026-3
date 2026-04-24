@@ -1,0 +1,200 @@
+{
+  "seoTitle": "Impression PLV sur mesure : affiches, flyers et packaging | KONTFEEL",
+  "seoDescription": "Services d'impression PLV : affichage publicitaire, flyers, brochures, coffrets et sacs personnalisés. Fabrication française, devis sous 24h.",
+  "siloSlug": "impression",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Impression sur mesure",
+      "subheading": "Découvrez notre gamme de impression",
+      "image": "/assets/images/no_image.png",
+      "imageAlt": "Impression sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "products_grid",
+      "heading": "Notre gamme de impression",
+      "subtitle": "18 références, toutes personnalisables à votre image.",
+      "products": [
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Affichage publicitaire — KONTFEEL",
+          "heading": "Affichage publicitaire",
+          "excerpt": "Contenu à venir pour Affichage publicitaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/affichage-publicitaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Flyers — KONTFEEL",
+          "heading": "Flyers",
+          "excerpt": "Contenu à venir pour Flyers. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/flyers/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Brochures — KONTFEEL",
+          "heading": "Brochures",
+          "excerpt": "Contenu à venir pour Brochures. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/brochures/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Cartonnette — KONTFEEL",
+          "heading": "Cartonnette",
+          "excerpt": "Contenu à venir pour Cartonnette. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/cartonnette/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Étiquette en rouleaux — KONTFEEL",
+          "heading": "Étiquette en rouleaux",
+          "excerpt": "Contenu à venir pour Étiquette en rouleaux. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/etiquette-en-rouleaux/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "PLV factice — KONTFEEL",
+          "heading": "PLV factice",
+          "excerpt": "Contenu à venir pour PLV factice. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/plv-factice/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Coffret bouteille — KONTFEEL",
+          "heading": "Coffret bouteille",
+          "excerpt": "Contenu à venir pour Coffret bouteille. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/coffret-bouteille/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Coffret carton — KONTFEEL",
+          "heading": "Coffret carton",
+          "excerpt": "Contenu à venir pour Coffret carton. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/coffret-carton/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Coffret de presse — KONTFEEL",
+          "heading": "Coffret de presse",
+          "excerpt": "Contenu à venir pour Coffret de presse. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/coffret-de-presse/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Coffret écrin — KONTFEEL",
+          "heading": "Coffret écrin",
+          "excerpt": "Contenu à venir pour Coffret écrin. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/coffret-ecrin/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Coffret présentation — KONTFEEL",
+          "heading": "Coffret présentation",
+          "excerpt": "Contenu à venir pour Coffret présentation. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/coffret-presentation/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Étui coffret — KONTFEEL",
+          "heading": "Étui coffret",
+          "excerpt": "Contenu à venir pour Étui coffret. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/etui-coffret/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Objet publicitaire — KONTFEEL",
+          "heading": "Objet publicitaire",
+          "excerpt": "Contenu à venir pour Objet publicitaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/objet-publicitaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Nappe personnalisée — KONTFEEL",
+          "heading": "Nappe personnalisée",
+          "excerpt": "Contenu à venir pour Nappe personnalisée. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/nappe-personnalisee/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Panneau publicitaire — KONTFEEL",
+          "heading": "Panneau publicitaire",
+          "excerpt": "Contenu à venir pour Panneau publicitaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/panneau-publicitaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Sac personnalisé — KONTFEEL",
+          "heading": "Sac personnalisé",
+          "excerpt": "Contenu à venir pour Sac personnalisé. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/sac-personnalise/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Voile commerciale — KONTFEEL",
+          "heading": "Voile commerciale",
+          "excerpt": "Contenu à venir pour Voile commerciale. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/voile-commerciale/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Objets recyclés — KONTFEEL",
+          "heading": "Objets recyclés",
+          "excerpt": "Contenu à venir pour Objets recyclés. Contactez-nous pour un devis personnalisé.",
+          "href": "/impression/objets-recycles/",
+          "specs": []
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Impression : l'expertise KONTFEEL",
+      "content": "Contenu éditorial à venir pour la gamme Impression. Cette page sera enrichie avec des informations détaillées sur nos produits, notre savoir-faire et nos engagements qualité."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet impression ? Obtenez votre devis sous 48h",
+      "body": "Notre équipe analyse votre brief et vous propose une solution adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

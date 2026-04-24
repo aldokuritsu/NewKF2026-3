@@ -1,0 +1,60 @@
+{
+  "seoTitle": "Totem carton publicitaire sur mesure | PLV promotion | KONTFEEL",
+  "seoDescription": "Totem carton publicitaire pour vos campagnes promotionnelles : impression haute résolution, personnalisation complète, livraison multi-points.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem carton publicitaire",
+      "subheading": "Support publicitaire imprimé haute résolution pour vos campagnes",
+      "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+      "imageAlt": "Totem carton publicitaire sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Carton recyclable",
+          "green": true
+        },
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌲 FSC"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Totem carton publicitaire : caractéristiques et options",
+      "content": "Le totem carton publicitaire est le support idéal pour relayer vos campagnes promotionnelles en point de vente. Entièrement personnalisé à vos visuels avec une impression numérique ou offset haute résolution, il assure une cohérence parfaite avec votre identité de marque.\n\nContenu technique détaillé à venir : grammages disponibles, dimensions standard et sur mesure, options de finition (vernis, pelliculage), délais de fabrication et de livraison."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet totem carton publicitaire ? Devis sous 48h",
+      "body": "Décrivez vos contraintes de format, de volume et d'identité visuelle — nous vous proposons la solution la plus adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

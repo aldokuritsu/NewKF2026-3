@@ -1,0 +1,168 @@
+{
+  "seoTitle": "PLV événementielle sur mesure : stands, rollup et kakémono | KONTFEEL",
+  "seoDescription": "Fabricant de PLV événementielle : stands d'exposition, rollup, kakémono, tentes publicitaires et drapeaux. Fabrication française, devis sous 24h.",
+  "siloSlug": "plv-evenementielle",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "PLV événementielle sur mesure",
+      "subheading": "Découvrez notre gamme de plv événementielle",
+      "image": "/assets/images/no_image.png",
+      "imageAlt": "PLV événementielle sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "products_grid",
+      "heading": "Notre gamme de plv événementielle",
+      "subtitle": "14 références, toutes personnalisables à votre image.",
+      "products": [
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stand expo — KONTFEEL",
+          "heading": "Stand expo",
+          "excerpt": "Contenu à venir pour Stand expo. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/stand-expo/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stand de dégustation — KONTFEEL",
+          "heading": "Stand de dégustation",
+          "excerpt": "Contenu à venir pour Stand de dégustation. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/stand-de-degustation/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stand animation — KONTFEEL",
+          "heading": "Stand animation",
+          "excerpt": "Contenu à venir pour Stand animation. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/stand-animation/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stand parapluie — KONTFEEL",
+          "heading": "Stand parapluie",
+          "excerpt": "Contenu à venir pour Stand parapluie. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/stand-parapluie/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Tente publicitaire — KONTFEEL",
+          "heading": "Tente publicitaire",
+          "excerpt": "Contenu à venir pour Tente publicitaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/tente-publicitaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Borne accueil — KONTFEEL",
+          "heading": "Borne accueil",
+          "excerpt": "Contenu à venir pour Borne accueil. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/borne-accueil/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Comptoir stand — KONTFEEL",
+          "heading": "Comptoir stand",
+          "excerpt": "Contenu à venir pour Comptoir stand. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/comptoir-stand/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Rollup — KONTFEEL",
+          "heading": "Rollup",
+          "excerpt": "Contenu à venir pour Rollup. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/rollup/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Kakémono — KONTFEEL",
+          "heading": "Kakémono",
+          "excerpt": "Contenu à venir pour Kakémono. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/kakemono/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Mur d'image courbé — KONTFEEL",
+          "heading": "Mur d'image courbé",
+          "excerpt": "Contenu à venir pour Mur d'image courbé. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/mur-image-courbe/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Poster suspendu — KONTFEEL",
+          "heading": "Poster suspendu",
+          "excerpt": "Contenu à venir pour Poster suspendu. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/poster-suspendu/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "X-banner — KONTFEEL",
+          "heading": "X-banner",
+          "excerpt": "Contenu à venir pour X-banner. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/x-banner/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Banderole publicitaire — KONTFEEL",
+          "heading": "Banderole publicitaire",
+          "excerpt": "Contenu à venir pour Banderole publicitaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/banderole-publicitaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Drapeau publicitaire — KONTFEEL",
+          "heading": "Drapeau publicitaire",
+          "excerpt": "Contenu à venir pour Drapeau publicitaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/plv-evenementielle/drapeau-publicitaire/",
+          "specs": []
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "PLV événementielle : l'expertise KONTFEEL",
+      "content": "Contenu éditorial à venir pour la gamme PLV événementielle. Cette page sera enrichie avec des informations détaillées sur nos produits, notre savoir-faire et nos engagements qualité."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet plv événementielle ? Obtenez votre devis sous 48h",
+      "body": "Notre équipe analyse votre brief et vous propose une solution adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

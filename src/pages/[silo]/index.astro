@@ -1,0 +1,44 @@
+---
+/**
+ * Page pilier dynamique — /[silo]/
+ *
+ * Lit le JSON correspondant dans src/content/silos/[silo].json directement
+ * (format natif Sveltia CMS — plus de GraphQL).
+ */
+import PillarLayout from '../../layouts/PillarLayout.astro'
+import { silos }    from '../../data/silos'
+import { readFileSync } from 'node:fs'
+import { resolve }      from 'node:path'
+
+export async function getStaticPaths() {
+  return silos.map((silo) => {
+    let pageData: any = null
+    try {
+      const abs = resolve(process.cwd(), `src/content/silos/${silo.slug}.json`)
+      pageData = JSON.parse(readFileSync(abs, 'utf-8'))
+    } catch {
+      // Fichier pas encore créé — la page sera rendue vide
+    }
+    return {
+      params: { silo: silo.slug },
+      props:  { silo, pageData },
+    }
+  })
+}
+
+const { silo, pageData } = Astro.props as {
+  silo:     (typeof silos)[number]
+  pageData: any | null
+}
+
+const blocks = (pageData?.blocks ?? []) as any[]
+---
+
+<PillarLayout
+  seoTitle={pageData?.seoTitle      ?? `${silo.label} | KONTFEEL`}
+  seoDescription={pageData?.seoDescription ?? `Découvrez notre gamme de ${silo.label} sur mesure. Fabrication française, devis sous 24h.`}
+  siloSlug={silo.slug}
+  siloLabel={silo.label}
+  ogImage={pageData?.ogImage ?? undefined}
+  blocks={blocks}
+/>

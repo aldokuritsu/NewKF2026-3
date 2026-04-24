@@ -1,0 +1,460 @@
+---
+/**
+ * NavbarSilo — Navbar contextuelle d'un silo (page pilier ou enfant)
+ *
+ * Overflow navigation dynamique :
+ *  - Tous les liens enfants sont rendus dans le DOM
+ *  - JS mesure l'espace disponible et masque les liens qui débordent
+ *  - Les liens masqués sont disponibles via un bouton "N autres ▾"
+ *  - ResizeObserver recalcule à chaque changement de taille de fenêtre
+ */
+import { getSiloBySlug } from '../data/silos'
+
+interface Props {
+  siloSlug: string
+  currentPath?: string
+}
+
+const { siloSlug, currentPath = '' } = Astro.props
+const silo = getSiloBySlug(siloSlug)
+---
+
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+
+    <a href="/" class="logo" aria-label="KONTFEEL — Accueil">
+      <img src="/assets/images/logo.svg" alt="KONTFEEL" width="160" height="48" />
+    </a>
+
+    {silo ? (
+      <>
+        <!-- Tous les liens — JS décidera lesquels sont visibles -->
+        <nav class="nav-links" id="nav-links" aria-label={`Navigation ${silo.label}`}>
+          {silo.children.map(child => (
+            <a
+              href={child.href}
+              class:list={[{ active: currentPath === child.href }]}
+            >
+              {child.label}
+            </a>
+          ))}
+        </nav>
+
+        <!-- Bouton "N autres" — géré entièrement par JS -->
+        <div class="nav-more" id="nav-more" style="display:none">
+          <button
+            class="nav-more-btn"
+            id="nav-more-btn"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="nav-more-dropdown"
+          >
+            <span id="nav-more-count">0</span>&nbsp;autres
+            <svg class="arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <div
+            class="nav-more-dropdown"
+            id="nav-more-dropdown"
+            role="menu"
+            aria-hidden="true"
+          >
+            <!-- Peuplé dynamiquement par JS -->
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <a href="/devis/" class="nav-cta">Devis gratuit →</a>
+
+        <!-- Hamburger (mobile) -->
+        <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span><span></span><span></span>
+        </button>
+      </>
+    ) : null}
+  </div>
+
+  <!-- Menu mobile (tous les enfants, sans limite) -->
+  {silo ? (
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <nav aria-label={`Navigation mobile ${silo.label}`}>
+        <a href={silo.href} class:list={[{ active: currentPath === silo.href }, 'pillar-link']}>
+          ← {silo.label}
+        </a>
+        {silo.children.map(child => (
+          <a href={child.href} class:list={[{ active: currentPath === child.href }]}>
+            {child.label}
+          </a>
+        ))}
+        <a href="/devis/" class="mobile-cta">Devis gratuit →</a>
+      </nav>
+    </div>
+  ) : null}
+</header>
+
+<script>
+// ── Overflow navigation ─────────────────────────────────────────────────────
+const navLinks    = document.getElementById('nav-links')    as HTMLElement | null
+const navMore     = document.getElementById('nav-more')     as HTMLElement | null
+const moreDropdown = document.getElementById('nav-more-dropdown') as HTMLElement | null
+const moreCount   = document.getElementById('nav-more-count') as HTMLElement | null
+const moreBtn     = document.getElementById('nav-more-btn') as HTMLButtonElement | null
+const navbarInner = document.querySelector('.navbar-inner') as HTMLElement | null
+
+if (navLinks && navMore && moreDropdown && moreCount && moreBtn) {
+  // Snapshot de tous les liens (ordre original conservé)
+  const allLinks = Array.from(navLinks.querySelectorAll<HTMLAnchorElement>('a'))
+
+  function calculate() {
+    // 1. Remettre tous les liens visibles dans la nav
+    allLinks.forEach(a => (a.style.display = ''))
+    moreDropdown!.innerHTML = ''
+
+    // 2. Rendre le bouton "N autres" présent mais invisible
+    //    → il occupe sa place dans le flex, ce qui réduit la largeur dispo pour nav-links
+    //    → la mesure se fait donc AVEC sa présence (valeur conservative)
+    navMore!.style.display  = ''
+    navMore!.style.visibility = 'hidden'
+
+    // 3. Masquer les liens de droite à gauche jusqu'à ce qu'il n'y ait plus de débordement
+    const hidden: HTMLAnchorElement[] = []
+
+    for (let i = allLinks.length - 1; i >= 0; i--) {
+      if (navLinks!.scrollWidth <= navLinks!.clientWidth) break
+      allLinks[i].style.display = 'none'
+      hidden.unshift(allLinks[i]) // ordre conservé
+    }
+
+    // 4. Si aucun lien caché → on cache le bouton
+    if (hidden.length === 0) {
+      navMore!.style.display = 'none'
+      return
+    }
+
+    // 5. Afficher le bouton et peupler le dropdown
+    navMore!.style.visibility = ''
+    moreCount!.textContent = String(hidden.length)
+
+    // Le bouton prend l'état "actif" si la page courante est dans les liens cachés
+    const hasActiveHidden = hidden.some(a => a.classList.contains('active'))
+    moreBtn!.classList.toggle('active', hasActiveHidden)
+
+    hidden.forEach(link => {
+      const item = document.createElement('a')
+      item.href        = link.href
+      item.textContent = link.textContent
+      item.role        = 'menuitem'
+      if (link.classList.contains('active')) item.classList.add('active')
+      moreDropdown!.appendChild(item)
+    })
+  }
+
+  // Calcul initial
+  calculate()
+
+  // Recalcul à chaque redimensionnement
+  const ro = new ResizeObserver(() => {
+    // Fermer le dropdown avant de recalculer
+    closDropdown()
+    calculate()
+  })
+  ro.observe(document.getElementById('navbar')!)
+
+  // ── Dropdown open / close ──────────────────────────────────────────────
+  function closDropdown() {
+    moreBtn!.setAttribute('aria-expanded', 'false')
+    moreDropdown!.setAttribute('aria-hidden', 'true')
+    moreDropdown!.classList.remove('is-open')
+    moreBtn!.classList.remove('is-open')
+  }
+
+  moreBtn.addEventListener('click', e => {
+    e.stopPropagation()
+    const isOpen = moreBtn!.getAttribute('aria-expanded') === 'true'
+    if (isOpen) {
+      closDropdown()
+    } else {
+      moreBtn!.setAttribute('aria-expanded', 'true')
+      moreDropdown!.setAttribute('aria-hidden', 'false')
+      moreDropdown!.classList.add('is-open')
+      moreBtn!.classList.add('is-open')
+    }
+  })
+
+  document.addEventListener('click', e => {
+    if (!navMore!.contains(e.target as Node)) closDropdown()
+  })
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closDropdown(); moreBtn!.focus() }
+  })
+}
+
+// ── Hamburger (mobile) ──────────────────────────────────────────────────────
+const hamburger  = document.getElementById('hamburger')
+const mobileMenu = document.getElementById('mobile-menu')
+
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.getAttribute('aria-expanded') === 'true'
+    hamburger.setAttribute('aria-expanded', String(!isOpen))
+    mobileMenu.setAttribute('aria-hidden', String(isOpen))
+    hamburger.classList.toggle('is-open', !isOpen)
+    mobileMenu.classList.toggle('is-open', !isOpen)
+  })
+}
+</script>
+
+<style>
+  .navbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+
+  .navbar-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── Logo ── */
+  .logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+  }
+
+  .logo img { height: 44px; width: auto; display: block; }
+
+  /* ── Nav links ── */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    min-width: 0;
+    overflow: hidden; /* clips les liens avant que JS ne les masque */
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-700);
+    text-decoration: none;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;     /* texte entier, jamais tronqué */
+    flex-shrink: 0;
+    transition: color .15s, background .15s;
+  }
+
+  .nav-links a:hover { color: var(--rose); background: var(--rose-light); }
+  .nav-links a.active { color: var(--rose); font-weight: 600; background: var(--rose-light); }
+
+  /* ── Dropdown "N autres" ── */
+  .nav-more {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .nav-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 11px;
+    background: none;
+    border: 1px solid var(--gray-200, #e2e2ef);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-700);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .15s, background .15s, border-color .15s;
+    font-family: inherit;
+  }
+
+  .nav-more-btn:hover,
+  .nav-more-btn.is-open {
+    color: var(--rose);
+    background: var(--rose-light);
+    border-color: var(--rose-light);
+  }
+
+  .nav-more-btn.active {
+    color: var(--rose);
+    font-weight: 600;
+    background: var(--rose-light);
+    border-color: var(--rose-light);
+  }
+
+  .nav-more-btn .arrow { transition: transform .2s; flex-shrink: 0; }
+  .nav-more-btn.is-open .arrow { transform: rotate(180deg); }
+
+  /* Dropdown panel */
+  .nav-more-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(0,0,0,.10);
+    min-width: 200px;
+    max-height: 420px;
+    overflow-y: auto;
+    z-index: 200;
+    padding: 6px;
+  }
+
+  .nav-more-dropdown.is-open {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    animation: dropIn .15s ease;
+  }
+
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .nav-more-dropdown a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-700);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    transition: color .15s, background .15s;
+  }
+
+  .nav-more-dropdown a:hover,
+  .nav-more-dropdown a.active { color: var(--rose); background: var(--rose-light); }
+  .nav-more-dropdown a.active { font-weight: 600; }
+
+  /* ── CTA ── */
+  .nav-cta {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--rose);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s;
+    white-space: nowrap;
+  }
+
+  .nav-cta:hover { background: var(--rose-dark); }
+
+  /* Pousse le CTA tout à droite — l'espace libre se crée entre nav-more et CTA */
+  .nav-cta { margin-left: auto; }
+
+  /* ── Hamburger ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+    border-radius: var(--radius-sm);
+    transition: background .15s;
+  }
+
+  .hamburger:hover { background: var(--gray-50); }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--dark);
+    border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+  }
+
+  .hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.is-open span:nth-child(2) { opacity: 0; }
+  .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── Mobile menu ── */
+  .mobile-menu {
+    display: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .3s ease;
+    border-top: 1px solid var(--gray-100);
+    background: var(--white);
+  }
+
+  .mobile-menu.is-open { max-height: 700px; }
+
+  .mobile-menu nav {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 16px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-menu a {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gray-700);
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    transition: color .15s, background .15s;
+  }
+
+  .mobile-menu a:hover,
+  .mobile-menu a.active { color: var(--rose); background: var(--rose-light); }
+
+  .pillar-link {
+    font-weight: 600 !important;
+    color: var(--dark) !important;
+    border-bottom: 1px solid var(--gray-100);
+    margin-bottom: 8px;
+    padding-bottom: 14px !important;
+  }
+
+  .mobile-cta {
+    margin-top: 8px;
+    background: var(--rose) !important;
+    color: var(--white) !important;
+    text-align: center;
+    font-weight: 600 !important;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-more  { display: none !important; }
+    .nav-cta   { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: block; }
+  }
+</style>

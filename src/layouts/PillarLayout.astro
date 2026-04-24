@@ -1,0 +1,44 @@
+---
+/**
+ * PillarLayout — Layout des pages piliers (ex : /plv-carton/)
+ *
+ * Props :
+ *   seoTitle       : string
+ *   seoDescription : string
+ *   siloSlug       : string   — ex : "plv-carton"
+ *   siloLabel      : string   — ex : "PLV carton" (pour le breadcrumb)
+ *   ogImage?       : string
+ */
+import BaseLayout   from './BaseLayout.astro'
+import Breadcrumb   from '../components/Breadcrumb.astro'
+import BlockRenderer from '../components/blocks/BlockRenderer.astro'
+
+interface Props {
+  seoTitle:       string
+  seoDescription: string
+  siloSlug:       string
+  siloLabel:      string
+  ogImage?:       string
+  blocks:         any[]
+}
+
+const { seoTitle, seoDescription, siloSlug, siloLabel, ogImage, blocks } = Astro.props
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  siloSlug={siloSlug}
+  ogImage={ogImage}
+>
+  <!-- Breadcrumb : Accueil › Pilier -->
+  <Breadcrumb crumbs={[
+    { label: 'Accueil', href: '/' },
+    { label: siloLabel },
+  ]} />
+
+  <!-- Blocs de contenu -->
+  <BlockRenderer blocks={blocks} />
+
+  <slot />
+</BaseLayout>

@@ -1,0 +1,292 @@
+---
+/**
+ * ProcessBlock — Les 4 étapes du processus de collaboration
+ * Design : timeline horizontale numérotée + texte structuré
+ * Audit : simplifier le parcours en étapes clés, citer des chiffres concrets
+ */
+
+interface Step {
+  number:       string   // "01", "02", etc.
+  heading:      string   // H3 de l'étape
+  description:  string   // Corps de l'étape
+  detail?:      string   // Détail additionnel (délai, format, etc.)
+  tags?:        Array<{ text: string }> // Badges courts (format TinaCMS)
+  image?:       string   // Photo illustrant l'étape (optionnel)
+  imageAlt?:    string
+}
+
+interface Props {
+  block: {
+    heading:   string
+    subtitle?: string
+    steps:     Step[]
+    cta?:      { label: string; href: string }
+  }
+}
+
+const { block } = Astro.props
+---
+
+<section class="process" id="process">
+  <div class="process__inner">
+
+    <div class="process__header">
+      <h2 class="process__heading">{block.heading}</h2>
+      {block.subtitle && (
+        <p class="process__subtitle">{block.subtitle}</p>
+      )}
+    </div>
+
+    <div class="process__steps">
+      {block.steps.map((step, i) => (
+        <div class="process__step">
+
+          <!-- Connecteur entre étapes -->
+          {i < block.steps.length - 1 && (
+            <div class="process__connector" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          )}
+
+          <div class="process__step-inner">
+            {step.image && (
+              <div class="process__step-cover">
+                <img
+                  src={step.image}
+                  alt={step.imageAlt ?? step.heading}
+                  loading="lazy"
+                  decoding="async"
+                  class="process__step-cover-img"
+                  width="280"
+                  height="180"
+                />
+              </div>
+            )}
+            <div class="process__step-number" aria-hidden="true">{step.number}</div>
+            <h3 class="process__step-heading">{step.heading}</h3>
+            <p class="process__step-desc">{step.description}</p>
+            {step.detail && (
+              <p class="process__step-detail">{step.detail}</p>
+            )}
+            {step.tags && step.tags.length > 0 && (
+              <div class="process__step-tags">
+                {step.tags.map(t => (
+                  <span class="process__step-tag">{typeof t === 'string' ? t : t.text}</span>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+    {block.cta && (
+      <div class="process__cta-wrap">
+        <a href={block.cta.href} class="btn-primary">{block.cta.label}</a>
+      </div>
+    )}
+
+  </div>
+</section>
+
+<style>
+  .process {
+    padding: 80px 24px;
+    background: var(--white);
+  }
+
+  .process__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .process__header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .process__heading {
+    font-size: clamp(24px, 3.5vw, 38px);
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -.02em;
+    margin: 0 0 14px;
+  }
+
+  .process__subtitle {
+    font-size: 17px;
+    color: var(--gray-500);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ── Steps wrapper ── */
+  .process__steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+  }
+
+  /* ── Step ── */
+  .process__step {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .process__step-inner {
+    flex: 1;
+    padding: 0;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    height: 100%;
+    transition: box-shadow .2s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .process__step-inner:hover {
+    box-shadow: 0 8px 24px rgba(26, 26, 46, .08);
+  }
+
+  /* ── Photo de l'étape ── */
+  .process__step-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--gray-100);
+    flex-shrink: 0;
+  }
+
+  .process__step-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+
+  .process__step-inner:hover .process__step-cover-img {
+    transform: scale(1.04);
+  }
+
+  /* ── Contenu textuel de l'étape ── */
+  .process__step-number,
+  .process__step-heading,
+  .process__step-desc,
+  .process__step-detail,
+  .process__step-tags {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .process__step-tags {
+    padding-bottom: 20px;
+  }
+
+  /* ── Connecteur ── */
+  .process__connector {
+    flex-shrink: 0;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-300);
+    margin-top: 40px;
+    z-index: 1;
+  }
+
+  /* ── Numéro ── */
+  .process__step-number {
+    font-size: 48px;
+    font-weight: 800;
+    color: var(--rose-light);
+    line-height: 1;
+    letter-spacing: -.04em;
+    margin-bottom: 12px;
+    padding-top: 20px;
+    /* Numéro en dégradé */
+    background: linear-gradient(135deg, var(--rose) 0%, var(--rose-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .process__step-heading {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 10px;
+    line-height: 1.3;
+  }
+
+  .process__step-desc {
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.65;
+    margin: 0 0 12px;
+  }
+
+  .process__step-detail {
+    font-size: 13px;
+    color: var(--gray-700);
+    font-weight: 500;
+    margin: 0 0 12px;
+    padding: 8px 12px;
+    background: var(--white);
+    border-left: 3px solid var(--rose);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .process__step-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .process__step-tag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+
+  /* ── CTA ── */
+  .process__cta-wrap {
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .process__steps {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .process__step {
+      flex-direction: column;
+    }
+
+    .process__connector {
+      display: none;
+    }
+
+    .process__step-number {
+      font-size: 36px;
+    }
+  }
+</style>

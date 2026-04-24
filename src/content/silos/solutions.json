@@ -1,0 +1,104 @@
+{
+  "seoTitle": "Solutions PLV par secteur : pharmacie, GMS, cosmétique | KONTFEEL",
+  "seoDescription": "Solutions PLV adaptées à votre secteur : pharmacie, grande distribution, cosmétique, agroalimentaire. Fabrication française, devis sous 24h.",
+  "siloSlug": "solutions",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Solutions sur mesure",
+      "subheading": "Découvrez notre gamme de solutions",
+      "image": "/assets/images/no_image.png",
+      "imageAlt": "Solutions sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "products_grid",
+      "heading": "Notre gamme de solutions",
+      "subtitle": "6 références, toutes personnalisables à votre image.",
+      "products": [
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "PLV pharmacie — KONTFEEL",
+          "heading": "PLV pharmacie",
+          "excerpt": "Contenu à venir pour PLV pharmacie. Contactez-nous pour un devis personnalisé.",
+          "href": "/solutions/plv-pharmacie/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "PLV grande distribution — KONTFEEL",
+          "heading": "PLV grande distribution",
+          "excerpt": "Contenu à venir pour PLV grande distribution. Contactez-nous pour un devis personnalisé.",
+          "href": "/solutions/plv-grande-distribution/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "PLV cosmétique — KONTFEEL",
+          "heading": "PLV cosmétique",
+          "excerpt": "Contenu à venir pour PLV cosmétique. Contactez-nous pour un devis personnalisé.",
+          "href": "/solutions/plv-cosmetique/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "PLV agroalimentaire — KONTFEEL",
+          "heading": "PLV agroalimentaire",
+          "excerpt": "Contenu à venir pour PLV agroalimentaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/solutions/plv-agroalimentaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "PLV écologique — KONTFEEL",
+          "heading": "PLV écologique",
+          "excerpt": "Contenu à venir pour PLV écologique. Contactez-nous pour un devis personnalisé.",
+          "href": "/solutions/plv-ecologique/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "PLV salon professionnel — KONTFEEL",
+          "heading": "PLV salon professionnel",
+          "excerpt": "Contenu à venir pour PLV salon professionnel. Contactez-nous pour un devis personnalisé.",
+          "href": "/solutions/plv-salon-professionnel/",
+          "specs": []
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Solutions : l'expertise KONTFEEL",
+      "content": "Contenu éditorial à venir pour la gamme Solutions. Cette page sera enrichie avec des informations détaillées sur nos produits, notre savoir-faire et nos engagements qualité."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet solutions ? Obtenez votre devis sous 48h",
+      "body": "Notre équipe analyse votre brief et vous propose une solution adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

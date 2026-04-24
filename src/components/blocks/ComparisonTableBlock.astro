@@ -1,0 +1,236 @@
+---
+/**
+ * ComparisonTableBlock — Tableau comparatif de produits
+ *
+ * Schéma TinaCMS : { heading, columns: [{label}], rows: [{criterion, cells: [{value}]}] }
+ *
+ * Affichage :
+ *  - Desktop : tableau classique avec scroll horizontal si nécessaire
+ *  - Mobile   : même tableau, scroll horizontal
+ *  - ✓ → pastille verte, — → tiret discret
+ *
+ * Freshness note : date de mise à jour affichée en pied de tableau.
+ */
+
+interface Column { label: string }
+interface Cell   { value?: string }
+interface Row    { criterion?: string; cells?: Cell[] }
+
+interface Props {
+  block: {
+    heading?:  string
+    subtitle?: string
+    columns?:  Column[]
+    rows?:     Row[]
+  }
+}
+
+const { block } = Astro.props
+const columns = block.columns ?? []
+const rows    = block.rows    ?? []
+---
+
+{(rows.length > 0) && (
+  <section class="ct-block" id="comparer">
+    <div class="ct-inner">
+
+      {(block.heading || block.subtitle) && (
+        <header class="ct-header">
+          {block.heading  && <h2 class="ct-heading">{block.heading}</h2>}
+          {block.subtitle && <p  class="ct-subtitle">{block.subtitle}</p>}
+        </header>
+      )}
+
+      <div class="ct-scroll-wrap">
+        <table class="ct-table">
+
+          <thead>
+            <tr>
+              <th class="ct-th-feature" scope="col"></th>
+              {columns.map((col, ci) => (
+                <th
+                  class:list={['ct-th-product', ci === 0 ? 'ct-th-product--featured' : '']}
+                  scope="col"
+                >
+                  {ci === 0 && <span class="ct-bestseller">Best-seller</span>}
+                  {col.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {rows.map((row, ri) => (
+              <tr class:list={['ct-row', ri % 2 === 0 ? 'ct-row--alt' : '']}>
+                <td class="ct-td-feature">{row.criterion}</td>
+                {(row.cells ?? []).map((cell, ci) => {
+                  const v = cell.value ?? ''
+                  const isCheck = v === '✓'
+                  const isDash  = v === '—' || v === '-'
+                  return (
+                    <td
+                      class:list={[
+                        'ct-td-value',
+                        ci === 0 ? 'ct-td-value--featured' : '',
+                        isCheck ? 'ct-td-value--check' : '',
+                        isDash  ? 'ct-td-value--empty'  : '',
+                      ]}
+                    >
+                      {isCheck
+                        ? <span class="ct-icon-check" aria-label="Oui">✓</span>
+                        : isDash
+                          ? <span class="ct-icon-dash" aria-label="Non disponible">—</span>
+                          : v
+                      }
+                    </td>
+                  )
+                })}
+              </tr>
+            ))}
+          </tbody>
+
+        </table>
+      </div>
+
+      <p class="ct-freshness">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:inline;vertical-align:-2px;margin-right:5px"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Informations mises à jour en mars 2026. Disponibilité et caractéristiques sur devis.
+      </p>
+
+    </div>
+  </section>
+)}
+
+<style>
+  /* ── Section ─────────────────────────────────────────────────────── */
+  .ct-block {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  /* ── Header ──────────────────────────────────────────────────────── */
+  .ct-header { margin-bottom: 36px; }
+
+  .ct-heading {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--dark, #1a1a2e);
+    margin: 0 0 10px;
+  }
+
+  .ct-subtitle {
+    font-size: 16px;
+    color: var(--gray-500, #6b7280);
+    margin: 0;
+  }
+
+  /* ── Scroll wrapper ──────────────────────────────────────────────── */
+  .ct-scroll-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+  }
+
+  /* ── Table ───────────────────────────────────────────────────────── */
+  .ct-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fff;
+    min-width: 560px;
+  }
+
+  /* ── En-têtes ────────────────────────────────────────────────────── */
+  .ct-th-feature,
+  .ct-th-product {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark, #1a1a2e);
+    background: #f8f9fb;
+    border-bottom: 2px solid #eee;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .ct-th-feature { width: 28%; min-width: 140px; }
+  .ct-th-product { text-align: center; }
+
+  /* Colonne mise en avant (Best-seller) */
+  .ct-th-product--featured {
+    background: rgba(232, 51, 109, .06);
+    border-top: 3px solid var(--rose, #E8336D);
+    color: var(--rose, #E8336D);
+  }
+
+  .ct-bestseller {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--rose, #E8336D);
+    margin-bottom: 4px;
+  }
+
+  /* ── Lignes ──────────────────────────────────────────────────────── */
+  .ct-row--alt { background: #fafafa; }
+
+  .ct-td-feature {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-700, #374151);
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .ct-td-value {
+    padding: 14px 20px;
+    font-size: 13px;
+    color: var(--gray-700, #374151);
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.4;
+  }
+
+  .ct-td-value--featured {
+    background: rgba(232, 51, 109, .03);
+  }
+
+  /* ── Icônes ✓ / — ────────────────────────────────────────────────── */
+  .ct-icon-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: var(--green-badge, #d1fae5);
+    color: var(--green-text, #065f46);
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .ct-icon-dash {
+    color: #d1d5db;
+    font-size: 16px;
+  }
+
+  /* ── Note de fraîcheur ───────────────────────────────────────────── */
+  .ct-freshness {
+    margin: 16px 0 0;
+    font-size: 12px;
+    color: var(--gray-400, #9ca3af);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .ct-block { padding: 48px 16px; }
+  }
+</style>

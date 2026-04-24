@@ -1,0 +1,89 @@
+---
+/**
+ * BaseLayout — Layout de base partagé par toutes les pages
+ *
+ * Props :
+ *   title       : string   — <title> de la page (obligatoire)
+ *   description : string   — meta description (obligatoire)
+ *   siloSlug    : string?  — si défini, utilise NavbarSilo au lieu de NavbarHome
+ *   currentPath : string?  — URL courante pour l'état actif (défaut : Astro.url.pathname)
+ *   ogImage     : string?  — URL absolue de l'image Open Graph
+ */
+import Topbar from '../components/Topbar.astro'
+import NavbarHome from '../components/NavbarHome.astro'
+import NavbarSilo from '../components/NavbarSilo.astro'
+import Footer from '../components/Footer.astro'
+import DevisModal from '../components/DevisModal.astro'
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+  siloSlug?: string
+  currentPath?: string
+  ogImage?: string
+}
+
+const {
+  title,
+  description,
+  siloSlug,
+  currentPath = Astro.url.pathname,
+  ogImage = '/assets/solutions/Solutions-PLV-Kontfeel.jpg',
+} = Astro.props
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content={ogImage} />
+    <meta property="og:url"         content={Astro.url.href} />
+    <meta property="og:locale"      content="fr_FR" />
+    <meta property="og:site_name"   content="KONTFEEL" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+
+    <!-- Favicons -->
+    <link rel="icon"             type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon"             type="image/x-icon"  href="/favicon.ico" />
+    <link rel="apple-touch-icon"                       href="/assets/apple-touch-icon.png" />
+  </head>
+  <body>
+
+    <!-- ═══ TOPBAR ═══ -->
+    <Topbar />
+
+    <!-- ═══ NAVBAR ═══ -->
+    {siloSlug
+      ? <NavbarSilo siloSlug={siloSlug} currentPath={currentPath} />
+      : <NavbarHome />
+    }
+
+    <!-- ═══ CONTENU ═══ -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
+    <Footer />
+
+    <!-- ═══ MODALE DEVIS (globale) ═══ -->
+    <DevisModal />
+
+  </body>
+</html>

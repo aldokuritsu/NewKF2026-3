@@ -1,0 +1,49 @@
+{
+  "seoTitle": "Kakémono sur mesure | PLV événementielle | KONTFEEL",
+  "seoDescription": "Kakémono sur mesure par KONTFEEL. Fabrication française, personnalisation complète. Devis sous 24h.",
+  "siloSlug": "plv-evenementielle",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Kakémono",
+      "subheading": "Kakémono sur mesure pour votre point de vente",
+      "image": "/assets/produits/Kak_C3_A9mono-_C3_A9conomique-imprime-en-France.jpg",
+      "imageAlt": "Kakémono sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Sur mesure",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Kakémono : caractéristiques et options",
+      "content": "Contenu détaillé à venir pour Kakémono. Cette page présentera les caractéristiques techniques, les options de personnalisation et les cas d'usage de ce produit."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Besoin d'un kakémono sur mesure ?",
+      "body": "Décrivez votre projet et recevez un devis personnalisé sous 48h.",
+      "btnLabel": "Demander un devis",
+      "btnHref": "/devis/"
+    }
+  ]
+}

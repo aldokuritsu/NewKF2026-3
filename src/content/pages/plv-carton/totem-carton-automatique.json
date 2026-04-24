@@ -1,0 +1,221 @@
+{
+  "seoTitle": "Totem Carton Automatique | PLV Déploiement Rapide & GMS | KONTFEEL",
+  "seoDescription": "Déployez vos campagnes en un instant avec nos totems carton automatiques. Montage sans outil en 30s, fabrication française éco-conçue. Devis sous 24h.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem Carton Automatique : Le Champion du Déploiement",
+      "subheading": "Zéro outil, zéro stress. La PLV dématérialisée qui se monte toute seule.",
+      "intro": "Le totem automatique est la solution préférée des directeurs marketing pour les campagnes nationales. Grâce à son élastique interne haute résistance, il s'auto-déploie en moins de 30 secondes. C'est l'assurance d'un taux d'installation maximal par vos équipes terrain ou vos revendeurs, tout en garantissant une visibilité 360° élégante et robuste.",
+      "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+      "imageAlt": "Totem carton automatique 190x50cm auto-déployant - KONTFEEL",
+      "badges": [
+        {
+          "text": "Auto-déployant",
+          "green": false
+        },
+        {
+          "text": "Livré sous étui individuel",
+          "green": false
+        },
+        {
+          "text": "100% Recyclable",
+          "green": true
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌱 FSC®"
+        },
+        {
+          "label": "🇫🇷 Made in France"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "Parler à un expert",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "L'expertise logistique au service de votre PLV",
+      "content": "### Pourquoi l'automatique change la donne ?\n\nDans le commerce de détail, chaque minute compte. Un totem complexe à monter finit souvent à la poubelle avant même d'avoir été exposé. Notre système de totem automatique à élastique garantit que n'importe qui, sans aucune formation technique, peut installer votre publicité parfaitement en quelques secondes. Ce gain de temps se traduit directement par un meilleur ROI de vos campagnes de trade marketing.\n\n### Spécifications et Durabilité\n\nNos totems sont imprimés en offset ou numérique haute définition sur carton micro-cannelure certifié. La structure elliptique offre une stabilité naturelle exceptionnelle sans empiètement au sol excessif. Nous proposons des formats standards (50x190cm, 60x160cm) mais aussi du sur-mesure avec découpes silhouettes pour un impact renforcé."
+    },
+    {
+      "_template": "eco_section",
+      "heading": "Une PLV qui respecte vos engagements RSE",
+      "description": "Le totem carton automatique n'est pas seulement pratique, il est aussi l'un des supports les plus vertueux du marché.",
+      "image": "/assets/images/03-Fabrication-Kontfeel.jpg",
+      "imageAlt": "Production éco-responsable de totems carton",
+      "arguments": [
+        {
+          "icon": "♻",
+          "title": "Filière courte",
+          "text": "Fabriqué en France, notre totem parcourt moins de kilomètres entre l'usine et vos points de vente."
+        },
+        {
+          "icon": "📦",
+          "title": "Optimisation du volume",
+          "text": "Plié, le totem est ultra-plat. Cela permet de réduire les volumes de stockage et les coûts de transport."
+        },
+        {
+          "icon": "🌿",
+          "title": "Carton certifié",
+          "text": "Utilisation exclusive de fibres issues de forêts gérées de manière responsable (FSC/PEFC)."
+        }
+      ],
+      "certifs": [
+        {
+          "label": "Imprim'Vert",
+          "description": "Garantie d'une impression propre et d'une gestion des déchets maîtrisée."
+        },
+        {
+          "label": "FSC",
+          "description": "Traçabilité complète du carton utilisé."
+        }
+      ],
+      "cta": {
+        "label": "Découvrir notre éco-conception",
+        "href": "/engagements/"
+      }
+    },
+    {
+      "_template": "comparison_table",
+      "heading": "Automatique vs Manuel : Le match de la performance",
+      "columns": [
+        {
+          "label": "Critère"
+        },
+        {
+          "label": "Totem Automatique"
+        },
+        {
+          "label": "Totem Manuel"
+        }
+      ],
+      "rows": [
+        {
+          "criterion": "Temps de montage",
+          "cells": [
+            {
+              "value": "20 - 30 secondes"
+            },
+            {
+              "value": "3 - 5 minutes"
+            }
+          ]
+        },
+        {
+          "criterion": "Taux d'installation",
+          "cells": [
+            {
+              "value": "~95% (simplifié)"
+            },
+            {
+              "value": "~70% (risque d'abandon)"
+            }
+          ]
+        },
+        {
+          "criterion": "Facilité logistique",
+          "cells": [
+            {
+              "value": "Livré plié ultra-plat"
+            },
+            {
+              "value": "Nécessite souvent des renforts"
+            }
+          ]
+        },
+        {
+          "criterion": "Impact visuel",
+          "cells": [
+            {
+              "value": "Elliptique élégant"
+            },
+            {
+              "value": "Principalement rectangulaire"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_template": "faq",
+      "heading": "Tout savoir sur le totem automatique",
+      "items": [
+        {
+          "question": "Comment fonctionne le système d'ouverture automatique ?",
+          "answer": "Le secret réside dans un jeu d'élastiques internes haute tension stratégiquement positionnés. Dès que le totem est sorti de son étui et lâché, la tension des élastiques force le carton à reprendre sa forme elliptique prédéfinie."
+        },
+        {
+          "question": "Le totem peut-il être réutilisé pour plusieurs campagnes ?",
+          "answer": "Bien que conçu pour des opérations ponctuelles, sa solidité permet de le replier et de le redéployer plusieurs fois si les manipulations sont soignées. L'élastique conserve ses propriétés mécaniques pendant plusieurs mois."
+        },
+        {
+          "question": "Peut-on ajouter un distributeur de flyers sur un totem automatique ?",
+          "answer": "Absolument. Nous pouvons coller en usine ou fournir séparément des porte-flyers (urnes, pochettes) adaptés au format de vos documents (A5, A6, 10x21cm)."
+        }
+      ]
+    },
+    {
+      "_template": "testimonials",
+      "heading": "Le choix des professionnels du marketing",
+      "subtitle": "Ils ont optimisé leurs déploiements avec le totem automatique.",
+      "items": [
+        {
+          "quote": "Pour notre lancement en parapharmacie, le totem automatique a été un succès total. 100% des points de vente l'avaient installé dès le premier jour.",
+          "name": "Élodie L.",
+          "role": "Trade Marketing - Labo Cosmétique"
+        },
+        {
+          "quote": "Un support de communication efficace et surtout très économique quand on intègre le gain de temps des merchandisers terrain.",
+          "name": "Thomas V.",
+          "role": "Directeur Commercial GMS"
+        }
+      ]
+    },
+    {
+      "_template": "realizations",
+      "heading": "Nos dernières créations",
+      "subtitle": "Inspirez-vous de nos réalisations pour votre prochain projet.",
+      "items": [
+        {
+          "image": "/assets/produits/Rendu-3d-totem-carton-automatique-1900-x-500-cm.jpg",
+          "imageAlt": "Rendu 3D totem automatique avec découpe silhouette",
+          "category": "Design",
+          "heading": "Conception 3D sur mesure",
+          "excerpt": "Visualisation avant production pour validation des volumes et du rendu graphique.",
+          "featured": true
+        },
+        {
+          "image": "/assets/produits/totem-carton-automatique-1900-x-500-cm.jpg",
+          "imageAlt": "Totem automatique haute définition",
+          "category": "Production",
+          "heading": "Impression HD GMS",
+          "excerpt": "Série de totems au format standard, impression quadri haute définition pour un impact maximal.",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Simplifiez vos déploiements PLV",
+      "body": "Recevez un prototype ou un devis personnalisé pour votre campagne de totems automatiques.",
+      "btnLabel": "Démarrer mon devis",
+      "btnHref": "/devis/"
+    }
+  ]
+}

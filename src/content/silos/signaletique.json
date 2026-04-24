@@ -1,0 +1,160 @@
+{
+  "seoTitle": "Signalétique PLV sur mesure : stop rayon, fronton et habillage | KONTFEEL",
+  "seoDescription": "Fabricant de signalétique PLV : stop rayon, tour de prix, fronton, habillage palette et stickers. Fabrication française, devis sous 24h.",
+  "siloSlug": "signaletique",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Signalétique sur mesure",
+      "subheading": "Découvrez notre gamme de signalétique",
+      "image": "/assets/images/no_image.png",
+      "imageAlt": "Signalétique sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "products_grid",
+      "heading": "Notre gamme de signalétique",
+      "subtitle": "13 références, toutes personnalisables à votre image.",
+      "products": [
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stop rayon — KONTFEEL",
+          "heading": "Stop rayon",
+          "excerpt": "Contenu à venir pour Stop rayon. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/stop-rayon/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Tour de prix — KONTFEEL",
+          "heading": "Tour de prix",
+          "excerpt": "Contenu à venir pour Tour de prix. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/tour-de-prix/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Plateau linéaire — KONTFEEL",
+          "heading": "Plateau linéaire",
+          "excerpt": "Contenu à venir pour Plateau linéaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/plateau-lineaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Bande de rive — KONTFEEL",
+          "heading": "Bande de rive",
+          "excerpt": "Contenu à venir pour Bande de rive. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/bande-de-rive/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Réglette de linéaire — KONTFEEL",
+          "heading": "Réglette de linéaire",
+          "excerpt": "Contenu à venir pour Réglette de linéaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/reglette-de-lineaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Habillage de tablette — KONTFEEL",
+          "heading": "Habillage de tablette",
+          "excerpt": "Contenu à venir pour Habillage de tablette. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/habillage-de-tablette/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Joue de linéaire — KONTFEEL",
+          "heading": "Joue de linéaire",
+          "excerpt": "Contenu à venir pour Joue de linéaire. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/joue-de-lineaire/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Fronton — KONTFEEL",
+          "heading": "Fronton",
+          "excerpt": "Contenu à venir pour Fronton. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/fronton/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Habillage palette — KONTFEEL",
+          "heading": "Habillage palette",
+          "excerpt": "Contenu à venir pour Habillage palette. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/habillage-palette/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stickers de sol — KONTFEEL",
+          "heading": "Stickers de sol",
+          "excerpt": "Contenu à venir pour Stickers de sol. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/stickers-de-sol/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stickers vitrine — KONTFEEL",
+          "heading": "Stickers vitrine",
+          "excerpt": "Contenu à venir pour Stickers vitrine. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/stickers-vitrine/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Rappel de marque — KONTFEEL",
+          "heading": "Rappel de marque",
+          "excerpt": "Contenu à venir pour Rappel de marque. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/rappel-de-marque/",
+          "specs": []
+        },
+        {
+          "image": "/assets/images/no_image.png",
+          "imageAlt": "Stop trottoir — KONTFEEL",
+          "heading": "Stop trottoir",
+          "excerpt": "Contenu à venir pour Stop trottoir. Contactez-nous pour un devis personnalisé.",
+          "href": "/signaletique/stop-trottoir/",
+          "specs": []
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Signalétique : l'expertise KONTFEEL",
+      "content": "Contenu éditorial à venir pour la gamme Signalétique. Cette page sera enrichie avec des informations détaillées sur nos produits, notre savoir-faire et nos engagements qualité."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet signalétique ? Obtenez votre devis sous 48h",
+      "body": "Notre équipe analyse votre brief et vous propose une solution adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+---
+/**
+ * Footer — Identique sur toutes les pages
+ *
+ * Règles SEO cocon :
+ *   ✅ Liens vers les 6 pages piliers (inter-silo autorisé)
+ *   ✅ Liens vers pages légales, contact, plan du site
+ *   ❌ Aucun lien vers des pages enfants
+ */
+import { silos } from '../data/silos'
+
+const year = new Date().getFullYear()
+---
+
+<footer>
+  <div class="footer-inner">
+
+    <!-- Colonne 1 : À propos -->
+    <div class="footer-about">
+      <a href="/" aria-label="KONTFEEL — Accueil">
+        <img src="/assets/images/logo.svg" alt="KONTFEEL" class="footer-logo" width="140" height="42" />
+      </a>
+      <p class="footer-desc">
+        Fabricant français de PLV sur mesure depuis 1985. Présentoirs, totems, signalétique et solutions d'impression pour vos points de vente.
+      </p>
+      <address class="footer-address" aria-label="Coordonnées">
+        <span>ZI du Bel Air — Normandie</span><br />
+        <a href="tel:0278775393">02 78 77 53 93</a><br />
+        <a href="mailto:contact@kontfeel.fr">contact@kontfeel.fr</a>
+      </address>
+    </div>
+
+    <!-- Colonne 2 : Informations légales -->
+    <div class="footer-col">
+      <h3>Informations</h3>
+      <nav aria-label="Liens légaux">
+        <a href="/mentions-legales/">Mentions légales</a>
+        <a href="/cgv/">CGV</a>
+        <a href="/politique-de-confidentialite/">Confidentialité</a>
+        <a href="/plan-du-site/">Plan du site</a>
+      </nav>
+    </div>
+
+    <!-- Colonne 4 : Contact & services -->
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <nav aria-label="Liens de contact">
+        <a href="/contact/">Nous contacter</a>
+        <a href="/devis/">Demande de devis</a>
+        <a href="/showroom-plv/">Showroom PLV</a>
+        <a href="/realisations/">Réalisations</a>
+        <a href="/blog-plv/">Blog PLV</a>
+      </nav>
+    </div>
+
+  </div>
+
+  <!-- Barre de bas de page -->
+  <div class="footer-bottom">
+    <p>© {year} KONTFEEL — Fabricant français de PLV sur mesure</p>
+    <div class="footer-certifs" aria-label="Certifications">
+      <span>♻ Imprim'Vert</span>
+      <span>🌲 FSC</span>
+      <span>🌿 PEFC</span>
+      <img src="/assets/logo-region-normandie.png" alt="Région Normandie" class="normandie-logo" height="28" />
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--dark);
+    color: var(--gray-300);
+    font-size: 13px;
+    padding: 56px 0 0;
+  }
+
+  /* ── Grille principale ── */
+  .footer-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* ── Colonne À propos ── */
+  .footer-about {}
+
+  .footer-logo {
+    height: 38px;
+    width: auto;
+    display: block;
+    margin-bottom: 20px;
+    /* Inversion pour fond sombre */
+    filter: brightness(0) invert(1);
+  }
+
+  .footer-desc {
+    color: var(--gray-500);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .footer-address {
+    font-style: normal;
+    font-size: 12px;
+    color: var(--gray-500);
+    line-height: 1.8;
+  }
+
+  .footer-address a {
+    color: var(--gray-500);
+    text-decoration: none;
+    transition: color .15s;
+  }
+
+  .footer-address a:hover { color: var(--white); }
+
+  /* ── Colonnes liens ── */
+  .footer-col h3 {
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  .footer-col nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-col a {
+    color: var(--gray-500);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color .15s;
+    line-height: 1.4;
+  }
+
+  .footer-col a:hover { color: var(--white); }
+
+  /* ── Barre basse ── */
+  .footer-bottom {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 24px 24px;
+    margin-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .footer-bottom p {
+    color: var(--gray-500);
+    font-size: 12px;
+  }
+
+  .footer-certifs {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+
+  .normandie-logo {
+    height: 26px;
+    width: auto;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .footer-inner {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer-about {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

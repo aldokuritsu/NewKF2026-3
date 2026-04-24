@@ -1,0 +1,60 @@
+{
+  "seoTitle": "Totem carton 4 faces sur mesure | Présentoir carré | KONTFEEL",
+  "seoDescription": "Totem carton 4 faces à structure carrée ou rectangulaire. Présentation produit sur 4 panneaux, idéal pour les îlots et têtes de gondole.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem carton 4 faces",
+      "subheading": "4 panneaux d'exposition pour les îlots et têtes de gondole",
+      "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+      "imageAlt": "Totem carton 4 faces sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Carton recyclable",
+          "green": true
+        },
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌲 FSC"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Totem carton 4 faces : caractéristiques et options",
+      "content": "Le totem carton 4 faces convient parfaitement aux implantations en îlot central ou en tête de gondole. Ses 4 panneaux offrent une surface d'exposition maximale sur 360° et peuvent accueillir produits et communication de marque.\n\nContenu technique détaillé à venir : grammages disponibles, dimensions standard et sur mesure, options de finition (vernis, pelliculage), délais de fabrication et de livraison."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet totem carton 4 faces ? Devis sous 48h",
+      "body": "Décrivez vos contraintes de format, de volume et d'identité visuelle — nous vous proposons la solution la plus adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

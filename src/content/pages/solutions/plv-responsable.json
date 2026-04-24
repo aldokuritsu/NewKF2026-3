@@ -1,0 +1,44 @@
+{
+  "seoTitle": "PLV responsable et éco-conception | KONTFEEL",
+  "seoDescription": "Découvrez notre démarche éco-responsable : matériaux recyclables, impression Imprim'Vert, conception durable pour vos supports PLV.",
+  "siloSlug": "solutions",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "PLV responsable",
+      "subheading": "Une démarche éco-responsable au cœur de notre production PLV",
+      "image": "/assets/produits/plv-comptoir-eco-responsable-magasin.jpg",
+      "imageAlt": "PLV éco-responsable — KONTFEEL",
+      "badges": [
+        {
+          "text": "Imprim'Vert",
+          "green": true
+        },
+        {
+          "text": "FSC / PEFC",
+          "green": true
+        }
+      ],
+      "certifs": [],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Notre engagement éco-responsable",
+      "content": "Contenu détaillé à venir sur notre démarche PLV responsable : matériaux recyclables, certifications environnementales et éco-conception."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet PLV éco-responsable ?",
+      "body": "Discutons de vos objectifs environnementaux et trouvons la solution adaptée.",
+      "btnLabel": "Demander un devis",
+      "btnHref": "/devis/"
+    }
+  ]
+}

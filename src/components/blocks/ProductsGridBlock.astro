@@ -1,0 +1,225 @@
+---
+/**
+ * ProductsGridBlock — Grille de cartes produits
+ * Utilisée sur les pages piliers pour afficher les pages enfants du silo.
+ */
+interface Spec    { text: string }
+interface Product {
+  title: string
+  image?: string
+  imageAlt?: string
+  description?: string
+  tag?: string
+  href: string
+  specs?: Spec[]
+}
+
+interface Props {
+  block: {
+    heading?:  string
+    subtitle?: string
+    products?: Product[]
+  }
+}
+
+const { block } = Astro.props
+const products = block.products ?? []
+---
+
+{(block.heading || products.length > 0) && (
+  <section class="products-grid-block" id="gamme">
+    <div class="pg-inner">
+      {(block.heading || block.subtitle) && (
+        <header class="pg-header">
+          {block.heading  && <h2 class="pg-heading">{block.heading}</h2>}
+          {block.subtitle && <p  class="pg-subtitle">{block.subtitle}</p>}
+        </header>
+      )}
+
+      {products.length > 0 && (
+        <div class="pg-grid">
+          {products.map(p => (
+            <article class="product-card">
+              <a href={p.href} class="product-card-link" tabindex="-1" aria-hidden="true">
+                <div class="product-card-img">
+                  {p.tag && <span class="product-tag">{p.tag}</span>}
+                  {p.image
+                    ? <img src={p.image} alt={p.imageAlt ?? p.title} loading="lazy" decoding="async" />
+                    : <span class="product-img-placeholder" aria-hidden="true">📦</span>
+                  }
+                </div>
+              </a>
+              <div class="product-card-body">
+                <h3 class="product-title">
+                  <a href={p.href}>{p.title}</a>
+                </h3>
+                {p.description && <p class="product-desc">{p.description}</p>}
+                {p.specs && p.specs.length > 0 && (
+                  <div class="product-specs">
+                    {p.specs.map(s => <span class="spec-tag">{s.text}</span>)}
+                  </div>
+                )}
+                <a href={p.href} class="product-link">
+                  Découvrir →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .products-grid-block {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  .pg-header {
+    margin-bottom: 40px;
+  }
+
+  .pg-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.3;
+    letter-spacing: -.015em;
+    margin: 0 0 12px;
+  }
+
+  .pg-subtitle {
+    font-size: 16px;
+    color: var(--gray-500);
+    margin: 0;
+  }
+
+  /* ── Grille ── */
+  .pg-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .product-card {
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--white);
+    transition: border-color .2s, box-shadow .2s;
+  }
+
+  .product-card:hover {
+    border-color: var(--rose);
+    box-shadow: 0 8px 32px rgba(232, 70, 124, .08);
+  }
+
+  /* ── Image ── */
+  .product-card-link { display: block; }
+
+  .product-card-img {
+    background: var(--gray-50);
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+    display: block;
+    transition: transform .3s ease;
+  }
+
+  .product-card:hover .product-card-img img {
+    transform: scale(1.03);
+  }
+
+  .product-img-placeholder {
+    font-size: 48px;
+    opacity: .2;
+  }
+
+  .product-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--rose);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    z-index: 1;
+  }
+
+  /* ── Corps ── */
+  .product-card-body { padding: 24px; }
+
+  .product-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0 0 10px;
+    line-height: 1.3;
+  }
+
+  .product-title a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .15s;
+  }
+
+  .product-title a:hover { color: var(--rose); }
+
+  .product-desc {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.65;
+    margin: 0 0 16px;
+  }
+
+  .product-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .spec-tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--gray-50);
+    color: var(--gray-500);
+    border: 1px solid var(--gray-100);
+  }
+
+  .product-link {
+    color: var(--rose);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: gap .15s;
+  }
+
+  .product-link:hover { gap: 8px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .pg-grid { grid-template-columns: 1fr; }
+  }
+</style>

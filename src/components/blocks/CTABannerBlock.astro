@@ -1,0 +1,88 @@
+---
+interface Props {
+  block: {
+    heading:  string
+    body?:    string
+    btnLabel?: string
+    btnHref?:  string
+  }
+}
+const { block } = Astro.props
+---
+
+<section class="cta-banner-block">
+  <div class="cta-inner">
+    <div class="cta-banner-wrap">
+      <div class="cta-text">
+        <h2 class="cta-heading">{block.heading}</h2>
+        {block.body && <p class="cta-body">{block.body}</p>}
+      </div>
+      {block.btnLabel && block.btnHref && (
+        block.btnHref === '#devis'
+          ? <button type="button" class="btn-white" data-open-devis>{block.btnLabel}</button>
+          : <a href={block.btnHref} class="btn-white">{block.btnLabel}</a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-banner-block {
+    max-width: var(--max-w);
+    margin: 64px auto;
+    padding: 0 24px;
+  }
+
+  .cta-banner-wrap {
+    background: linear-gradient(135deg, var(--rose) 0%, #D0356A 100%);
+    border-radius: var(--radius);
+    padding: 48px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .cta-heading {
+    color: var(--white);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  .cta-body {
+    color: rgba(255, 255, 255, .85);
+    font-size: 15px;
+    margin: 0;
+    max-width: 480px;
+  }
+
+  .btn-white {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    background: var(--white);
+    color: var(--rose);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .15s;
+  }
+
+  .btn-white:hover { transform: translateY(-2px); }
+
+  @media (max-width: 768px) {
+    .cta-banner-wrap {
+      flex-direction: column;
+      text-align: center;
+      padding: 32px 24px;
+    }
+    .cta-body { max-width: none; }
+  }
+</style>

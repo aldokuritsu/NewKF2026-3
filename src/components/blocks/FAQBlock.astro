@@ -1,0 +1,149 @@
+---
+/**
+ * FAQBlock — Section FAQ avec Schema.org FAQPage
+ * Accessible : utilise <details>/<summary> pour le comportement accordion natif.
+ */
+interface FaqItem { question: string; answer: string }
+
+interface Props {
+  block: {
+    heading?: string
+    items?:   FaqItem[]
+  }
+}
+
+const { block } = Astro.props
+const items = block.items ?? []
+
+// Schema.org FAQPage pour le SEO
+const schemaFaq = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": items.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    }
+  }))
+}
+---
+
+{items.length > 0 && (
+  <section class="faq-block" id="faq" itemscope itemtype="https://schema.org/FAQPage">
+    <div class="faq-inner">
+      {block.heading && <h2 class="faq-heading">{block.heading}</h2>}
+
+      <div class="faq-grid">
+        {items.map(item => (
+          <details
+            class="faq-item"
+            itemscope
+            itemprop="mainEntity"
+            itemtype="https://schema.org/Question"
+          >
+            <summary class="faq-question" itemprop="name">
+              {item.question}
+            </summary>
+            <div
+              class="faq-answer"
+              itemscope
+              itemprop="acceptedAnswer"
+              itemtype="https://schema.org/Answer"
+            >
+              <p itemprop="text">{item.answer}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaFaq)} />
+  </section>
+)}
+
+<style>
+  .faq-block {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px 64px;
+  }
+
+  .faq-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 40px;
+    letter-spacing: -.015em;
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* ── Accordion natif <details> ── */
+  .faq-item {
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+
+  .faq-item[open] {
+    border-color: var(--rose);
+  }
+
+  .faq-question {
+    padding: 20px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    user-select: none;
+  }
+
+  /* Icône + / − */
+  .faq-question::after {
+    content: "+";
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--rose-light);
+    color: var(--rose);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22px;
+    text-align: center;
+    transition: transform .2s;
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: "−";
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-answer {
+    padding: 0 24px 20px;
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.65;
+    padding-left: 24px;
+  }
+
+  .faq-answer p { margin: 0; }
+
+  @media (max-width: 768px) {
+    .faq-grid { grid-template-columns: 1fr; }
+  }
+</style>

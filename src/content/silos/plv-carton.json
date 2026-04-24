@@ -1,0 +1,97 @@
+{
+  "seoTitle": "PLV carton sur mesure : présentoirs, totems et supports | KONTFEEL",
+  "seoDescription": "Fabricant français de PLV carton : totems publicitaires, présentoirs de sol, cubes et podiums sur mesure. Carton recyclable, devis sous 24h, fabrication en Normandie.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "PLV carton sur mesure",
+      "subheading": "Totems, présentoirs et supports carton pour votre point de vente",
+      "image": "/assets/realisations/habillage-tete-de-gondole-premium-pmma-kontfeel.jpg",
+      "imageAlt": "PLV carton sur mesure KONTFEEL en point de vente",
+      "badges": [
+        { "text": "Carton 100% recyclable", "green": true },
+        { "text": "Fabrication française",  "green": false },
+        { "text": "Devis sous 24h",         "green": false }
+      ],
+      "certifs": [
+        { "label": "♻ Imprim'Vert" },
+        { "label": "🌲 FSC" },
+        { "label": "🌿 PEFC" }
+      ],
+      "ctas": [
+        { "label": "Demander un devis →", "href": "/devis/",    "variant": "primary" },
+        { "label": "02 78 77 53 93",      "href": "tel:0278775393", "variant": "secondary" }
+      ]
+    },
+    {
+      "_template": "products_grid",
+      "heading": "Notre gamme de PLV carton",
+      "subtitle": "11 références, toutes personnalisables à votre image.",
+      "products": [
+        {
+          "title":       "Totem carton",
+          "image":       "/assets/images/slide-new.jpg",
+          "imageAlt":    "Totem carton publicitaire sur mesure KONTFEEL",
+          "description": "Le totem publicitaire en carton micro-cannelure recyclable. Disponible en format elliptique, rectangulaire ou triptyque 3 faces.",
+          "href":        "/plv-carton/totem-carton/",
+          "tag":         "Best-seller",
+          "specs":       [{ "text": "Sur mesure" }, { "text": "Recyclable" }, { "text": "Grand format" }]
+        },
+        {
+          "title":       "Totem arche",
+          "image":       "/assets/realisations/arche-evenementielle.jpg",
+          "imageAlt":    "Totem arche en carton pour événement",
+          "description": "Structure en arche imprimée en carton, idéale pour les entrées de magasin et les animations en point de vente.",
+          "href":        "/plv-carton/totem-arche/",
+          "specs":       [{ "text": "Modulable" }, { "text": "Grand format" }]
+        },
+        {
+          "title":       "Cube carton",
+          "image":       "/assets/solutions/Solutions-PLV-Kontfeel.jpg",
+          "imageAlt":    "Cube carton personnalisé PLV KONTFEEL",
+          "description": "Cubes empilables en carton pour créer des îlots et des structures merchandising originales.",
+          "href":        "/plv-carton/cube-carton/",
+          "specs":       [{ "text": "Empilable" }, { "text": "Recyclable" }]
+        },
+        {
+          "title":       "Podium carton",
+          "image":       "/assets/realisations/theatralisation-magasin-avec-plvc-carton-sur-mesure.jpg",
+          "imageAlt":    "Podium carton personnalisé pour point de vente",
+          "description": "Podium de mise en valeur produit en carton. Structure robuste, impression haute définition, montage en 5 minutes.",
+          "href":        "/plv-carton/podium-carton/",
+          "specs":       [{ "text": "Robuste" }, { "text": "Montage rapide" }]
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet de PLV carton ? Parlons-en.",
+      "body": "Nous réalisons votre PLV carton de A à Z : design, conception, fabrication, logistique. Devis gratuit sous 24h.",
+      "btnLabel": "Demander un devis gratuit →",
+      "btnHref": "/devis/"
+    },
+    {
+      "_template": "faq",
+      "heading": "Questions fréquentes sur la PLV carton",
+      "items": [
+        {
+          "question": "Quels types de carton utilisez-vous pour vos PLV ?",
+          "answer": "Nous utilisons principalement du carton micro-cannelure (épaisseur 2 à 3 mm) pour sa résistance et sa légèreté. Pour les structures nécessitant plus de rigidité (podiums, totems autoportants), nous utilisons du carton double ou triple cannelure. Tous nos cartons sont certifiés FSC et PEFC."
+        },
+        {
+          "question": "Quelle est la résistance d'une PLV carton en magasin ?",
+          "answer": "Selon le carton utilisé et le vernis de protection appliqué, une PLV carton peut tenir 2 à 6 semaines en point de vente. Des traitements hydrofuges permettent d'augmenter la durabilité dans des environnements humides (pharmacie, jardinerie)."
+        },
+        {
+          "question": "Quel est le délai de fabrication pour une PLV carton ?",
+          "answer": "Pour une commande standard avec visuel prêt à l'emploi, notre délai est de 5 à 7 jours ouvrés. Pour des projets complexes ou des grandes séries, comptez 10 à 15 jours. Un service express est disponible à partir de 48h."
+        },
+        {
+          "question": "Livrez-vous dans toute la France ?",
+          "answer": "Oui, nous livrons partout en France métropolitaine, Corse incluse. Nous proposons aussi des livraisons en Europe sur devis. Tous nos envois sont sécurisés et assurés."
+        }
+      ]
+    }
+  ]
+}

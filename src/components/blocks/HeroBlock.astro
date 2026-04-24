@@ -1,0 +1,251 @@
+---
+/**
+ * HeroBlock — Section hero d'une page pilier ou enfant.
+ * Le champ `intro` est un string markdown (format natif Sveltia CMS).
+ */
+import { marked } from 'marked'
+
+interface Badge  { text: string; green?: boolean }
+interface Certif { label: string }
+interface Cta    { label: string; href: string; variant?: 'primary' | 'secondary' }
+
+interface Props {
+  block: {
+    heading:    string
+    subheading?: string
+    intro?:      string
+    image?:      string
+    imageAlt?:   string
+    badges?:     Badge[]
+    certifs?:    Certif[]
+    ctas?:       Cta[]
+  }
+}
+
+const { block } = Astro.props
+const introHtml = block.intro ? marked.parse(block.intro, { async: false }) as string : ''
+---
+
+<section class="hero-block" id="hero">
+  <div class="hero-inner">
+
+    {block.image && (
+      <div class="hero-media">
+        <img
+          src={block.image}
+          alt={block.imageAlt ?? block.heading}
+          loading="eager"
+          decoding="async"
+          class="hero-img"
+        />
+      </div>
+    )}
+
+    <div class="hero-content">
+      <h1 class="hero-heading">{block.heading}</h1>
+
+      {block.subheading && (
+        <p class="hero-subheading">{block.subheading}</p>
+      )}
+
+      {introHtml && (
+        <div class="hero-intro" set:html={introHtml} />
+      )}
+
+      {block.badges && block.badges.length > 0 && (
+        <div class="hero-badges">
+          {block.badges.map(b => (
+            <span class:list={['badge', { 'badge--green': b.green }]}>
+              <span class="badge-dot" aria-hidden="true"></span>
+              {b.text}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {block.certifs && block.certifs.length > 0 && (
+        <div class="hero-certifs">
+          {block.certifs.map(c => (
+            <span class="certif-badge">{c.label}</span>
+          ))}
+        </div>
+      )}
+
+      {block.ctas && block.ctas.length > 0 && (
+        <div class="hero-ctas">
+          {block.ctas.map(cta => (
+            <a href={cta.href} class:list={['btn', cta.variant === 'secondary' ? 'btn--secondary' : 'btn--primary']}>
+              {cta.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .hero-block {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 40px 24px 56px;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  /* ── Média ── */
+  .hero-media {
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--gray-50);
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    order: -1;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Texte ── */
+  .hero-heading {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    margin: 0 0 16px;
+  }
+
+  .hero-subheading {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--gray-700);
+    margin: 0 0 16px;
+  }
+
+  .hero-intro {
+    font-size: 16px;
+    color: var(--gray-700);
+    line-height: 1.7;
+    margin: 0 0 16px;
+  }
+
+  /* ── Badges ── */
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 24px 0 0;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--gray-50);
+    color: var(--gray-700);
+    border: 1px solid var(--gray-100);
+  }
+
+  .badge--green {
+    background: var(--green-badge);
+    color: var(--green-text);
+    border-color: transparent;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* ── Certifications ── */
+  .hero-certifs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .certif-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    background: var(--green-badge);
+    color: var(--green-text);
+    border: 1px solid rgba(46, 125, 50, .15);
+  }
+
+  /* ── CTAs ── */
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .2s;
+  }
+
+  .btn--primary {
+    background: var(--rose);
+    color: var(--white);
+    border: none;
+  }
+
+  .btn--primary:hover { background: var(--rose-dark); }
+
+  .btn--secondary {
+    background: transparent;
+    color: var(--gray-700);
+    border: 1px solid var(--gray-300);
+  }
+
+  .btn--secondary:hover {
+    border-color: var(--rose);
+    color: var(--rose);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .hero-media { order: 0; }
+
+    .hero-heading { font-size: 28px; }
+  }
+</style>

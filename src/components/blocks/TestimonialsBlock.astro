@@ -1,0 +1,148 @@
+---
+interface TestiItem { name: string; role?: string; quote: string; stars?: number }
+
+interface Props {
+  block: {
+    heading?:  string
+    subtitle?: string
+    items?:    TestiItem[]
+  }
+}
+
+const { block } = Astro.props
+const items = block.items ?? []
+---
+
+{items.length > 0 && (
+  <section class="testi-block">
+    <div class="testi-inner">
+      {(block.heading || block.subtitle) && (
+        <header class="testi-header">
+          {block.heading  && <h2 class="testi-heading">{block.heading}</h2>}
+          {block.subtitle && <p  class="testi-subtitle">{block.subtitle}</p>}
+        </header>
+      )}
+
+      <div class="testi-grid">
+        {items.map(item => (
+          <blockquote class="testi-card">
+            {item.stars && (
+              <div class="testi-stars" aria-label={`${item.stars} étoiles sur 5`}>
+                {"★".repeat(Math.min(item.stars, 5))}
+              </div>
+            )}
+            <p class="testi-quote">« {item.quote} »</p>
+            <footer class="testi-author">
+              <span class="testi-avatar" aria-hidden="true">
+                {item.name.charAt(0).toUpperCase()}
+              </span>
+              <div>
+                <cite class="testi-name">{item.name}</cite>
+                {item.role && <p class="testi-role">{item.role}</p>}
+              </div>
+            </footer>
+          </blockquote>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .testi-block {
+    background: var(--gray-50);
+    padding: 64px 0;
+    margin: 64px 0;
+  }
+
+  .testi-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .testi-header {
+    margin-bottom: 40px;
+  }
+
+  .testi-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 12px;
+    letter-spacing: -.015em;
+  }
+
+  .testi-subtitle {
+    font-size: 16px;
+    color: var(--gray-500);
+    margin: 0;
+  }
+
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .testi-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 28px;
+    border: 1px solid var(--gray-100);
+    margin: 0;
+  }
+
+  .testi-stars {
+    color: #F59E0B;
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .testi-quote {
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.65;
+    margin: 0 0 20px;
+    font-style: italic;
+  }
+
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .testi-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--rose-light);
+    color: var(--rose);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .testi-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    font-style: normal;
+  }
+
+  .testi-role {
+    font-size: 12px;
+    color: var(--gray-500);
+    margin: 2px 0 0;
+  }
+
+  @media (max-width: 768px) {
+    .testi-grid { grid-template-columns: 1fr; }
+  }
+</style>

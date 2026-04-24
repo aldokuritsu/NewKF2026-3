@@ -1,0 +1,49 @@
+{
+  "seoTitle": "Porte-affiche sur mesure | Présentoirs | KONTFEEL",
+  "seoDescription": "Porte-affiche sur mesure par KONTFEEL. Fabrication française, personnalisation complète. Devis sous 24h.",
+  "siloSlug": "presentoirs",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Porte-affiche",
+      "subheading": "Porte-affiche sur mesure pour votre point de vente",
+      "image": "/assets/produits/Porte_20affiche_20Plexi.jpg",
+      "imageAlt": "Porte-affiche sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Sur mesure",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Porte-affiche : caractéristiques et options",
+      "content": "Contenu détaillé à venir pour Porte-affiche. Cette page présentera les caractéristiques techniques, les options de personnalisation et les cas d'usage de ce produit."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Besoin d'un porte-affiche sur mesure ?",
+      "body": "Décrivez votre projet et recevez un devis personnalisé sous 48h.",
+      "btnLabel": "Demander un devis",
+      "btnHref": "/devis/"
+    }
+  ]
+}

@@ -1,0 +1,344 @@
+---
+/**
+ * EcoBlock — Section PLV éco-responsable
+ * Audit : facette "PLV éco-responsable sur mesure" score 58/100 — très insuffisamment couverte.
+ * "Développer le sujet de la PLV éco-responsable, un critère de plus en plus important."
+ *
+ * Design : section fond vert doux + icône + texte + certifications
+ */
+
+interface Certif {
+  label:       string   // Ex : "Imprim'Vert"
+  description?: string  // Ex : "Impression éco-responsable certifiée"
+}
+
+interface Argument {
+  icon:  string   // Emoji
+  title: string
+  text:  string
+}
+
+interface Props {
+  block: {
+    heading:     string
+    description: string
+    arguments?:  Argument[]
+    certifs?:    Certif[]
+    cta?:        { label: string; href: string }
+    image?:      string
+    imageAlt?:   string
+  }
+}
+
+const { block } = Astro.props
+---
+
+<section class="eco-block" id="plv-eco-responsable">
+  <div class="eco-block__inner">
+
+    <div class="eco-block__content">
+
+      <div class="eco-block__eyebrow">
+        <span class="eco-block__leaf" aria-hidden="true">♻</span>
+        PLV éco-responsable
+      </div>
+
+      <h2 class="eco-block__heading">{block.heading}</h2>
+      <p class="eco-block__description">{block.description}</p>
+
+      {block.arguments && block.arguments.length > 0 && (
+        <div class="eco-block__arguments">
+          {block.arguments.map(arg => (
+            <div class="eco-block__argument">
+              <span class="eco-block__arg-icon" aria-hidden="true">{arg.icon}</span>
+              <div>
+                <strong class="eco-block__arg-title">{arg.title}</strong>
+                <p class="eco-block__arg-text">{arg.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {block.certifs && block.certifs.length > 0 && (
+        <div class="eco-block__certifs">
+          {block.certifs.map(c => (
+            <div class="eco-block__certif">
+              <span class="eco-block__certif-check" aria-hidden="true">✓</span>
+              <div>
+                <span class="eco-block__certif-label">{c.label}</span>
+                {c.description && (
+                  <span class="eco-block__certif-desc">{c.description}</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {block.cta && (
+        <a href={block.cta.href} class="eco-block__cta">
+          {block.cta.label}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      )}
+
+    </div>
+
+    {block.image && (
+      <div class="eco-block__media">
+        <img
+          src={block.image}
+          alt={block.imageAlt ?? block.heading}
+          loading="lazy"
+          decoding="async"
+          class="eco-block__img"
+          width="520"
+          height="400"
+        />
+      </div>
+    )}
+
+    {!block.image && (
+      <div class="eco-block__visual" aria-hidden="true">
+        <div class="eco-block__visual-circle">
+          <span class="eco-block__visual-icon">🌱</span>
+          <div class="eco-block__visual-ring"></div>
+          <div class="eco-block__visual-ring eco-block__visual-ring--2"></div>
+        </div>
+      </div>
+    )}
+
+  </div>
+</section>
+
+<style>
+  .eco-block {
+    padding: 80px 24px;
+    background: linear-gradient(135deg, #F0F7F0 0%, #E8F5E9 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .eco-block::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(46, 125, 50, .08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .eco-block__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Contenu ── */
+  .eco-block__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green-text);
+    margin-bottom: 16px;
+    background: rgba(46, 125, 50, .1);
+    padding: 6px 14px;
+    border-radius: 100px;
+  }
+
+  .eco-block__leaf {
+    font-size: 14px;
+  }
+
+  .eco-block__heading {
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 700;
+    color: #1A3C1E;
+    letter-spacing: -.02em;
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+
+  .eco-block__description {
+    font-size: 16px;
+    color: #2D5330;
+    line-height: 1.7;
+    margin: 0 0 32px;
+  }
+
+  /* ── Arguments ── */
+  .eco-block__arguments {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .eco-block__argument {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .eco-block__arg-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    line-height: 1.2;
+  }
+
+  .eco-block__arg-title {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1A3C1E;
+    margin-bottom: 2px;
+  }
+
+  .eco-block__arg-text {
+    font-size: 13px;
+    color: #2D5330;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── Certifications ── */
+  .eco-block__certifs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .eco-block__certif {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(46, 125, 50, .2);
+    border-radius: var(--radius-sm);
+  }
+
+  .eco-block__certif-check {
+    color: var(--green-text);
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .eco-block__certif-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1A3C1E;
+    display: block;
+    line-height: 1.2;
+  }
+
+  .eco-block__certif-desc {
+    font-size: 12px;
+    color: #2D5330;
+    display: block;
+  }
+
+  /* ── CTA ── */
+  .eco-block__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--green-text);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all .2s;
+  }
+
+  .eco-block__cta:hover {
+    background: #1B5E20;
+    transform: translateY(-1px);
+  }
+
+  /* ── Média ── */
+  .eco-block__media {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(46, 125, 50, .15);
+  }
+
+  .eco-block__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* ── Visuel décoratif fallback ── */
+  .eco-block__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .eco-block__visual-circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .eco-block__visual-icon {
+    font-size: 64px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .eco-block__visual-ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid rgba(46, 125, 50, .2);
+    border-radius: 50%;
+    animation: ring-pulse 3s ease-in-out infinite;
+  }
+
+  .eco-block__visual-ring--2 {
+    inset: -20px;
+    animation-delay: 1.5s;
+    opacity: 0.5;
+  }
+
+  @keyframes ring-pulse {
+    0%, 100% { transform: scale(1); opacity: .3; }
+    50%       { transform: scale(1.05); opacity: .7; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .eco-block__inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .eco-block__visual {
+      order: -1;
+    }
+  }
+</style>

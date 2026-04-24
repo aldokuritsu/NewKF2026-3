@@ -1,0 +1,21 @@
+---
+/**
+ * Page d'accueil — KONTFEEL
+ *
+ * Lit src/content/home/index.json directement (format natif Sveltia CMS —
+ * plus de client GraphQL, plus de patch rich-text).
+ */
+import BaseLayout    from '../layouts/BaseLayout.astro'
+import BlockRenderer from '../components/blocks/BlockRenderer.astro'
+import homeData      from '../content/home/index.json'
+
+const blocks = (homeData.blocks ?? []) as any[]
+---
+
+<BaseLayout
+  title={homeData.seoTitle ?? 'KONTFEEL — Fabricant de PLV sur mesure'}
+  description={homeData.seoDescription ?? 'Fabricant français de PLV sur mesure : présentoirs, mobilier commercial et signalétique pour vos points de vente. Devis sous 48h.'}
+  ogImage={(homeData as any).ogImage ?? undefined}
+>
+  <BlockRenderer blocks={blocks} />
+</BaseLayout>

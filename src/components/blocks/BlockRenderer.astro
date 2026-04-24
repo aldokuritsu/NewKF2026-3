@@ -1,0 +1,97 @@
+---
+/**
+ * BlockRenderer — Dispatch les blocs TinaCMS vers les bons composants Astro.
+ *
+ * Chaque bloc possède un champ _template (JSON) ou __typename (GraphQL)
+ * qui identifie son type. Ce composant fait le mapping → composant.
+ *
+ * Collections couvertes :
+ *  - home_page   (blocs spécifiques home)
+ *  - silo_page   (pages piliers)
+ *  - child_page  (pages enfants)
+ *
+ * Usage :
+ *   <BlockRenderer blocks={page.blocks} />
+ */
+
+// ── Blocs partagés (piliers + enfants)
+import HeroBlock          from './HeroBlock.astro'
+import ProductsGridBlock  from './ProductsGridBlock.astro'
+import TextEditorialBlock from './TextEditorialBlock.astro'
+import CTABannerBlock     from './CTABannerBlock.astro'
+import FAQBlock           from './FAQBlock.astro'
+import TestimonialsBlock  from './TestimonialsBlock.astro'
+
+// ── Blocs home page (réutilisables aussi sur pages enfants)
+import HeroHomeBlock        from './HeroHomeBlock.astro'
+import SolutionsGridBlock   from './SolutionsGridBlock.astro'
+import ProcessBlock         from './ProcessBlock.astro'
+import ClientLogosBlock     from './ClientLogosBlock.astro'
+import EcoBlock             from './EcoBlock.astro'
+import RealizationsBlock    from './RealizationsBlock.astro'
+import ComparisonTableBlock from './ComparisonTableBlock.astro'
+
+interface Props {
+  blocks: any[]   // typed après regeneration du client TinaCMS
+}
+
+const { blocks = [] } = Astro.props
+
+/** Normalise le nom du template quel que soit le format (JSON / GraphQL) */
+function tpl(raw: string | undefined): string {
+  if (!raw) return ''
+  // GraphQL __typename : Home_pageBlocksHero_home → hero_home
+  return raw
+    .replace(/^(Home_page|Silo_page|Child_page)Blocks/, '')
+    .replace(/^([A-Z])/, m => m.toLowerCase())
+    .replace(/([A-Z])/g, m => '_' + m.toLowerCase())
+}
+---
+
+{blocks.map((block, i) => {
+  const raw      = block?.__typename ?? block?._template ?? ''
+  const template = tpl(raw) || raw   // fallback sur la valeur brute si tpl échoue
+
+  // ── Blocs HOME ──────────────────────────────────────────────────────────
+  if (template === 'hero_home')         return <HeroHomeBlock        key={i} block={block} />
+  if (template === 'solutions_grid')    return <SolutionsGridBlock   key={i} block={block} />
+  if (template === 'process')           return <ProcessBlock         key={i} block={block} />
+  if (template === 'client_logos')      return <ClientLogosBlock     key={i} block={block} />
+  if (template === 'eco_section')       return <EcoBlock             key={i} block={block} />
+  if (template === 'realizations')      return <RealizationsBlock    key={i} block={block} />
+  if (template === 'comparison_table')  return <ComparisonTableBlock key={i} block={block} />
+
+  // ── Blocs partagés (home + piliers + enfants) ───────────────────────────
+  if (template === 'hero')            return <HeroBlock          key={i} block={block} />
+  if (template === 'products_grid')   return <ProductsGridBlock  key={i} block={block} />
+  if (template === 'text_editorial')  return <TextEditorialBlock key={i} block={block} />
+  if (template === 'cta_banner')      return <CTABannerBlock     key={i} block={block} />
+  if (template === 'faq')             return <FAQBlock           key={i} block={block} />
+  if (template === 'testimonials')    return <TestimonialsBlock  key={i} block={block} />
+
+  // ── Variantes GraphQL __typename explicites (rétrocompatibilité) ────────
+  if (raw === 'Silo_pageBlocksHero')            return <HeroBlock          key={i} block={block} />
+  if (raw === 'Silo_pageBlocksProducts_grid')   return <ProductsGridBlock  key={i} block={block} />
+  if (raw === 'Silo_pageBlocksText_editorial')  return <TextEditorialBlock key={i} block={block} />
+  if (raw === 'Silo_pageBlocksCta_banner')      return <CTABannerBlock     key={i} block={block} />
+  if (raw === 'Silo_pageBlocksFaq')             return <FAQBlock           key={i} block={block} />
+  if (raw === 'Silo_pageBlocksTestimonials')    return <TestimonialsBlock  key={i} block={block} />
+  if (raw === 'Child_pageBlocksHero')           return <HeroBlock          key={i} block={block} />
+  if (raw === 'Child_pageBlocksProducts_grid')  return <ProductsGridBlock  key={i} block={block} />
+  if (raw === 'Child_pageBlocksText_editorial') return <TextEditorialBlock key={i} block={block} />
+  if (raw === 'Child_pageBlocksCta_banner')     return <CTABannerBlock     key={i} block={block} />
+  if (raw === 'Child_pageBlocksFaq')            return <FAQBlock           key={i} block={block} />
+  if (raw === 'Child_pageBlocksTestimonials')   return <TestimonialsBlock  key={i} block={block} />
+
+  // ── Bloc inconnu — affiché uniquement en dev ────────────────────────────
+  if (import.meta.env.DEV) {
+    return (
+      <div style="background:#fff3cd;border:1px solid #ffc107;padding:16px 24px;margin:16px auto;max-width:1140px;border-radius:8px;font-family:monospace;font-size:13px;">
+        ⚠️ Bloc inconnu : <strong>{raw || '(aucun _template)'}</strong>
+        {' → '}normalisé en : <em>{template}</em>
+      </div>
+    )
+  }
+
+  return null
+})}

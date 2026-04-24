@@ -1,0 +1,60 @@
+{
+  "seoTitle": "Totem carton pliable : stockage compact et montage facile | KONTFEEL",
+  "seoDescription": "Totem carton pliable et réutilisable : montage sans outil, stockage à plat, transport optimisé. Idéal pour les événements et animations tournantes.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem carton pliable",
+      "subheading": "Stockage à plat, transport optimisé et montage sans outil",
+      "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+      "imageAlt": "Totem carton pliable sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Carton recyclable",
+          "green": true
+        },
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌲 FSC"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Totem carton pliable : caractéristiques et options",
+      "content": "Le totem carton pliable se range à plat pour un stockage et un transport optimisés. Sa conception à rabats permet un montage sans outil en moins de deux minutes, idéal pour les animations tournantes, les événements ou les réassorts fréquents en réseau de distribution.\n\nContenu technique détaillé à venir : grammages disponibles, dimensions standard et sur mesure, options de finition (vernis, pelliculage), délais de fabrication et de livraison."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet totem carton pliable ? Devis sous 48h",
+      "body": "Décrivez vos contraintes de format, de volume et d'identité visuelle — nous vous proposons la solution la plus adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

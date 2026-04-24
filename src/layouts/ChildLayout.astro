@@ -1,0 +1,59 @@
+---
+/**
+ * ChildLayout — Layout des pages enfants (ex : /plv-carton/totem-carton/)
+ *
+ * Props :
+ *   seoTitle       : string
+ *   seoDescription : string
+ *   siloSlug       : string   — ex : "plv-carton"
+ *   siloLabel      : string   — ex : "PLV carton" (breadcrumb)
+ *   pageLabel      : string   — ex : "Totem carton" (breadcrumb)
+ *   currentPath    : string   — URL courante pour l'état actif dans NavbarSilo
+ *   ogImage?       : string
+ */
+import BaseLayout    from './BaseLayout.astro'
+import Breadcrumb    from '../components/Breadcrumb.astro'
+import BlockRenderer from '../components/blocks/BlockRenderer.astro'
+import { silos }     from '../data/silos'
+
+interface Props {
+  seoTitle:       string
+  seoDescription: string
+  siloSlug:       string
+  siloLabel:      string
+  pageLabel:      string
+  currentPath:    string
+  ogImage?:       string
+  blocks:         any[]
+}
+
+const {
+  seoTitle, seoDescription,
+  siloSlug, siloLabel, pageLabel,
+  currentPath, ogImage, blocks
+} = Astro.props
+
+// URL de la page pilier pour le breadcrumb
+const silo = silos.find(s => s.slug === siloSlug)
+const pillarHref = silo?.href ?? `/${siloSlug}/`
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  siloSlug={siloSlug}
+  currentPath={currentPath}
+  ogImage={ogImage}
+>
+  <!-- Breadcrumb : Accueil › Pilier › Enfant -->
+  <Breadcrumb crumbs={[
+    { label: 'Accueil',  href: '/' },
+    { label: siloLabel,  href: pillarHref },
+    { label: pageLabel },
+  ]} />
+
+  <!-- Blocs de contenu -->
+  <BlockRenderer blocks={blocks} />
+
+  <slot />
+</BaseLayout>

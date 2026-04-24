@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présentoir comptoir personnalisé en carton pour magasin et GMS | KONTFEEL</title>
+    <meta name="description"
+        content="Présentoir de comptoir sur mesure : carton, bois, plastique ou métal. Personnalisable à votre image, fabriqué en France. Simulation 3D gratuite, devis sous 24h.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        :root {
+            --rose: #ff497c;
+            --rose-hover: #e03a6a;
+            --rose-light: #fff0f4;
+            --dark: #1f2732;
+            --heading: #16182c;
+            --body: #626262;
+            --muted: #999;
+            --border: #eee;
+            --bg-light: #f6f7f8;
+            --bg-white: #fff;
+            --green: #6ba53a;
+            --green-light: #f0f7ea;
+            --max-w: 1140px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--body);
+            line-height: 1.75;
+            font-size: 15px;
+            background: var(--bg-white);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Nunito', sans-serif;
+            color: var(--heading);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        a {
+            color: var(--rose);
+            text-decoration: none;
+            transition: color .2s;
+        }
+
+        a:hover {
+            color: var(--rose-hover);
+        }
+
+        strong {
+            color: var(--heading);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Styles internes conservés pour la structure spécifique de la page */
+
+        /* ── Breadcrumb ── */
+        .breadcrumb-bar {
+            padding: 16px 0;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .breadcrumb-bar a {
+            color: var(--muted);
+        }
+
+        .breadcrumb-bar a:hover {
+            color: var(--rose);
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 13px 28px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all .2s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--rose);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--rose-hover);
+            color: #fff;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--heading);
+            border: 2px solid var(--rose);
+        }
+
+        .btn-outline:hover {
+            background: var(--rose);
+            color: #fff;
+        }
+
+        .btn-white {
+            background: #fff;
+            color: var(--rose);
+        }
+
+        .btn-white:hover {
+            background: var(--rose-light);
+        }
+
+        /* ── Hero produit ── */
+        .product-hero {
+            padding: 40px 0 60px;
+        }
+
+        .product-hero .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .product-hero h1 {
+            font-size: 34px;
+            margin-bottom: 16px;
+        }
+
+        .product-hero .subtitle {
+            font-size: 17px;
+            color: var(--body);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .product-hero .specs-list {
+            margin: 24px 0;
+        }
+
+        .product-hero .specs-list li {
+            list-style: none;
+            padding: 8px 0 8px 28px;
+            position: relative;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .product-hero .specs-list li::before {
+            content: "›";
+            position: absolute;
+            left: 0;
+            color: var(--rose);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .product-hero .badge-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .badge-rose {
+            background: var(--rose-light);
+            color: var(--rose);
+        }
+
+        .product-img-main {
+            background: var(--bg-light);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img-main .placeholder {
+            height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .product-img-main .label-3d {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: var(--rose);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+        }
+
+        .product-thumbs {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .product-thumbs .thumb {
+            width: 70px;
+            height: 70px;
+            background: var(--bg-light);
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .product-thumbs .thumb.active {
+            border-color: var(--rose);
+        }
+
+        /* ── Reassurance bar ── */
+        .reassurance {
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+        }
+
+        .reassurance .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .reassurance .item {
+            font-size: 13px;
+        }
+
+        .reassurance .item .icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+            display: block;
+            color: var(--rose);
+        }
+
+        .reassurance .item strong {
+            display: block;
+            color: var(--heading);
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        /* ── Sections ── */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section.alt-bg {
+            background: var(--bg-light);
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            font-size: 15px;
+            color: var(--muted);
+            margin-bottom: 36px;
+            max-width: 680px;
+        }
+
+        /* ── Matériaux cards ── */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .material-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px 20px;
+            text-align: center;
+            background: var(--bg-white);
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .material-card:hover {
+            border-color: var(--rose);
+            box-shadow: 0 6px 24px rgba(255, 73, 124, .08);
+        }
+
+        .material-card .icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .material-card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .material-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .material-card .tag {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 30px;
+        }
+
+        .material-card .tag-eco {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .material-card .tag-premium {
+            background: #fef3e2;
+            color: #c77d1a;
+        }
+
+        .material-card .tag-durable {
+            background: #e8f0fe;
+            color: #1a5bb5;
+        }
+
+        /* ── Secteurs ── */
+        .sectors-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .sector-card {
+            display: flex;
+            gap: 20px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-white);
+            transition: border-color .2s;
+        }
+
+        .sector-card:hover {
+            border-color: var(--rose);
+        }
+
+        .sector-card .sector-icon {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--rose-light);
+            color: var(--rose);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .sector-card h3 {
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .sector-card p {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ── Process steps ── */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            position: relative;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .process-step .step-num {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--rose);
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .process-step h4 {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .process-step p {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .process-connector {
+            position: absolute;
+            top: 22px;
+            left: calc(50% + 30px);
+            width: calc(100% - 60px);
+            height: 2px;
+            background: var(--border);
+        }
+
+        .process-step:last-child .process-connector {
+            display: none;
+        }
+
+        /* ── Prix ── */
+        .price-section .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .price-callout {
+            background: var(--rose-light);
+            border-left: 4px solid var(--rose);
+            padding: 24px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .price-callout p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .price-callout strong {
+            color: var(--rose);
+        }
+
+        .price-cta-box {
+            background: var(--dark);
+            color: #fff;
+            border-radius: 8px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .price-cta-box h3 {
+            color: #fff;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .price-cta-box p {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .price-cta-box .phone {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--rose);
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        /* ── Testimonials ── */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px;
+        }
+
+        .testimonial-card .stars {
+            color: #f5a623;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 14px;
+            font-style: italic;
+            line-height: 1.65;
+            margin-bottom: 16px;
+            border: none;
+            padding: 0;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--heading);
+            font-size: 14px;
+        }
+
+        .testimonial-card .role {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        /* ── Gallery ── */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            background: var(--bg-light);
+            position: relative;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-item .placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, .7));
+            color: #fff;
+            padding: 20px 12px 10px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* ── CTA banner ── */
+        .cta-banner {
+            background: linear-gradient(135deg, var(--rose), #d03a6c);
+            padding: 52px 0;
+            text-align: center;
+            color: #fff;
+        }
+
+        .cta-banner h2 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .cta-banner p {
+            color: rgba(255, 255, 255, .85);
+            font-size: 15px;
+            margin-bottom: 24px;
+        }
+
+        /* ── FAQ ── */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .faq-item {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .faq-item h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .faq-item p {
+            font-size: 13px;
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .product-thumbs .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .last-updated {
+            font-size: 12px;
+            color: var(--muted);
+            font-style: italic;
+            padding: 20px 0 40px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .product-hero .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .materials-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .sectors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .process-connector {
+                display: none;
+            }
+
+            .price-section .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reassurance .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+  <!-- ═══ TOPBAR ═══ -->
+  <div class="topbar">
+    <div class="inner">
+      <div class="links">
+        <a href="/realisations">Réalisations PLV</a>
+        <a href="/blog-plv">Blog PLV</a>
+        <a href="/devis">Demande de devis</a>
+        <a href="/showroom-plv">Showroom PLV</a>
+      </div>
+      <div>
+        <a href="/contact">Contactez-nous</a>
+        &nbsp;&middot;&nbsp;
+        <a href="tel:0278775393" class="phone">02 78 77 53 93</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar">
+    <div class="inner">
+      <a href="/" class="logo">
+        <img src="img/logo.svg" alt="KONTFEEL Logo">
+      </a>
+      <div class="nav-links">
+        <a href="/display-plv" class="active">Display</a>
+        <a href="/plv">PLV</a>
+        <a href="/stand-expo">Stand</a>
+        <a href="/mobilier-commercial">Mobilier</a>
+        <a href="/impression">Impression</a>
+        <a href="/plv-digitale">Digital</a>
+        <a href="#">Solutions</a>
+      </div>
+    </div>
+  </nav>
+
+    <!-- ── BREADCRUMB ── -->
+    <div class="breadcrumb-bar">
+        <div class="container">
+            <a href="/">Accueil</a> &rsaquo;
+            <a href="/display-plv">Display — Présentoir produit</a> &rsaquo;
+            <a href="/display-plv/presentoir-comptoir">Présentoir comptoir</a> &rsaquo;
+            <strong style="color: var(--rose);">Présentoir comptoir sur mesure</strong>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     HERO PRODUIT
+     ═══════════════════════════════════════ -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="grid">
+
+                <!-- COLONNE GAUCHE : Image produit -->
+                <div>
+                    <div class="product-img-main">
+                        <span class="label-3d">Simulation 3D incluse</span>
+                        <img src="img/presentoir-comptoir-personnalise en carton_1.jpg" alt="Présentoir comptoir sur mesure en carton KONTFEEL">
+                    </div>
+                    <div class="product-thumbs">
+                        <div class="thumb active">
+                            <img src="img/presentoir-comptoir-personnalise en carton_1.jpg" alt="Vue face présentoir">
+                        </div>
+                        <div class="thumb">
+                            <img src="img/presentoir-escalier-pharmacie.jpg" alt="Vue 3/4 présentoir">
+                        </div>
+                        <div class="thumb">
+                            <img src="img/Boîte présentoir de produits.jpg" alt="Détail présentoir">
+                        </div>
+                        <div class="thumb">
+                            <img src="img/habillage-tete-de-gondole-premium-pmma-kontfeel.jpg" alt="Présentoir en situation">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLONNE DROITE : Contenu produit -->
+                <div>
+                    <h1>Présentoir comptoir sur mesure</h1>
+
+                    <p class="subtitle">Le <strong>présentoir de comptoir personnalisé</strong> met vos produits en
+                        valeur directement sur la surface de vente — comptoir de caisse, bureau en pharmacie, vitrine de
+                        boutique. Un espace réduit, un impact maximal au moment décisif de l'achat.</p>
+
+                    <ul class="specs-list">
+                        <li><strong>Matière</strong> : carton micro-cannelure, compact, plastique, bois ou métal</li>
+                        <li><strong>Impression</strong> : quadrichromie recto-verso, finitions au choix</li>
+                        <li><strong>Fronton</strong> : 2 faces personnalisables avec visuel et message</li>
+                        <li><strong>Livraison</strong> : sous étui unitaire avec notice de montage</li>
+                        <li><strong>Simulation 3D</strong> : modélisation gratuite avant fabrication</li>
+                    </ul>
+
+                    <div class="badge-row">
+                        <span class="badge badge-green">♻ Carton recyclable</span>
+                        <span class="badge badge-green">🌿 Certifié FSC/PEFC</span>
+                        <span class="badge badge-rose">🇫🇷 Fabriqué en France</span>
+                        <span class="badge badge-rose">⚡ Devis sous 24h</span>
+                    </div>
+
+                    <p style="font-size:14px; margin: 20px 0 8px;">Les dimensions sont déterminées selon les produits à
+                        présenter et le plan de remplissage défini. L'aspect et le rendu final s'ajustent avec des
+                        finitions distinctes : vernis sélectif, pelliculage mat ou brillant, dorure à chaud.</p>
+
+                    <div style="display:flex; gap:12px; margin-top:24px;">
+                        <a href="/devis" class="btn btn-primary">Demander un devis →</a>
+                        <a href="tel:0278775393" class="btn btn-outline">02 78 77 53 93</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     BARRE DE RÉASSURANCE
+     ═══════════════════════════════════════ -->
+    <div class="reassurance">
+        <div class="container">
+            <div class="grid">
+                <div class="item">
+                    <span class="icon">🎨</span>
+                    <strong>Simulation 3D gratuite</strong>
+                    Visualisez votre présentoir avant fabrication
+                </div>
+                <div class="item">
+                    <span class="icon">📐</span>
+                    <strong>100% sur mesure</strong>
+                    Dimensions, matériaux et visuels à votre image
+                </div>
+                <div class="item">
+                    <span class="icon">⏱</span>
+                    <strong>Devis sous 24h</strong>
+                    Interlocuteur unique du brief à la livraison
+                </div>
+                <div class="item">
+                    <span class="icon">🏭</span>
+                    <strong>Fabrication française</strong>
+                    Atelier certifié Imprim'Vert
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     SECTION MATÉRIAUX
+     Score couverture "carton vs plastique" : 19/100
+     Score "matériaux pour présentoirs" : 57/100
+     ═══════════════════════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Quel matériau pour votre présentoir de comptoir ?</h2>
+            <p class="section-subtitle">Le choix du matériau dépend de trois facteurs : la durée d'exposition, le poids
+                des produits à présenter, et le budget de l'opération.</p>
+
+            <div class="materials-grid">
+                <div class="material-card">
+                    <div class="icon">📦</div>
+                    <h3>Carton micro-cannelure</h3>
+                    <p>Léger, économique, 100% recyclable. Impression quadri, découpe à la forme, fronton personnalisé.
+                        Idéal pour les opérations promotionnelles courtes (1 à 3 mois) et les déploiements en volume.
+                    </p>
+                    <span class="tag tag-eco">♻ Éco-responsable</span>
+                </div>
+                <div class="material-card">
+                    <div class="icon">🧱</div>
+                    <h3>Carton compact</h3>
+                    <p>Plus rigide que le micro-cannelure, pour les présentoirs supportant un poids plus important.
+                        Adapté aux produits cosmétiques, flacons ou coffrets. Finitions premium disponibles.</p>
+                    <span class="tag tag-eco">♻ Recyclable</span>
+                </div>
+                <div class="material-card">
+                    <div class="icon">💎</div>
+                    <h3>Plastique (PVC, PETG, plexi)</h3>
+                    <p>Durable, nettoyable, réutilisable. Pour les installations permanentes en pharmacie ou boutique.
+                        Peut intégrer un éclairage LED ou des inserts magnétiques interchangeables.</p>
+                    <span class="tag tag-durable">🔄 Réutilisable</span>
+                </div>
+                <div class="material-card">
+                    <div class="icon">🪵</div>
+                    <h3>Bois &amp; métal</h3>
+                    <p>Prestations haut de gamme pour les présentoirs pérennes. Adaptés au merchandising de marque en
+                        boutique, corners dédiés ou espaces de vente premium. Gravure laser disponible.</p>
+                    <span class="tag tag-premium">⭐ Premium</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     SECTION SECTEURS D'ACTIVITÉ
+     Score couverture "pharmacie" : 49/100
+     Score couverture "cosmétiques" : 56/100
+     Score couverture "types de présentoirs" : 35/100
+     ═══════════════════════════════════════ -->
+    <section class="section alt-bg">
+        <div class="container">
+            <h2 class="section-title">Nos présentoirs de comptoir par secteur d'activité</h2>
+            <p class="section-subtitle">Chaque secteur a ses contraintes d'espace, de poids et de mise en valeur. Nous
+                adaptons le format, le matériau et les finitions à votre univers.</p>
+
+            <div class="sectors-grid">
+                <div class="sector-card">
+                    <div class="sector-icon">💊</div>
+                    <div>
+                        <h3>Pharmacie et parapharmacie</h3>
+                        <p><strong>Présentoir escalier comptoir</strong> pour compléments alimentaires, médicaments OTC
+                            ou produits dermocosmétiques. Format compact adapté aux comptoirs étroits de pharmacie, avec
+                            fronton informatif et alvéoles calibrées aux boîtes standard.</p>
+                    </div>
+                </div>
+                <div class="sector-card">
+                    <div class="sector-icon">💄</div>
+                    <div>
+                        <h3>Cosmétique et parfumerie</h3>
+                        <p><strong>Glorificateur de produit</strong> en carton compact ou plexi, avec découpe écrin pour
+                            mettre en valeur un lancement. Finitions premium : vernis sélectif, pelliculage soft touch,
+                            dorure à chaud. Idéal pour les <strong>présentoirs de comptoir pour cosmétiques</strong>.
+                        </p>
+                    </div>
+                </div>
+                <div class="sector-card">
+                    <div class="sector-icon">🛒</div>
+                    <div>
+                        <h3>Agroalimentaire et GMS</h3>
+                        <p><strong>Boîte présentoir produits</strong> en carton micro-cannelure, prêt à vendre (PAV),
+                            idéal pour les têtes de gondole ou la zone de caisse. Format empilable optimisé pour la
+                            logistique. Montage rapide sans outil.</p>
+                    </div>
+                </div>
+                <div class="sector-card">
+                    <div class="sector-icon">📚</div>
+                    <div>
+                        <h3>Librairie et édition</h3>
+                        <p><strong>Présentoir escalier</strong> en carton pour livres, BD ou magazines. Inclinaison
+                            optimisée pour la lisibilité des couvertures. Disponible avec fronton de marque et
+                            porte-signalétique intégré.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     SECTION PROCESSUS
+     Recommandation MRM : "Décrire les étapes
+     du processus de création, du brief à la livraison"
+     ═══════════════════════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Du brief à la livraison : votre projet en 5 étapes</h2>
+            <p class="section-subtitle">Un interlocuteur unique vous accompagne tout au long du processus de création de
+                votre présentoir de comptoir personnalisé.</p>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="process-connector"></div>
+                    <div class="step-num">1</div>
+                    <h4>Brief &amp; conseil</h4>
+                    <p>Décrivez votre produit, votre besoin et votre budget. Réponse et orientation sous 24h.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-connector"></div>
+                    <div class="step-num">2</div>
+                    <h4>Simulation 3D</h4>
+                    <p>Modélisation de votre présentoir avec vos visuels. Ajustements inclus jusqu'à validation.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-connector"></div>
+                    <div class="step-num">3</div>
+                    <h4>Prototypage</h4>
+                    <p>Exemplaire physique pour validation dimensionnelle et colorimétrique avant production.</p>
+                </div>
+                <div class="process-step">
+                    <div class="process-connector"></div>
+                    <div class="step-num">4</div>
+                    <h4>Production</h4>
+                    <p>Fabrication en série dans notre atelier en France. Contrôle qualité avant expédition.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-num">5</div>
+                    <h4>Livraison</h4>
+                    <p>Chaque unité sous étui avec notice. Option pré-remplissage en produits sur demande.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     SECTION PRIX
+     Score couverture "pas cher" : 22/100
+     Recommandation MRM Confiance : fourchettes de prix
+     ═══════════════════════════════════════ -->
+    <section class="section alt-bg">
+        <div class="container">
+            <h2 class="section-title">Quels facteurs influencent le prix d'un présentoir de comptoir ?</h2>
+            <p class="section-subtitle">Le coût d'un présentoir de comptoir sur mesure dépend de plusieurs paramètres.
+                Voici les principaux leviers pour ajuster votre budget.</p>
+
+            <div class="grid" style="display:grid; grid-template-columns:2fr 1fr; gap:40px; align-items:start;">
+                <div>
+                    <p>Le <strong>matériau</strong> est le premier facteur : le carton micro-cannelure est le plus
+                        économique, suivi du carton compact, du plastique et enfin du bois/métal pour les prestations
+                        premium.</p>
+                    <p>La <strong>complexité de la découpe</strong> (forme standard vs. silhouette libre), les
+                        <strong>finitions d'impression</strong> (quadri simple, vernis sélectif, pelliculage, dorure) et
+                        le <strong>volume de la commande</strong> complètent l'équation.</p>
+
+                    <div class="price-callout" style="margin-top:20px;">
+                        <p><strong>À titre indicatif</strong>, un présentoir comptoir en carton micro-cannelure imprimé
+                            quadri démarre à <strong>quelques euros pièce</strong> en série de 500+. Nous établissons un
+                            <strong>devis gratuit et sans engagement</strong> sous 24 à 48h.</p>
+                    </div>
+
+                    <p style="margin-top:20px; font-size:13px;">Besoin d'un <strong>petit présentoir de
+                            comptoir</strong> en petite série ? Nous traitons aussi les commandes à partir de 50
+                        exemplaires, avec un accompagnement identique.</p>
+                </div>
+
+                <div class="price-cta-box">
+                    <h3>Devis gratuit</h3>
+                    <p>Sans engagement, sous 24h</p>
+                    <a href="tel:0278775393" class="phone">02 78 77 53 93</a>
+                    <a href="/devis" class="btn btn-white">Demander un devis →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     TÉMOIGNAGES
+     Score E-E-A-T : 25/100
+     ═══════════════════════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Ce que nos clients en disent</h2>
+            <p class="section-subtitle">Des marques de tous secteurs nous font confiance pour la conception de leurs
+                présentoirs de comptoir personnalisés.</p>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <blockquote>« KONTFEEL a conçu un présentoir comptoir parfaitement calibré pour nos boîtes de
+                        compléments alimentaires. Le fronton informatif a permis d'augmenter la visibilité de notre
+                        gamme sans prendre plus d'espace sur le comptoir de la pharmacie. »</blockquote>
+                    <div class="author">[Prénom Nom]</div>
+                    <div class="role">Chef de produit — Laboratoire santé naturelle</div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <blockquote>« La simulation 3D nous a permis de valider le rendu avant de lancer la production pour
+                        200 points de vente. Le résultat final est conforme à la maquette, les délais ont été respectés.
+                        »</blockquote>
+                    <div class="author">[Prénom Nom]</div>
+                    <div class="role">Responsable merchandising — Marque cosmétique</div>
+                </div>
+            </div>
+
+            <p style="text-align:center; margin-top:24px;">
+                <a href="https://www.google.com/maps/place/KONTFEEL" target="_blank" style="font-size:14px;">
+                    Voir tous nos avis Google — <strong>5.0 ★★★★★</strong> (115 avis)
+                </a>
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     GALERIE RÉALISATIONS
+     Recommandation MRM : "galerie de types de présentoirs"
+     ═══════════════════════════════════════ -->
+    <section class="section alt-bg">
+        <div class="container">
+            <h2 class="section-title">Exemples de présentoirs de comptoir réalisés</h2>
+            <p class="section-subtitle">Quelques projets récents de présentoirs PLV de comptoir conçus et fabriqués par
+                KONTFEEL.</p>
+
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="img/presentoir-escalier-pharmacie.jpg" alt="Présentoir escalier pharmacie">
+                    <div class="caption">Présentoir escalier — Cosmétique — 2025</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/habillage-tete-de-gondole-premium-pmma-kontfeel.jpg" alt="Glorificateur de comptoir">
+                    <div class="caption">Glorificateur comptoir — Cosmétique — 2026</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/presentoir-comptoir-personnalise en carton_1.jpg" alt="PLV de comptoir carton">
+                    <div class="caption">PLV de comptoir — Pharmacie — 2025</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="img/Boîte présentoir de produits.jpg" alt="Boîte présentoir de produits">
+                    <div class="caption">Boîte présentoir produits — Édition — 2026</div>
+                </div>
+            </div>
+
+            <p style="text-align:center; margin-top:24px;">
+                <a href="/realisations" class="btn btn-outline">Voir toutes nos réalisations →</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════ -->
+    <section class="cta-banner">
+        <div class="container">
+            <h2>Un projet de présentoir de comptoir ?</h2>
+            <p>Recevez une simulation 3D gratuite et un devis personnalisé sous 24h. Interlocuteur unique de la
+                conception à la livraison.</p>
+            <a href="/devis" class="btn btn-white">Demander un devis →</a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+     FAQ
+     ═══════════════════════════════════════ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Questions fréquentes sur le présentoir de comptoir</h2>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>Quelles dimensions pour un présentoir de comptoir ?</h3>
+                    <p>Les dimensions sont entièrement définies sur mesure en fonction de vos produits et de l'espace
+                        disponible. Un présentoir comptoir standard mesure entre 20 et 50 cm de largeur et 30 à 60 cm de
+                        hauteur, mais nous nous adaptons à toutes les contraintes.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Quel est le délai de fabrication ?</h3>
+                    <p>Comptez 10 à 15 jours ouvrés après validation du BAT (bon à tirer). Le prototypage et la
+                        simulation 3D sont généralement bouclés en 3 à 5 jours ouvrés. Devis initial sous 24 à 48h.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Quelle quantité minimum de commande ?</h3>
+                    <p>Nous traitons les commandes à partir de 50 exemplaires en carton, et dès l'unité pour les
+                        présentoirs en plastique, bois ou métal. Le prix unitaire diminue avec le volume.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Le présentoir peut-il être livré pré-rempli ?</h3>
+                    <p>Oui, nous proposons un service de co-packing : vos produits sont placés dans le présentoir avant
+                        expédition, prêt à poser directement en point de vente. Contactez-nous pour étudier cette
+                        option.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Comment préparer mon brief pour un présentoir sur mesure ?</h3>
+                    <p>Indiquez-nous les dimensions de votre produit, le nombre de références à présenter, le lieu
+                        d'implantation (comptoir pharmacie, caisse GMS, vitrine…), le volume souhaité et votre budget
+                        indicatif. Nous nous occupons du reste.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Présentoir carton ou plastique : comment choisir ?</h3>
+                    <p>Le carton est idéal pour les opérations éphémères à budget maîtrisé (promotions, lancements). Le
+                        plastique convient aux installations permanentes nécessitant durabilité et entretien facile.
+                        Nous vous conseillons en fonction de votre cas d'usage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <article class="article-expert" id="expert" itemscope itemtype="https://schema.org/Article">
+        <header class="article-header">
+            <h1 itemprop="headline">Présentoir de comptoir : comment transformer 30 cm² en levier de sell-out mesurable</h1>
+            <p class="article-intro">
+                Le comptoir de caisse est le terrain le plus compétitif du point de vente. Moins d'un mètre linéaire, une fenêtre
+                d'attention de 8 à 12 secondes, une concurrence directe avec les offres de dernière minute du distributeur.
+                Dans cet espace contraint, un présentoir mal dimensionné, instable ou illisible ne génère pas seulement une
+                absence de vente — il cède sa place à un concurrent mieux préparé.
+            </p>
+            <p>
+                Chez Kontfeel, nous concevons des présentoirs de comptoir depuis la contrainte physique réelle : la charge utile
+                par alvéole, la résistance à l'humidité ambiante d'une pharmacie, les exigences de montage sans outillage
+                imposées par les enseignes GMS. Ce qui suit n'est pas un guide généraliste — c'est le retour d'expérience de notre
+                bureau d'études sur les erreurs les plus coûteuses et les solutions qui ont fait leurs preuves.
+            </p>
+        </header>
+
+        <section class="section-expert">
+            <h2>1. Stabilité structurelle : le premier refus du distributeur</h2>
+            <h3>Le problème terrain</h3>
+            <p>
+                Un présentoir de comptoir en carton micro-cannelure standard supporte théoriquement sa charge à vide. Mais rempli
+                de produits — flacons, boîtes, sachets — et soumis aux vibrations d'un plan de travail fréquemment sollicité, il
+                dérive, s'affaisse sur les côtés ou bascule. Résultat : le personnel de caisse le retire. Pas de signalement, pas
+                de réclamation — juste une absence de facing pendant toute la campagne.
+            </p>
+            <h3>La réponse technique</h3>
+            <p>
+                Le choix du matériau ne se fait pas au grammage, mais à la charge utile réelle par niveau. Pour un présentoir
+                multi-rangs destiné à des produits de 200 à 500 g, le carton compact (800 à 1 000 g/m²) avec cannelure B ou E
+                offre un rapport rigidité/coût supérieur à la micro-cannelure non renforcée. Lorsque la charge dépasse 3 kg en
+                cumulé, ou que le présentoir est destiné à un environnement humide (parapharmacie, épicerie fraîche), nous
+                basculons sur une structure en PVC alvéolaire ou en PETG thermoformé, dont la tenue hygroscopique est sans commune
+                mesure avec le carton non pelliculé.
+            </p>
+            <p>
+                Chaque projet intègre une modélisation 3D des contraintes de charge avant validation — non pas comme argument
+                commercial, mais comme étape de qualification structurelle.
+            </p>
+            <div class="micro-cas">
+                <h4>Micro-étude de cas</h4>
+                <p><strong>Défi :</strong> Un fabricant de compléments alimentaires constatait un taux d'abandon présentoir estimé
+                    à 40 % sur ses points de vente pharmacie, lié à un affaissement du plancher central après remplissage (charge
+                    de 2,4 kg sur deux niveaux).</p>
+                <p><strong>Solution Kontfeel :</strong> Refonte de la structure en carton compact double paroi avec raidisseurs
+                    intégrés en feuille d'acier 0,3 mm, pelliculage mat intégral pour neutraliser l'absorption d'humidité.</p>
+                <p><strong>Résultat :</strong> Zéro retrait signalé sur 1 200 points de vente sur une durée de 6 mois. Taux
+                    d'implantation effectif : 96 %.</p>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="section-expert">
+            <h2>2. Hiérarchie visuelle sur fronton : le message lu en moins de 3 secondes</h2>
+            <h3>Le problème terrain</h3>
+            <p>
+                Un fronton de 20 cm de hauteur doit arbitrer entre le logo marque, la promesse produit, le prix et un éventuel
+                code promo. Les briefs qui arrivent à notre studio embarquent systématiquement trop d'éléments. Le résultat est
+                une lecture impossible à 60 cm de distance — la distance moyenne d'un client debout face à un comptoir de 90 cm de
+                hauteur.
+            </p>
+            <h3>La réponse technique</h3>
+            <p>
+                La règle opérationnelle que nous appliquons : maximum trois zones visuelles hiérarchisées sur un fronton de format
+                standard (18 à 22 cm de hauteur). Zone 1 — accroche en corps 28 pt minimum, lisible à 80 cm. Zone 2 — bénéfice
+                ou SKU en corps 16 à 20 pt. Zone 3 — appel à l'action ou prix, isolé par une zone de silence d'au moins 4 mm de
+                chaque côté pour éviter l'effet de compression visuelle.
+            </p>
+            <p>
+                Le pelliculage mat sur les zones de texte secondaire, combiné à un vernis sélectif UV sur la zone d'accroche, crée
+                un différentiel de texture perceptible même sous éclairage fluorescent — condition standard en GMS. Ce contraste
+                tactile et lumineux dirige l'œil sans surcharge chromatique.
+            </p>
+            <p>
+                Pour les campagnes multi-références, nous concevons des frontons modulaires à insertion : le corps du présentoir
+                est permanent, seul le panneau fronton est remplacé entre deux campagnes — économie de matière de 60 à 70 % par
+                rotation.
+            </p>
+            <div class="micro-cas">
+                <h4>Micro-étude de cas</h4>
+                <p><strong>Défi :</strong> Une marque de cosmétiques souhaitait déployer le même présentoir de comptoir sur quatre
+                    opérations saisonnières sans renouveler le stock de base.</p>
+                <p><strong>Solution Kontfeel :</strong> Conception d'un présentoir permanent en PVC brossé avec système
+                    d'encliquetage fronton — remplacement du fronton imprimé en moins de 90 secondes sans outil.</p>
+                <p><strong>Résultat :</strong> Coût par rotation réduit de 68 % vs. renouvellement intégral. Délai de livraison
+                    des frontons : 5 jours ouvrés.</p>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="section-expert">
+            <h2>3. Montage en point de vente : ce que les notices ne disent jamais</h2>
+            <h3>Le problème terrain</h3>
+            <p>
+                Le personnel de caisse ou de rayon n'est pas formé à l'assemblage de PLV. Dans les enseignes à fort turnover, la
+                notice de montage de 6 étapes laminée sous plastique finit au fond du carton d'emballage. Un présentoir qui
+                nécessite plus de 4 minutes de montage sans outil voit son taux d'implantation réelle chuter de 30 à 50 % par
+                rapport aux prévisions — constat documenté sur plusieurs campagnes GMS.
+            </p>
+            <h3>La réponse technique</h3>
+            <p>
+                Notre bureau d'études applique une contrainte non négociable : montage complet en 90 secondes maximum, sans colle,
+                sans attache externe, sans outil. Cela impose une conception en prédécoupe optimisée, avec points de pliage
+                prétestés mécaniquement et encoches d'assemblage autobloquantes. La livraison sous étui unitaire préconditionné
+                — pièces déjà séquencées dans l'ordre de montage — réduit les erreurs d'assemblage de terrain de façon
+                significative.
+            </p>
+            <p>
+                Pour les réseaux de plus de 300 points de vente, nous proposons une vidéo de montage de 45 secondes avec QR code
+                intégré au dos du présentoir — sans surcoût de production.
+            </p>
+            <div class="micro-cas">
+                <h4>Micro-étude de cas</h4>
+                <p><strong>Défi :</strong> Un acteur de la grande distribution souhaitait déployer 800 présentoirs de comptoir en
+                    72 heures sur son réseau, sans recours à des équipes de merchandising dédiées.</p>
+                <p><strong>Solution Kontfeel :</strong> Présentoir à montage en 3 gestes, prédécoupé, avec QR code renvoyant vers
+                    une vidéo de 40 secondes. Conditionnement par lot de 10 avec fiche de déploiement réseau incluse.</p>
+                <p><strong>Résultat :</strong> Taux d'implantation effectif de 94 % contrôlé à J+5. Aucun retour pour défaut de
+                    montage.</p>
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="section-expert">
+            <h2>4. Compatibilité enseigne et conformité distributeur</h2>
+            <h3>Le problème terrain</h3>
+            <p>
+                Les enseignes GMS et les réseaux de pharmacie appliquent des chartes de PLV comptoir de plus en plus restrictives :
+                dimensions maximales, interdiction de certains matériaux non recyclables, exigences de certification FSC/PEFC
+                pour les structures carton. Un présentoir refusé à la réception centrale représente un coût logistique et
+                commercial que peu de marques anticipent dans leur budget initial.
+            </p>
+            <h3>La réponse technique</h3>
+            <p>
+                Avant toute mise en production, notre équipe vérifie la compatibilité dimensionnelle et matière avec les
+                référentiels des principales enseignes (hypermarchés, GSS, réseaux de pharmacie). L'ensemble de notre gamme carton
+                est produit avec des matériaux certifiés FSC/PEFC, fabriqués en France — critères qui deviennent des pré-requis
+                d'entrée chez plusieurs enseignes nationales depuis 2023.
+            </p>
+            <p>
+                Lorsqu'une enseigne impose un gabarit spécifique, la modélisation 3D gratuite réalisée en amont permet de valider
+                la conformité sans prototypage physique — gain de 10 à 15 jours sur les cycles de validation.
+            </p>
+        </section>
+
+        <footer class="article-cta">
+            <h2>Votre prochain déploiement mérite un bureau d'études,<br> pas un catalogue</h2>
+            <p>
+                Un présentoir de comptoir performant répond dans l'ordre à trois contraintes non négociables : il tient debout chargée, il est monté en moins de deux minutes par un non-spécialiste, et il est lu correctement à 60 cm de distance. L'esthétique — les finitions, la dorure à chaud, le pelliculage mat — intervient ensuite pour convertir l'attention en acte d'achat.
+            </p>
+            <p>
+                Le bureau d'études Kontfeel intervient dès la phase de brief pour qualifier ces contraintes avant toute décision matière ou graphique. Si vous avez un projet de présentoir de comptoir — nouvelle gamme, rotation saisonnière, déploiement réseau — transmettez-nous vos contraintes d'implantation et vos exigences enseigne : nous revenons vers vous avec une simulation 3D et un devis sous 24 heures.
+            </p>
+            <a href="/contact" class="cta-button">Soumettre mon brief au bureau d'études →</a>
+        </footer>
+    </article>
+
+    <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="inner">
+      <div class="col footer-about">
+        <img src="img/logo.svg" alt="KONTFEEL Logo" class="footer-logo">
+        <p class="footer-desc">Expert en solutions PLV, display et mobilier commercial sur mesure pour dynamiser vos
+          points de vente.</p>
+        <a href="/contact">Contact</a>
+        <a href="/devis">Demande de devis</a>
+        <a href="/realisations">Réalisations</a>
+        <a href="/blog-plv">Blog PLV</a>
+      </div>
+      <div class="col">
+        <h5>Nos produits</h5>
+        <a href="/display-plv">Display</a>
+        <a href="/plv">PLV</a>
+        <a href="/stand-expo">Stand</a>
+        <a href="/mobilier-commercial">Mobilier</a>
+      </div>
+      <div class="col">
+        <h5>Solutions</h5>
+        <a href="/plv-carton">PLV carton</a>
+        <a href="/plv-salon-professionnel">PLV salon professionnel</a>
+        <a href="/plv-pharmacie">PLV pharmacie</a>
+        <a href="/plv-ecologique">PLV écologique</a>
+      </div>
+      <div class="col">
+        <h5>Informations</h5>
+        <a href="/mentions-legales">Mentions légales</a>
+        <a href="/cgv">CGV</a>
+        <a href="/politique-de-confidentialite">Confidentialité</a>
+        <p class="footer-address">
+          KONTFEEL — SIRET [à compléter]<br>
+          [Adresse à compléter]
+        </p>
+      </div>
+    </div>
+    <div class="bottom">
+      © 2026 KONTFEEL — Fabricant de PLV et mobilier commercial sur mesure
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+{
+  "seoTitle": "Totem biscotte carton sur mesure | Format compact | KONTFEEL",
+  "seoDescription": "Totem biscotte carton : face plane rectangulaire, format compact pour entrée de magasin, comptoir ou îlot. Porte-flyers intégré, 100 % recyclable.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem biscotte carton",
+      "subheading": "Format compact à face plane, porte-flyers intégré pour entrée de magasin et îlot",
+      "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+      "imageAlt": "Totem biscotte carton format compact — KONTFEEL",
+      "badges": [
+        {
+          "text": "Carton recyclable",
+          "green": true
+        },
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌲 FSC"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Totem biscotte carton : caractéristiques et options",
+      "content": "Le totem biscotte carton se distingue par sa face avant plane et rectangulaire qui maximise la surface d'affichage tout en conservant un encombrement minimal. Son format compact le rend idéal pour les entrées de magasin, les comptoirs et les îlots en grande surface.\n\nContenu technique détaillé à venir : dimensions standard et sur mesure, grammages disponibles, options porte-flyers et pochette intégrés, finitions d'impression (offset, numérique, vernis sélectif)."
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet totem biscotte carton ? Devis sous 48h",
+      "body": "Décrivez vos contraintes de format et de volume — nous vous proposons la solution la plus adaptée.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/devis/"
+    }
+  ]
+}

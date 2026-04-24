@@ -1,0 +1,154 @@
+---
+/**
+ * ClientLogosBlock — Section logos clients
+ * Signal d'autorité E-E-A-T : afficher les marques connues pour rassurer les prospects.
+ * Audit : "Afficher les logos des clients importants ou connus."
+ *
+ * Les logos sont soit des images uploadées, soit du texte stylisé comme fallback.
+ */
+
+interface Logo {
+  name:    string   // Nom de la marque (alt + fallback textuel)
+  image?:  string   // URL de l'image logo
+  href?:   string   // Lien optionnel (étude de cas)
+}
+
+interface Props {
+  block: {
+    heading?:   string
+    subtitle?:  string
+    logos:      Logo[]
+  }
+}
+
+const { block } = Astro.props
+---
+
+<section class="client-logos" id="clients">
+  <div class="client-logos__inner">
+
+    {(block.heading || block.subtitle) && (
+      <div class="client-logos__header">
+        {block.heading && (
+          <p class="client-logos__eyebrow">{block.heading}</p>
+        )}
+        {block.subtitle && (
+          <p class="client-logos__subtitle">{block.subtitle}</p>
+        )}
+      </div>
+    )}
+
+    <div class="client-logos__grid">
+      {block.logos.map(logo => (
+        logo.href
+          ? (
+            <a href={logo.href} class="client-logos__item" title={`Réalisation pour ${logo.name}`} aria-label={`Voir la réalisation pour ${logo.name}`}>
+              {logo.image
+                ? <img src={logo.image} alt={`Logo ${logo.name}`} width="120" height="48" loading="lazy" decoding="async" class="client-logos__img" />
+                : <span class="client-logos__text-logo">{logo.name}</span>
+              }
+            </a>
+          )
+          : (
+            <div class="client-logos__item" aria-label={logo.name}>
+              {logo.image
+                ? <img src={logo.image} alt={`Logo ${logo.name}`} width="120" height="48" loading="lazy" decoding="async" class="client-logos__img" />
+                : <span class="client-logos__text-logo">{logo.name}</span>
+              }
+            </div>
+          )
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .client-logos {
+    padding: 56px 24px;
+    background: var(--white);
+    border-top: 1px solid var(--gray-100);
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .client-logos__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .client-logos__header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .client-logos__eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gray-300);
+    margin: 0 0 4px;
+  }
+
+  .client-logos__subtitle {
+    font-size: 15px;
+    color: var(--gray-500);
+    margin: 0;
+  }
+
+  /* ── Grille logos ── */
+  .client-logos__grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 0;
+  }
+
+  .client-logos__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 32px;
+    opacity: 0.55;
+    filter: grayscale(1);
+    transition: opacity .2s, filter .2s;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+  }
+
+  .client-logos__item:hover {
+    opacity: 1;
+    filter: grayscale(0);
+  }
+
+  /* ── Logo image ── */
+  .client-logos__img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    max-width: 120px;
+  }
+
+  /* ── Fallback textuel ── */
+  .client-logos__text-logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-700);
+    letter-spacing: -.01em;
+    white-space: nowrap;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .client-logos__item {
+      padding: 12px 20px;
+    }
+
+    .client-logos__img {
+      height: 32px;
+    }
+  }
+</style>

@@ -1,0 +1,417 @@
+{
+  "seoTitle": "KONTFEEL — Fabricant de PLV sur mesure | Présentoirs & Mobilier commercial",
+  "seoDescription": "Fabricant français de PLV sur mesure depuis 10 ans : présentoirs carton, totems, mobilier commercial et signalétique pour vos points de vente. Devis sous 48h.",
+  "blocks": [
+    {
+      "_template": "hero_home",
+      "heading": "Votre fabricant de PLV sur mesure",
+      "subheading": "Présentoirs, mobilier commercial et signalétique conçus et fabriqués en France",
+      "description": "Depuis 10 ans, nous accompagnons les marques dans la conception et la fabrication de leurs supports de marketing point de vente : de l'idée au déploiement en magasin.",
+      "bgImage": "/assets/images/slide-new.jpg",
+      "ctas": [
+        {
+          "label": "Demander un devis gratuit",
+          "href": "#devis",
+          "variant": "primary"
+        },
+        {
+          "label": "Voir nos réalisations",
+          "href": "/realisations-plv/",
+          "variant": "secondary"
+        }
+      ],
+      "stats": [
+        {
+          "value": "10 ans",
+          "label": "d'expertise PLV"
+        },
+        {
+          "value": "+500",
+          "label": "projets livrés"
+        },
+        {
+          "value": "48h",
+          "label": "délai de devis"
+        },
+        {
+          "value": "100%",
+          "label": "fabrication française"
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🇫🇷 Fabrication française"
+        },
+        {
+          "label": "✓ Devis sous 48h"
+        }
+      ]
+    },
+    {
+      "_template": "client_logos",
+      "heading": "Ils nous font confiance",
+      "subtitle": "Des marques de toutes tailles nous confient leur visibilité en magasin",
+      "logos": [
+        {
+          "name": "Jacob Delafon"
+        },
+        {
+          "name": "Région Normandie",
+          "image": "/assets/logo-region-normandie.png"
+        },
+        {
+          "name": "Marque Cosmétique"
+        },
+        {
+          "name": "Grande Distribution"
+        },
+        {
+          "name": "Retail Partner"
+        },
+        {
+          "name": "Pharma & Santé"
+        }
+      ]
+    },
+    {
+      "_template": "solutions_grid",
+      "heading": "Nos solutions pour le marketing point de vente",
+      "subtitle": "Du présentoir carton au mobilier de marque, nous concevons et fabriquons tous vos supports PLV sur mesure pour maximiser l'impact de vos produits en magasin.",
+      "linkLabel": "Découvrir",
+      "solutions": [
+        {
+          "image": "/assets/produits/categories/PLV_20display.jpg",
+          "imageAlt": "Présentoirs et displays PLV sur mesure",
+          "heading": "Valorisez vos produits avec des présentoirs sur mesure",
+          "description": "Présentoirs de sol, comptoirs et box palette conçus pour mettre en avant vos références et booster les ventes en rayon.",
+          "products": [
+            {
+              "text": "Présentoir comptoir"
+            },
+            {
+              "text": "Totem carton"
+            },
+            {
+              "text": "Box palette"
+            },
+            {
+              "text": "FSDU"
+            }
+          ],
+          "href": "/display/",
+          "tag": "★ Populaire"
+        },
+        {
+          "image": "/assets/produits/categories/PLV_20stand_20expo.jpg",
+          "imageAlt": "Stands d'exposition et événementiels sur mesure",
+          "heading": "Séduisez en salon avec des stands percutants",
+          "description": "Stands parapluie, kakémonos et comptoirs textiles pour des événements professionnels et des espaces de marque impactants.",
+          "products": [
+            {
+              "text": "Stand parapluie"
+            },
+            {
+              "text": "Roll-up"
+            },
+            {
+              "text": "Kakémono"
+            },
+            {
+              "text": "Comptoir textile"
+            }
+          ],
+          "href": "/stand/"
+        },
+        {
+          "image": "/assets/produits/categories/PLV_20sur_20mesure.jpg",
+          "imageAlt": "PLV carton sur mesure pour points de vente",
+          "heading": "Déployez votre message en magasin avec la PLV carton",
+          "description": "Totems, stop-rayon, silhouettes et arches carton pour une signalétique impactante sur tous vos points de vente.",
+          "products": [
+            {
+              "text": "Stop pile"
+            },
+            {
+              "text": "Silhouette découpée"
+            },
+            {
+              "text": "Stop rayon"
+            },
+            {
+              "text": "Arche carton"
+            }
+          ],
+          "href": "/plv-carton/"
+        },
+        {
+          "image": "/assets/produits/categories/Mobilier_20commercial.jpg",
+          "imageAlt": "Mobilier commercial sur mesure pour magasin",
+          "heading": "Équipez votre espace avec un mobilier commercial sur mesure",
+          "description": "Présentoirs plastique, métal ou plexi, stèles et gondoles pour un merchandising durable et professionnel.",
+          "products": [
+            {
+              "text": "Présentoir métal"
+            },
+            {
+              "text": "Présentoir plexi"
+            },
+            {
+              "text": "Stèle"
+            },
+            {
+              "text": "PLV modulable"
+            }
+          ],
+          "href": "/mobilier/"
+        },
+        {
+          "image": "/assets/produits/categories/Impression_20PLV.jpg",
+          "imageAlt": "Impression PLV tous supports",
+          "heading": "Imprimez tous vos supports promotionnels",
+          "description": "Impression petite, moyenne et grande série sur tous supports : étiquettes, sacs, nappes, jupe de palette et print management.",
+          "products": [
+            {
+              "text": "Étiquette rouleau"
+            },
+            {
+              "text": "Sac personnalisé"
+            },
+            {
+              "text": "Jupe de palette"
+            },
+            {
+              "text": "Print management"
+            }
+          ],
+          "href": "/impression/"
+        },
+        {
+          "image": "/assets/produits/categories/PLV_20digitale.jpg",
+          "imageAlt": "PLV digitale — bornes tactiles et totems écran",
+          "heading": "Engagez vos clients avec des bornes et totems digitaux",
+          "description": "Bornes tactiles, totems écran et cadres lumineux pour intégrer le digital dans vos points de vente et amplifier l'expérience client.",
+          "products": [
+            {
+              "text": "Borne tactile"
+            },
+            {
+              "text": "Totem écran"
+            },
+            {
+              "text": "Cadre lumineux"
+            },
+            {
+              "text": "PLV écran"
+            }
+          ],
+          "href": "/digital/"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Votre fabricant de PLV sur mesure depuis 10 ans",
+      "content": "Notre mission est d'imaginer, concevoir et fabriquer vos supports de marketing point de vente : des présentoirs carton jusqu'au mobilier commercial multi-matériaux, en passant par la signalétique grand format et les solutions digitales. Chaque projet PLV sur mesure démarre par une compréhension fine de votre brief — contraintes de budget, volumes de production, réseau de distribution — pour vous proposer la solution la plus adaptée à vos objectifs en magasin.\n\nNos équipes de designers industriels et d'infographistes assurent la modélisation 3D, le prototypage et le suivi de fabrication. Nous travaillons avec une sélection de partenaires certifiés pour garantir une production de haute qualité, en petite comme en grande série, avec livraison multi-points en France et dans l'Union Européenne."
+    },
+    {
+      "_template": "process",
+      "heading": "Comment fonctionne notre processus de fabrication PLV ?",
+      "subtitle": "Un accompagnement sur-mesure de l'idée à la livraison en magasin, en 4 étapes clés.",
+      "steps": [
+        {
+          "number": "01",
+          "image": "/assets/images/01-Design-Kontfeel.jpg",
+          "imageAlt": "Étape 1 — Design de PLV chez Kontfeel",
+          "heading": "Design de PLV",
+          "description": "Nous détectons l'identité de votre marque pour proposer un design personnalisé. Notre équipe imagine l'impact visuel de vos productions et crée des maquettes 3D.",
+          "detail": "Livraison des visuels sous 5 jours ouvrés",
+          "tags": [
+            {
+              "text": "Infographie"
+            },
+            {
+              "text": "Design personnalisé"
+            },
+            {
+              "text": "Modélisation 3D"
+            }
+          ]
+        },
+        {
+          "number": "02",
+          "image": "/assets/images/02-Conception-Kontfeel.jpg",
+          "imageAlt": "Étape 2 — Conception technique PLV",
+          "heading": "Conception technique",
+          "description": "Nous anticipons et donnons vie à vos idées dans le respect de votre cahier des charges. Conception technique optimisée pour une mise en production rapide.",
+          "detail": "Prototype fourni avant lancement série",
+          "tags": [
+            {
+              "text": "Éco-conception"
+            },
+            {
+              "text": "Optimisation technique"
+            },
+            {
+              "text": "Prototype"
+            }
+          ]
+        },
+        {
+          "number": "03",
+          "image": "/assets/images/03-Fabrication-Kontfeel.jpg",
+          "imageAlt": "Étape 3 — Fabrication et impression PLV",
+          "heading": "Fabrication & impression",
+          "description": "En tant qu'interlocuteur technique unique, nous gérons chaque étape et vérifions la cohérence et la qualité de vos productions en carton, métal, bois ou plastique.",
+          "detail": "Contrôle qualité à chaque étape",
+          "tags": [
+            {
+              "text": "Petite & grande série"
+            },
+            {
+              "text": "Tous supports"
+            },
+            {
+              "text": "Contrôle qualité"
+            }
+          ]
+        },
+        {
+          "number": "04",
+          "image": "/assets/images/04-Logistique-Kontfeel.jpg",
+          "imageAlt": "Étape 4 — Logistique et livraison PLV",
+          "heading": "Logistique & livraison",
+          "description": "Nous assurons le kitting et la livraison multi-points de vos supports. Nous gérons aussi l'installation de votre mobilier lors de salons professionnels.",
+          "detail": "Livraison en France et UE",
+          "tags": [
+            {
+              "text": "Conditionnement spécifique"
+            },
+            {
+              "text": "Livraison multi-points"
+            },
+            {
+              "text": "Installation & montage"
+            }
+          ]
+        }
+      ],
+      "cta": {
+        "label": "Discutons de votre projet PLV",
+        "href": "#devis"
+      }
+    },
+    {
+      "_template": "realizations",
+      "heading": "Réalisations PLV — nos dernières études de cas",
+      "subtitle": "Découvrez comment nous avons aidé nos clients à créer de l'impact en point de vente, de la théâtralisation magasin au stand événementiel.",
+      "ctaLabel": "Voir toutes nos réalisations PLV",
+      "ctaHref": "/realisations-plv/",
+      "items": [
+        {
+          "image": "/assets/realisations/habillage-tete-de-gondole-premium-pmma-kontfeel.jpg",
+          "imageAlt": "Habillage tête de gondole premium PMMA — Kontfeel",
+          "category": "Signalétique",
+          "heading": "Tête de gondole transformée en écrin sélectif pour une marque cosmétique",
+          "excerpt": "Comment une PLV carton sur mesure a permis de créer un espace de marque premium au sein d'un rayon standard, avec un résultat à la hauteur d'un shop-in-shop.",
+          "stat": "Déploiement sur 120 points de vente",
+          "href": "/realisations-plv/",
+          "featured": true,
+          "isNew": true
+        },
+        {
+          "image": "/assets/realisations/arche-evenementielle.jpg",
+          "imageAlt": "Arche carton événementielle sur mesure",
+          "category": "Événementielle",
+          "heading": "Arche carton événementielle pour animation Noël",
+          "excerpt": "Conception et fabrication d'une arche monumentale en carton pour une animation de Noël en grande surface.",
+          "href": "/realisations-plv/"
+        },
+        {
+          "image": "/assets/realisations/plv-vitrine-sur-les-champs-elysees.jpg",
+          "imageAlt": "PLV vitrine sur les Champs-Élysées",
+          "category": "PLV vitrine",
+          "heading": "Habillage de vitrine sur les Champs-Élysées",
+          "excerpt": "Signalétique grand format et PLV vitrine haut de gamme pour une marque internationale présente avenue des Champs-Élysées.",
+          "href": "/realisations-plv/"
+        }
+      ]
+    },
+    {
+      "_template": "eco_section",
+      "heading": "Une démarche PLV éco-responsable au cœur de notre production",
+      "description": "Nous sommes convaincus que la performance commerciale et l'éco-responsabilité ne s'opposent pas. Nos supports PLV sont conçus pour minimiser leur impact environnemental sans compromis sur la qualité ni sur l'impact visuel en magasin.",
+      "image": "/assets/solutions/Solutions-PLV-Kontfeel.jpg",
+      "imageAlt": "Solutions PLV éco-responsables — Kontfeel",
+      "arguments": [
+        {
+          "icon": "🌳",
+          "title": "Matériaux recyclables et issus de forêts gérées",
+          "text": "Carton FSC, bois labellisé PEFC, encres végétales — nous sélectionnons des matières premières responsables pour chaque projet."
+        },
+        {
+          "icon": "🔄",
+          "title": "Conception pensée pour la fin de vie",
+          "text": "Nos présentoirs carton sont entièrement recyclables et nous proposons des solutions de PLV en kit pour faciliter le réassort et réduire les volumes produits."
+        },
+        {
+          "icon": "📉",
+          "title": "Optimisation des flux logistiques",
+          "text": "Nous optimisons les formats de fabrication et les conditionnements pour réduire les transports et les déchets à chaque livraison multi-points."
+        }
+      ],
+      "certifs": [
+        {
+          "label": "Imprim'Vert",
+          "description": "Impression éco-responsable certifiée"
+        },
+        {
+          "label": "FSC / PEFC",
+          "description": "Matières premières issues de forêts gérées durablement"
+        },
+        {
+          "label": "Carton recyclable",
+          "description": "100% des présentoirs carton sont recyclables"
+        }
+      ],
+      "cta": {
+        "label": "Découvrir notre démarche éco-responsable",
+        "href": "/solutions/plv-responsable/"
+      }
+    },
+    {
+      "_template": "testimonials",
+      "heading": "Ce que nos clients disent de nous",
+      "subtitle": "Des marques de secteurs variés nous font confiance pour leur PLV sur mesure",
+      "items": [
+        {
+          "name": "Sophie M.",
+          "role": "Responsable merchandising — Grande distribution",
+          "quote": "Kontfeel a su transformer notre brief en une PLV carton qui a vraiment fait la différence en rayon. Le délai de livraison a été tenu et la qualité d'impression est irréprochable. Je recommande sans hésiter.",
+          "stars": 5
+        },
+        {
+          "name": "Thomas R.",
+          "role": "Directeur marketing — Marque cosmétique",
+          "quote": "Nous leur avons confié la conception de notre stand pour un salon professionnel. Le résultat a dépassé nos attentes : l'équipe a su intégrer nos contraintes techniques tout en respectant parfaitement notre charte graphique.",
+          "stars": 5
+        },
+        {
+          "name": "Claire D.",
+          "role": "Chef de projet retail — Industrie pharmaceutique",
+          "quote": "Très réactifs et force de proposition. Ils ont conçu un présentoir comptoir innovant pour notre réseau de pharmacies. La solution de PLV éco-responsable proposée a été un vrai argument différenciant auprès de nos partenaires.",
+          "stars": 5
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet PLV sur mesure ? Obtenez votre devis sous 48h",
+      "body": "Notre équipe analyse votre brief, évalue les volumes et vous propose une solution adaptée à votre budget. Fabrication française, contrôle qualité à chaque étape.",
+      "btnLabel": "Demander un devis gratuit",
+      "btnHref": "/demande-de-devis/"
+    }
+  ]
+}

@@ -1,0 +1,413 @@
+# ──────────────────────────────────────────────────────────────────
+# Sveltia CMS — configuration Kontfeel
+#
+# Édition locale : ouvrir /admin/index.html dans Chrome/Edge puis
+# cliquer sur « Work with Local Repository ».
+# ──────────────────────────────────────────────────────────────────
+
+backend:
+  name: github
+  repo: owner/repo          # à remplacer quand le dépôt distant sera créé
+  branch: main
+
+media_folder: public/assets
+public_folder: /assets
+
+# ───────────── Fragments réutilisables (YAML anchors) ─────────────
+_defs:
+  cta_field: &cta_field
+    - { name: label, label: Libellé, widget: string }
+    - { name: href,  label: Lien,    widget: string }
+
+  cta_with_variant: &cta_with_variant
+    - { name: label, label: Libellé, widget: string }
+    - { name: href,  label: Lien,    widget: string }
+    - name: variant
+      label: Style
+      widget: select
+      options: [primary, secondary]
+      default: primary
+      required: false
+
+# ───────────── Blocs partagés (utilisés dans plusieurs collections)
+_blockDefs:
+  blocks_field: &blocks_field
+    name: blocks
+    label: Blocs de contenu
+    widget: list
+    typeKey: _template
+    summary: "{{fields._template}}"
+    types:
+
+      # ── hero_home ──
+      - name: hero_home
+        label: Hero (Accueil)
+        summary: "Hero — {{fields.heading}}"
+        fields:
+          - { name: heading,     label: Titre,         widget: string }
+          - { name: subheading,  label: Sous-titre,    widget: string, required: false }
+          - { name: description, label: Description,   widget: text,   required: false }
+          - { name: bgImage,     label: Image de fond, widget: image,  required: false }
+          - name: ctas
+            label: Boutons d'action
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields: *cta_with_variant
+          - name: stats
+            label: Statistiques
+            widget: list
+            required: false
+            summary: "{{fields.value}} — {{fields.label}}"
+            fields:
+              - { name: value, label: Valeur,  widget: string }
+              - { name: label, label: Libellé, widget: string }
+          - name: certifs
+            label: Certifications / labels
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: Libellé, widget: string }
+
+      # ── hero (pilier / enfant) ──
+      - name: hero
+        label: Hero (Pilier / Enfant)
+        summary: "Hero — {{fields.heading}}"
+        fields:
+          - { name: heading,    label: Titre,        widget: string }
+          - { name: subheading, label: Sous-titre,   widget: string,   required: false }
+          - { name: intro,      label: Introduction, widget: markdown, required: false }
+          - { name: image,      label: Image,        widget: image,    required: false }
+          - { name: imageAlt,   label: Texte alt,    widget: string,   required: false }
+          - name: badges
+            label: Badges
+            widget: list
+            required: false
+            summary: "{{fields.text}}"
+            fields:
+              - { name: text,  label: Texte, widget: string }
+              - { name: green, label: Style vert, widget: boolean, default: false, required: false }
+          - name: certifs
+            label: Certifications
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: Libellé, widget: string }
+          - name: ctas
+            label: Boutons d'action
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields: *cta_with_variant
+
+      # ── client_logos ──
+      - name: client_logos
+        label: Logos clients
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: eyebrow,  label: Eyebrow,    widget: string, required: false }
+          - { name: heading,  label: Titre,      widget: string }
+          - { name: subtitle, label: Sous-titre, widget: string, required: false }
+          - name: logos
+            label: Logos
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name,  label: Nom de la marque, widget: string }
+              - { name: image, label: Logo,             widget: image,  required: false }
+              - { name: alt,   label: Texte alt,        widget: string, required: false }
+              - { name: text,  label: Texte (fallback), widget: string, required: false }
+
+      # ── solutions_grid ──
+      - name: solutions_grid
+        label: Grille de solutions
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading,   label: Titre,            widget: string }
+          - { name: subtitle,  label: Sous-titre,       widget: string, required: false }
+          - { name: linkLabel, label: Libellé des liens, widget: string, required: false }
+          - name: solutions
+            label: Solutions
+            widget: list
+            summary: "{{fields.heading}}"
+            fields:
+              - { name: image,    label: Image,      widget: image,  required: false }
+              - { name: imageAlt, label: Texte alt,  widget: string, required: false }
+              - { name: heading,  label: Titre,      widget: string }
+              - { name: description, label: Description, widget: text, required: false }
+              - { name: href,     label: Lien,       widget: string, required: false }
+              - { name: tag,      label: Tag,        widget: string, required: false }
+              - name: products
+                label: Produits liés
+                widget: list
+                required: false
+                summary: "{{fields.text}}"
+                fields:
+                  - { name: text, label: Texte, widget: string }
+
+      # ── products_grid ──
+      - name: products_grid
+        label: Grille de produits
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading,  label: Titre,      widget: string }
+          - { name: subtitle, label: Sous-titre, widget: string, required: false }
+          - name: products
+            label: Produits
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title,    label: Titre,      widget: string, required: false }
+              - { name: heading,  label: Titre alt,  widget: string, required: false }
+              - { name: image,    label: Image,      widget: image,  required: false }
+              - { name: imageAlt, label: Texte alt,  widget: string, required: false }
+              - { name: description, label: Description, widget: text, required: false }
+              - { name: excerpt,  label: Extrait,    widget: text,   required: false }
+              - { name: href,     label: Lien,       widget: string, required: false }
+              - { name: tag,      label: Tag,        widget: string, required: false }
+              - name: specs
+                label: Spécifications
+                widget: list
+                required: false
+                summary: "{{fields.text}}"
+                fields:
+                  - { name: text, label: Texte, widget: string }
+
+      # ── text_editorial ──
+      - name: text_editorial
+        label: Texte éditorial
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading, label: Titre,    widget: string,   required: false }
+          - { name: content, label: Contenu,  widget: markdown }
+
+      # ── process ──
+      - name: process
+        label: Notre processus
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading,  label: Titre,      widget: string }
+          - { name: subtitle, label: Sous-titre, widget: text,   required: false }
+          - name: steps
+            label: Étapes
+            widget: list
+            summary: "{{fields.number}} — {{fields.heading}}"
+            fields:
+              - { name: number,   label: Numéro,    widget: string }
+              - { name: image,    label: Image,     widget: image,  required: false }
+              - { name: imageAlt, label: Texte alt, widget: string, required: false }
+              - { name: heading,  label: Titre,     widget: string }
+              - { name: description, label: Description, widget: text, required: false }
+              - { name: detail,   label: Détail,    widget: text,   required: false }
+              - name: tags
+                label: Tags
+                widget: list
+                required: false
+                summary: "{{fields.text}}"
+                fields:
+                  - { name: text, label: Texte, widget: string }
+          - name: cta
+            label: Bouton d'action
+            widget: object
+            required: false
+            fields: *cta_field
+
+      # ── realizations ──
+      - name: realizations
+        label: Réalisations
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading,  label: Titre,       widget: string }
+          - { name: subtitle, label: Sous-titre,  widget: text,   required: false }
+          - { name: ctaLabel, label: Libellé CTA, widget: string, required: false }
+          - { name: ctaHref,  label: Lien CTA,    widget: string, required: false }
+          - name: items
+            label: Réalisations
+            widget: list
+            summary: "{{fields.heading}}"
+            fields:
+              - { name: image,    label: Image,      widget: image,  required: false }
+              - { name: imageAlt, label: Texte alt,  widget: string, required: false }
+              - { name: category, label: Catégorie,  widget: string, required: false }
+              - { name: heading,  label: Titre,      widget: string }
+              - { name: excerpt,  label: Extrait,    widget: text,   required: false }
+              - { name: href,     label: Lien,       widget: string, required: false }
+              - { name: stat,     label: Stat,       widget: string, required: false }
+              - { name: featured, label: Mis en avant, widget: boolean, default: false, required: false }
+              - { name: isNew,    label: Nouveau,    widget: boolean, default: false, required: false }
+
+      # ── eco_section ──
+      - name: eco_section
+        label: Section éco
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: eyebrow,     label: Eyebrow,    widget: string, required: false }
+          - { name: heading,     label: Titre,      widget: string }
+          - { name: description, label: Description, widget: text,  required: false }
+          - { name: image,       label: Image,      widget: image,  required: false }
+          - { name: imageAlt,    label: Texte alt,  widget: string, required: false }
+          - name: arguments
+            label: Arguments
+            widget: list
+            required: false
+            summary: "{{fields.title}}"
+            fields:
+              - { name: icon,  label: Icône,  widget: string, required: false }
+              - { name: title, label: Titre,  widget: string }
+              - { name: text,  label: Texte,  widget: text,   required: false }
+          - name: certifs
+            label: Certifications détaillées
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label,       label: Libellé,     widget: string }
+              - { name: description, label: Description, widget: string, required: false }
+          - name: certifications
+            label: Certifications (labels seuls)
+            widget: list
+            required: false
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: Libellé, widget: string }
+          - name: cta
+            label: Bouton d'action
+            widget: object
+            required: false
+            fields: *cta_field
+
+      # ── testimonials ──
+      - name: testimonials
+        label: Témoignages
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading,  label: Titre,      widget: string }
+          - { name: subtitle, label: Sous-titre, widget: text,   required: false }
+          - name: items
+            label: Témoignages
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name,  label: Nom,     widget: string }
+              - { name: role,  label: Rôle,    widget: string, required: false }
+              - { name: quote, label: Citation, widget: text }
+              - { name: stars, label: Étoiles, widget: number, default: 5, min: 0, max: 5, required: false }
+
+      # ── cta_banner ──
+      - name: cta_banner
+        label: Bandeau CTA
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading,  label: Titre,      widget: string }
+          - { name: body,     label: Corps,      widget: text,   required: false }
+          - { name: btnLabel, label: Libellé du bouton, widget: string }
+          - { name: btnHref,  label: Lien du bouton,    widget: string }
+
+      # ── comparison_table ──
+      - name: comparison_table
+        label: Tableau comparatif
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading,  label: Titre,      widget: string }
+          - { name: subtitle, label: Sous-titre, widget: text,   required: false }
+          - name: columns
+            label: Colonnes
+            widget: list
+            summary: "{{fields.label}}"
+            fields:
+              - { name: label, label: Libellé, widget: string }
+          - name: rows
+            label: Lignes
+            widget: list
+            summary: "{{fields.criterion}}"
+            fields:
+              - { name: criterion, label: Critère, widget: string }
+              - name: cells
+                label: Cellules (une par colonne)
+                widget: list
+                summary: "{{fields.value}}"
+                fields:
+                  - { name: value, label: Valeur, widget: string }
+
+      # ── faq ──
+      - name: faq
+        label: FAQ
+        summary: "{{fields.heading}}"
+        fields:
+          - { name: heading, label: Titre, widget: string }
+          - name: items
+            label: Questions
+            widget: list
+            summary: "{{fields.question}}"
+            fields:
+              - { name: question, label: Question, widget: string }
+              - { name: answer,   label: Réponse,  widget: text }
+
+# ───────────── Collections ─────────────
+collections:
+
+  # ── Accueil (fichier unique) ──────────────────────────────────
+  - name: home
+    label: Accueil
+    files:
+      - name: index
+        label: Page d'accueil
+        file: src/content/home/index.json
+        format: json
+        fields:
+          - { name: seoTitle,       label: Titre SEO,       widget: string }
+          - { name: seoDescription, label: Description SEO, widget: text, required: false }
+          - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
+          - *blocks_field
+
+  # ── Silos (pages piliers) ─────────────────────────────────────
+  - name: silos
+    label: Silos (pages piliers)
+    label_singular: Silo
+    folder: src/content/silos
+    format: json
+    extension: json
+    create: true
+    slug: "{{slug}}"
+    identifier_field: seoTitle
+    fields:
+      - { name: seoTitle,       label: Titre SEO,       widget: string }
+      - { name: seoDescription, label: Description SEO, widget: text,   required: false }
+      - { name: siloSlug,       label: Slug du silo,    widget: string, required: false }
+      - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
+      - *blocks_field
+
+  # ── Pages enfants (groupées par silo via dossier imbriqué) ────
+  - name: pages
+    label: Pages enfants
+    label_singular: Page
+    folder: src/content/pages
+    format: json
+    extension: json
+    create: true
+    nested: { depth: 2 }
+    path: "{{fields.siloSlug}}/{{slug}}"
+    slug: "{{slug}}"
+    identifier_field: seoTitle
+    fields:
+      - { name: seoTitle,       label: Titre SEO,       widget: string }
+      - { name: seoDescription, label: Description SEO, widget: text,   required: false }
+      - { name: siloSlug,       label: Silo (slug),     widget: string, required: false }
+      - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
+      - *blocks_field
+
+  # ── Articles (Markdown) ───────────────────────────────────────
+  - name: posts
+    label: Articles
+    label_singular: Article
+    folder: src/content/posts
+    format: frontmatter
+    extension: md
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Titre, widget: string }
+      - { name: date,  label: Date,  widget: datetime, required: false }
+      - { name: body,  label: Contenu, widget: markdown }

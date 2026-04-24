@@ -1,0 +1,75 @@
+---
+/**
+ * Breadcrumb — Fil d'Ariane avec Schema.org BreadcrumbList
+ */
+interface Crumb {
+  label: string
+  href?: string  // undefined = page courante (pas de lien)
+}
+
+interface Props {
+  crumbs: Crumb[]
+}
+
+const { crumbs } = Astro.props
+
+// Schema.org BreadcrumbList
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": crumbs.map((c, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "name": c.label,
+    ...(c.href ? { "item": Astro.url.origin + c.href } : {})
+  }))
+}
+---
+
+<nav class="breadcrumb" aria-label="Fil d'Ariane">
+  <div class="bc-inner">
+    {crumbs.map((crumb, i) => (
+      <>
+        {i > 0 && <span class="bc-sep" aria-hidden="true">›</span>}
+        {crumb.href
+          ? <a href={crumb.href} class="bc-link">{crumb.label}</a>
+          : <span class="bc-current" aria-current="page">{crumb.label}</span>
+        }
+      </>
+    ))}
+  </div>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<style>
+  .breadcrumb {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 20px 24px 0;
+  }
+
+  .bc-inner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+
+  .bc-sep { color: var(--gray-300); }
+
+  .bc-link {
+    color: var(--gray-500);
+    text-decoration: none;
+    transition: color .15s;
+  }
+
+  .bc-link:hover { color: var(--rose); }
+
+  .bc-current {
+    color: var(--dark);
+    font-weight: 500;
+  }
+</style>

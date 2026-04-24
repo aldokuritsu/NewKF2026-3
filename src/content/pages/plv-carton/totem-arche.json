@@ -1,0 +1,221 @@
+{
+  "seoTitle": "Totem Arche en Carton | PLV Théâtralisation & Retail | KONTFEEL",
+  "seoDescription": "Théâtralisez votre point de vente avec nos arches en carton sur mesure. Fabrication française, montage rapide et design immersif. Devis sur mesure sous 24h.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem Arche en Carton : L'Atout Théâtralisation",
+      "subheading": "Créez une porte d'entrée immersive vers vos produits en magasin.",
+      "intro": "L'arche en carton est l'élément phare de la théâtralisation en point de vente. Elle délimite un espace, crée un parcours client captivant et booste la visibilité de vos opérations promotionnelles. Chez KONTFEEL, nous concevons des arches robustes, simples à monter et 100% personnalisables pour transformer votre rayonnage en véritable expérience de marque.",
+      "image": "/assets/produits/Totem-Arche-1170x780px-Kontfeel_1.jpg",
+      "imageAlt": "Arche événementielle en carton pour mise en avant magasin - KONTFEEL",
+      "badges": [
+        {
+          "text": "Sur mesure",
+          "green": false
+        },
+        {
+          "text": "Montage express",
+          "green": false
+        },
+        {
+          "text": "100% Recyclable",
+          "green": true
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌱 FSC®"
+        },
+        {
+          "label": "🇫🇷 Made in France"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "Consulter un expert",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "L'expertise KONTFEEL sur les arches publicitaires",
+      "content": "### Un impact visuel inégalé en Retail\n\nL'arche publicitaire agit comme un signal fort. Placée en tête de gondole ou à l'entrée d'un rayon, elle invite le consommateur à entrer dans l'univers de votre marque. Nos experts en design structurel travaillent sur la stabilité et la facilité de transport pour que vos équipes terrain puissent l'installer en moins de 10 minutes.\n\n### Technicité et matériaux\n\nNous utilisons principalement du carton double cannelure haute densité pour garantir une parfaite tenue dans le temps. L'arche peut être complétée par des totems latéraux ou des frontons découpés à la forme pour un effet 3D saisissant. L'impression numérique haute définition assure un rendu colorimétrique fidèle à votre charte graphique."
+    },
+    {
+      "_template": "eco_section",
+      "heading": "Une PLV responsable pour un impact durable",
+      "description": "Nous intégrons l'éco-conception dès la phase de design pour réduire l'empreinte carbone de vos campagnes.",
+      "image": "/assets/realisations/arches-en-carton-pour-mise-en-avant-magasin.jpg",
+      "imageAlt": "Arches en carton éco-conçues pour points de vente",
+      "arguments": [
+        {
+          "icon": "♻",
+          "title": "Recyclabilité totale",
+          "text": "Toutes nos arches sont fabriquées en monomatériau carton, facilitant le recyclage en fin de vie."
+        },
+        {
+          "icon": "📦",
+          "title": "Optimisation logistique",
+          "text": "Livrées à plat, nos arches minimisent les volumes transportés et donc les émissions de CO2."
+        },
+        {
+          "icon": "🌿",
+          "title": "Encre Base Eau",
+          "text": "Nous privilégions des encres sans solvants, respectueuses de l'environnement et de la santé."
+        }
+      ],
+      "certifs": [
+        {
+          "label": "Imprim'Vert",
+          "description": "Gestion rigoureuse des déchets et absence de produits toxiques."
+        },
+        {
+          "label": "FSC",
+          "description": "Carton issu de forêts gérées durablement."
+        }
+      ],
+      "cta": {
+        "label": "En savoir plus sur nos engagements",
+        "href": "/engagements/"
+      }
+    },
+    {
+      "_template": "comparison_table",
+      "heading": "Pourquoi choisir l'Arche Carton KONTFEEL ?",
+      "columns": [
+        {
+          "label": "Critère"
+        },
+        {
+          "label": "Arche KONTFEEL"
+        },
+        {
+          "label": "Arche Standard"
+        }
+      ],
+      "rows": [
+        {
+          "criterion": "Poids / Maniabilité",
+          "cells": [
+            {
+              "value": "Léger (Carton EB)"
+            },
+            {
+              "value": "Lourd (Bois/Plastique)"
+            }
+          ]
+        },
+        {
+          "criterion": "Temps de montage",
+          "cells": [
+            {
+              "value": "< 10 minutes"
+            },
+            {
+              "value": "30 à 60 minutes"
+            }
+          ]
+        },
+        {
+          "criterion": "Personnalisation",
+          "cells": [
+            {
+              "value": "Totale (forma/découpe)"
+            },
+            {
+              "value": "Standardisée"
+            }
+          ]
+        },
+        {
+          "criterion": "Fin de vie",
+          "cells": [
+            {
+              "value": "Bac de recyclage papier"
+            },
+            {
+              "value": "Déchetterie complexe"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_template": "faq",
+      "heading": "Questions fréquentes sur les arches en carton",
+      "items": [
+        {
+          "question": "Quelle est la durée de vie d'une arche en carton en magasin ?",
+          "answer": "Une arche bien conçue et installée en intérieur (mall, supermarché) a une durée de vie moyenne de 3 à 6 mois selon le passage. Pour des opérations de longue durée, nous recommandons un renfort en pied."
+        },
+        {
+          "question": "L'arche est-elle livrée avec un plan de montage ?",
+          "answer": "Oui, chaque arche est accompagnée d'une notice illustrée simplifiée. Nous pouvons également fournir un tuto vidéo par QR Code imprimé sur le carton pour faciliter la tâche du marchandiseur."
+        },
+        {
+          "question": "Est-il possible de faire une arche de plus de 2 mètres ?",
+          "answer": "Absolument. Nos machines de découpe grand format permettent de réaliser des structures allant jusqu'à 3 mètres de haut. La structure est alors segmentée pour rester transportable à plat."
+        }
+      ]
+    },
+    {
+      "_template": "testimonials",
+      "heading": "Ils ont théâtralisé leur rayon avec nos arches",
+      "subtitle": "Le retour d'expérience de nos clients sur l'impact des arches en carton.",
+      "items": [
+        {
+          "quote": "L'arche a créé un véritable tunnel d'achat dans notre rayon bio. +25% de ventes constatées sur les produits mis en avant pendant l'opération.",
+          "name": "Jean-Philippe R.",
+          "role": "Directeur de magasin - GMS"
+        },
+        {
+          "quote": "Une solution de théâtralisation bluffante. On craignait la complexité du montage, mais en 10 minutes, l'arche était en place et stable.",
+          "name": "Sandrine M.",
+          "role": "Trade Marketing Manager - Cosmétiques"
+        }
+      ]
+    },
+    {
+      "_template": "realizations",
+      "heading": "Nos dernières arches en situation",
+      "subtitle": "Découvrez comment nos clients utilisent l'arche pour leurs lancements.",
+      "items": [
+        {
+          "image": "/assets/realisations/arche-evenementielle.jpg",
+          "imageAlt": "Arche carton pour opération promotionnelle nationale",
+          "category": "Retail",
+          "heading": "Opération rentrée des classes",
+          "excerpt": "Déploiement de 200 arches sur mesure avec fronton découpé pour une grande marque de fournitures.",
+          "featured": true
+        },
+        {
+          "image": "/assets/realisations/arches-en-carton-pour-mise-en-avant-magasin.jpg",
+          "imageAlt": "Arche carton éco-conçue pour lancement produit",
+          "category": "Éco-conception",
+          "heading": "Lancement Gamme Verte",
+          "excerpt": "Arche 100% carton brut imprimé en une couleur pour souligner l'aspect naturel du produit.",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Prêt à transformer votre linéaire ?",
+      "body": "Nos experts vous accompagnent du design à la livraison sur site. Recevez votre étude de projet et devis gratuit sous 24h.",
+      "btnLabel": "Démarrer mon projet",
+      "btnHref": "/devis/"
+    }
+  ]
+}

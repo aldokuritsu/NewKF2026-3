@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* ── DESIGN TOKENS ── */
+:root {
+  --rose:        #E8467C;
+  --rose-light:  #FDF0F4;
+  --rose-dark:   #C73968;
+  --dark:        #1A1A2E;
+  --gray-900:    #2D2D3F;
+  --gray-700:    #4A4A5C;
+  --gray-500:    #7A7A8C;
+  --gray-300:    #B8B8C8;
+  --gray-100:    #F0F0F5;
+  --gray-50:     #F8F8FB;
+  --white:       #FFFFFF;
+  --green-badge: #E8F5E9;
+  --green-text:  #2E7D32;
+  --max-w:       1140px;
+  --radius:      12px;
+  --radius-sm:   8px;
+}
+
+/* ── BASE ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  color: var(--gray-700);
+  line-height: 1.7;
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ── BOUTONS GLOBAUX ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--rose);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .2s;
+}
+.btn-primary:hover { background: var(--rose-dark); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .2s;
+}
+.btn-secondary:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+}

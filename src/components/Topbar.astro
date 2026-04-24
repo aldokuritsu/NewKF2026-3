@@ -1,0 +1,82 @@
+---
+// Topbar — barre utilitaire présente sur toutes les pages
+// Liens transversaux hors-silo (ne participent pas au maillage du cocon)
+---
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <nav class="topbar-links" aria-label="Navigation utilitaire">
+      <a href="/realisations/">Réalisations PLV</a>
+      <a href="/blog-plv/">Blog PLV</a>
+      <a href="/devis/">Demande de devis</a>
+      <a href="/showroom-plv/">Showroom PLV</a>
+    </nav>
+    <div class="topbar-contact">
+      <a href="/contact/">Contactez-nous</a>
+      <span class="sep" aria-hidden="true">&nbsp;·&nbsp;</span>
+      <a href="tel:0278775393" class="phone">02 78 77 53 93</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .topbar {
+    background: var(--dark);
+    color: var(--gray-300);
+    font-size: 13px;
+    padding: 8px 0;
+  }
+
+  .topbar-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .topbar-links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .topbar-links a,
+  .topbar-contact a {
+    color: var(--gray-300);
+    text-decoration: none;
+    transition: color .15s;
+  }
+
+  .topbar-links a:hover,
+  .topbar-contact a:hover {
+    color: var(--white);
+  }
+
+  .topbar-contact {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .topbar-contact .sep {
+    color: var(--gray-500);
+  }
+
+  .phone {
+    font-weight: 600;
+    color: var(--white) !important;
+    letter-spacing: .02em;
+  }
+
+  @media (max-width: 640px) {
+    .topbar-links {
+      display: none;
+    }
+    .topbar-inner {
+      justify-content: flex-end;
+    }
+  }
+</style>

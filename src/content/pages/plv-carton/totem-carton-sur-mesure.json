@@ -1,0 +1,143 @@
+{
+  "seoTitle": "Totem Carton Sur Mesure | PLV Personnalisée & Design | KONTFEEL",
+  "seoDescription": "Créez un totem carton unique adapté à votre marque. Dimensions libres, découpes silhouettes et finitions premium. Fabrication française sur mesure.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem Carton Sur Mesure : Libérez votre Créativité",
+      "subheading": "De la silhouette découpée aux finitions luxe, donnez vie à vos idées.",
+      "intro": "Le totem carton sur mesure est l'outil ultime de différenciation en point de vente. Que vous ayez besoin d'une forme spécifique pour épouser le contour de votre produit ou d'un format monumental pour un salon professionnel, nos ingénieurs pack développent un gabarit unique pour votre projet. Alliez impact visuel et ingéniosité structurelle avec KONTFEEL.",
+      "image": "/assets/produits/totem-carton-sur-mesure.jpg",
+      "imageAlt": "Totem carton sur mesure avec découpe personnalisée - KONTFEEL",
+      "badges": [
+        {
+          "text": "Design sur mesure",
+          "green": false
+        },
+        {
+          "text": "Découpe laser/numérique",
+          "green": false
+        },
+        {
+          "text": "Certifié FSC",
+          "green": true
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌱 FSC®"
+        },
+        {
+          "label": "🇫🇷 Made in France"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Soumettre mon brief →",
+          "href": "/devis/",
+          "variant": "primary"
+        },
+        {
+          "label": "Appeler un designer",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "L'expertise KONTFEEL : Du concept à la réalité",
+      "content": "### Une conception sans limites de forme\n\nGrâce à nos tables de découpe numérique de dernière génération, nous nous affranchissons des contraintes des formes rectangulaires. Nous pouvons réaliser des totems en forme de flacons, de personnages ou de logos complexes. Cette personnalisation permet une immersion immédiate du consommateur dans votre univers de marque.\n\n### Finitions Premium et Matériaux\n\nLe sur-mesure, c'est aussi le choix des finitions. Vernis sélectif pour souligner un détail, pelliculage mat pour un rendu sobre et luxe, ou encore utilisation de cartons spécifiques (kraft, blanc couché, épaisseur renforcée). Nous vous conseillons sur le meilleur compromis entre esthétique et résistance selon la durée de votre campagne."
+    },
+    {
+      "_template": "eco_section",
+      "heading": "Éco-conception : Le sur-mesure intelligent",
+      "description": "Personnaliser votre totem, c'est aussi optimiser sa fabrication pour réduire les chutes de matière.",
+      "image": "/assets/images/02-Conception-Kontfeel.jpg",
+      "imageAlt": "Bureau d'études et conception éco-responsable KONTFEEL",
+      "arguments": [
+        {
+          "icon": "📐",
+          "title": "Imbrication optimisée",
+          "text": "Nos logiciels calculent le meilleur placement sur la plaque de carton pour minimiser les pertes (gâche)."
+        },
+        {
+          "icon": "📦",
+          "title": "Juste format",
+          "text": "Pas de sur-dimensionnement inutile : votre totem fait exactement la taille nécessaire pour votre message."
+        },
+        {
+          "icon": "🇫🇷",
+          "title": "Local & Durable",
+          "text": "Conception et fabrication réunies sur un seul site normand pour limiter l'empreinte carbone."
+        }
+      ],
+      "certifs": [
+        {
+          "label": "Imprim'Vert",
+          "description": "Zéro produit toxique dans nos procédés d'impression."
+        },
+        {
+          "label": "FSC",
+          "description": "Garantie de forêts préservées."
+        }
+      ],
+      "cta": {
+        "label": "Notre charte éco-conception",
+        "href": "/engagements/"
+      }
+    },
+    {
+      "_template": "realizations",
+      "heading": "Ils ont osé le sur-mesure",
+      "subtitle": "Découvrez des projets qui sortent de l'ordinaire.",
+      "items": [
+        {
+          "image": "/assets/realisations/theatralisation-magasin-avec-plvc-carton-sur-mesure.jpg",
+          "imageAlt": "Théâtralisation point de vente avec totem silhouette",
+          "category": "Retail Luxe",
+          "heading": "Lancement Parfum Premium",
+          "excerpt": "Réalisation d'un totem silhouette de 2m de haut avec finition pelliculage or mat pour un impact visuel saisissant.",
+          "featured": true
+        },
+        {
+          "image": "/assets/realisations/plv-vitrine-sur-les-champs-elysees.jpg",
+          "imageAlt": "PLV vitrine sur mesure Champs Élysées",
+          "category": "Vitrine",
+          "heading": "Opération Champs-Élysées",
+          "excerpt": "Série de totems sur mesure adaptés aux dimensions spécifiques des vitrines luxe de l'avenue.",
+          "featured": false
+        }
+      ]
+    },
+    {
+      "_template": "faq",
+      "heading": "Vos questions sur le sur-mesure",
+      "items": [
+        {
+          "question": "Quel est le minimum de commande pour du sur-mesure ?",
+          "answer": "Grâce à l'impression numérique, nous pouvons réaliser des projets sur mesure à partir de l'unité (pour des salons ou prototypes). Pour le déploiement réseau, nous optimisons les coûts dès 50 exemplaires."
+        },
+        {
+          "question": "Pouvez-vous créer un prototype avant la série ?",
+          "answer": "C'est une étape indispensable dans notre processus. Nous réalisons un prototype en 'blanc' (sans impression) pour valider la structure, puis un BAT (Bon À Tirer) couleur avant de lancer la production."
+        },
+        {
+          "question": "Quels fichiers dois-je fournir pour une forme spécifique ?",
+          "answer": "Un fichier vectoriel (AI ou PDF) avec un tracé de découpe dédié est l'idéal. Si vous n'en avez pas, notre studio graphique peut s'occuper de la création du gabarit."
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Votre projet mérite une étude unique",
+      "body": "Partagez votre idée ou vos contraintes techniques. Nos designers vous répondent avec une proposition concrète sous 24h.",
+      "btnLabel": "Démarrer mon projet sur mesure",
+      "btnHref": "/devis/"
+    }
+  ]
+}

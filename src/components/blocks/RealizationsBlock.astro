@@ -1,0 +1,332 @@
+---
+/**
+ * RealizationsBlock — Études de cas / réalisations PLV
+ * Audit :
+ * - "Enrichir la section 'Réalisations PLV' avec de véritables études de cas."
+ * - "Intégrer des études de cas détaillées avec les défis rencontrés et les solutions."
+ * - "Citer des chiffres concrets sur les projets."
+ * - "Mettre en avant une ou deux réalisations très récentes."
+ */
+
+interface Realisation {
+  image:       string
+  imageAlt?:   string
+  category:    string   // Ex : "Théâtralisation", "Événementielle", "PLV vitrine"
+  heading:     string   // H3 titre de l'étude de cas
+  excerpt:     string   // Résumé court (2-3 phrases)
+  client?:     string   // Nom du client (si publié)
+  stat?:       string   // Chiffre clé (ex : "+35% de conversion", "500 pièces")
+  href?:       string   // Lien vers l'étude de cas complète
+  featured?:   boolean  // Si true, affiche en grande carte
+  isNew?:      boolean  // Badge "Récent"
+}
+
+interface Props {
+  block: {
+    heading:    string
+    subtitle?:  string
+    items:      Realisation[]
+    ctaLabel?:  string
+    ctaHref?:   string
+  }
+}
+
+const { block } = Astro.props
+---
+
+<section class="realizations" id="realisations">
+  <div class="realizations__inner">
+
+    <div class="realizations__header">
+      <h2 class="realizations__heading">{block.heading}</h2>
+      {block.subtitle && (
+        <p class="realizations__subtitle">{block.subtitle}</p>
+      )}
+    </div>
+
+    <div class="realizations__grid">
+      {block.items.map(item => (
+        <article class:list={['realizations__card', { 'realizations__card--featured': item.featured }]}>
+
+          <a href={item.href ?? '#'} class="realizations__card-img-wrap" aria-label={`Voir la réalisation : ${item.heading}`} tabindex="-1">
+            <img
+              src={item.image}
+              alt={item.imageAlt ?? item.heading}
+              loading="lazy"
+              decoding="async"
+              class="realizations__card-img"
+              width="640"
+              height="420"
+            />
+            <div class="realizations__card-overlay" aria-hidden="true">
+              <span class="realizations__card-view-label">Voir le projet →</span>
+            </div>
+          </a>
+
+          <div class="realizations__card-body">
+
+            <div class="realizations__card-meta">
+              <span class="realizations__card-cat">{item.category}</span>
+              {item.isNew && (
+                <span class="realizations__card-new">Récent</span>
+              )}
+              {item.client && (
+                <span class="realizations__card-client">— {item.client}</span>
+              )}
+            </div>
+
+            <h3 class="realizations__card-heading">
+              {item.href
+                ? <a href={item.href}>{item.heading}</a>
+                : item.heading
+              }
+            </h3>
+
+            <p class="realizations__card-excerpt">{item.excerpt}</p>
+
+            {item.stat && (
+              <div class="realizations__card-stat">
+                <span class="realizations__card-stat-value">{item.stat}</span>
+              </div>
+            )}
+
+          </div>
+
+        </article>
+      ))}
+    </div>
+
+    {block.ctaHref && (
+      <div class="realizations__cta-wrap">
+        <a href={block.ctaHref} class="btn-secondary">
+          {block.ctaLabel ?? 'Voir toutes nos réalisations'}
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    )}
+
+  </div>
+</section>
+
+<style>
+  .realizations {
+    padding: 80px 24px;
+    background: var(--gray-50);
+  }
+
+  .realizations__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .realizations__header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .realizations__heading {
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -.02em;
+    margin: 0 0 14px;
+  }
+
+  .realizations__subtitle {
+    font-size: 17px;
+    color: var(--gray-500);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ── Grille ── */
+  .realizations__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* ── Carte featured ── */
+  .realizations__card--featured {
+    grid-column: span 2;
+  }
+
+  /* ── Carte ── */
+  .realizations__card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--gray-100);
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .2s, transform .2s;
+  }
+
+  .realizations__card:hover {
+    box-shadow: 0 12px 40px rgba(26, 26, 46, .10);
+    transform: translateY(-3px);
+  }
+
+  /* ── Image ── */
+  .realizations__card-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    display: block;
+    background: var(--gray-100);
+  }
+
+  .realizations__card--featured .realizations__card-img-wrap {
+    aspect-ratio: 16 / 9;
+  }
+
+  .realizations__card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+
+  .realizations__card:hover .realizations__card-img {
+    transform: scale(1.04);
+  }
+
+  .realizations__card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(26, 26, 46, .55) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .25s;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+  }
+
+  .realizations__card:hover .realizations__card-overlay {
+    opacity: 1;
+  }
+
+  .realizations__card-view-label {
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .02em;
+  }
+
+  /* ── Corps ── */
+  .realizations__card-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Meta ── */
+  .realizations__card-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .realizations__card-cat {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--rose);
+    background: var(--rose-light);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .realizations__card-new {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--green-badge);
+    color: var(--green-text);
+    letter-spacing: .04em;
+  }
+
+  .realizations__card-client {
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+
+  /* ── Heading ── */
+  .realizations__card-heading {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 10px;
+    line-height: 1.35;
+  }
+
+  .realizations__card-heading a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .realizations__card-heading a:hover {
+    color: var(--rose);
+  }
+
+  /* ── Excerpt ── */
+  .realizations__card-excerpt {
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.6;
+    margin: 0 0 16px;
+    flex: 1;
+  }
+
+  /* ── Stat ── */
+  .realizations__card-stat {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--gray-100);
+  }
+
+  .realizations__card-stat-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--rose);
+  }
+
+  /* ── CTA global ── */
+  .realizations__cta-wrap {
+    text-align: center;
+    margin-top: 48px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .realizations__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .realizations__card--featured {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .realizations__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .realizations__card--featured {
+      grid-column: span 1;
+    }
+  }
+</style>

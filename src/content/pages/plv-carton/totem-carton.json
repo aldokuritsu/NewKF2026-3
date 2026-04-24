@@ -1,0 +1,435 @@
+{
+  "seoTitle": "Totem carton personnalisable — Fabricant français | KONTFEEL",
+  "seoDescription": "Totem carton automatique, 3 faces, sur mesure ou biscotte. Fabrication française, carton recyclable FSC/PEFC, devis sous 24h. Kontfeel, fabricant en Normandie depuis 10 ans.",
+  "siloSlug": "plv-carton",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Totem carton",
+      "subheading": "La PLV verticale en carton personnalisable · Fabrication française · Devis sous 24h",
+      "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+      "imageAlt": "Totem publicitaire en carton elliptique en point de vente GMS",
+      "badges": [
+        {
+          "text": "Carton 100 % recyclable",
+          "green": true
+        },
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "certifs": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌲 FSC"
+        },
+        {
+          "label": "🌿 PEFC"
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "#devis",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "products_grid",
+      "heading": "Notre gamme de totems carton",
+      "subtitle": "Quatre modèles adaptés à chaque usage — tous personnalisables à votre image.",
+      "products": [
+        {
+          "title": "Totem carton automatique",
+          "image": "/assets/images/slide-new.jpg",
+          "imageAlt": "Totem carton automatique elliptique en point de vente",
+          "tag": "Best-seller",
+          "description": "Système auto-déployant, 2 faces elliptiques, 500 × 1 900 mm. Montage sans outil en moins de 30 secondes. Option porte-flyers intégré. Idéal pour les déploiements en réseau (pharmacies, GMS, parapharmacie).",
+          "href": "/plv-carton/totem-carton-automatique/",
+          "specs": [
+            {
+              "text": "Auto-déployant"
+            },
+            {
+              "text": "2 faces elliptiques"
+            },
+            {
+              "text": "Porte-flyers en option"
+            },
+            {
+              "text": "Carton recyclable"
+            }
+          ]
+        },
+        {
+          "title": "Totem automatique sur mesure",
+          "image": "/assets/solutions/Solutions-PLV-Kontfeel.jpg",
+          "imageAlt": "Totem carton sur mesure avec découpe silhouette",
+          "description": "Découpe libre, impression offset quadri, finitions spéciales (vernis sélectif, pelliculage mat ou brillant). Gabarit sur mesure à partir de votre brief créatif. Idéal pour les lancements produit et les salons.",
+          "href": "/plv-carton/totem-carton-sur-mesure/",
+          "specs": [
+            {
+              "text": "Découpe libre"
+            },
+            {
+              "text": "Impression offset"
+            },
+            {
+              "text": "Vernis / pelliculage"
+            },
+            {
+              "text": "Sur devis"
+            }
+          ]
+        },
+        {
+          "title": "Totem 3 faces en carton",
+          "image": "/assets/realisations/arches-en-carton-pour-mise-en-avant-magasin.jpg",
+          "imageAlt": "Totem carton 3 faces triangulaire visibilité 360°",
+          "description": "Structure triangulaire, 3 panneaux à 120°, visibilité 360° depuis l'allée centrale. Base stable auto-verrouillante. La solution de référence pour les cœurs de rayon et les salons professionnels.",
+          "href": "/plv-carton/totem-carton-3-faces/",
+          "specs": [
+            {
+              "text": "Visibilité 360°"
+            },
+            {
+              "text": "3 faces d'affichage"
+            },
+            {
+              "text": "Base triangulaire stable"
+            }
+          ]
+        },
+        {
+          "title": "Totem biscotte carton",
+          "image": "/assets/realisations/theatralisation-magasin-avec-plvc-carton-sur-mesure.jpg",
+          "imageAlt": "Totem biscotte carton format compact entrée magasin",
+          "description": "Face avant plane rectangulaire, format compact pour entrée de magasin, comptoir ou îlot. Socle renforcé, porte-flyers + pochette intégrés. La solution économique pour les opérations courtes.",
+          "href": "/plv-carton/totem-carton-biscotte/",
+          "specs": [
+            {
+              "text": "Face plane large"
+            },
+            {
+              "text": "Format compact"
+            },
+            {
+              "text": "Porte-flyers + pochette"
+            },
+            {
+              "text": "100 % recyclable"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_template": "comparison_table",
+      "heading": "Quel totem carton choisir ?",
+      "subtitle": "Comparez les caractéristiques de nos quatre modèles",
+      "columns": [
+        {
+          "label": "Automatique"
+        },
+        {
+          "label": "Sur mesure"
+        },
+        {
+          "label": "3 faces"
+        },
+        {
+          "label": "Biscotte"
+        }
+      ],
+      "rows": [
+        {
+          "criterion": "Montage",
+          "cells": [
+            {
+              "value": "Auto-déployant ✓"
+            },
+            {
+              "value": "Manuel (notice)"
+            },
+            {
+              "value": "Manuel simple"
+            },
+            {
+              "value": "Manuel simple"
+            }
+          ]
+        },
+        {
+          "criterion": "Forme",
+          "cells": [
+            {
+              "value": "Elliptique"
+            },
+            {
+              "value": "Libre"
+            },
+            {
+              "value": "Triangulaire"
+            },
+            {
+              "value": "Rectangulaire"
+            }
+          ]
+        },
+        {
+          "criterion": "Faces d'affichage",
+          "cells": [
+            {
+              "value": "2"
+            },
+            {
+              "value": "2 à 4"
+            },
+            {
+              "value": "3"
+            },
+            {
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "criterion": "Personnalisation",
+          "cells": [
+            {
+              "value": "Visuels, hauteur, finitions"
+            },
+            {
+              "value": "Forme, taille, vernis, pelliculage"
+            },
+            {
+              "value": "Hauteur, forme, visuels"
+            },
+            {
+              "value": "Découpe, porte-flyers, pochette"
+            }
+          ]
+        },
+        {
+          "criterion": "Usage principal",
+          "cells": [
+            {
+              "value": "Promo réseau, pharmacie, GMS"
+            },
+            {
+              "value": "Lancement produit, salon"
+            },
+            {
+              "value": "Allée centrale, salon pro"
+            },
+            {
+              "value": "Entrée magasin, comptoir, îlot"
+            }
+          ]
+        },
+        {
+          "criterion": "Carton",
+          "cells": [
+            {
+              "value": "Micro-cannelure recyclable"
+            },
+            {
+              "value": "Au choix selon brief"
+            },
+            {
+              "value": "Micro-cannelure recyclable"
+            },
+            {
+              "value": "100 % recyclable"
+            }
+          ]
+        },
+        {
+          "criterion": "Option porte-flyers",
+          "cells": [
+            {
+              "value": "✓"
+            },
+            {
+              "value": "Sur demande"
+            },
+            {
+              "value": "—"
+            },
+            {
+              "value": "✓"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_template": "eco_section",
+      "eyebrow": "Engagement environnemental",
+      "heading": "Une PLV éco-responsable",
+      "description": "Nos totems carton sont conçus pour minimiser leur impact environnemental à chaque étape — matière, impression, emballage et fin de vie.",
+      "image": "/assets/solutions/Solutions-PLV-Kontfeel.jpg",
+      "imageAlt": "Solutions PLV éco-responsables KONTFEEL",
+      "cta": {
+        "label": "Notre démarche RSE →",
+        "href": "/plv-carton/"
+      },
+      "arguments": [
+        {
+          "text": "Micro-cannelure et double-cannelure issus de forêts gérées durablement (FSC / PEFC). Recyclables en filière papier-carton standard après la campagne."
+        },
+        {
+          "text": "Impression quadri avec encres à base végétale, sans solvants nocifs. Certification Imprim'Vert sur l'ensemble de nos productions."
+        },
+        {
+          "text": "Le totem automatique se plie à plat pour le transport — volume réduit, émissions logistiques minimisées, stockage simplifié pour vos équipes terrain."
+        }
+      ],
+      "certifications": [
+        {
+          "label": "♻ Imprim'Vert"
+        },
+        {
+          "label": "🌲 FSC"
+        },
+        {
+          "label": "🌿 PEFC"
+        }
+      ]
+    },
+    {
+      "_template": "testimonials",
+      "heading": "Ce que nos clients en disent",
+      "subtitle": "Des marques de tous secteurs nous font confiance pour leurs opérations PLV en point de vente.",
+      "items": [
+        {
+          "quote": "Le totem automatique nous a permis de déployer notre campagne dans 150 pharmacies en une semaine. Le montage sans outil a été décisif pour nos équipes terrain.",
+          "name": "Sophie L.",
+          "role": "Responsable trade marketing — Secteur santé"
+        },
+        {
+          "quote": "La qualité d'impression et la robustesse du carton ont surpris nos équipes. Le totem 3 faces a parfaitement tenu pendant les 4 jours du salon, malgré le trafic intense.",
+          "name": "Marc B.",
+          "role": "Directeur commercial — Secteur agroalimentaire"
+        },
+        {
+          "quote": "Notre totem sur mesure avec découpe silhouette a généré un vrai effet waouh lors du lancement en librairie. KONTFEEL a su traduire notre brief créatif à la perfection.",
+          "name": "Claire D.",
+          "role": "Cheffe de projet marketing — Secteur édition"
+        }
+      ]
+    },
+    {
+      "_template": "realizations",
+      "heading": "Réalisations — Totems carton",
+      "subtitle": "Des exemples concrets déployés pour nos clients en point de vente et en salon.",
+      "items": [
+        {
+          "image": "/assets/realisations/plv-vitrine-sur-les-champs-elysees.jpg",
+          "imageAlt": "Totem sur mesure luxe — PLV Vitrine sur les Champs-Élysées",
+          "category": "Luxe · Vitrine",
+          "heading": "PLV Vitrine sur les Champs-Élysées",
+          "excerpt": "Totem sur mesure avec découpe silhouette et finition vernis sélectif UV. Déploiement dans 12 boutiques premium.",
+          "featured": true,
+          "isNew": false
+        },
+        {
+          "image": "/assets/realisations/arche-evenementielle.jpg",
+          "imageAlt": "Campagne nationale — Totem automatique déployé dans 150 points de vente",
+          "category": "Agroalimentaire · GMS",
+          "heading": "Campagne nationale × 150 points de vente",
+          "excerpt": "Totem automatique elliptique. Montage sans outil, déploiement réalisé par les équipes terrain en 3 jours.",
+          "featured": false,
+          "isNew": false
+        },
+        {
+          "image": "/assets/realisations/shop-in-shop-avec-de-la-plv.jpg",
+          "imageAlt": "Salon professionnel — Totem 3 faces stand 18m²",
+          "category": "B2B · Salon professionnel",
+          "heading": "Salon professionnel agroalimentaire",
+          "excerpt": "Totem 3 faces en carton sur un stand 18 m². Robustesse maintenue sur 4 jours à fort trafic.",
+          "featured": false,
+          "isNew": false
+        }
+      ]
+    },
+    {
+      "_template": "client_logos",
+      "eyebrow": "Ils nous font confiance",
+      "subtitle": "Marques et enseignes qui ont déployé nos totems carton en point de vente",
+      "logos": [
+        {
+          "image": "/assets/logo-region-normandie.png",
+          "alt": "Région Normandie"
+        },
+        {
+          "text": "BONDUELLE"
+        },
+        {
+          "text": "L'ORÉAL"
+        },
+        {
+          "text": "NESTLÉ"
+        },
+        {
+          "text": "ACOVA"
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Totem carton en GMS : les 4 facteurs techniques qui font la différence en campagne",
+      "content": "Un totem carton en point de vente grande distribution est soumis à des contraintes que les briefs marketing oublient souvent : manipulations quotidiennes par les équipes de rayon, variations d'hygrométrie, refus possible en quai de réception. Voici les quatre leviers techniques sur lesquels nous travaillons systématiquement avec nos clients.\n\n### 1. La stabilité mécanique : carton double-cannelure et base lestée\n\nLa cannelure simple BC suffit pour les opérations courtes en environnement sec. Pour les déploiements de 4 à 6 semaines ou dans les allées de forte fréquentation, nous préconisons un fût en double-cannelure BC avec un système de verrouillage interne. Sur un projet récent en réseau GMS de 1 200 points de vente, cette approche a réduit le taux de sinistre de 18 % à 2,1 %.\n\n### 2. La hiérarchie visuelle : 3 niveaux de lecture selon la distance\n\nUne PLV verticale doit fonctionner à trois distances : accrocher à 4–5 m (nom de marque, couleur identitaire), délivrer le message à 1,5–2 m (bénéfice produit, visuel) et convaincre à moins d'1 m (détail, prix, appel à l'action). Nous construisons la maquette avec cette grille de lecture avant toute mise en page pour éviter la surcharge infographique que nos clients apportent trop souvent.\n\n### 3. La réception enseigne : anticiper les critères avant la livraison\n\nChaque enseigne impose son propre protocole de réception : conditionnement en étui, étiquetage EAN, fiche de montage illustrée en 4 étapes maximum. Sur un lancement beauté en réseau parapharmacie (340 points de vente), le fait d'intégrer ces contraintes dès la conception a permis un taux d'installation à J+2 de 91 %, sans aucun refus en quai.\n\n### 4. La durée de vie réelle vs la durée de campagne\n\nUn pelliculage mat ou brillant prolonge la durée de vie d'un totem carton de 30 à 50 %. Dans les zones à fort taux d'humidité (boulangerie, jardinerie, rayon frais), un traitement hydrofuge est indispensable. Nous documentons chaque choix matière dans une fiche technique livrée avec la commande — un élément clé pour les acheteurs qui pilotent leurs coûts de PLV sur la durée."
+    },
+    {
+      "_template": "faq",
+      "heading": "Questions fréquentes sur le totem carton",
+      "items": [
+        {
+          "question": "Pourquoi choisir un totem en carton plutôt qu'un roll-up ou un kakémono ?",
+          "answer": "Le totem carton offre une surface d'expression verticale plus grande (jusqu'à 2 m de hauteur), une impression 360° possible sur le modèle 3 faces, et un coût unitaire inférieur pour des volumes moyens (50 à 500 pièces). Contrairement au roll-up, il ne nécessite pas de pied métallique séparé : le carton se déploie et se tient seul. C'est aussi la solution la plus cohérente avec un engagement RSE, car recyclable en filière papier-carton standard."
+        },
+        {
+          "question": "Quelles sont les possibilités de personnalisation d'un totem carton ?",
+          "answer": "Nous personnalisons la forme (découpée à la silhouette de votre produit ou de votre mascotte), les dimensions (de 0,80 m à 2,50 m de hauteur), l'impression (quadri 4 couleurs, jusqu'à 6 couleurs sur demande) et les finitions (vernis sélectif UV, pelliculage mat ou brillant, dorure à chaud). Des accessoires peuvent être intégrés : porte-flyers, pochette, écran vidéo pour les modèles PLV digitale."
+        },
+        {
+          "question": "Quelle est la durée de vie réelle d'un totem carton Kontfeel en magasin ?",
+          "answer": "Avec notre carton micro-cannelure traité, comptez 4 à 6 semaines en conditions normales intérieur. En double-cannelure BC avec pelliculage, cette durée monte à 8 à 10 semaines. Pour les environnements humides (jardinerie, rayon frais), un traitement hydrofuge supplémentaire est disponible. En fin de campagne, le totem est recyclable en filière papier-carton standard."
+        },
+        {
+          "question": "Quel type de carton utilisez-vous et quelle est sa provenance ?",
+          "answer": "Nous utilisons principalement du carton micro-cannelure (épaisseur 2,5 mm) et du double-cannelure BC (épaisseur 5 mm), tous issus de forêts gérées durablement, certifiés FSC et PEFC. L'impression est réalisée avec des encres à base végétale sous certification Imprim'Vert. Chaque référence est documentée dans une fiche matière téléchargeable sur demande."
+        },
+        {
+          "question": "Quels sont les délais de fabrication et livraison ?",
+          "answer": "Le devis est retourné sous 24 à 48h. Après validation du BAT, la production prend 10 à 15 jours ouvrés pour une commande standard. Un service express (48h) est disponible pour les modèles standards en stock. Nous livrons en France métropolitaine et dans l'Union Européenne, avec possibilité de livraison multi-points sur votre réseau de distribution."
+        },
+        {
+          "question": "Comment monter un totem en carton automatique ?",
+          "answer": "Le totem automatique se déploie sans outil en moins de 30 secondes : sortez-le de son emballage, tenez-le à la verticale et relâchez — la structure s'ouvre d'elle-même. Aucune compétence particulière n'est requise, ce qui en fait la solution idéale pour les déploiements par les équipes terrain ou les revendeurs. Une fiche de montage illustrée est fournie avec chaque commande."
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet de totem carton ? Obtenez votre devis sous 24h.",
+      "body": "Interlocuteur unique de la conception à la livraison. Fabrication française, carton certifié FSC/PEFC.",
+      "btnLabel": "Demander un devis gratuit →",
+      "btnHref": "#devis"
+    }
+  ]
+}

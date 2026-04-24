@@ -1,0 +1,294 @@
+---
+/**
+ * SolutionsGridBlock — Grille des 6 familles de solutions
+ * Remplace la section "le marketing point de vente" avec des titres
+ * orientés bénéfices (recommandation audit : titres H3 informatifs).
+ *
+ * Chaque carte comporte : icône SVG inline, titre H3, description,
+ * liste de produits-phares et un lien "Découvrir".
+ */
+
+interface Solution {
+  icon?:        string                  // Emoji ou chaîne texte courte (ex : "📦")
+  image?:       string                  // Image de couverture (optionnel, remplace l'icône)
+  imageAlt?:    string                  // Alt de l'image
+  heading:      string                  // H3 — orienté bénéfice
+  description:  string                  // Phrase résumant la valeur pour le client
+  products?:    Array<{ text: string }> // 3-4 produits phares (format TinaCMS)
+  href:         string                  // Lien vers la page silo
+  tag?:         string                  // Badge optionnel (ex : "Nouveau", "★ Populaire")
+}
+
+interface Props {
+  block: {
+    heading:   string
+    subtitle?: string
+    solutions: Solution[]
+    linkLabel?: string  // Libellé par défaut du lien (ex : "Découvrir")
+  }
+}
+
+const { block } = Astro.props
+const linkLabel = block.linkLabel ?? 'Découvrir'
+---
+
+<section class="solutions-grid" id="solutions">
+  <div class="solutions-grid__inner">
+
+    <div class="solutions-grid__header">
+      <h2 class="solutions-grid__heading">{block.heading}</h2>
+      {block.subtitle && (
+        <p class="solutions-grid__subtitle">{block.subtitle}</p>
+      )}
+    </div>
+
+    <div class="solutions-grid__cards">
+      {block.solutions.map(s => (
+        <a href={s.href} class="solutions-card" aria-label={`En savoir plus — ${s.heading}`}>
+          {s.tag && (
+            <span class="solutions-card__tag">{s.tag}</span>
+          )}
+
+          {/* Image de couverture (si disponible) */}
+          {s.image && (
+            <div class="solutions-card__cover">
+              <img
+                src={s.image}
+                alt={s.imageAlt ?? s.heading}
+                loading="lazy"
+                decoding="async"
+                class="solutions-card__cover-img"
+                width="400"
+                height="220"
+              />
+            </div>
+          )}
+
+          {/* Corps de la carte */}
+          <div class="solutions-card__body">
+            {!s.image && (
+              <div class="solutions-card__icon" aria-hidden="true">
+                {s.icon ?? '◆'}
+              </div>
+            )}
+
+            <h3 class="solutions-card__heading">{s.heading}</h3>
+            <p class="solutions-card__desc">{s.description}</p>
+
+            {s.products && s.products.length > 0 && (
+              <ul class="solutions-card__products" aria-label="Produits phares">
+                {s.products.map(p => (
+                  <li>{typeof p === 'string' ? p : p.text}</li>
+                ))}
+              </ul>
+            )}
+
+            <span class="solutions-card__link">
+              {linkLabel}
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .solutions-grid {
+    padding: 80px 24px;
+    background: var(--gray-50);
+  }
+
+  .solutions-grid__inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .solutions-grid__header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .solutions-grid__heading {
+    font-size: clamp(26px, 3.5vw, 38px);
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -.02em;
+    margin: 0 0 14px;
+  }
+
+  .solutions-grid__subtitle {
+    font-size: 17px;
+    color: var(--gray-500);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.65;
+  }
+
+  /* ── Grille de cartes ── */
+  .solutions-grid__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* ── Carte ── */
+  .solutions-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 0;
+    text-decoration: none;
+    transition: all .22s ease;
+    overflow: hidden;
+  }
+
+  /* ── Image de couverture ── */
+  .solutions-card__cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--gray-50);
+    flex-shrink: 0;
+  }
+
+  .solutions-card__cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+
+  .solutions-card:hover .solutions-card__cover-img {
+    transform: scale(1.04);
+  }
+
+  /* ── Corps de la carte (wrapper avec padding) ── */
+  .solutions-card__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 24px 28px 28px;
+  }
+
+  .solutions-card__icon {
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .solutions-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--rose);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .22s ease;
+  }
+
+  .solutions-card:hover {
+    border-color: transparent;
+    box-shadow: 0 12px 40px rgba(26, 26, 46, .10);
+    transform: translateY(-3px);
+  }
+
+  .solutions-card:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ── Badge tag ── */
+  .solutions-card__tag {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--rose-light);
+    color: var(--rose);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+
+  /* ── Heading ── */
+  .solutions-card__heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 0 0 10px;
+    line-height: 1.3;
+  }
+
+  /* ── Description ── */
+  .solutions-card__desc {
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.6;
+    margin: 0 0 16px;
+    flex: 1;
+  }
+
+  /* ── Produits phares ── */
+  .solutions-card__products {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .solutions-card__products li {
+    font-size: 12px;
+    padding: 3px 10px;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 100px;
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+
+  /* ── Lien ── */
+  .solutions-card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rose);
+    margin-top: auto;
+    transition: gap .2s;
+  }
+
+  .solutions-card:hover .solutions-card__link {
+    gap: 10px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .solutions-grid__cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .solutions-grid__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

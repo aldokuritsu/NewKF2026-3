@@ -1,9 +1,9 @@
 ---
 /**
- * BlockRenderer — Dispatch les blocs TinaCMS vers les bons composants Astro.
+ * BlockRenderer — Dispatch les blocs Sveltia CMS vers les bons composants Astro.
  *
- * Chaque bloc possède un champ _template (JSON) ou __typename (GraphQL)
- * qui identifie son type. Ce composant fait le mapping → composant.
+ * Chaque bloc possède un champ _template (JSON) qui identifie son type.
+ * Ce composant fait le mapping → composant.
  *
  * Collections couvertes :
  *  - home_page   (blocs spécifiques home)
@@ -32,7 +32,7 @@ import RealizationsBlock    from './RealizationsBlock.astro'
 import ComparisonTableBlock from './ComparisonTableBlock.astro'
 
 interface Props {
-  blocks: any[]   // typed après regeneration du client TinaCMS
+  blocks: any[]
 }
 
 const { blocks = [] } = Astro.props

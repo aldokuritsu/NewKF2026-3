@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="Paiement annulé — Kontfeel"
+  description="Le paiement Stripe a été annulé."
+>
+  <main class="mx-auto max-w-2xl px-6 py-20">
+    <div class="rounded-2xl border border-amber-200 bg-amber-50 p-8">
+      <p class="text-xs uppercase tracking-widest text-amber-800">
+        Paiement annulé
+      </p>
+      <h1 class="mt-2 text-3xl font-semibold text-amber-900">
+        Aucun paiement n'a été effectué
+      </h1>
+      <p class="mt-3 text-amber-900">
+        Vous avez quitté la page Stripe Checkout avant de finaliser le paiement.
+        Vous pouvez relancer le test à tout moment.
+      </p>
+    </div>
+
+    <a
+      href="/test-stripe"
+      class="mt-8 inline-block rounded-md bg-neutral-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-neutral-700"
+    >
+      Reprendre le test
+    </a>
+  </main>
+</BaseLayout>

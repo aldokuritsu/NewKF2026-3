@@ -398,6 +398,85 @@ collections:
       - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
       - *blocks_field
 
+  # ── Produits (catalogue Stripe Checkout) ──────────────────────
+  - name: products
+    label: Produits
+    label_singular: Produit
+    folder: src/content/products
+    format: json
+    extension: json
+    create: true
+    slug: "{{slug}}"
+    identifier_field: name
+    fields:
+      - { name: name,             label: Nom du produit,       widget: string }
+      - { name: shortDescription, label: Description courte,   widget: text }
+      - { name: description,      label: Description complète, widget: text }
+      - name: price
+        label: Prix TTC (€)
+        widget: number
+        value_type: float
+        step: 0.01
+        min: 0
+        hint: "Prix en euros, virgule autorisée. Ex : 89.90"
+      - name: currency
+        label: Devise
+        widget: select
+        options: [eur, usd, gbp, chf]
+        default: eur
+      - { name: image,    label: Image principale, widget: image }
+      - { name: imageAlt, label: Texte alt image,  widget: string, required: false }
+      - name: specs
+        label: Spécifications
+        widget: list
+        required: false
+        summary: "{{fields.label}} — {{fields.value}}"
+        fields:
+          - { name: label, label: Libellé, widget: string }
+          - { name: value, label: Valeur,  widget: string }
+      - name: variants
+        label: Variantes (choix unique)
+        widget: list
+        required: false
+        summary: "{{fields.label}} — {{fields.price}} €"
+        hint: "Si défini, le client doit choisir une variante. Son prix remplace le prix de base."
+        fields:
+          - { name: id,    label: ID interne, widget: string, hint: "Sans espace, ex : h180" }
+          - { name: label, label: Libellé,    widget: string }
+          - name: price
+            label: Prix TTC (€)
+            widget: number
+            value_type: float
+            step: 0.01
+            min: 0
+          - { name: default, label: Par défaut, widget: boolean, default: false, required: false }
+      - name: options
+        label: Options additionnelles (multi-choix)
+        widget: list
+        required: false
+        summary: "{{fields.label}} — +{{fields.price}} €"
+        hint: "Le client peut cocher plusieurs options. Chaque option ajoute son surcoût."
+        fields:
+          - { name: id,    label: ID interne, widget: string, hint: "Sans espace, ex : pelliculage" }
+          - { name: label, label: Libellé,    widget: string }
+          - name: price
+            label: Surcoût TTC (€)
+            widget: number
+            value_type: float
+            step: 0.01
+            min: 0
+      - name: shippingCountries
+        label: Pays de livraison (codes ISO)
+        widget: list
+        required: false
+        default: ["FR", "BE", "CH", "LU"]
+        summary: "{{fields.code}}"
+        field: { name: code, label: Code pays, widget: string }
+      - name: active
+        label: Produit actif (achetable)
+        widget: boolean
+        default: true
+
   # ── Articles (Markdown) ───────────────────────────────────────
   - name: posts
     label: Articles

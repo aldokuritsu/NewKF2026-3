@@ -1,0 +1,28 @@
+{
+  "name": "Totem PLV carton",
+  "shortDescription": "Totem promotionnel en carton recyclé, hauteur configurable, impression quadri haute définition.",
+  "description": "Totem PLV en carton automatique, monté en moins de 30 secondes sans outil. Surface d'impression sur 4 faces pour une visibilité maximale en magasin, salon ou animation commerciale. Carton recyclé 700 g/m², 100 % recyclable, FSC. Idéal pour théâtralisation de point de vente, lancement produit ou shop-in-shop. Modèle test pour démonstration Stripe Checkout — la commande passée n'est pas honorée.",
+  "price": 89.90,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-1170x780-Kontfeel-1_1.jpg",
+  "imageAlt": "Totem PLV carton personnalisable — Kontfeel",
+  "specs": [
+    { "label": "Section", "value": "30 × 30 cm" },
+    { "label": "Matière", "value": "Carton recyclé 700 g/m² (FSC)" },
+    { "label": "Impression", "value": "Quadri HD" },
+    { "label": "Montage", "value": "Automatique, sans outil" }
+  ],
+  "variants": [
+    { "id": "h120", "label": "Hauteur 120 cm", "price": 69.90 },
+    { "id": "h150", "label": "Hauteur 150 cm", "price": 79.90 },
+    { "id": "h180", "label": "Hauteur 180 cm", "price": 89.90, "default": true },
+    { "id": "h200", "label": "Hauteur 200 cm", "price": 109.90 }
+  ],
+  "options": [
+    { "id": "print4", "label": "Impression sur 4 faces (au lieu de 2)", "price": 25.00 },
+    { "id": "lamination", "label": "Pelliculage mat anti-rayures", "price": 18.00 },
+    { "id": "express", "label": "Délai express (5 jours ouvrés)", "price": 35.00 }
+  ],
+  "shippingCountries": ["FR", "BE", "CH", "LU"],
+  "active": true
+}

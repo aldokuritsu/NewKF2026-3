@@ -1,0 +1,229 @@
+---
+import { getEntry } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const PRODUCT_SLUG = 'totem-carton-180'
+const entry = await getEntry('products', PRODUCT_SLUG)
+
+if (!entry) {
+  throw new Error(`Produit introuvable : ${PRODUCT_SLUG}`)
+}
+
+const product = entry.data
+
+const fmt = (amount: number) => new Intl.NumberFormat('fr-FR', {
+  style: 'currency',
+  currency: product.currency,
+}).format(amount)
+
+const defaultVariant =
+  product.variants?.find((v) => v.default) ??
+  product.variants?.[0] ??
+  null
+
+const initialPrice = defaultVariant?.price ?? product.price
+
+const productJson = JSON.stringify({
+  variants: product.variants ?? [],
+  options: product.options ?? [],
+  basePrice: product.price,
+  currency: product.currency,
+})
+---
+
+<BaseLayout
+  title={`${product.name} — Test Stripe`}
+  description="Page de démonstration interne pour tester l'intégration Stripe Checkout."
+>
+  <main class="mx-auto max-w-5xl px-6 py-16">
+    <p class="mb-2 text-xs uppercase tracking-widest text-neutral-500">
+      Page de test interne · non indexée · slug : {PRODUCT_SLUG}
+    </p>
+    <h1 class="text-3xl font-semibold text-neutral-900">Stripe Checkout — produit configurable</h1>
+    <p class="mt-2 text-neutral-600">
+      Variantes et options lues depuis <code class="rounded bg-neutral-100 px-1.5 py-0.5 text-xs">src/content/products/{PRODUCT_SLUG}.json</code>.
+      Le prix est recalculé en direct, et chaque option apparaît comme une ligne séparée dans le panier Stripe.
+    </p>
+
+    <section class="mt-10 grid gap-10 rounded-2xl border border-neutral-200 bg-white p-8 lg:grid-cols-[1fr_1.1fr]">
+      <div class="overflow-hidden rounded-xl bg-neutral-100">
+        <img
+          src={product.image}
+          alt={product.imageAlt ?? product.name}
+          class="h-full w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="flex flex-col">
+        <h2 class="text-2xl font-semibold text-neutral-900">{product.name}</h2>
+        <p class="mt-3 text-neutral-600">{product.shortDescription}</p>
+
+        {product.specs && product.specs.length > 0 && (
+          <dl class="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 border-t border-neutral-200 pt-6 text-sm">
+            {product.specs.map((spec) => (
+              <div>
+                <dt class="text-neutral-500">{spec.label}</dt>
+                <dd class="font-medium text-neutral-900">{spec.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        {product.variants && product.variants.length > 0 && (
+          <fieldset class="mt-6 border-t border-neutral-200 pt-6">
+            <legend class="text-sm font-medium text-neutral-900">Hauteur</legend>
+            <div class="mt-3 grid grid-cols-2 gap-2">
+              {product.variants.map((variant) => (
+                <label class="cursor-pointer">
+                  <input
+                    type="radio"
+                    name="variant"
+                    value={variant.id}
+                    data-price={variant.price}
+                    checked={variant.id === defaultVariant?.id}
+                    class="peer sr-only"
+                  />
+                  <span class="flex items-center justify-between rounded-md border border-neutral-300 px-4 py-3 text-sm transition peer-checked:border-neutral-900 peer-checked:bg-neutral-900 peer-checked:text-white">
+                    <span>{variant.label}</span>
+                    <span class="font-medium">{fmt(variant.price)}</span>
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        )}
+
+        {product.options && product.options.length > 0 && (
+          <fieldset class="mt-6 border-t border-neutral-200 pt-6">
+            <legend class="text-sm font-medium text-neutral-900">Options</legend>
+            <div class="mt-3 space-y-2">
+              {product.options.map((option) => (
+                <label class="flex cursor-pointer items-center justify-between rounded-md border border-neutral-200 px-4 py-3 text-sm hover:border-neutral-400">
+                  <span class="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      name="option"
+                      value={option.id}
+                      data-price={option.price}
+                      class="h-4 w-4 rounded border-neutral-300"
+                    />
+                    {option.label}
+                  </span>
+                  <span class="font-medium text-neutral-700">+{fmt(option.price)}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        )}
+
+        <div class="mt-6 flex items-center gap-3 border-t border-neutral-200 pt-6">
+          <label for="qty" class="text-sm text-neutral-700">Quantité</label>
+          <input
+            id="qty"
+            type="number"
+            min="1"
+            max="99"
+            value="1"
+            class="w-20 rounded-md border border-neutral-300 px-3 py-2 text-sm"
+          />
+        </div>
+
+        <div class="mt-6 flex items-baseline justify-between rounded-md bg-neutral-50 px-4 py-3">
+          <span class="text-sm text-neutral-600">Total TTC</span>
+          <span id="price-total" class="text-2xl font-semibold text-neutral-900">{fmt(initialPrice)}</span>
+        </div>
+
+        <button
+          id="checkout-btn"
+          data-slug={PRODUCT_SLUG}
+          class="mt-4 inline-flex items-center justify-center rounded-md bg-neutral-900 px-6 py-3 font-medium text-white transition hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          Payer avec Stripe
+        </button>
+
+        <p id="checkout-status" class="mt-3 hidden text-sm text-red-600"></p>
+
+        <details class="mt-8 rounded-md border border-neutral-200 bg-neutral-50 p-4 text-sm">
+          <summary class="cursor-pointer font-medium text-neutral-700">Cartes de test Stripe</summary>
+          <ul class="mt-3 space-y-1 text-neutral-600">
+            <li>Succès : <code class="rounded bg-white px-1 py-0.5">4242 4242 4242 4242</code></li>
+            <li>3D Secure : <code class="rounded bg-white px-1 py-0.5">4000 0027 6000 3184</code></li>
+            <li>Refus solde : <code class="rounded bg-white px-1 py-0.5">4000 0000 0000 9995</code></li>
+            <li class="text-xs text-neutral-500">Date future quelconque · CVC quelconque · code postal quelconque.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ productJson, currency: product.currency }}>
+    const data = JSON.parse(productJson)
+    const totalEl = document.getElementById('price-total')
+    const btn = document.getElementById('checkout-btn')
+    const status = document.getElementById('checkout-status')
+    const qtyInput = document.getElementById('qty')
+
+    const formatter = new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency,
+    })
+
+    function getSelectedVariant() {
+      const checked = document.querySelector('input[name="variant"]:checked')
+      if (!checked) return null
+      return data.variants.find((v) => v.id === checked.value) ?? null
+    }
+
+    function getSelectedOptions() {
+      const checked = document.querySelectorAll('input[name="option"]:checked')
+      return Array.from(checked)
+        .map((el) => data.options.find((o) => o.id === el.value))
+        .filter(Boolean)
+    }
+
+    function recompute() {
+      const variant = getSelectedVariant()
+      const options = getSelectedOptions()
+      const qty = Math.max(1, Math.min(99, parseInt(qtyInput.value, 10) || 1))
+      const unitTotal = (variant?.price ?? data.basePrice) + options.reduce((s, o) => s + o.price, 0)
+      totalEl.textContent = formatter.format(unitTotal * qty)
+    }
+
+    document.querySelectorAll('input[name="variant"], input[name="option"]').forEach((el) => {
+      el.addEventListener('change', recompute)
+    })
+    qtyInput.addEventListener('input', recompute)
+
+    btn?.addEventListener('click', async () => {
+      const slug = btn.getAttribute('data-slug')
+      const variant = getSelectedVariant()
+      const options = getSelectedOptions()
+      const originalLabel = btn.textContent
+      btn.disabled = true
+      status.classList.add('hidden')
+      btn.textContent = 'Redirection…'
+
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            slug,
+            quantity: qtyInput?.value ?? 1,
+            variantId: variant?.id ?? null,
+            optionIds: options.map((o) => o.id),
+          }),
+        })
+        const result = await res.json()
+        if (!res.ok || !result.url) throw new Error(result.error || 'Erreur Stripe')
+        window.location.href = result.url
+      } catch (err) {
+        status.textContent = err.message || 'Une erreur est survenue.'
+        status.classList.remove('hidden')
+        btn.disabled = false
+        btn.textContent = originalLabel
+      }
+    })
+  </script>
+</BaseLayout>

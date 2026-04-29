@@ -1,6 +1,6 @@
-# Guide de setup — Astro 6 + TinaCMS 3 + Tailwind 4 + React
+# Guide de setup — Astro 6 + Sveltia CMS + Tailwind 4 + React
 
-> Retour d'expérience complet issu du projet KONTFEEL / AstroTina2026.
+> Retour d'expérience complet issu du projet KONTFEEL / Kontfeel2026-V3.
 > À suivre dans l'ordre pour éviter toutes les erreurs rencontrées.
 
 ---
@@ -10,13 +10,13 @@
 | Package | Version | Rôle |
 |---|---|---|
 | `astro` | ^6.1.5 | Framework SSR/SSG |
-| `tinacms` | ^3.7.2 | CMS headless + éditeur visuel |
-| `@tinacms/cli` | ^2.2.2 | Commande `tinacms dev` |
-| `@tinacms/auth` | ^1.1.2 | Auth TinaCMS (local + cloud) |
 | `tailwindcss` | ^4.2.2 | CSS utilitaire |
 | `@tailwindcss/vite` | ^4.2.2 | Plugin Vite pour Tailwind 4 |
 | `@astrojs/react` | latest | Renderer React dans Astro |
-| `react` + `react-dom` | latest | Requis par TinaCMS et @astrojs/react |
+| `react` + `react-dom` | latest | Composants interactifs |
+| Sveltia CMS | dernière version (CDN) | CMS Git-based, chargé dans `/admin/` |
+
+Sveltia CMS n'est **pas** un package npm dans ce projet : il est chargé via CDN dans `public/admin/index.html`. Le contenu est versionné dans `src/content/` et committé via GitHub.
 
 ---
 
@@ -54,101 +54,98 @@ Dans `src/styles/global.css` :
 
 ```css
 @import "tailwindcss";
-/* ⚠️ Ne jamais mettre @import url() ici après — voir point 5 */
+/* ⚠️ Ne jamais mettre @import url() ici après — voir point 4 */
 ```
 
-### Étape 3 — Installer React (requis par TinaCMS)
-
-**Toujours utiliser `--legacy-peer-deps`** pour résoudre les conflits de versions entre TinaCMS et les autres packages.
+### Étape 3 — Installer React
 
 ```bash
-npm install @astrojs/react react react-dom --legacy-peer-deps
+npm install @astrojs/react react react-dom
 ```
 
-### Étape 4 — Installer TinaCMS
+### Étape 4 — Mettre en place Sveltia CMS
 
-```bash
-npm install tinacms @tinacms/auth
-npm install -D @tinacms/cli
+Sveltia CMS est servi statiquement depuis `/admin/`. Créer deux fichiers dans `public/admin/` :
+
+**`public/admin/index.html`** :
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Sveltia CMS — Kontfeel</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+  </body>
+</html>
 ```
 
-Si des erreurs de dépendances manquantes apparaissent après :
+**`public/admin/config.yml`** : déclaration des collections (silos, pages enfants, articles…) qui pointent vers les fichiers JSON/Markdown de `src/content/`.
 
-```bash
-npm install fs-extra slate slate-dom --legacy-peer-deps
+```yaml
+backend:
+  name: github
+  repo: <org>/<repo>
+  branch: main
+
+media_folder: public/assets
+public_folder: /assets
+
+collections:
+  - name: silos
+    folder: src/content/silos
+    extension: json
+    # ...champs
 ```
 
-### Étape 5 — Script de dev
-
-Dans `package.json`, TinaCMS **doit envelopper** Astro (pas l'inverse) :
+### Étape 5 — Scripts de dev
 
 ```json
 "scripts": {
-  "dev":     "tinacms dev -c \"astro dev\"",
-  "build":   "tinacms build && astro build",
+  "dev":     "astro dev",
+  "build":   "astro build",
   "preview": "astro preview"
 }
 ```
 
+Aucun proxy CMS n'est nécessaire : Sveltia tourne entièrement dans le navigateur côté `/admin/` et parle directement à GitHub (ou au système de fichiers local en mode "Work with Local Repository").
+
 ---
 
-## 3. Configuration TinaCMS — pièges GraphQL
+## 3. Sveltia CMS — pièges à éviter
 
-### ⚠️ Règle "Fields Can Merge"
+### Édition locale (sans GitHub)
 
-TinaCMS génère un schéma GraphQL avec des **unions de blocs**. Tous les blocs partagent la même sélection GraphQL, donc :
+Pour éditer le contenu hors-ligne :
 
-**Règle 1 — Pas de `required: true` sur des champs portant le même nom.**
+1. Lancer `npm run dev`.
+2. Ouvrir `http://localhost:4321/admin/` dans **Chrome ou Edge** (l'API File System Access n'est pas supportée par Firefox/Safari).
+3. Cliquer sur « **Work with Local Repository** » et pointer le dossier racine du projet.
+4. Les modifications écrivent directement dans `src/content/`.
 
-Si deux blocs ont un champ `heading`, l'un avec `required: true` (→ `String!`) et l'autre sans (→ `String`), GraphQL refuse de les merger.
+### Édition GitHub
 
-```typescript
-// ❌ Interdit si d'autres blocs ont aussi "heading" sans required
-{ type: "string", name: "heading", required: true }
+En mode `backend.name: github`, Sveltia commit directement sur la branche déclarée. Vérifier que :
 
-// ✅ Correct
-{ type: "string", name: "heading" }
-```
+- Le repo dans `config.yml` correspond au bon fork/org.
+- L'utilisateur a les droits d'écriture (sinon les sauvegardes échouent silencieusement).
+- L'OAuth GitHub est configuré côté hébergeur si on veut ouvrir l'admin en prod.
 
-**Règle 2 — Des champs du même nom doivent avoir le même type.**
+### Schéma JSON / Markdown
 
-Si deux blocs ont un champ `body`, l'un en `rich-text` (→ JSON) et l'autre en `string` (→ String), GraphQL refuse.
+Sveltia n'a **pas** de couche GraphQL : il écrit/lit directement les fichiers déclarés dans `config.yml`. Donc :
 
-```typescript
-// ❌ Conflit : body est à la fois JSON et String
-// bloc text_editorial :
-{ type: "rich-text", name: "body" }
-// bloc cta_banner :
-{ type: "string", name: "body" }
+- Pas de contrainte « fields can merge » comme avec d'autres CMS headless.
+- Les collections de type `files` ou `folder` doivent matcher exactement la structure réelle de `src/content/`.
+- Tout changement de schéma dans `config.yml` est immédiat — pas de regénération de client.
 
-// ✅ Nommer différemment
-{ type: "rich-text", name: "content" }  // dans text_editorial
-{ type: "string",    name: "body" }     // dans cta_banner
-```
+### Médias
 
-**Règle 3 — Après toute modification de `tina/config.ts`, supprimer les fichiers générés.**
-
-TinaCMS peut valider des fichiers générés stales et bloquer le démarrage :
-
-```bash
-# Supprimer tout sauf static-media.json
-rm tina/__generated__/client.ts
-rm tina/__generated__/frags.gql
-rm tina/__generated__/schema.gql
-rm tina/__generated__/types.ts
-# Puis relancer npm run dev pour régénérer
-```
-
-### ⚠️ Ne pas utiliser `visualSelector: true` sans thumbnails
-
-```typescript
-// ❌ Cause un block picker vide/cassé dans la sidebar
-ui: {
-  visualSelector: true,
-},
-
-// ✅ Retirer simplement l'option ui
-```
+`media_folder: public/assets` + `public_folder: /assets` → les images uploadées sont écrites dans `public/assets/` et référencées en `/assets/...` dans le contenu. C'est cette URL publique qui est consommée par Astro.
 
 ---
 
@@ -171,69 +168,7 @@ Tailwind 4 (via PostCSS) génère des règles CSS avant de processer le fichier.
 
 ---
 
-## 5. Connecter TinaCMS Visual Editor à Astro
-
-### Le problème
-
-Astro est un framework SSR — les pages sont rendues côté serveur. TinaCMS ne peut pas détecter automatiquement quel document JSON correspond à la page affichée. Sans connexion explicite, la sidebar affiche :
-
-> "TinaCMS form fields will appear here."
-
-### La solution : `TinaPageBridge`
-
-Créer `src/components/TinaPageBridge.tsx` :
-
-```tsx
-import { useTina } from 'tinacms/dist/react'
-
-interface Props {
-  query:     string
-  variables: Record<string, unknown>
-  data:      Record<string, unknown>
-}
-
-export default function TinaPageBridge({ query, variables, data }: Props) {
-  // Enregistre le document dans TinaCMS → la sidebar affiche le formulaire
-  useTina({ query, variables, data })
-  return null  // Aucun rendu visuel
-}
-```
-
-Dans chaque page Astro, **passer le résultat complet** de la requête TinaCMS (pas seulement `data`) et monter le bridge en `client:load` :
-
-```astro
----
-import TinaPageBridge from '../../components/TinaPageBridge'
-import { client } from '../../../tina/__generated__/client'
-
-// getStaticPaths : stocker le résultat complet
-let tinaResult = null
-try {
-  tinaResult = await client.queries.ma_collection({ relativePath: '...' })
-} catch {}
-
-const pageData = tinaResult?.data?.ma_collection ?? null
----
-
-{tinaResult && (
-  <TinaPageBridge
-    query={tinaResult.query}
-    variables={tinaResult.variables}
-    data={tinaResult.data}
-    client:load
-  />
-)}
-
-<!-- Rendu normal Astro en dessous -->
-```
-
-### Pourquoi `client:load` ?
-
-Le hook `useTina` a besoin de tourner côté client pour ouvrir le canal WebSocket avec TinaCMS. `client:load` monte le composant React dès que la page est chargée dans le navigateur.
-
----
-
-## 6. Architecture cocon sémantique (siloing strict)
+## 5. Architecture cocon sémantique (siloing strict)
 
 ### Principe
 
@@ -271,26 +206,34 @@ src/content/
       ...
 ```
 
-### Collections TinaCMS correspondantes
+### Collections Sveltia correspondantes
 
-```typescript
-// silo_page  → path: "src/content/silos",    format: "json"
-// child_page → path: "src/content/pages",    format: "json"
+Dans `public/admin/config.yml`, déclarer une collection par type de page :
+
+```yaml
+collections:
+  - name: silo_page
+    folder: src/content/silos
+    extension: json
+    # ...
+
+  - name: child_page
+    folder: src/content/pages
+    extension: json
+    # ...
 ```
 
 ---
 
-## 7. Checklist de démarrage d'un nouveau projet
+## 6. Checklist de démarrage d'un nouveau projet
 
 - [ ] `npm create astro@latest`
 - [ ] Installer Tailwind 4 + @tailwindcss/vite
-- [ ] Installer `@astrojs/react react react-dom --legacy-peer-deps`
-- [ ] Installer `tinacms @tinacms/auth` + `@tinacms/cli` en dev
-- [ ] Si erreur fs-extra/slate : `npm install fs-extra slate slate-dom --legacy-peer-deps`
+- [ ] Installer `@astrojs/react react react-dom`
 - [ ] Ajouter `react()` dans `astro.config.mjs`
+- [ ] Créer `public/admin/index.html` avec le script Sveltia CDN
+- [ ] Créer `public/admin/config.yml` avec backend GitHub + collections
+- [ ] Vérifier que `media_folder` + `public_folder` matchent la convention Astro (`public/assets` ↔ `/assets`)
 - [ ] Google Fonts → `<link>` dans BaseLayout, jamais dans le CSS
-- [ ] Pas de `required: true` sur champs partagés entre blocs
-- [ ] Pas de même nom de champ avec types différents entre blocs
-- [ ] Pas de `visualSelector: true` sans thumbnails SVG
-- [ ] Créer `TinaPageBridge.tsx` + le monter en `client:load` dans chaque page
-- [ ] Passer `{ query, variables, data }` (pas seulement `data.blocks`) au bridge
+- [ ] Tester l'admin en local (Chrome/Edge → `/admin/` → Work with Local Repository)
+- [ ] Vérifier qu'un commit Sveltia atterrit bien sur la bonne branche du bon repo

@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Stripe from 'stripe'
+
+export const prerender = false
+
+const sessionId = Astro.url.searchParams.get('session_id')
+
+let session: Stripe.Checkout.Session | null = null
+let errorMsg: string | null = null
+
+if (sessionId) {
+  try {
+    const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
+    session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items', 'customer_details'],
+    })
+  } catch (err: any) {
+    errorMsg = err?.message ?? 'Impossible de récupérer la session Stripe.'
+  }
+} else {
+  errorMsg = 'Aucun identifiant de session fourni.'
+}
+
+const amount = session?.amount_total != null
+  ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: session.currency ?? 'eur' })
+      .format(session.amount_total / 100)
+  : null
+---
+
+<BaseLayout
+  title="Paiement confirmé — Kontfeel"
+  description="Confirmation de paiement Stripe Checkout."
+>
+  <main class="mx-auto max-w-2xl px-6 py-20">
+    {errorMsg ? (
+      <div class="rounded-2xl border border-red-200 bg-red-50 p-8">
+        <h1 class="text-2xl font-semibold text-red-900">Erreur</h1>
+        <p class="mt-3 text-red-800">{errorMsg}</p>
+      </div>
+    ) : (
+      <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-8">
+        <p class="text-xs uppercase tracking-widest text-emerald-700">
+          Paiement confirmé
+        </p>
+        <h1 class="mt-2 text-3xl font-semibold text-emerald-900">
+          Merci pour votre commande !
+        </h1>
+
+        <dl class="mt-6 grid gap-3 text-sm text-emerald-900">
+          <div class="flex justify-between border-t border-emerald-200 pt-3">
+            <dt class="font-medium">Statut paiement</dt>
+            <dd>{session?.payment_status}</dd>
+          </div>
+          {amount && (
+            <div class="flex justify-between border-t border-emerald-200 pt-3">
+              <dt class="font-medium">Montant total</dt>
+              <dd>{amount}</dd>
+            </div>
+          )}
+          {session?.customer_details?.email && (
+            <div class="flex justify-between border-t border-emerald-200 pt-3">
+              <dt class="font-medium">Email client</dt>
+              <dd>{session.customer_details.email}</dd>
+            </div>
+          )}
+          <div class="flex justify-between border-t border-emerald-200 pt-3">
+            <dt class="font-medium">Session ID</dt>
+            <dd class="font-mono text-xs">{session?.id}</dd>
+          </div>
+        </dl>
+
+        <p class="mt-6 text-sm text-emerald-800">
+          Cette page est servie en SSR : elle interroge Stripe à chaque chargement
+          pour récupérer les détails de la session via son ID.
+        </p>
+      </div>
+    )}
+
+    <a
+      href="/test-stripe"
+      class="mt-8 inline-block text-sm text-neutral-600 underline hover:text-neutral-900"
+    >
+      ← Retour à la page de test
+    </a>
+  </main>
+</BaseLayout>

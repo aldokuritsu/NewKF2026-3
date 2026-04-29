@@ -344,7 +344,7 @@ src/
 │   ├── TestimonialCard.astro
 │   ├── CtaBanner.astro
 │   └── ExpertArticle.astro
-└── content/                                 ← Données TinaCMS
+└── content/                                 ← Données Sveltia CMS
     ├── plv-carton/
     │   ├── _pillar.json
     │   ├── totem-carton.md

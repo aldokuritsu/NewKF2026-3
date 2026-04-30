@@ -68,6 +68,16 @@ const amount = session?.amount_total != null
             <dt class="font-medium">Session ID</dt>
             <dd class="font-mono text-xs">{session?.id}</dd>
           </div>
+          {session?.metadata?.customAssetUrl && (
+            <div class="flex justify-between border-t border-emerald-200 pt-3">
+              <dt class="font-medium">Visuel personnalisé</dt>
+              <dd>
+                <a href={session.metadata.customAssetUrl} target="_blank" rel="noopener" class="underline">
+                  Ouvrir le fichier
+                </a>
+              </dd>
+            </div>
+          )}
         </dl>
 
         <p class="mt-6 text-sm text-emerald-800">

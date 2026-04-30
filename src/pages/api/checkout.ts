@@ -16,6 +16,12 @@ export const POST: APIRoute = async ({ request }) => {
     const quantity = Math.min(Math.max(parseInt(body.quantity ?? '1', 10) || 1, 1), 99)
     const variantId: string | null = body.variantId ?? null
     const optionIds: string[] = Array.isArray(body.optionIds) ? body.optionIds : []
+    const customAssetUrl: string | null =
+      typeof body.customAssetUrl === 'string' &&
+      isValidHttpUrl(body.customAssetUrl) &&
+      body.customAssetUrl.includes('.blob.vercel-storage.com')
+        ? body.customAssetUrl
+        : null
 
     if (!slug) return jsonError('Slug produit manquant.', 400)
 
@@ -88,6 +94,7 @@ export const POST: APIRoute = async ({ request }) => {
         slug,
         variantId: variantId ?? '',
         optionIds: validOptions.map((o) => o.id).join(',') || '',
+        customAssetUrl: customAssetUrl ?? '',
         source: 'test-stripe-page',
       },
       success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,

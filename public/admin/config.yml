@@ -345,6 +345,17 @@ _blockDefs:
               - { name: question, label: Question, widget: string }
               - { name: answer,   label: Réponse,  widget: text }
 
+      # ── product_buy ──
+      - name: product_buy
+        label: Bloc d'achat (Stripe)
+        summary: "Achat — {{fields.productSlug}}"
+        fields:
+          - { name: heading, label: Titre, widget: string, default: "Commander en ligne", required: false }
+          - name: productSlug
+            label: Slug du produit
+            widget: string
+            hint: "Doit correspondre à un fichier dans Produits (ex : totem-carton-automatique)"
+
 # ───────────── Collections ─────────────
 collections:
 

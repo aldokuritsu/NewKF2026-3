@@ -1,0 +1,28 @@
+{
+  "name": "Totem carton automatique",
+  "shortDescription": "Totem PLV en carton recyclé auto-déployant. Montage en 30 secondes sans outil grâce à un système d'élastiques internes.",
+  "description": "Totem PLV automatique en carton recyclé, 100% recyclable et certifié FSC. Système d'auto-déploiement par élastique haute tension : montage en moins de 30 secondes, sans outil ni formation. Surface d'impression 360° pour une visibilité maximale en GMS, parapharmacie ou animation commerciale. Modèle test pour démonstration Stripe Checkout — la commande passée n'est pas honorée.",
+  "price": 119.90,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Totem carton automatique auto-déployant — Kontfeel",
+  "specs": [
+    { "label": "Format", "value": "50 × 190 cm (standard)" },
+    { "label": "Matière", "value": "Carton micro-cannelure FSC" },
+    { "label": "Impression", "value": "Quadri offset/numérique HD" },
+    { "label": "Montage", "value": "Auto-déploiement (~30s)" }
+  ],
+  "variants": [
+    { "id": "f50x160", "label": "50 × 160 cm", "price": 99.90 },
+    { "id": "f50x190", "label": "50 × 190 cm", "price": 119.90, "default": true },
+    { "id": "f60x190", "label": "60 × 190 cm", "price": 139.90 },
+    { "id": "sur-mesure", "label": "Sur mesure (silhouette)", "price": 189.90 }
+  ],
+  "options": [
+    { "id": "porte-flyers", "label": "Porte-flyers A5 intégré", "price": 22.00 },
+    { "id": "etui-individuel", "label": "Étui individuel renforcé", "price": 12.00 },
+    { "id": "express", "label": "Délai express (5 jours ouvrés)", "price": 45.00 }
+  ],
+  "shippingCountries": ["FR", "BE", "CH", "LU"],
+  "active": true
+}

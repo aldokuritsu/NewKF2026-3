@@ -211,6 +211,11 @@
       ]
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-carton-automatique"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Simplifiez vos déploiements PLV",
       "body": "Recevez un prototype ou un devis personnalisé pour votre campagne de totems automatiques.",

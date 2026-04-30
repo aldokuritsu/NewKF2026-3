@@ -1,0 +1,412 @@
+---
+/**
+ * ProductBuyBlock — Bloc d'achat Stripe Checkout réutilisable.
+ *
+ * Lit le produit depuis src/content/products/{productSlug}.json et affiche :
+ * variantes, options, quantité, upload visuel personnalisé (Vercel Blob),
+ * bouton "Payer avec Stripe".
+ *
+ * Usage CMS (JSON) :
+ *   { "_template": "product_buy", "productSlug": "totem-carton-automatique" }
+ */
+import { getEntry } from 'astro:content'
+
+interface Props {
+  block: {
+    productSlug?: string
+    heading?: string
+  }
+}
+
+const { block } = Astro.props
+const productSlug = block.productSlug?.trim() || ''
+
+let product: any = null
+let loadError: string | null = null
+
+if (!productSlug) {
+  loadError = 'Aucun productSlug défini dans le bloc.'
+} else {
+  try {
+    const entry = await getEntry('products', productSlug)
+    if (!entry) {
+      loadError = `Produit introuvable : ${productSlug}`
+    } else {
+      product = entry.data
+    }
+  } catch (err: any) {
+    loadError = err?.message ?? 'Erreur de chargement du produit'
+  }
+}
+
+const fmt = (amount: number) =>
+  product
+    ? new Intl.NumberFormat('fr-FR', { style: 'currency', currency: product.currency }).format(amount)
+    : ''
+
+const defaultVariant =
+  product?.variants?.find((v: any) => v.default) ?? product?.variants?.[0] ?? null
+const initialPrice = defaultVariant?.price ?? product?.price ?? 0
+
+const productJson = product
+  ? JSON.stringify({
+      variants: product.variants ?? [],
+      options: product.options ?? [],
+      basePrice: product.price,
+      currency: product.currency,
+    })
+  : '{}'
+---
+
+{loadError && (
+  <section class="pb-block pb-error">
+    <div class="pb-inner">
+      <p>⚠️ {loadError}</p>
+    </div>
+  </section>
+)}
+
+{product && product.active && (
+  <section class="pb-block" id="commander">
+    <div class="pb-inner">
+      <header class="pb-header">
+        <h2 class="pb-heading">{block.heading ?? 'Commander en ligne'}</h2>
+        <p class="pb-subtitle">Configurez votre produit et payez en ligne via Stripe Checkout.</p>
+      </header>
+
+      <div class="pb-grid">
+        <div class="pb-image">
+          <img
+            src={product.image}
+            alt={product.imageAlt ?? product.name}
+            loading="lazy"
+          />
+        </div>
+
+        <div class="pb-config">
+          <h3 class="pb-name">{product.name}</h3>
+          <p class="pb-short">{product.shortDescription}</p>
+
+          {product.specs && product.specs.length > 0 && (
+            <dl class="pb-specs">
+              {product.specs.map((spec: any) => (
+                <div class="pb-spec-row">
+                  <dt>{spec.label}</dt>
+                  <dd>{spec.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          {product.variants && product.variants.length > 0 && (
+            <fieldset class="pb-fieldset">
+              <legend>Format</legend>
+              <div class="pb-variants">
+                {product.variants.map((variant: any) => (
+                  <label class="pb-variant">
+                    <input
+                      type="radio"
+                      name="pb-variant"
+                      value={variant.id}
+                      data-price={variant.price}
+                      checked={variant.id === defaultVariant?.id}
+                    />
+                    <span>
+                      <span class="pb-variant-label">{variant.label}</span>
+                      <span class="pb-variant-price">{fmt(variant.price)}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          )}
+
+          {product.options && product.options.length > 0 && (
+            <fieldset class="pb-fieldset">
+              <legend>Options</legend>
+              <div class="pb-options">
+                {product.options.map((option: any) => (
+                  <label class="pb-option">
+                    <input
+                      type="checkbox"
+                      name="pb-option"
+                      value={option.id}
+                      data-price={option.price}
+                    />
+                    <span>{option.label}</span>
+                    <span class="pb-option-price">+{fmt(option.price)}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          )}
+
+          <fieldset class="pb-fieldset">
+            <legend>Quantité</legend>
+            <input
+              id="pb-qty"
+              type="number"
+              min="1"
+              max="99"
+              value="1"
+              class="pb-qty"
+            />
+          </fieldset>
+
+          <fieldset class="pb-fieldset">
+            <legend>Visuel personnalisé (optionnel)</legend>
+            <p class="pb-hint">JPG, PNG, WebP ou PDF — 10 Mo max. Pour produit sur mesure.</p>
+            <input
+              id="pb-file"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,application/pdf"
+              class="pb-file"
+            />
+            <p id="pb-file-status" class="pb-file-status hidden"></p>
+            <div id="pb-file-preview" class="pb-file-preview hidden">
+              <img id="pb-file-img" src="" alt="Aperçu visuel" />
+              <a id="pb-file-link" href="#" target="_blank" rel="noopener">Ouvrir le fichier</a>
+            </div>
+          </fieldset>
+
+          <div class="pb-total">
+            <span>Total TTC</span>
+            <span id="pb-total-amount">{fmt(initialPrice)}</span>
+          </div>
+
+          <button
+            id="pb-checkout-btn"
+            type="button"
+            class="pb-checkout-btn"
+            data-slug={productSlug}
+          >
+            Payer avec Stripe
+          </button>
+
+          <p id="pb-status" class="pb-status hidden"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .pb-block { background: #fafbfc; padding: 64px 24px; }
+  .pb-inner { max-width: 1100px; margin: 0 auto; }
+  .pb-error { background: #fef2f2; border: 1px solid #fecaca; padding: 24px; }
+
+  .pb-header { text-align: center; margin-bottom: 40px; }
+  .pb-heading { font-size: clamp(24px, 3vw, 32px); font-weight: 700; color: #1a1a2e; margin: 0 0 8px; }
+  .pb-subtitle { color: #6b7280; margin: 0; }
+
+  .pb-grid {
+    display: grid;
+    gap: 40px;
+    grid-template-columns: 1fr 1.1fr;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 32px;
+  }
+  @media (max-width: 768px) {
+    .pb-grid { grid-template-columns: 1fr; padding: 20px; }
+  }
+
+  .pb-image { overflow: hidden; border-radius: 12px; background: #f3f4f6; }
+  .pb-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .pb-config { display: flex; flex-direction: column; }
+  .pb-name { font-size: 22px; font-weight: 700; color: #1a1a2e; margin: 0; }
+  .pb-short { color: #6b7280; margin: 8px 0 16px; line-height: 1.5; }
+
+  .pb-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; margin: 16px 0; padding: 16px 0; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+  .pb-spec-row { font-size: 13px; }
+  .pb-spec-row dt { color: #6b7280; margin: 0; }
+  .pb-spec-row dd { color: #1a1a2e; font-weight: 500; margin: 2px 0 0; }
+
+  .pb-fieldset { border: none; padding: 16px 0; margin: 0; border-top: 1px solid #e5e7eb; }
+  .pb-fieldset legend { font-size: 14px; font-weight: 600; color: #1a1a2e; padding: 0; margin-bottom: 12px; }
+  .pb-hint { font-size: 12px; color: #6b7280; margin: 0 0 8px; }
+
+  .pb-variants { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pb-variant input { position: absolute; opacity: 0; pointer-events: none; }
+  .pb-variant span { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 8px; cursor: pointer; transition: all .15s; font-size: 14px; }
+  .pb-variant input:checked + span { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+  .pb-variant-price { font-weight: 600; }
+
+  .pb-options { display: flex; flex-direction: column; gap: 8px; }
+  .pb-option { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid #e5e7eb; border-radius: 8px; cursor: pointer; font-size: 14px; transition: border-color .15s; }
+  .pb-option:hover { border-color: #9ca3af; }
+  .pb-option input { width: 16px; height: 16px; }
+  .pb-option span:nth-of-type(1) { flex: 1; }
+  .pb-option-price { color: #4b5563; font-weight: 500; }
+
+  .pb-qty { width: 80px; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; }
+
+  .pb-file { font-size: 13px; }
+  .pb-file::file-selector-button { background: #1a1a2e; color: #fff; border: 0; padding: 8px 14px; border-radius: 6px; margin-right: 12px; cursor: pointer; font-size: 13px; }
+  .pb-file::file-selector-button:hover { background: #4b5563; }
+  .pb-file-status { font-size: 12px; margin: 8px 0 0; }
+  .pb-file-status.is-error { color: #dc2626; }
+  .pb-file-status.is-success { color: #059669; }
+  .pb-file-status.is-info { color: #6b7280; }
+  .pb-file-preview { margin-top: 12px; }
+  .pb-file-preview img { max-height: 120px; border: 1px solid #e5e7eb; border-radius: 6px; padding: 4px; background: #fff; }
+  .pb-file-preview a { display: block; margin-top: 4px; font-size: 12px; color: #6b7280; text-decoration: underline; }
+
+  .pb-total {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #f9fafb; padding: 14px 18px; border-radius: 8px;
+    margin: 16px 0;
+  }
+  .pb-total > :first-child { color: #6b7280; font-size: 14px; }
+  .pb-total > :last-child { font-size: 24px; font-weight: 700; color: #1a1a2e; }
+
+  .pb-checkout-btn {
+    background: linear-gradient(135deg, #635bff 0%, #4f46e5 100%);
+    color: #fff; border: 0; border-radius: 8px;
+    padding: 14px 28px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: opacity .15s, transform .15s;
+  }
+  .pb-checkout-btn:hover:not(:disabled) { opacity: .92; transform: translateY(-1px); }
+  .pb-checkout-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  .pb-status { font-size: 13px; color: #dc2626; margin: 12px 0 0; }
+  .hidden { display: none; }
+</style>
+
+<script>
+  // @ts-nocheck
+  import { upload } from '@vercel/blob/client'
+  ;(window as any).__pbBlobUpload = upload
+</script>
+
+<script is:inline define:vars={{ productJson }}>
+  const data = JSON.parse(productJson)
+  if (!data.variants) { /* bloc absent du DOM, rien à faire */ }
+  else (function init() {
+    const totalEl = document.getElementById('pb-total-amount')
+    const btn = document.getElementById('pb-checkout-btn')
+    const status = document.getElementById('pb-status')
+    const qtyInput = document.getElementById('pb-qty')
+    const fileInput = document.getElementById('pb-file')
+    const fileStatus = document.getElementById('pb-file-status')
+    const filePreview = document.getElementById('pb-file-preview')
+    const fileImg = document.getElementById('pb-file-img')
+    const fileLink = document.getElementById('pb-file-link')
+
+    if (!btn || !totalEl) return
+
+    const formatter = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: data.currency })
+    let customAssetUrl = null
+    let uploading = false
+
+    function getVariant() {
+      const checked = document.querySelector('input[name="pb-variant"]:checked')
+      if (!checked) return null
+      return data.variants.find((v) => v.id === checked.value) ?? null
+    }
+    function getOptions() {
+      return Array.from(document.querySelectorAll('input[name="pb-option"]:checked'))
+        .map((el) => data.options.find((o) => o.id === el.value))
+        .filter(Boolean)
+    }
+    function recompute() {
+      const variant = getVariant()
+      const options = getOptions()
+      const qty = Math.max(1, Math.min(99, parseInt(qtyInput.value, 10) || 1))
+      const unit = (variant?.price ?? data.basePrice) + options.reduce((s, o) => s + o.price, 0)
+      totalEl.textContent = formatter.format(unit * qty)
+    }
+    function setFileStatus(msg, kind) {
+      fileStatus.textContent = msg
+      fileStatus.className = 'pb-file-status'
+      if (kind) fileStatus.classList.add('is-' + kind)
+    }
+
+    document.querySelectorAll('input[name="pb-variant"], input[name="pb-option"]').forEach((el) => {
+      el.addEventListener('change', recompute)
+    })
+    qtyInput.addEventListener('input', recompute)
+
+    fileInput?.addEventListener('change', async (e) => {
+      const file = e.target.files?.[0]
+      filePreview.classList.add('hidden')
+      customAssetUrl = null
+      if (!file) return
+      if (file.size > 10 * 1024 * 1024) {
+        setFileStatus('Fichier trop volumineux (10 Mo max).', 'error')
+        fileInput.value = ''
+        return
+      }
+      uploading = true
+      btn.disabled = true
+      setFileStatus('Upload en cours…', 'info')
+      try {
+        let attempts = 0
+        while (!window.__pbBlobUpload && attempts < 50) {
+          await new Promise((r) => setTimeout(r, 100))
+          attempts++
+        }
+        if (!window.__pbBlobUpload) throw new Error('Module upload non chargé')
+        const blob = await window.__pbBlobUpload(file.name, file, {
+          access: 'public',
+          handleUploadUrl: '/api/upload',
+        })
+        customAssetUrl = blob.url
+        setFileStatus('Fichier uploadé ✓', 'success')
+        filePreview.classList.remove('hidden')
+        fileLink.href = blob.url
+        if (file.type.startsWith('image/')) {
+          fileImg.src = blob.url
+          fileImg.style.display = ''
+        } else {
+          fileImg.style.display = 'none'
+        }
+      } catch (err) {
+        console.error('[product-buy upload]', err)
+        setFileStatus(err.message || 'Erreur upload.', 'error')
+        customAssetUrl = null
+      } finally {
+        uploading = false
+        btn.disabled = false
+      }
+    })
+
+    btn.addEventListener('click', async () => {
+      if (uploading) {
+        status.textContent = 'Veuillez attendre la fin de l’upload du visuel.'
+        status.classList.remove('hidden')
+        return
+      }
+      const slug = btn.getAttribute('data-slug')
+      const variant = getVariant()
+      const options = getOptions()
+      const original = btn.textContent
+      btn.disabled = true
+      status.classList.add('hidden')
+      btn.textContent = 'Redirection…'
+      try {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            slug,
+            quantity: qtyInput?.value ?? 1,
+            variantId: variant?.id ?? null,
+            optionIds: options.map((o) => o.id),
+            customAssetUrl,
+          }),
+        })
+        const result = await res.json()
+        if (!res.ok || !result.url) throw new Error(result.error || 'Erreur Stripe')
+        window.location.href = result.url
+      } catch (err) {
+        status.textContent = err.message || 'Une erreur est survenue.'
+        status.classList.remove('hidden')
+        btn.disabled = false
+        btn.textContent = original
+      }
+    })
+  })()
+</script>

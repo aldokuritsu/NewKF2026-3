@@ -21,6 +21,7 @@ import TextEditorialBlock from './TextEditorialBlock.astro'
 import CTABannerBlock     from './CTABannerBlock.astro'
 import FAQBlock           from './FAQBlock.astro'
 import TestimonialsBlock  from './TestimonialsBlock.astro'
+import ProductBuyBlock    from './ProductBuyBlock.astro'
 
 // ── Blocs home page (réutilisables aussi sur pages enfants)
 import HeroHomeBlock        from './HeroHomeBlock.astro'
@@ -68,6 +69,7 @@ function tpl(raw: string | undefined): string {
   if (template === 'cta_banner')      return <CTABannerBlock     key={i} block={block} />
   if (template === 'faq')             return <FAQBlock           key={i} block={block} />
   if (template === 'testimonials')    return <TestimonialsBlock  key={i} block={block} />
+  if (template === 'product_buy')     return <ProductBuyBlock    key={i} block={block} />
 
   // ── Variantes GraphQL __typename explicites (rétrocompatibilité) ────────
   if (raw === 'Silo_pageBlocksHero')            return <HeroBlock          key={i} block={block} />

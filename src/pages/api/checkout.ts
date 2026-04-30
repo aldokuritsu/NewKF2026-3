@@ -8,9 +8,8 @@ const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const SITE_URL =
-      import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') ||
-      new URL(request.url).origin
+    const envSiteUrl = import.meta.env.PUBLIC_SITE_URL?.trim().replace(/\/$/, '')
+    const SITE_URL = isValidHttpUrl(envSiteUrl) ? envSiteUrl : new URL(request.url).origin
 
     const body = await request.json().catch(() => ({}))
     const slug = String(body.slug ?? '').trim()
@@ -112,7 +111,8 @@ function jsonError(message: string, status: number): Response {
   })
 }
 
-function isValidHttpUrl(value: string): boolean {
+function isValidHttpUrl(value: string | undefined | null): value is string {
+  if (!value) return false
   try {
     const u = new URL(value)
     return u.protocol === 'http:' || u.protocol === 'https:'

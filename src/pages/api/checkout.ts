@@ -97,6 +97,17 @@ export const POST: APIRoute = async ({ request }) => {
         customAssetUrl: customAssetUrl ?? '',
         source: 'test-stripe-page',
       },
+      payment_intent_data: {
+        metadata: {
+          slug,
+          variantId: variantId ?? '',
+          optionIds: validOptions.map((o) => o.id).join(',') || '',
+          customAssetUrl: customAssetUrl ?? '',
+        },
+        description: customAssetUrl
+          ? `Visuel personnalisé : ${customAssetUrl}`
+          : undefined,
+      },
       success_url: `${SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/cancel`,
     })

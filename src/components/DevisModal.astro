@@ -73,6 +73,12 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
           ></textarea>
         </div>
 
+        <!-- Honeypot anti-bot : invisible aux humains, rempli par les bots. -->
+        <div class="devis-form__hp" aria-hidden="true">
+          <label for="devis-website">Site web (laissez vide)</label>
+          <input id="devis-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
         <!-- Zone de statut (erreur) -->
         <p id="devis-status" class="devis-form__status" aria-live="polite" hidden></p>
 
@@ -289,6 +295,16 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  /* ── Honeypot anti-bot (caché aux humains, visible aux bots) ─────── */
+  .devis-form__hp {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
   /* ── Statut erreur ───────────────────────────────────────────────── */
   .devis-form__status {
     font-size: 13px;
@@ -328,6 +344,8 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
   const status  = document.getElementById('devis-status')
   const submit  = /** @type {HTMLButtonElement} */ (document.getElementById('devis-submit'))
 
+  let openedAt = 0
+
   // ── Ouverture ─────────────────────────────────────────────────────
   document.addEventListener('click', (e) => {
     const trigger = /** @type {Element} */ (e.target)?.closest(
@@ -337,6 +355,7 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
     e.preventDefault()
     // Reset si on rouvre après un succès
     resetModal()
+    openedAt = Date.now()
     modal.showModal()
   })
 
@@ -355,6 +374,16 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
   // ── Soumission ────────────────────────────────────────────────────
   form.addEventListener('submit', async (e) => {
     e.preventDefault()
+
+    // Anti-bot : honeypot rempli OU soumission < 1.5s après ouverture → silent drop
+    const honey = /** @type {HTMLInputElement} */ (document.getElementById('devis-website'))
+    const elapsed = Date.now() - openedAt
+    if (honey?.value || elapsed < 1500) {
+      // On simule un succès pour ne pas alerter le bot
+      wrapper.hidden = true
+      success.hidden = false
+      return
+    }
 
     // Validation HTML5 custom
     const fields = [...form.querySelectorAll('input[required], textarea[required]')]

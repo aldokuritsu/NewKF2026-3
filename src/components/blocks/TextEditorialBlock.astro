@@ -4,6 +4,7 @@
  * Rendu markdown → HTML via marked (format natif Sveltia CMS).
  */
 import { marked } from 'marked'
+import DOMPurify from 'isomorphic-dompurify'
 
 interface Props {
   block: {
@@ -13,7 +14,9 @@ interface Props {
 }
 
 const { block } = Astro.props
-const html = block.content ? marked.parse(block.content, { async: false }) as string : ''
+const html = block.content
+  ? DOMPurify.sanitize(marked.parse(block.content, { async: false }) as string)
+  : ''
 ---
 
 <section class="te-block" id="expert">

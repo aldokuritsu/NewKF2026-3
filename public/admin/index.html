@@ -7,6 +7,14 @@
     <title>Sveltia CMS — Kontfeel</title>
   </head>
   <body>
-    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <!--
+      Version épinglée volontairement (pas de "@latest") pour éviter qu'une
+      future release malveillante du package soit chargée automatiquement.
+      Pour ajouter Subresource Integrity (recommandé), récupérer le hash :
+        curl -sL https://unpkg.com/@sveltia/cms@0.158.1/dist/sveltia-cms.js \
+          | openssl dgst -sha384 -binary | openssl base64 -A
+      Puis : <script ... integrity="sha384-XXXX" crossorigin="anonymous"></script>
+    -->
+    <script src="https://unpkg.com/@sveltia/cms@0.158.1/dist/sveltia-cms.js" crossorigin="anonymous"></script>
   </body>
 </html>

@@ -4,6 +4,7 @@
  * Le champ `intro` est un string markdown (format natif Sveltia CMS).
  */
 import { marked } from 'marked'
+import DOMPurify from 'isomorphic-dompurify'
 
 interface Badge  { text: string; green?: boolean }
 interface Certif { label: string }
@@ -23,7 +24,9 @@ interface Props {
 }
 
 const { block } = Astro.props
-const introHtml = block.intro ? marked.parse(block.intro, { async: false }) as string : ''
+const introHtml = block.intro
+  ? DOMPurify.sanitize(marked.parse(block.intro, { async: false }) as string)
+  : ''
 ---
 
 <section class="hero-block" id="hero">

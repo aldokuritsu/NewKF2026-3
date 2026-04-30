@@ -5,10 +5,13 @@ import Stripe from 'stripe'
 export const prerender = false
 
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL ?? 'http://localhost:4321'
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    const SITE_URL =
+      import.meta.env.PUBLIC_SITE_URL?.replace(/\/$/, '') ||
+      new URL(request.url).origin
+
     const body = await request.json().catch(() => ({}))
     const slug = String(body.slug ?? '').trim()
     const quantity = Math.min(Math.max(parseInt(body.quantity ?? '1', 10) || 1, 1), 99)
@@ -38,9 +41,10 @@ export const POST: APIRoute = async ({ request }) => {
     // ── Options : on ne garde que celles qui existent vraiment
     const validOptions = (product.options ?? []).filter((o) => optionIds.includes(o.id))
 
-    const imageUrl = product.image.startsWith('http')
+    const rawImageUrl = product.image.startsWith('http')
       ? product.image
-      : `${SITE_URL}${product.image}`
+      : `${SITE_URL}${product.image.startsWith('/') ? '' : '/'}${product.image}`
+    const imageUrl = isValidHttpUrl(rawImageUrl) ? rawImageUrl : null
 
     // ── Line items Stripe : produit principal + 1 ligne par option
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
@@ -51,7 +55,7 @@ export const POST: APIRoute = async ({ request }) => {
           product_data: {
             name: baseLabel,
             description: product.description.slice(0, 500),
-            images: [imageUrl],
+            ...(imageUrl ? { images: [imageUrl] } : {}),
             metadata: { slug, variantId: variantId ?? '' },
           },
         },
@@ -106,4 +110,13 @@ function jsonError(message: string, status: number): Response {
     status,
     headers: { 'Content-Type': 'application/json' },
   })
+}
+
+function isValidHttpUrl(value: string): boolean {
+  try {
+    const u = new URL(value)
+    return u.protocol === 'http:' || u.protocol === 'https:'
+  } catch {
+    return false
+  }
 }

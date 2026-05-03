@@ -1,0 +1,477 @@
+---
+/**
+ * Navbar — Navbar principale unifiée (toutes les pages).
+ *
+ * - Les 6 silos sont toujours affichés en top-level.
+ * - Le silo de la page courante (si fourni) ouvre un mega-menu disclosure
+ *   qui liste ses enfants en grille 3 colonnes + un lien pilier.
+ * - Triggers : hover, clic, clavier (Enter/Space toggle, Escape ferme).
+ * - Les autres silos restent des liens plats.
+ *
+ * Props :
+ *   currentSiloSlug? : string  — slug du silo courant (active le mega-menu)
+ *   currentPath?     : string  — chemin URL pour marquer l'enfant actif
+ */
+import { silos } from '../data/silos'
+
+interface Props {
+  currentSiloSlug?: string
+  currentPath?: string
+}
+
+const { currentSiloSlug, currentPath = '' } = Astro.props
+---
+
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+
+    <a href="/" class="logo" aria-label="KONTFEEL — Accueil">
+      <img src="/assets/images/logo.svg" alt="KONTFEEL" width="160" height="48" />
+    </a>
+
+    <nav class="nav-links" aria-label="Navigation principale">
+      {silos.map(silo => {
+        const isCurrent = silo.slug === currentSiloSlug
+        const panelId = `mega-${silo.slug}`
+
+        if (!isCurrent) {
+          return (
+            <a href={silo.href} class="nav-link">{silo.label}</a>
+          )
+        }
+
+        return (
+          <div class="nav-item nav-item--mega" data-mega-item>
+            <button
+              type="button"
+              class="nav-link nav-trigger is-active"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls={panelId}
+            >
+              {silo.label}
+              <svg class="caret" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div
+              class="mega-panel"
+              id={panelId}
+              role="menu"
+              aria-hidden="true"
+            >
+              <a href={silo.href} class:list={['mega-pillar', { active: currentPath === silo.href }]} role="menuitem">
+                Voir tout : {silo.label} <span aria-hidden="true">→</span>
+              </a>
+              <div class="mega-grid">
+                {silo.children.map(child => (
+                  <a
+                    href={child.href}
+                    role="menuitem"
+                    class:list={['mega-link', { active: currentPath === child.href }]}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </nav>
+
+    <a href="/devis/" class="nav-cta">Devis gratuit →</a>
+
+    <button class="hamburger" id="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+
+  <!-- ═══ Menu mobile ═══ -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Navigation mobile">
+      {silos.map(silo => {
+        const isCurrent = silo.slug === currentSiloSlug
+        if (!isCurrent) {
+          return <a href={silo.href} class="mobile-link">{silo.label}</a>
+        }
+        return (
+          <div class="mobile-group">
+            <a href={silo.href} class="mobile-link mobile-link--pillar">
+              {silo.label}
+            </a>
+            <div class="mobile-children">
+              {silo.children.map(child => (
+                <a
+                  href={child.href}
+                  class:list={['mobile-link', 'mobile-child', { active: currentPath === child.href }]}
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+      })}
+      <a href="/devis/" class="mobile-cta">Devis gratuit →</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+// ── Mega-menu : hover + clic + clavier ──────────────────────────────────────
+const items = document.querySelectorAll<HTMLElement>('[data-mega-item]')
+
+for (const item of Array.from(items)) {
+  const trigger = item.querySelector<HTMLButtonElement>('.nav-trigger')
+  const panel   = item.querySelector<HTMLElement>('.mega-panel')
+  if (!trigger || !panel) continue
+
+  let closeTimer: number | undefined
+
+  const adjustAlignment = () => {
+    // Reset puis mesure : si le panneau (aligné à gauche par défaut)
+    // déborderait à droite de la fenêtre, on bascule en alignement à droite.
+    panel.classList.remove('align-right')
+    const rect = panel.getBoundingClientRect()
+    const margin = 16
+    if (rect.right > window.innerWidth - margin) {
+      panel.classList.add('align-right')
+    }
+  }
+
+  const open = () => {
+    window.clearTimeout(closeTimer)
+    trigger.setAttribute('aria-expanded', 'true')
+    panel.setAttribute('aria-hidden', 'false')
+    item.classList.add('is-open')
+    requestAnimationFrame(adjustAlignment)
+  }
+
+  const close = () => {
+    trigger.setAttribute('aria-expanded', 'false')
+    panel.setAttribute('aria-hidden', 'true')
+    item.classList.remove('is-open')
+  }
+
+  const scheduleClose = () => {
+    window.clearTimeout(closeTimer)
+    closeTimer = window.setTimeout(close, 150)
+  }
+
+  // Hover (desktop)
+  item.addEventListener('mouseenter', open)
+  item.addEventListener('mouseleave', scheduleClose)
+
+  // Clic — toggle, et empêche la fermeture immédiate par mouseleave
+  trigger.addEventListener('click', (ev) => {
+    ev.preventDefault()
+    const isOpen = trigger.getAttribute('aria-expanded') === 'true'
+    if (isOpen) close()
+    else open()
+  })
+
+  // Clavier — Enter / Space ouvrent et focusent le 1er lien ; Escape ferme
+  trigger.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault()
+      open()
+      panel.querySelector<HTMLAnchorElement>('a')?.focus()
+    } else if (ev.key === 'Escape') {
+      close()
+    } else if (ev.key === 'ArrowDown') {
+      ev.preventDefault()
+      open()
+      panel.querySelector<HTMLAnchorElement>('a')?.focus()
+    }
+  })
+
+  panel.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') {
+      close()
+      trigger.focus()
+    }
+  })
+
+  // Clic en dehors → ferme
+  document.addEventListener('click', (ev) => {
+    if (!item.contains(ev.target as Node)) close()
+  })
+}
+
+// ── Hamburger (mobile) ──────────────────────────────────────────────────────
+const hamburger  = document.getElementById('hamburger')
+const mobileMenu = document.getElementById('mobile-menu')
+
+if (hamburger && mobileMenu) {
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.getAttribute('aria-expanded') === 'true'
+    hamburger.setAttribute('aria-expanded', String(!isOpen))
+    mobileMenu.setAttribute('aria-hidden', String(isOpen))
+    hamburger.classList.toggle('is-open', !isOpen)
+    mobileMenu.classList.toggle('is-open', !isOpen)
+  })
+}
+</script>
+
+<style>
+  .navbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .04);
+  }
+
+  .navbar-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  /* ── Logo ── */
+  .logo { flex-shrink: 0; display: flex; align-items: center; }
+  .logo img { height: 44px; width: auto; display: block; }
+
+  /* ── Nav links ── */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-700);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    transition: color .15s, background .15s;
+    white-space: nowrap;
+    letter-spacing: .01em;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .nav-link:hover { color: var(--rose); background: var(--rose-light); }
+
+  .nav-link.is-active {
+    color: var(--rose);
+    font-weight: 600;
+    background: var(--rose-light);
+  }
+
+  /* ── Item avec mega-menu ── */
+  .nav-item--mega { position: relative; }
+
+  .caret { transition: transform .2s; flex-shrink: 0; }
+  .nav-item--mega.is-open .caret { transform: rotate(180deg); }
+
+  /* ── Panneau mega-menu ── */
+  .mega-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    min-width: 720px;
+    max-width: min(880px, 90vw);
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
+    padding: 16px;
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity .15s, transform .15s, visibility .15s;
+  }
+
+  .nav-item--mega.is-open .mega-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Modificateur posé par JS quand le panneau déborderait à droite */
+  .mega-panel.align-right { left: auto; right: 0; }
+
+  .mega-pillar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rose);
+    text-decoration: none;
+    padding: 8px 12px;
+    margin: 0 0 12px;
+    border-radius: var(--radius-sm);
+    background: var(--rose-light);
+    transition: background .15s;
+  }
+
+  .mega-pillar:hover { background: rgba(232, 70, 124, .14); }
+
+  .mega-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2px 12px;
+  }
+
+  .mega-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-700);
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    transition: color .15s, background .15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mega-link:hover { color: var(--rose); background: var(--rose-light); }
+  .mega-link.active { color: var(--rose); font-weight: 600; background: var(--rose-light); }
+
+  /* ── CTA ── */
+  .nav-cta {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--rose);
+    color: var(--white);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .2s;
+    white-space: nowrap;
+  }
+
+  .nav-cta:hover { background: var(--rose-dark); }
+
+  /* ── Hamburger ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+    border-radius: var(--radius-sm);
+    transition: background .15s;
+  }
+
+  .hamburger:hover { background: var(--gray-50); }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--dark);
+    border-radius: 2px;
+    transition: transform .25s, opacity .25s;
+  }
+
+  .hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.is-open span:nth-child(2) { opacity: 0; }
+  .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── Mobile menu ── */
+  .mobile-menu {
+    display: none;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .3s ease;
+    border-top: 1px solid var(--gray-100);
+    background: var(--white);
+  }
+
+  .mobile-menu.is-open { max-height: calc(100vh - 72px); overflow-y: auto; }
+
+  .mobile-menu nav {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 16px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gray-700);
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    transition: color .15s, background .15s;
+  }
+
+  .mobile-link:hover,
+  .mobile-link.active { color: var(--rose); background: var(--rose-light); }
+
+  .mobile-link--pillar {
+    font-weight: 600;
+    color: var(--dark);
+    background: var(--gray-50);
+    margin-top: 8px;
+  }
+
+  .mobile-children {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 4px 0 8px 12px;
+    border-left: 2px solid var(--gray-100);
+    margin-left: 12px;
+  }
+
+  .mobile-child { font-size: 14px; padding: 8px 12px; }
+
+  .mobile-cta {
+    margin-top: 12px;
+    padding: 12px 20px;
+    background: var(--rose);
+    color: var(--white);
+    text-align: center;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1100px) {
+    .mega-panel { min-width: 600px; }
+    .mega-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-cta   { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: block; }
+  }
+</style>

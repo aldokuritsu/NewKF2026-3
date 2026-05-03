@@ -5,13 +5,12 @@
  * Props :
  *   title       : string   — <title> de la page (obligatoire)
  *   description : string   — meta description (obligatoire)
- *   siloSlug    : string?  — si défini, utilise NavbarSilo au lieu de NavbarHome
+ *   siloSlug    : string?  — si défini, active le mega-menu du silo courant dans la navbar
  *   currentPath : string?  — URL courante pour l'état actif (défaut : Astro.url.pathname)
  *   ogImage     : string?  — URL absolue de l'image Open Graph
  */
 import Topbar from '../components/Topbar.astro'
-import NavbarHome from '../components/NavbarHome.astro'
-import NavbarSilo from '../components/NavbarSilo.astro'
+import Navbar from '../components/Navbar.astro'
 import Footer from '../components/Footer.astro'
 import DevisModal from '../components/DevisModal.astro'
 import '../styles/global.css'
@@ -69,10 +68,7 @@ const {
     <Topbar />
 
     <!-- ═══ NAVBAR ═══ -->
-    {siloSlug
-      ? <NavbarSilo siloSlug={siloSlug} currentPath={currentPath} />
-      : <NavbarHome />
-    }
+    <Navbar currentSiloSlug={siloSlug} currentPath={currentPath} />
 
     <!-- ═══ CONTENU ═══ -->
     <main>

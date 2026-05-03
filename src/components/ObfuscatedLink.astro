@@ -7,21 +7,31 @@
  * Le décodage est porté par un script bundlé (pas inline) — invisible dans le
  * "View Source" du navigateur.
  *
+ * Prop `bypass` : si true, rend un <a href> standard sans obfuscation.
+ *   Permet d'autoriser explicitement la transmission d'équité PageRank
+ *   depuis certaines pages (typiquement la home, source forte d'autorité).
+ *
  * Utilisation :
- *   <ObfuscatedLink href="/mentions-legales/">Mentions légales</ObfuscatedLink>
+ *   <ObfuscatedLink href="/mentions-legales/" bypass={Astro.url.pathname === '/'}>
+ *     Mentions légales
+ *   </ObfuscatedLink>
  */
 import { obfuscate } from '../lib/obfuscate'
 
 interface Props {
   href: string
   class?: string
+  bypass?: boolean
 }
 
-const { href, class: className } = Astro.props
-const payload = obfuscate(href)
+const { href, class: className, bypass = false } = Astro.props
+const payload = bypass ? '' : obfuscate(href)
 ---
 
-<a class={className} tabindex="0" data-page={payload}><slot /></a>
+{bypass
+  ? <a class={className} href={href}><slot /></a>
+  : <a class={className} tabindex="0" data-page={payload}><slot /></a>
+}
 
 <script>
   import { deobfuscate } from '../lib/obfuscate'

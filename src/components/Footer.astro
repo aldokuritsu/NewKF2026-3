@@ -12,6 +12,9 @@
 import ObfuscatedLink from './ObfuscatedLink.astro'
 
 const year = new Date().getFullYear()
+// Sur la home (forte autorité), on autorise l'équité PageRank vers les pages
+// légales en rendant des <a href> standards. Partout ailleurs, on obfusque.
+const isHome = Astro.url.pathname === '/'
 ---
 
 <footer>
@@ -36,9 +39,9 @@ const year = new Date().getFullYear()
     <div class="footer-col">
       <h3>Informations</h3>
       <nav aria-label="Liens légaux">
-        <ObfuscatedLink href="/mentions-legales/">Mentions légales</ObfuscatedLink>
-        <ObfuscatedLink href="/cgv/">CGV</ObfuscatedLink>
-        <ObfuscatedLink href="/politique-de-confidentialite/">Confidentialité</ObfuscatedLink>
+        <ObfuscatedLink href="/mentions-legales/"             bypass={isHome}>Mentions légales</ObfuscatedLink>
+        <ObfuscatedLink href="/cgv/"                           bypass={isHome}>CGV</ObfuscatedLink>
+        <ObfuscatedLink href="/politique-de-confidentialite/"  bypass={isHome}>Confidentialité</ObfuscatedLink>
         <a href="/plan-du-site/">Plan du site</a>
       </nav>
     </div>

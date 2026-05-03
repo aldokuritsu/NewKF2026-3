@@ -18,6 +18,8 @@ interface Argument {
   text:  string
 }
 
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface Props {
   block: {
     heading:     string
@@ -27,13 +29,16 @@ interface Props {
     cta?:        { label: string; href: string }
     image?:      string
     imageAlt?:   string
+    anchor?:     string
+    nav_label?:  string
   }
 }
 
 const { block } = Astro.props
+const sectionId = resolveAnchor(block) ?? 'plv-eco-responsable'
 ---
 
-<section class="eco-block" id="plv-eco-responsable">
+<section class="eco-block" id={sectionId}>
   <div class="eco-block__inner">
 
     <div class="eco-block__content">

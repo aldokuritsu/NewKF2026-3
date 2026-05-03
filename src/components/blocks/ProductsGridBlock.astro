@@ -14,20 +14,25 @@ interface Product {
   specs?: Spec[]
 }
 
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface Props {
   block: {
     heading?:  string
     subtitle?: string
     products?: Product[]
+    anchor?:   string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
 const products = block.products ?? []
+const sectionId = resolveAnchor(block) ?? 'gamme'
 ---
 
 {(block.heading || products.length > 0) && (
-  <section class="products-grid-block" id="gamme">
+  <section class="products-grid-block" id={sectionId}>
     <div class="pg-inner">
       {(block.heading || block.subtitle) && (
         <header class="pg-header">

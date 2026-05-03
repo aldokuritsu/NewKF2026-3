@@ -3,17 +3,22 @@
  * FAQBlock — Section FAQ avec Schema.org FAQPage
  * Accessible : utilise <details>/<summary> pour le comportement accordion natif.
  */
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface FaqItem { question: string; answer: string }
 
 interface Props {
   block: {
     heading?: string
     items?:   FaqItem[]
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
 const items = block.items ?? []
+const sectionId = resolveAnchor(block) ?? 'faq'
 
 // Schema.org FAQPage pour le SEO
 const schemaFaq = {
@@ -31,7 +36,7 @@ const schemaFaq = {
 ---
 
 {items.length > 0 && (
-  <section class="faq-block" id="faq" itemscope itemtype="https://schema.org/FAQPage">
+  <section class="faq-block" id={sectionId} itemscope itemtype="https://schema.org/FAQPage">
     <div class="faq-inner">
       {block.heading && <h2 class="faq-heading">{block.heading}</h2>}
 

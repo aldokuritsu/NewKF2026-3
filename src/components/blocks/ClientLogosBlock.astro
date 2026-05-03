@@ -13,18 +13,23 @@ interface Logo {
   href?:   string   // Lien optionnel (étude de cas)
 }
 
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface Props {
   block: {
     heading?:   string
     subtitle?:  string
     logos:      Logo[]
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
+const sectionId = resolveAnchor(block) ?? 'clients'
 ---
 
-<section class="client-logos" id="clients">
+<section class="client-logos" id={sectionId}>
   <div class="client-logos__inner">
 
     {(block.heading || block.subtitle) && (

@@ -5,6 +5,7 @@
  */
 import { marked } from 'marked'
 import DOMPurify from 'isomorphic-dompurify'
+import { resolveAnchor } from '../../lib/blockNav'
 
 interface Badge  { text: string; green?: boolean }
 interface Certif { label: string }
@@ -20,6 +21,8 @@ interface Props {
     badges?:     Badge[]
     certifs?:    Certif[]
     ctas?:       Cta[]
+    anchor?:     string
+    nav_label?:  string
   }
 }
 
@@ -27,9 +30,10 @@ const { block } = Astro.props
 const introHtml = block.intro
   ? DOMPurify.sanitize(marked.parse(block.intro, { async: false }) as string)
   : ''
+const sectionId = resolveAnchor(block) ?? 'hero'
 ---
 
-<section class="hero-block" id="hero">
+<section class="hero-block" id={sectionId}>
   <div class="hero-inner">
 
     {block.image && (

@@ -12,6 +12,8 @@
 import BaseLayout   from './BaseLayout.astro'
 import Breadcrumb   from '../components/Breadcrumb.astro'
 import BlockRenderer from '../components/blocks/BlockRenderer.astro'
+import SubNav        from '../components/SubNav.astro'
+import { buildSubNav } from '../lib/blockNav'
 
 interface Props {
   seoTitle:       string
@@ -23,6 +25,7 @@ interface Props {
 }
 
 const { seoTitle, seoDescription, siloSlug, siloLabel, ogImage, blocks } = Astro.props
+const subNavEntries = buildSubNav(blocks)
 ---
 
 <BaseLayout
@@ -31,6 +34,9 @@ const { seoTitle, seoDescription, siloSlug, siloLabel, ogImage, blocks } = Astro
   siloSlug={siloSlug}
   ogImage={ogImage}
 >
+  <!-- Sub-nav (raccourcis d'ancres dans la page) -->
+  <SubNav entries={subNavEntries} />
+
   <!-- Breadcrumb : Accueil › Pilier -->
   <Breadcrumb crumbs={[
     { label: 'Accueil', href: '/' },

@@ -21,6 +21,8 @@ interface Realisation {
   isNew?:      boolean  // Badge "Récent"
 }
 
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface Props {
   block: {
     heading:    string
@@ -28,13 +30,16 @@ interface Props {
     items:      Realisation[]
     ctaLabel?:  string
     ctaHref?:   string
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
+const sectionId = resolveAnchor(block) ?? 'realisations'
 ---
 
-<section class="realizations" id="realisations">
+<section class="realizations" id={sectionId}>
   <div class="realizations__inner">
 
     <div class="realizations__header">

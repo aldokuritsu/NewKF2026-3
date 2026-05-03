@@ -10,16 +10,20 @@
  *   { "_template": "product_buy", "productSlug": "totem-carton-automatique" }
  */
 import { getEntry } from 'astro:content'
+import { resolveAnchor } from '../../lib/blockNav'
 
 interface Props {
   block: {
     productSlug?: string
     heading?: string
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
 const productSlug = block.productSlug?.trim() || ''
+const sectionId = resolveAnchor(block) ?? 'commander'
 
 let product: any = null
 let loadError: string | null = null
@@ -67,7 +71,7 @@ const productJson = product
 )}
 
 {product && product.active && (
-  <section class="pb-block" id="commander">
+  <section class="pb-block" id={sectionId}>
     <div class="pb-inner">
       <header class="pb-header">
         <h2 class="pb-heading">{block.heading ?? 'Commander en ligne'}</h2>

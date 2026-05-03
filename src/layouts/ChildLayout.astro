@@ -14,6 +14,8 @@
 import BaseLayout    from './BaseLayout.astro'
 import Breadcrumb    from '../components/Breadcrumb.astro'
 import BlockRenderer from '../components/blocks/BlockRenderer.astro'
+import SubNav        from '../components/SubNav.astro'
+import { buildSubNav } from '../lib/blockNav'
 import { silos }     from '../data/silos'
 
 interface Props {
@@ -36,6 +38,8 @@ const {
 // URL de la page pilier pour le breadcrumb
 const silo = silos.find(s => s.slug === siloSlug)
 const pillarHref = silo?.href ?? `/${siloSlug}/`
+
+const subNavEntries = buildSubNav(blocks)
 ---
 
 <BaseLayout
@@ -45,6 +49,9 @@ const pillarHref = silo?.href ?? `/${siloSlug}/`
   currentPath={currentPath}
   ogImage={ogImage}
 >
+  <!-- Sub-nav (raccourcis d'ancres dans la page) -->
+  <SubNav entries={subNavEntries} />
+
   <!-- Breadcrumb : Accueil › Pilier › Enfant -->
   <Breadcrumb crumbs={[
     { label: 'Accueil',  href: '/' },

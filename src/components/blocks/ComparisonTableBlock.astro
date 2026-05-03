@@ -12,6 +12,8 @@
  * Freshness note : date de mise à jour affichée en pied de tableau.
  */
 
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface Column { label: string }
 interface Cell   { value?: string }
 interface Row    { criterion?: string; cells?: Cell[] }
@@ -22,16 +24,19 @@ interface Props {
     subtitle?: string
     columns?:  Column[]
     rows?:     Row[]
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
 const columns = block.columns ?? []
 const rows    = block.rows    ?? []
+const sectionId = resolveAnchor(block) ?? 'comparer'
 ---
 
 {(rows.length > 0) && (
-  <section class="ct-block" id="comparer">
+  <section class="ct-block" id={sectionId}>
     <div class="ct-inner">
 
       {(block.heading || block.subtitle) && (

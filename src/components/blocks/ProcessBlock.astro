@@ -15,19 +15,24 @@ interface Step {
   imageAlt?:    string
 }
 
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface Props {
   block: {
     heading:   string
     subtitle?: string
     steps:     Step[]
     cta?:      { label: string; href: string }
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
+const sectionId = resolveAnchor(block) ?? 'process'
 ---
 
-<section class="process" id="process">
+<section class="process" id={sectionId}>
   <div class="process__inner">
 
     <div class="process__header">

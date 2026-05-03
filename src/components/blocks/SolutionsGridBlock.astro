@@ -19,20 +19,25 @@ interface Solution {
   tag?:         string                  // Badge optionnel (ex : "Nouveau", "★ Populaire")
 }
 
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface Props {
   block: {
     heading:   string
     subtitle?: string
     solutions: Solution[]
     linkLabel?: string  // Libellé par défaut du lien (ex : "Découvrir")
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
 const linkLabel = block.linkLabel ?? 'Découvrir'
+const sectionId = resolveAnchor(block) ?? 'solutions'
 ---
 
-<section class="solutions-grid" id="solutions">
+<section class="solutions-grid" id={sectionId}>
   <div class="solutions-grid__inner">
 
     <div class="solutions-grid__header">

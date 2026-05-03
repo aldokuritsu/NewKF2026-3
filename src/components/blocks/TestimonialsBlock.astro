@@ -1,4 +1,6 @@
 ---
+import { resolveAnchor } from '../../lib/blockNav'
+
 interface TestiItem { name: string; role?: string; quote: string; stars?: number }
 
 interface Props {
@@ -6,15 +8,18 @@ interface Props {
     heading?:  string
     subtitle?: string
     items?:    TestiItem[]
+    anchor?:    string
+    nav_label?: string
   }
 }
 
 const { block } = Astro.props
 const items = block.items ?? []
+const sectionId = resolveAnchor(block) ?? 'temoignages'
 ---
 
 {items.length > 0 && (
-  <section class="testi-block">
+  <section class="testi-block" id={sectionId}>
     <div class="testi-inner">
       {(block.heading || block.subtitle) && (
         <header class="testi-header">

@@ -5,11 +5,14 @@
  */
 import { marked } from 'marked'
 import DOMPurify from 'isomorphic-dompurify'
+import { resolveAnchor } from '../../lib/blockNav'
 
 interface Props {
   block: {
     heading?: string
     content?: string
+    anchor?:    string
+    nav_label?: string
   }
 }
 
@@ -17,9 +20,10 @@ const { block } = Astro.props
 const html = block.content
   ? DOMPurify.sanitize(marked.parse(block.content, { async: false }) as string)
   : ''
+const sectionId = resolveAnchor(block) ?? 'expert'
 ---
 
-<section class="te-block" id="expert">
+<section class="te-block" id={sectionId}>
   <div class="te-inner">
 
     {block.heading && (

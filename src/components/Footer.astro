@@ -6,8 +6,10 @@
  *   ✅ Liens vers les 6 pages piliers (inter-silo autorisé)
  *   ✅ Liens vers pages légales, contact, plan du site
  *   ❌ Aucun lien vers des pages enfants
+ *   🔒 Pages légales obligatoires (sans valeur SEO) → <ObfuscatedLink>,
+ *      pour ne pas diluer l'équité PageRank vers ces destinations.
  */
-import { silos } from '../data/silos'
+import ObfuscatedLink from './ObfuscatedLink.astro'
 
 const year = new Date().getFullYear()
 ---
@@ -34,9 +36,9 @@ const year = new Date().getFullYear()
     <div class="footer-col">
       <h3>Informations</h3>
       <nav aria-label="Liens légaux">
-        <a href="/mentions-legales/">Mentions légales</a>
-        <a href="/cgv/">CGV</a>
-        <a href="/politique-de-confidentialite/">Confidentialité</a>
+        <ObfuscatedLink href="/mentions-legales/">Mentions légales</ObfuscatedLink>
+        <ObfuscatedLink href="/cgv/">CGV</ObfuscatedLink>
+        <ObfuscatedLink href="/politique-de-confidentialite/">Confidentialité</ObfuscatedLink>
         <a href="/plan-du-site/">Plan du site</a>
       </nav>
     </div>

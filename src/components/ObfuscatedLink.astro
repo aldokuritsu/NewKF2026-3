@@ -1,0 +1,53 @@
+---
+/**
+ * ObfuscatedLink — Lien dont l'URL est encodée à la compilation.
+ *
+ * Output HTML : <a tabindex="0" data-page="...">Texte</a>
+ * Aucun href, aucune URL en clair, aucune classe ni role qui trahit l'intention.
+ * Le décodage est porté par un script bundlé (pas inline) — invisible dans le
+ * "View Source" du navigateur.
+ *
+ * Utilisation :
+ *   <ObfuscatedLink href="/mentions-legales/">Mentions légales</ObfuscatedLink>
+ */
+import { obfuscate } from '../lib/obfuscate'
+
+interface Props {
+  href: string
+  class?: string
+}
+
+const { href, class: className } = Astro.props
+const payload = obfuscate(href)
+---
+
+<a class={className} tabindex="0" data-page={payload}><slot /></a>
+
+<script>
+  import { deobfuscate } from '../lib/obfuscate'
+
+  function go(el: HTMLAnchorElement, ev: MouseEvent | KeyboardEvent) {
+    const enc = el.dataset.page
+    if (!enc) return
+    const url = deobfuscate(enc)
+    const me = ev as MouseEvent
+    const newTab = me.ctrlKey || me.metaKey || me.shiftKey || me.button === 1
+    if (newTab) window.open(url, '_blank', 'noopener,noreferrer')
+    else window.location.href = url
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('a[data-page]').forEach(el => {
+    el.addEventListener('click', ev => { ev.preventDefault(); go(el, ev) })
+    el.addEventListener('auxclick', ev => {
+      if (ev.button === 1) { ev.preventDefault(); go(el, ev) }
+    })
+    el.addEventListener('keydown', ev => {
+      if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); go(el, ev) }
+    })
+  })
+</script>
+
+<style>
+  /* Sans href, l'élément n'a pas le curseur main par défaut. */
+  a[data-page] { cursor: pointer; }
+</style>

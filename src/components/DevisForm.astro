@@ -1,17 +1,20 @@
 ---
 /**
- * DevisForm — Formulaire de demande de devis (réutilisable).
+ * DevisForm — Formulaire de demande de devis en 2 étapes (réutilisable).
+ *
+ * Étape 1 : Projet (support, description, quantité, date, fichiers)
+ * Étape 2 : Coordonnées (entreprise, nom, email, tel, CP/ville, RGPD)
  *
  * Utilisé par :
  *  - /devis/ (page standalone)
  *  - DevisModal.astro (popup déclenchée par data-open-devis ou href="#devis")
  *
- * Une seule instance par page (les IDs sont fixes). Le BaseLayout passe
- * automatiquement productRef depuis ChildLayout (= pageLabel d'un produit).
+ * Une seule instance par page (les IDs sont fixes). ChildLayout passe
+ * automatiquement productRef = pageLabel (ex: "Totem carton").
  *
  * Props :
- *   productRef? : string — référence produit pré-remplie (ex: "Totem carton")
- *   variant?    : 'page' | 'modal' — pour ajuster le padding/structure
+ *   productRef? : string — référence produit pré-remplie + envoyée au PHP
+ *   variant?    : 'page' | 'modal' — ajuste le style/padding
  */
 import { silos } from '../data/silos'
 
@@ -24,160 +27,181 @@ const { productRef = '', variant = 'page' } = Astro.props
 const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
 ---
 
-<form id="devis-form" class:list={['devis-form', `devis-form--${variant}`]} novalidate data-product-ref={productRef}>
+<div class:list={['devis-wrap', `devis-wrap--${variant}`]}>
 
-  {productRef && (
-    <div class="devis-context" role="note">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <form id="devis-form" class="devis-form" novalidate data-product-ref={productRef}>
+
+    {productRef && (
+      <div class="devis-context" role="note">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Demande pour&nbsp;: <strong>{productRef}</strong></span>
+      </div>
+    )}
+
+    <!-- ═══ STEPPER ═══ -->
+    <div class="devis-stepper" role="presentation" aria-hidden="true">
+      <span class="step-dot is-active" data-step-dot="1"><span class="step-num">1</span><span class="step-label">Projet</span></span>
+      <span class="step-line"></span>
+      <span class="step-dot" data-step-dot="2"><span class="step-num">2</span><span class="step-label">Coordonnées</span></span>
+    </div>
+
+    <!-- ═══ ÉTAPE 1 — Projet ═══ -->
+    <div class="devis-step" data-step="1">
+      <fieldset class="devis-section">
+        <legend>Votre projet</legend>
+
+        <div class="devis-field">
+          <label for="d-support">Type de support souhaité *</label>
+          <select id="d-support" name="support" required>
+            <option value="">— Choisir —</option>
+            {silos.map((s) => <option value={s.label}>{s.label}</option>)}
+            <option value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
+          </select>
+        </div>
+
+        <div class="devis-field">
+          <label for="d-description">Description du projet *</label>
+          <textarea
+            id="d-description"
+            name="description"
+            rows="3"
+            required
+            placeholder="Quel produit précis ? Quelle utilisation ? Contraintes (taille, matériau, délai…) ?"
+          ></textarea>
+        </div>
+
+        <div class="devis-row">
+          <div class="devis-field">
+            <label for="d-quantite">Quantité souhaitée *</label>
+            <input id="d-quantite" type="text" name="quantite" required placeholder="Ex : 100 unités" />
+          </div>
+          <div class="devis-field">
+            <label for="d-date">Date de livraison souhaitée</label>
+            <input id="d-date" type="date" name="dateLivraison" />
+          </div>
+        </div>
+
+        <div class="devis-field">
+          <label for="d-files">Visuels / cahier des charges (optionnel)</label>
+          <p class="devis-hint">JPG, PNG, WebP ou PDF — 10 Mo par fichier max.</p>
+          <input
+            id="d-files"
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp,application/pdf"
+          />
+          <p id="d-files-status" class="devis-files-status hidden"></p>
+          <ul id="d-files-list" class="devis-files-list"></ul>
+        </div>
+      </fieldset>
+
+      <p id="d-status-1" class="devis-status hidden" aria-live="polite"></p>
+
+      <div class="devis-actions">
+        <p class="devis-mention">Étape 1 / 2 · * Champs obligatoires</p>
+        <button id="d-next" type="button" class="devis-submit">
+          Suivant
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ ÉTAPE 2 — Coordonnées ═══ -->
+    <div class="devis-step is-hidden" data-step="2">
+      <fieldset class="devis-section">
+        <legend>Vos coordonnées</legend>
+
+        <div class="devis-row">
+          <div class="devis-field">
+            <label for="d-societe">Entreprise *</label>
+            <input id="d-societe" type="text" name="societe" required autocomplete="organization" />
+          </div>
+          <div class="devis-field">
+            <label for="d-nom">Nom complet *</label>
+            <input id="d-nom" type="text" name="nom" required autocomplete="name" />
+          </div>
+        </div>
+
+        <div class="devis-row">
+          <div class="devis-field">
+            <label for="d-email">Email *</label>
+            <input id="d-email" type="email" name="email" required autocomplete="email" />
+          </div>
+          <div class="devis-field">
+            <label for="d-tel">Téléphone *</label>
+            <input id="d-tel" type="tel" name="telephone" required autocomplete="tel" />
+          </div>
+        </div>
+
+        <div class="devis-field">
+          <label for="d-cpville">Code postal et ville de livraison</label>
+          <input id="d-cpville" type="text" name="cpVille" placeholder="Ex : 76690 Saint-Georges-sur-Fontaine" autocomplete="address-level2" />
+        </div>
+
+        <!-- Honeypot anti-bot : invisible aux humains -->
+        <div class="devis-hp" aria-hidden="true">
+          <label for="d-website">Site web (laissez vide)</label>
+          <input id="d-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="devis-field devis-rgpd">
+          <label class="devis-check">
+            <input id="d-rgpd" type="checkbox" name="rgpdAccepte" required />
+            <span>
+              J'accepte que mes données soient utilisées pour traiter ma demande de devis,
+              conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a> *
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <p id="d-status-2" class="devis-status hidden" aria-live="polite"></p>
+
+      <div class="devis-actions">
+        <button id="d-prev" type="button" class="devis-back-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Retour
+        </button>
+        <button id="d-submit" type="submit" class="devis-submit">
+          Envoyer ma demande
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- État de succès affiché après envoi -->
+  <div id="devis-success" class="devis-success hidden" data-variant={variant}>
+    <div class="devis-success-icon" aria-hidden="true">
+      <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="24" fill="var(--rose, #E8336D)" opacity=".12"/>
+        <path d="M14 24l7 7 13-13" stroke="var(--rose, #E8336D)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span>Demande pour&nbsp;: <strong>{productRef}</strong></span>
     </div>
-  )}
-
-  <!-- ═══ PROJET ═══ -->
-  <fieldset class="devis-section">
-    <legend>Votre projet</legend>
-
-    <div class="devis-field">
-      <label for="d-support">Type de support souhaité *</label>
-      <select id="d-support" name="support" required>
-        <option value="">— Choisir —</option>
-        {silos.map((s) => <option value={s.label}>{s.label}</option>)}
-        <option value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
-      </select>
-    </div>
-
-    <div class="devis-field">
-      <label for="d-description">Description du projet *</label>
-      <textarea
-        id="d-description"
-        name="description"
-        rows="4"
-        required
-        placeholder="Quel produit précis ? Quelle utilisation ? Y a-t-il des contraintes (taille, matériau, délai…) ? Plus c'est précis, plus le devis sera juste."
-      ></textarea>
-    </div>
-
-    <div class="devis-row">
-      <div class="devis-field">
-        <label for="d-quantite">Quantité souhaitée *</label>
-        <input id="d-quantite" type="text" name="quantite" required placeholder="Ex : 100 unités" />
-      </div>
-
-      <div class="devis-field">
-        <label for="d-date">Date de livraison souhaitée</label>
-        <input id="d-date" type="date" name="dateLivraison" />
-      </div>
-    </div>
-
-    <div class="devis-field">
-      <label for="d-files">Visuels / cahier des charges (optionnel)</label>
-      <p class="devis-hint">JPG, PNG, WebP ou PDF — 10 Mo par fichier max.</p>
-      <input
-        id="d-files"
-        type="file"
-        multiple
-        accept="image/jpeg,image/png,image/webp,application/pdf"
-      />
-      <p id="d-files-status" class="devis-files-status hidden"></p>
-      <ul id="d-files-list" class="devis-files-list"></ul>
-    </div>
-  </fieldset>
-
-  <!-- ═══ COORDONNÉES ═══ -->
-  <fieldset class="devis-section">
-    <legend>Vos coordonnées</legend>
-
-    <div class="devis-row">
-      <div class="devis-field">
-        <label for="d-societe">Entreprise *</label>
-        <input id="d-societe" type="text" name="societe" required autocomplete="organization" />
-      </div>
-
-      <div class="devis-field">
-        <label for="d-nom">Nom complet *</label>
-        <input id="d-nom" type="text" name="nom" required autocomplete="name" />
-      </div>
-    </div>
-
-    <div class="devis-row">
-      <div class="devis-field">
-        <label for="d-email">Email *</label>
-        <input id="d-email" type="email" name="email" required autocomplete="email" />
-      </div>
-
-      <div class="devis-field">
-        <label for="d-tel">Téléphone *</label>
-        <input id="d-tel" type="tel" name="telephone" required autocomplete="tel" />
-      </div>
-    </div>
-
-    <div class="devis-field">
-      <label for="d-cpville">Code postal et ville de livraison</label>
-      <input id="d-cpville" type="text" name="cpVille" placeholder="Ex : 76690 Saint-Georges-sur-Fontaine" autocomplete="address-level2" />
-    </div>
-
-    <!-- Honeypot anti-bot : invisible aux humains -->
-    <div class="devis-hp" aria-hidden="true">
-      <label for="d-website">Site web (laissez vide)</label>
-      <input id="d-website" type="text" name="website" tabindex="-1" autocomplete="off" />
-    </div>
-
-    <div class="devis-field devis-rgpd">
-      <label class="devis-check">
-        <input id="d-rgpd" type="checkbox" name="rgpdAccepte" required />
-        <span>
-          J'accepte que mes données soient utilisées pour traiter ma demande de devis,
-          conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a> *
-        </span>
-      </label>
-    </div>
-  </fieldset>
-
-  <p id="d-status" class="devis-status hidden" aria-live="polite"></p>
-
-  <div class="devis-actions">
-    <p class="devis-mention">* Champs obligatoires</p>
-    <button id="d-submit" type="submit" class="devis-submit">
-      Envoyer ma demande
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
+    <h2>Demande envoyée !</h2>
+    <p>Merci pour votre confiance. Notre équipe analyse votre projet et vous revient sous <strong>48h ouvrées</strong> avec une proposition.</p>
+    {variant === 'page' && <a href="/" class="devis-back">← Retour à l'accueil</a>}
   </div>
-</form>
-
-<!-- État de succès affiché après envoi -->
-<div id="devis-success" class="devis-success hidden" data-variant={variant}>
-  <div class="devis-success-icon" aria-hidden="true">
-    <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
-      <circle cx="24" cy="24" r="24" fill="var(--rose, #E8336D)" opacity=".12"/>
-      <path d="M14 24l7 7 13-13" stroke="var(--rose, #E8336D)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-  <h2>Demande envoyée !</h2>
-  <p>Merci pour votre confiance. Notre équipe analyse votre projet et vous revient sous <strong>48h ouvrées</strong> avec une proposition.</p>
-  {variant === 'page' && <a href="/" class="devis-back">← Retour à l'accueil</a>}
 </div>
 
 <style>
-  /* ═══ Conteneur ═══ */
-  .devis-form {
+  /* ═══ Wrapper ═══ */
+  .devis-wrap--page {
     background: #fff;
     border: 1px solid var(--gray-100, #e5e7eb);
     border-radius: 16px;
     padding: 32px;
   }
-  /* En modal, pas de bordure / radius / fond — on hérite du dialog */
-  .devis-form--modal {
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    padding: 0;
-  }
   @media (max-width: 640px) {
-    .devis-form--page { padding: 20px; }
+    .devis-wrap--page { padding: 20px; }
   }
 
   /* ═══ Bandeau contexte produit ═══ */
@@ -189,44 +213,86 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
     border-radius: 8px;
     color: var(--rose, #E8336D);
     font-size: 13px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .devis-context strong { color: var(--dark, #1a1a2e); font-weight: 600; }
   .devis-context svg { flex-shrink: 0; }
 
-  /* ═══ Sections ═══ */
-  .devis-section { border: 0; padding: 0; margin: 0 0 24px; }
-  .devis-section + .devis-section {
-    margin-top: 32px; padding-top: 32px;
-    border-top: 1px solid var(--gray-100, #e5e7eb);
+  /* ═══ Stepper ═══ */
+  .devis-stepper {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
   }
+  .step-dot {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--gray-500, #6b7280);
+    font-size: 13px;
+    font-weight: 500;
+    transition: color .2s;
+  }
+  .step-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--gray-100, #e5e7eb);
+    color: var(--gray-500, #6b7280);
+    font-size: 13px;
+    font-weight: 600;
+    transition: background .2s, color .2s;
+  }
+  .step-dot.is-active { color: var(--dark, #1a1a2e); }
+  .step-dot.is-active .step-num { background: var(--rose, #E8336D); color: #fff; }
+  .step-dot.is-done .step-num {
+    background: var(--rose, #E8336D); color: #fff;
+  }
+  .step-line {
+    flex: 1; height: 2px;
+    background: var(--gray-100, #e5e7eb);
+    border-radius: 2px;
+    transition: background .2s;
+  }
+  .devis-stepper.is-step-2 .step-line { background: var(--rose, #E8336D); }
+  @media (max-width: 480px) {
+    .step-label { display: none; }
+  }
+
+  /* ═══ Étapes ═══ */
+  .devis-step { animation: stepIn .25s ease-out; }
+  .devis-step.is-hidden { display: none; }
+  @keyframes stepIn {
+    from { opacity: 0; transform: translateX(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ═══ Sections ═══ */
+  .devis-section { border: 0; padding: 0; margin: 0; }
   .devis-section legend {
-    font-size: 16px; font-weight: 700; color: var(--dark, #1a1a2e);
-    padding: 0; margin-bottom: 16px;
+    font-size: 15px; font-weight: 700; color: var(--dark, #1a1a2e);
+    padding: 0; margin-bottom: 14px;
   }
 
   /* ═══ Layout champs ═══ */
   .devis-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-    margin-bottom: 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 12px;
   }
   @media (max-width: 600px) { .devis-row { grid-template-columns: 1fr; } }
 
-  .devis-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .devis-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
   .devis-row .devis-field { margin-bottom: 0; }
 
   .devis-field label {
     font-size: 13px; font-weight: 500; color: var(--dark, #1a1a2e);
   }
   .devis-hint {
-    font-size: 12px; color: var(--gray-500, #6b7280); margin: 0 0 6px;
+    font-size: 12px; color: var(--gray-500, #6b7280); margin: 0 0 4px;
   }
 
   .devis-field input,
   .devis-field select,
   .devis-field textarea {
     width: 100%;
-    padding: 11px 14px;
+    padding: 10px 13px;
     border: 1.5px solid #e5e7eb;
     border-radius: 8px;
     font-size: 14px;
@@ -236,7 +302,7 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
     transition: border-color .15s, box-shadow .15s, background .15s;
     box-sizing: border-box;
   }
-  .devis-field textarea { resize: vertical; min-height: 96px; }
+  .devis-field textarea { resize: vertical; min-height: 72px; }
   .devis-field input:focus,
   .devis-field select:focus,
   .devis-field textarea:focus {
@@ -264,29 +330,30 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
   .devis-files-list a { color: var(--rose, #E8336D); text-decoration: underline; }
 
   /* ═══ RGPD ═══ */
-  .devis-rgpd { margin-top: 8px; }
+  .devis-rgpd { margin-top: 4px; }
   .devis-check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 13px; line-height: 1.5; color: var(--gray-700, #374151); font-weight: 400; }
   .devis-check input { margin-top: 3px; flex-shrink: 0; width: 16px; height: 16px; }
   .devis-check a { color: var(--rose, #E8336D); text-decoration: underline; }
 
-  /* ═══ Status / actions ═══ */
+  /* ═══ Status ═══ */
   .devis-status {
-    font-size: 13px; padding: 12px 16px;
+    font-size: 13px; padding: 10px 14px;
     background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;
-    color: #ef4444; margin: 16px 0 0;
+    color: #ef4444; margin: 12px 0 0;
   }
 
+  /* ═══ Actions ═══ */
   .devis-actions {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; flex-wrap: wrap;
-    margin-top: 24px; padding-top: 24px;
+    gap: 12px; flex-wrap: wrap;
+    margin-top: 20px; padding-top: 20px;
     border-top: 1px solid var(--gray-100, #e5e7eb);
   }
   .devis-mention { font-size: 12px; color: var(--gray-500, #6b7280); margin: 0; }
 
   .devis-submit {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 13px 28px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 24px;
     background: linear-gradient(135deg, var(--rose, #E8336D) 0%, #D0356A 100%);
     color: #fff; border: 0; border-radius: 8px;
     font-size: 14px; font-weight: 600; font-family: inherit;
@@ -294,6 +361,18 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
   }
   .devis-submit:hover:not(:disabled) { opacity: .92; transform: translateY(-1px); }
   .devis-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+  .devis-back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 16px;
+    background: transparent;
+    color: var(--gray-700, #374151);
+    border: 1.5px solid var(--gray-100, #e5e7eb);
+    border-radius: 8px;
+    font-size: 14px; font-weight: 500; font-family: inherit;
+    cursor: pointer; transition: border-color .15s, color .15s;
+  }
+  .devis-back-btn:hover { border-color: var(--gray-300, #d1d5db); color: var(--dark, #1a1a2e); }
 
   /* ═══ Succès ═══ */
   .devis-success {
@@ -321,13 +400,19 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
 <script is:inline define:vars={{ endpoint }}>
   const form = document.getElementById('devis-form')
   if (form) (function init() {
+    const wrap = form.closest('.devis-wrap')
+    const stepper = form.querySelector('.devis-stepper')
     const successEl = document.getElementById('devis-success')
     const submit = document.getElementById('d-submit')
-    const status = document.getElementById('d-status')
+    const nextBtn = document.getElementById('d-next')
+    const prevBtn = document.getElementById('d-prev')
+    const status1 = document.getElementById('d-status-1')
+    const status2 = document.getElementById('d-status-2')
     const filesInput = document.getElementById('d-files')
     const filesStatus = document.getElementById('d-files-status')
     const filesList = document.getElementById('d-files-list')
 
+    let currentStep = 1
     let openedAt = Date.now()
     let uploadedFiles = []
     let uploading = false
@@ -345,30 +430,78 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
         filesList.appendChild(li)
       })
     }
-    function showStatus(msg) {
-      status.textContent = msg
-      status.classList.remove('hidden')
+    function showStatus(stepNum, msg) {
+      const el = stepNum === 1 ? status1 : status2
+      el.textContent = msg
+      el.classList.remove('hidden')
     }
-    function hideStatus() {
-      status.classList.add('hidden')
-      status.textContent = ''
+    function hideStatus(stepNum) {
+      const el = stepNum === 1 ? status1 : status2
+      el.classList.add('hidden')
+      el.textContent = ''
     }
 
-    // ── Reset complet du formulaire (appelable depuis le modal lors d'une réouverture) ──
+    function goToStep(n) {
+      currentStep = n
+      form.querySelectorAll('[data-step]').forEach((el) => {
+        el.classList.toggle('is-hidden', el.getAttribute('data-step') !== String(n))
+      })
+      // Stepper visuel
+      stepper.classList.toggle('is-step-2', n === 2)
+      form.querySelector('[data-step-dot="1"]').classList.toggle('is-active', n === 1)
+      form.querySelector('[data-step-dot="1"]').classList.toggle('is-done', n === 2)
+      form.querySelector('[data-step-dot="2"]').classList.toggle('is-active', n === 2)
+      // Scroll vers le haut du wrap (utile en page standalone)
+      wrap?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })
+      // Focus le 1er champ de l'étape (accessibilité)
+      const firstInput = form.querySelector(`[data-step="${n}"] input, [data-step="${n}"] select, [data-step="${n}"] textarea`)
+      firstInput?.focus?.({ preventScroll: true })
+    }
+
+    function validateStep(n) {
+      const required = [...form.querySelectorAll(`[data-step="${n}"] [required]`)]
+      let valid = true
+      required.forEach((el) => {
+        const ok = el.checkValidity?.()
+        el.classList.toggle('is-invalid', !ok)
+        if (!ok) valid = false
+      })
+      return valid
+    }
+
+    // ── Reset complet (appelable depuis le modal au reopen) ──
     window.__resetDevisForm = function () {
       form.reset()
       form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'))
-      hideStatus()
+      hideStatus(1); hideStatus(2)
       submit.disabled = false
-      submit.textContent = 'Envoyer ma demande'
       uploadedFiles = []
       renderFilesList()
       filesStatus.className = 'devis-files-status hidden'
       filesStatus.textContent = ''
       form.classList.remove('hidden')
       successEl.classList.add('hidden')
+      goToStep(1)
       openedAt = Date.now()
     }
+
+    // ── Navigation entre étapes ──
+    nextBtn?.addEventListener('click', () => {
+      if (uploading) {
+        showStatus(1, "Veuillez attendre la fin de l'upload des fichiers.")
+        return
+      }
+      if (!validateStep(1)) {
+        showStatus(1, 'Veuillez remplir tous les champs obligatoires de cette étape.')
+        return
+      }
+      hideStatus(1)
+      goToStep(2)
+    })
+    prevBtn?.addEventListener('click', () => {
+      hideStatus(2)
+      goToStep(1)
+    })
 
     // ── Upload Vercel Blob ──
     filesInput?.addEventListener('change', async (e) => {
@@ -381,6 +514,7 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
         }
       }
       uploading = true
+      nextBtn.disabled = true
       submit.disabled = true
       setFilesStatus(`Upload de ${files.length} fichier(s)…`, 'info')
       try {
@@ -405,6 +539,7 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
         setFilesStatus(err.message || "Erreur lors de l'upload.", 'error')
       } finally {
         uploading = false
+        nextBtn.disabled = false
         submit.disabled = false
       }
     })
@@ -413,10 +548,11 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
       e.target?.classList?.remove('is-invalid')
     })
 
+    // ── Submit final (étape 2) ──
     form.addEventListener('submit', async (e) => {
       e.preventDefault()
       if (uploading) {
-        showStatus("Veuillez attendre la fin de l'upload des fichiers.")
+        showStatus(2, "Veuillez attendre la fin de l'upload des fichiers.")
         return
       }
       // Anti-bot
@@ -427,21 +563,28 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
         successEl.classList.remove('hidden')
         return
       }
-      // Validation
-      const required = [...form.querySelectorAll('[required]')]
+      // Validation des deux étapes
+      const allRequired = [...form.querySelectorAll('[required]')]
       let valid = true
-      required.forEach((el) => {
+      allRequired.forEach((el) => {
         const ok = el.checkValidity?.()
         el.classList.toggle('is-invalid', !ok)
         if (!ok) valid = false
       })
       if (!valid) {
-        showStatus('Veuillez remplir tous les champs obligatoires correctement.')
+        // Si invalide sur l'étape 1, on y revient
+        const stepOneInvalid = form.querySelector('[data-step="1"] .is-invalid')
+        if (stepOneInvalid) {
+          goToStep(1)
+          showStatus(1, 'Veuillez remplir tous les champs obligatoires de cette étape.')
+        } else {
+          showStatus(2, 'Veuillez remplir tous les champs obligatoires correctement.')
+        }
         return
       }
       submit.disabled = true
-      hideStatus()
-      const originalLabel = submit.textContent
+      hideStatus(2)
+      const originalLabel = submit.innerHTML
       submit.textContent = 'Envoi…'
       const fd = new FormData(form)
       const payload = {
@@ -463,16 +606,16 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         form.classList.add('hidden')
         successEl.classList.remove('hidden')
-        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        successEl.scrollIntoView?.({ behavior: 'smooth', block: 'center' })
       } catch (err) {
         console.error('[devis submit]', err)
-        showStatus(
+        showStatus(2,
           endpoint
             ? 'Une erreur est survenue. Vous pouvez réessayer ou nous contacter au 02 78 77 53 93.'
             : "⚙️ Endpoint non configuré — ajoutez PUBLIC_DEVIS_ENDPOINT dans les variables d'environnement."
         )
         submit.disabled = false
-        submit.textContent = originalLabel
+        submit.innerHTML = originalLabel
       }
     })
   })()

@@ -52,14 +52,16 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
       <fieldset class="devis-section">
         <legend>Votre projet</legend>
 
-        <div class="devis-field">
-          <label for="d-support">Type de support souhaité *</label>
-          <select id="d-support" name="support" required>
-            <option value="">— Choisir —</option>
-            {silos.map((s) => <option value={s.label}>{s.label}</option>)}
-            <option value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
-          </select>
-        </div>
+        {!productRef && (
+          <div class="devis-field">
+            <label for="d-support">Type de support souhaité *</label>
+            <select id="d-support" name="support" required>
+              <option value="">— Choisir —</option>
+              {silos.map((s) => <option value={s.label}>{s.label}</option>)}
+              <option value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
+            </select>
+          </div>
+        )}
 
         <div class="devis-field">
           <label for="d-description">Description du projet *</label>
@@ -412,7 +414,6 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
     const filesStatus = document.getElementById('d-files-status')
     const filesList = document.getElementById('d-files-list')
 
-    let currentStep = 1
     let openedAt = Date.now()
     let uploadedFiles = []
     let uploading = false
@@ -442,7 +443,6 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
     }
 
     function goToStep(n) {
-      currentStep = n
       form.querySelectorAll('[data-step]').forEach((el) => {
         el.classList.toggle('is-hidden', el.getAttribute('data-step') !== String(n))
       })

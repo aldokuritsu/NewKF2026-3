@@ -18,6 +18,8 @@ export default defineConfig({
     '/blog-plv': '/actualites-plv',
     // Showroom PLV supprimé (diluait le PageRank) → on récupère le visiteur sur la home
     '/showroom-plv': '/',
+    // Doublon nettoyé
+    '/demande-de-devis': '/devis',
   },
   vite: {
     plugins: [tailwindcss()]

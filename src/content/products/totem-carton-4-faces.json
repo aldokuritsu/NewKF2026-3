@@ -1,0 +1,74 @@
+{
+  "name": "Totem carton 4 faces",
+  "shortDescription": "Totem rectangulaire à 4 faces d'affichage. Idéal pour zones à fort flux et vitrines centrales.",
+  "description": "Totem PLV rectangulaire avec 4 faces d'affichage, conçu pour les zones à fort flux et les vitrines centrales. Carton FSC certifié, structure renforcée double-cannelure. Surface d'impression maximale, idéal pour les campagnes ambitieuses. Modèle test Stripe.",
+  "price": 129.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Totem carton 4 faces — Kontfeel",
+  "specs": [
+    {
+      "label": "Faces",
+      "value": "4 panneaux d'affichage"
+    },
+    {
+      "label": "Forme",
+      "value": "Rectangulaire"
+    },
+    {
+      "label": "Matière",
+      "value": "Double-cannelure BC"
+    },
+    {
+      "label": "Usage",
+      "value": "Vitrines, allées centrales"
+    }
+  ],
+  "variants": [
+    {
+      "id": "h120",
+      "label": "Hauteur 120 cm",
+      "price": 89.9
+    },
+    {
+      "id": "h150",
+      "label": "Hauteur 150 cm",
+      "price": 109.9
+    },
+    {
+      "id": "h180",
+      "label": "Hauteur 180 cm",
+      "price": 129.9,
+      "default": true
+    },
+    {
+      "id": "h200",
+      "label": "Hauteur 200 cm",
+      "price": 149.9
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

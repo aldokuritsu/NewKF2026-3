@@ -133,6 +133,11 @@
       ]
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-carton-sur-mesure"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Votre projet mérite une étude unique",
       "body": "Partagez votre idée ou vos contraintes techniques. Nos designers vous répondent avec une proposition concrète sous 24h.",

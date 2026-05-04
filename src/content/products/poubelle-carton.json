@@ -1,0 +1,59 @@
+{
+  "name": "Poubelle carton",
+  "shortDescription": "Poubelle PLV personnalisable, idéale pour les événements et animations en point de vente.",
+  "description": "Poubelle en carton recyclé, personnalisable sur 4 faces. Capacité 50 ou 80 L. Idéale pour les événements, animations commerciales et opérations zéro déchet. Recyclable 100%. Modèle test Stripe.",
+  "price": 29.9,
+  "currency": "eur",
+  "image": "/assets/produits/Box_20poubelle_20carton_20recyclable.jpg",
+  "imageAlt": "Poubelle carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Capacité",
+      "value": "50 ou 80 L"
+    },
+    {
+      "label": "Faces personnalisables",
+      "value": "4"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton recyclé 100%"
+    },
+    {
+      "label": "Usage",
+      "value": "Événements, animations, salons"
+    }
+  ],
+  "variants": [
+    {
+      "id": "l50",
+      "label": "50 L",
+      "price": 29.9,
+      "default": true
+    },
+    {
+      "id": "l80",
+      "label": "80 L",
+      "price": 44.9
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage anti-humidité",
+      "price": 12
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 18
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

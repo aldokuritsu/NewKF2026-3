@@ -1,0 +1,64 @@
+{
+  "name": "Cube carton",
+  "shortDescription": "Cube décoratif ou support PLV, modulable et empilable. 6 faces d'impression personnalisées.",
+  "description": "Cube en carton recyclé, utilisable comme support décoratif ou élément PLV modulaire. 6 faces personnalisables avec impression quadri. Empilable pour créer des compositions visuelles. Modèle test Stripe.",
+  "price": 44.9,
+  "currency": "eur",
+  "image": "/assets/produits/Cube-1170x780px-Kontfeel_1.jpg",
+  "imageAlt": "Cube carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Format",
+      "value": "30, 40 ou 50 cm"
+    },
+    {
+      "label": "Faces",
+      "value": "6 personnalisables"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton micro-cannelure FSC"
+    },
+    {
+      "label": "Empilable",
+      "value": "Oui"
+    }
+  ],
+  "variants": [
+    {
+      "id": "c30",
+      "label": "30 × 30 × 30 cm",
+      "price": 29.9
+    },
+    {
+      "id": "c40",
+      "label": "40 × 40 × 40 cm",
+      "price": 44.9,
+      "default": true
+    },
+    {
+      "id": "c50",
+      "label": "50 × 50 × 50 cm",
+      "price": 64.9
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 14
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 25
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

@@ -1,0 +1,74 @@
+{
+  "name": "Totem carton pliable",
+  "shortDescription": "Totem pliable à plat, ultra-compact pour le stockage et le transport. Réutilisable plusieurs fois.",
+  "description": "Totem PLV en carton pliable, conçu pour être stocké à plat et déployé rapidement sur le point de vente. Ultra-compact pour le transport, parfait pour les équipes terrain et les déploiements multi-sites. Modèle test Stripe.",
+  "price": 119.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Totem carton pliable — Kontfeel",
+  "specs": [
+    {
+      "label": "Stockage",
+      "value": "Plié à plat"
+    },
+    {
+      "label": "Déploiement",
+      "value": "< 1 min"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton micro-cannelure FSC"
+    },
+    {
+      "label": "Réutilisable",
+      "value": "Oui (3-5 cycles)"
+    }
+  ],
+  "variants": [
+    {
+      "id": "h120",
+      "label": "Hauteur 120 cm",
+      "price": 79.9
+    },
+    {
+      "id": "h150",
+      "label": "Hauteur 150 cm",
+      "price": 99.9
+    },
+    {
+      "id": "h180",
+      "label": "Hauteur 180 cm",
+      "price": 119.9,
+      "default": true
+    },
+    {
+      "id": "h200",
+      "label": "Hauteur 200 cm",
+      "price": 139.9
+    }
+  ],
+  "options": [
+    {
+      "id": "porte-flyers",
+      "label": "Porte-flyers A5 intégré",
+      "price": 22
+    },
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

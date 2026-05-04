@@ -1,0 +1,69 @@
+{
+  "name": "Totem cube",
+  "shortDescription": "Cube vertical empilable, modulable selon le rendu visuel souhaité. 6 faces personnalisables.",
+  "description": "Totem cube empilable, modulable selon vos besoins de visibilité. 6 faces personnalisables, structure auto-portante en carton micro-cannelure. Idéal pour théâtraliser un point de vente ou un stand. Modèle test Stripe.",
+  "price": 69.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Cube-1170x780-Kontfeel_1.jpg",
+  "imageAlt": "Totem cube — Kontfeel",
+  "specs": [
+    {
+      "label": "Faces",
+      "value": "6 personnalisables"
+    },
+    {
+      "label": "Empilable",
+      "value": "Oui"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton micro-cannelure FSC"
+    },
+    {
+      "label": "Format",
+      "value": "40, 50 ou 60 cm de côté"
+    }
+  ],
+  "variants": [
+    {
+      "id": "c40",
+      "label": "40 × 40 × 40 cm",
+      "price": 49.9
+    },
+    {
+      "id": "c50",
+      "label": "50 × 50 × 50 cm",
+      "price": 69.9,
+      "default": true
+    },
+    {
+      "id": "c60",
+      "label": "60 × 60 × 60 cm",
+      "price": 89.9
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

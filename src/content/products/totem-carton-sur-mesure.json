@@ -1,0 +1,69 @@
+{
+  "name": "Totem carton sur mesure",
+  "shortDescription": "Totem entièrement personnalisable : forme libre, découpe silhouette, finitions premium. Sur devis affiné après brief.",
+  "description": "Totem carton sur mesure — forme libre, découpe silhouette à votre brief créatif, impression offset HD, finitions premium (vernis sélectif UV, pelliculage mat ou brillant). Cette commande lance une consultation : un BAT vous est envoyé sous 48h ouvrées avant production. Modèle test Stripe.",
+  "price": 249,
+  "currency": "eur",
+  "image": "/assets/produits/totem-carton-sur-mesure.jpg",
+  "imageAlt": "Totem carton sur mesure — Kontfeel",
+  "specs": [
+    {
+      "label": "Forme",
+      "value": "Libre, découpée à votre brief"
+    },
+    {
+      "label": "Impression",
+      "value": "Offset quadri ou numérique HD"
+    },
+    {
+      "label": "Finitions",
+      "value": "Vernis sélectif, pelliculage"
+    },
+    {
+      "label": "Délai",
+      "value": "BAT sous 48h, production 10-15j"
+    }
+  ],
+  "variants": [
+    {
+      "id": "small",
+      "label": "Petit format (< 150 cm)",
+      "price": 189
+    },
+    {
+      "id": "medium",
+      "label": "Format standard (150-200 cm)",
+      "price": 249,
+      "default": true
+    },
+    {
+      "id": "large",
+      "label": "Grand format (> 200 cm)",
+      "price": 349
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

@@ -1,0 +1,69 @@
+{
+  "name": "Silhouette découpée",
+  "shortDescription": "Silhouette grandeur nature découpée à la forme de votre choix : personnage, mascotte, produit.",
+  "description": "Silhouette découpée à votre brief : personnage, mascotte de marque, produit grandeur nature. Carton double-cannelure renforcé, support arrière intégré. Effet waouh garanti pour les lancements et les vitrines. BAT sous 48h. Modèle test Stripe.",
+  "price": 169,
+  "currency": "eur",
+  "image": "/assets/produits/Silhouette-Decoupee-600x600px-Kontfeel.jpg",
+  "imageAlt": "Silhouette découpée — Kontfeel",
+  "specs": [
+    {
+      "label": "Forme",
+      "value": "Découpe libre à votre brief"
+    },
+    {
+      "label": "Hauteur",
+      "value": "Jusqu'à 200 cm"
+    },
+    {
+      "label": "Matière",
+      "value": "Double-cannelure BC"
+    },
+    {
+      "label": "Délai",
+      "value": "BAT sous 48h, prod 10-15j"
+    }
+  ],
+  "variants": [
+    {
+      "id": "small",
+      "label": "Petite (< 120 cm)",
+      "price": 119
+    },
+    {
+      "id": "medium",
+      "label": "Standard (120-180 cm)",
+      "price": 169,
+      "default": true
+    },
+    {
+      "id": "large",
+      "label": "Grande (180-200 cm)",
+      "price": 229
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

@@ -50,6 +50,11 @@
       "content": "Le totem carton publicitaire est le support idéal pour relayer vos campagnes promotionnelles en point de vente. Entièrement personnalisé à vos visuels avec une impression numérique ou offset haute résolution, il assure une cohérence parfaite avec votre identité de marque.\n\nContenu technique détaillé à venir : grammages disponibles, dimensions standard et sur mesure, options de finition (vernis, pelliculage), délais de fabrication et de livraison."
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-carton-publicitaire"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Un projet totem carton publicitaire ? Devis sous 48h",
       "body": "Décrivez vos contraintes de format, de volume et d'identité visuelle — nous vous proposons la solution la plus adaptée.",

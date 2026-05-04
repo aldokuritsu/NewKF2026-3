@@ -211,6 +211,11 @@
       ]
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-arche"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Prêt à transformer votre linéaire ?",
       "body": "Nos experts vous accompagnent du design à la livraison sur site. Recevez votre étude de projet et devis gratuit sous 24h.",

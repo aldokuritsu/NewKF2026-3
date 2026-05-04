@@ -1,0 +1,74 @@
+{
+  "name": "Totem carton 3 faces",
+  "shortDescription": "Totem triangulaire à 3 panneaux, visibilité 360° depuis l'allée centrale. Base auto-verrouillante.",
+  "description": "Totem PLV à structure triangulaire, 3 panneaux d'affichage à 120° pour une visibilité 360° dans une allée centrale ou un cœur de rayon. Base auto-verrouillante stable. Solution privilégiée pour les salons professionnels et les têtes de gondole. Carton FSC. Modèle test Stripe.",
+  "price": 119.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Totem carton 3 faces — Kontfeel",
+  "specs": [
+    {
+      "label": "Faces",
+      "value": "3 panneaux à 120°"
+    },
+    {
+      "label": "Visibilité",
+      "value": "360°"
+    },
+    {
+      "label": "Base",
+      "value": "Triangulaire auto-verrouillante"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton micro-cannelure FSC"
+    }
+  ],
+  "variants": [
+    {
+      "id": "h120",
+      "label": "Hauteur 120 cm",
+      "price": 79.9
+    },
+    {
+      "id": "h150",
+      "label": "Hauteur 150 cm",
+      "price": 99.9
+    },
+    {
+      "id": "h180",
+      "label": "Hauteur 180 cm",
+      "price": 119.9,
+      "default": true
+    },
+    {
+      "id": "h200",
+      "label": "Hauteur 200 cm",
+      "price": 139.9
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

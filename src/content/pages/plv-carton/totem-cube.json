@@ -39,6 +39,11 @@
       "content": "Contenu détaillé à venir pour Totem cube. Cette page présentera les caractéristiques techniques, les options de personnalisation et les cas d'usage de ce produit."
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-cube"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Besoin d'un totem cube sur mesure ?",
       "body": "Décrivez votre projet et recevez un devis personnalisé sous 48h.",

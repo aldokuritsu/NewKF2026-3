@@ -1,0 +1,69 @@
+{
+  "name": "Triptyque carton",
+  "shortDescription": "Triptyque 3 panneaux personnalisables, idéal pour comptoir, salon professionnel ou réunion d'équipe.",
+  "description": "Triptyque en carton, 3 panneaux personnalisables. Format compact, posé sur table ou comptoir. Idéal pour les salons professionnels, les présentations équipe ou les opérations comptoir. Modèle test Stripe.",
+  "price": 39.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Triptyque carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Panneaux",
+      "value": "3 personnalisables"
+    },
+    {
+      "label": "Format",
+      "value": "A4, A3 ou A2"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton micro-cannelure"
+    },
+    {
+      "label": "Usage",
+      "value": "Comptoir, salon, table"
+    }
+  ],
+  "variants": [
+    {
+      "id": "a4",
+      "label": "Format A4 (3 × 21x30 cm)",
+      "price": 24.9
+    },
+    {
+      "id": "a3",
+      "label": "Format A3 (3 × 30x42 cm)",
+      "price": 39.9,
+      "default": true
+    },
+    {
+      "id": "a2",
+      "label": "Format A2 (3 × 42x60 cm)",
+      "price": 59.9
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

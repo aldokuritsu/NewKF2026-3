@@ -425,6 +425,11 @@
       ]
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-carton"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Un projet de totem carton ? Obtenez votre devis sous 24h.",
       "body": "Interlocuteur unique de la conception à la livraison. Fabrication française, carton certifié FSC/PEFC.",

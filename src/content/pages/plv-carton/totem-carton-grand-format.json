@@ -50,6 +50,11 @@
       "content": "Le totem carton grand format capte l'attention dès l'entrée en rayon. Fabriqué en carton double-cannelure renforcé, il atteint jusqu'à 2,50 m de hauteur pour une visibilité maximale en allée centrale, tête de gondole ou entrée de magasin.\n\nContenu technique détaillé à venir : grammages disponibles, dimensions standard et sur mesure, options de finition (vernis, pelliculage), délais de fabrication et de livraison."
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-carton-grand-format"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Un projet totem carton grand format ? Devis sous 48h",
       "body": "Décrivez vos contraintes de format, de volume et d'identité visuelle — nous vous proposons la solution la plus adaptée.",

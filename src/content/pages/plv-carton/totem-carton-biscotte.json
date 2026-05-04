@@ -50,6 +50,11 @@
       "content": "Le totem biscotte carton se distingue par sa face avant plane et rectangulaire qui maximise la surface d'affichage tout en conservant un encombrement minimal. Son format compact le rend idéal pour les entrées de magasin, les comptoirs et les îlots en grande surface.\n\nContenu technique détaillé à venir : dimensions standard et sur mesure, grammages disponibles, options porte-flyers et pochette intégrés, finitions d'impression (offset, numérique, vernis sélectif)."
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-carton-biscotte"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Un projet totem biscotte carton ? Devis sous 48h",
       "body": "Décrivez vos contraintes de format et de volume — nous vous proposons la solution la plus adaptée.",

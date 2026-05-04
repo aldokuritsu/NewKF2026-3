@@ -1,0 +1,74 @@
+{
+  "name": "Totem carton publicitaire",
+  "shortDescription": "Totem publicitaire à montage rapide, format standard ou personnalisé, idéal pour les opérations de communication.",
+  "description": "Totem publicitaire en carton, montage rapide pour les opérations de communication ponctuelles. Format standard ou personnalisé selon votre brief. Impression quadri haute définition. Modèle test Stripe.",
+  "price": 119.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Totem carton publicitaire — Kontfeel",
+  "specs": [
+    {
+      "label": "Section",
+      "value": "30 × 30 cm"
+    },
+    {
+      "label": "Hauteur",
+      "value": "120-200 cm"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton micro-cannelure FSC"
+    },
+    {
+      "label": "Montage",
+      "value": "Manuel rapide"
+    }
+  ],
+  "variants": [
+    {
+      "id": "h120",
+      "label": "Hauteur 120 cm",
+      "price": 79.9
+    },
+    {
+      "id": "h150",
+      "label": "Hauteur 150 cm",
+      "price": 99.9
+    },
+    {
+      "id": "h180",
+      "label": "Hauteur 180 cm",
+      "price": 119.9,
+      "default": true
+    },
+    {
+      "id": "h200",
+      "label": "Hauteur 200 cm",
+      "price": 139.9
+    }
+  ],
+  "options": [
+    {
+      "id": "porte-flyers",
+      "label": "Porte-flyers A5 intégré",
+      "price": 22
+    },
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

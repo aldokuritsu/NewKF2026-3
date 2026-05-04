@@ -1,0 +1,69 @@
+{
+  "name": "Totem carton grand format",
+  "shortDescription": "Totem XXL pour campagnes événementielles ou salons : impact visuel maximal, jusqu'à 250 cm de haut.",
+  "description": "Totem PLV grand format, hauteur jusqu'à 250 cm. Conçu pour les salons professionnels, les événements de lancement et les campagnes à fort impact visuel. Structure double-cannelure renforcée, base lestée. Modèle test Stripe.",
+  "price": 169,
+  "currency": "eur",
+  "image": "/assets/produits/Totem_20carton_20grand_20format.jpg",
+  "imageAlt": "Totem carton grand format — Kontfeel",
+  "specs": [
+    {
+      "label": "Hauteur max",
+      "value": "250 cm"
+    },
+    {
+      "label": "Matière",
+      "value": "Double-cannelure BC"
+    },
+    {
+      "label": "Base",
+      "value": "Lestée renforcée"
+    },
+    {
+      "label": "Usage",
+      "value": "Événements, salons"
+    }
+  ],
+  "variants": [
+    {
+      "id": "h200",
+      "label": "Hauteur 200 cm",
+      "price": 169,
+      "default": true
+    },
+    {
+      "id": "h220",
+      "label": "Hauteur 220 cm",
+      "price": 199
+    },
+    {
+      "id": "h250",
+      "label": "Hauteur 250 cm",
+      "price": 239
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

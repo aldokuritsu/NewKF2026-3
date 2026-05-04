@@ -1,0 +1,69 @@
+{
+  "name": "Totem arche",
+  "shortDescription": "Arche publicitaire en carton recyclé, conçue pour marquer l'entrée d'un point de vente ou d'un événement.",
+  "description": "Arche PLV en carton, idéale pour marquer l'entrée d'un magasin, d'un stand ou d'un événement. Structure renforcée, montage en moins de 10 minutes. Surface d'impression intégrale recto-verso. Modèle test Stripe.",
+  "price": 219,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Arche-1170x780px-Kontfeel_1.jpg",
+  "imageAlt": "Totem arche — Kontfeel",
+  "specs": [
+    {
+      "label": "Largeur",
+      "value": "180 à 250 cm"
+    },
+    {
+      "label": "Hauteur",
+      "value": "220 cm"
+    },
+    {
+      "label": "Matière",
+      "value": "Double-cannelure BC"
+    },
+    {
+      "label": "Montage",
+      "value": "~10 minutes"
+    }
+  ],
+  "variants": [
+    {
+      "id": "l180",
+      "label": "Largeur 180 cm",
+      "price": 219,
+      "default": true
+    },
+    {
+      "id": "l220",
+      "label": "Largeur 220 cm",
+      "price": 269
+    },
+    {
+      "id": "l250",
+      "label": "Largeur 250 cm",
+      "price": 309
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

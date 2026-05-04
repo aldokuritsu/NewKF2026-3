@@ -1,0 +1,69 @@
+{
+  "name": "Présentoir de sol carton",
+  "shortDescription": "Présentoir de sol robuste en carton double-cannelure, capacité d'emport 30 à 80 produits selon format.",
+  "description": "Présentoir de sol en carton double-cannelure, structure renforcée pour supporter le poids des produits. Capacité d'emport variable (30 à 80 unités selon format). Idéal pour mettre en avant un produit phare ou une nouveauté en GMS. Modèle test Stripe.",
+  "price": 169,
+  "currency": "eur",
+  "image": "/assets/produits/Presentoir_20de_20sol_20en_20carton_20pour_20magasin.jpg",
+  "imageAlt": "Présentoir de sol carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Matière",
+      "value": "Double-cannelure BC"
+    },
+    {
+      "label": "Capacité",
+      "value": "30 à 80 produits"
+    },
+    {
+      "label": "Hauteur",
+      "value": "140-180 cm"
+    },
+    {
+      "label": "Niveaux",
+      "value": "3 à 5 selon format"
+    }
+  ],
+  "variants": [
+    {
+      "id": "p3n",
+      "label": "3 niveaux — 30 produits",
+      "price": 129
+    },
+    {
+      "id": "p4n",
+      "label": "4 niveaux — 50 produits",
+      "price": 169,
+      "default": true
+    },
+    {
+      "id": "p5n",
+      "label": "5 niveaux — 80 produits",
+      "price": 219
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

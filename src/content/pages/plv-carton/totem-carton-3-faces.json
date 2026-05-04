@@ -50,6 +50,11 @@
       "content": "Le totem carton 3 faces offre une présence visuelle omnidirectionnelle en point de vente. Sa structure triangulaire autoportante garantit une stabilité optimale et expose votre message sur 3 panneaux imprimés pleine face.\n\nContenu technique détaillé à venir : grammages disponibles, dimensions standard et sur mesure, options de finition (vernis, pelliculage), délais de fabrication et de livraison."
     },
     {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "totem-carton-3-faces"
+    },
+    {
       "_template": "cta_banner",
       "heading": "Un projet totem carton 3 faces ? Devis sous 48h",
       "body": "Décrivez vos contraintes de format, de volume et d'identité visuelle — nous vous proposons la solution la plus adaptée.",

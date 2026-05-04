@@ -1,0 +1,69 @@
+{
+  "name": "Podium carton",
+  "shortDescription": "Podium PLV en carton renforcé, 1 à 3 marches, surface d'exposition pour produit phare.",
+  "description": "Podium en carton double-cannelure, 1 à 3 marches selon format. Surface d'exposition pour mettre en avant un produit phare. Idéal pour les lancements et les événements de marque. Modèle test Stripe.",
+  "price": 119,
+  "currency": "eur",
+  "image": "/assets/produits/Podium-Carton-1170x780px-Kontfeel_1.jpg",
+  "imageAlt": "Podium carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Marches",
+      "value": "1 à 3"
+    },
+    {
+      "label": "Matière",
+      "value": "Double-cannelure BC"
+    },
+    {
+      "label": "Charge max",
+      "value": "15 à 30 kg"
+    },
+    {
+      "label": "Usage",
+      "value": "Lancement, exposition produit"
+    }
+  ],
+  "variants": [
+    {
+      "id": "p1",
+      "label": "1 marche — 80×80 cm",
+      "price": 79
+    },
+    {
+      "id": "p2",
+      "label": "2 marches — 100×100 cm",
+      "price": 119,
+      "default": true
+    },
+    {
+      "id": "p3",
+      "label": "3 marches — 120×120 cm",
+      "price": 169
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 28
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

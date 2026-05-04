@@ -1,0 +1,69 @@
+{
+  "name": "PLV vitrine carton",
+  "shortDescription": "PLV pour vitrine de magasin : visuel d'impact, impression recto-verso, fixation par adhésifs.",
+  "description": "PLV vitrine en carton léger, conçue pour habiller une vitrine de magasin. Impression recto-verso haute définition. Fixation par adhésifs repositionnables fournis. Idéal pour les opérations saisonnières. Modèle test Stripe.",
+  "price": 39,
+  "currency": "eur",
+  "image": "/assets/produits/PLV_20vitrine_20pharmacie.jpg",
+  "imageAlt": "PLV vitrine carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Format",
+      "value": "A2, A1 ou sur mesure"
+    },
+    {
+      "label": "Impression",
+      "value": "Recto-verso quadri"
+    },
+    {
+      "label": "Fixation",
+      "value": "Adhésifs repositionnables"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton léger 350 g/m²"
+    }
+  ],
+  "variants": [
+    {
+      "id": "a2",
+      "label": "Format A2 (42×60 cm)",
+      "price": 22
+    },
+    {
+      "id": "a1",
+      "label": "Format A1 (60×84 cm)",
+      "price": 39,
+      "default": true
+    },
+    {
+      "id": "sm",
+      "label": "Format sur mesure",
+      "price": 89
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 9
+    },
+    {
+      "id": "vernis",
+      "label": "Vernis sélectif UV",
+      "price": 19
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 22
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

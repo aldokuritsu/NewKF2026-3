@@ -1,0 +1,69 @@
+{
+  "name": "Totem carton biscotte",
+  "shortDescription": "Totem compact à face plane large, idéal entrée magasin, comptoir ou îlot. Format économique.",
+  "description": "Totem biscotte : face plane rectangulaire large, format compact pour entrée de magasin, comptoir ou îlot. Socle renforcé, porte-flyers + pochette intégrés en option. Solution économique pour les opérations courtes. Modèle test Stripe.",
+  "price": 89.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Totem carton biscotte — Kontfeel",
+  "specs": [
+    {
+      "label": "Face avant",
+      "value": "Plane large"
+    },
+    {
+      "label": "Format",
+      "value": "Compact"
+    },
+    {
+      "label": "Usage",
+      "value": "Comptoir, îlot, entrée magasin"
+    },
+    {
+      "label": "Matière",
+      "value": "100% recyclable"
+    }
+  ],
+  "variants": [
+    {
+      "id": "h100",
+      "label": "Hauteur 100 cm",
+      "price": 69.9
+    },
+    {
+      "id": "h140",
+      "label": "Hauteur 140 cm",
+      "price": 89.9,
+      "default": true
+    },
+    {
+      "id": "h170",
+      "label": "Hauteur 170 cm",
+      "price": 109.9
+    }
+  ],
+  "options": [
+    {
+      "id": "porte-flyers",
+      "label": "Porte-flyers A5 intégré",
+      "price": 22
+    },
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

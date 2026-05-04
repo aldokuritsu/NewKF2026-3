@@ -1,0 +1,74 @@
+{
+  "name": "Totem carton",
+  "shortDescription": "Totem PLV en carton recyclé personnalisable, format vertical 360°. Carton FSC, montage manuel rapide.",
+  "description": "Totem PLV vertical en carton micro-cannelure, 100% recyclable et certifié FSC. Hauteur configurable de 120 à 200 cm. Surface d'impression sur 4 faces pour une visibilité maximale en GMS, parapharmacie ou animation commerciale. Carton 700 g/m², 100% recyclable. Modèle test pour démonstration Stripe Checkout.",
+  "price": 119.9,
+  "currency": "eur",
+  "image": "/assets/produits/Totem-Carton-600x600-Kontfeel-1.jpg",
+  "imageAlt": "Totem carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Section",
+      "value": "30 × 30 cm"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton micro-cannelure FSC"
+    },
+    {
+      "label": "Impression",
+      "value": "Quadri HD"
+    },
+    {
+      "label": "Montage",
+      "value": "Manuel (notice fournie)"
+    }
+  ],
+  "variants": [
+    {
+      "id": "h120",
+      "label": "Hauteur 120 cm",
+      "price": 79.9
+    },
+    {
+      "id": "h150",
+      "label": "Hauteur 150 cm",
+      "price": 99.9
+    },
+    {
+      "id": "h180",
+      "label": "Hauteur 180 cm",
+      "price": 119.9,
+      "default": true
+    },
+    {
+      "id": "h200",
+      "label": "Hauteur 200 cm",
+      "price": 139.9
+    }
+  ],
+  "options": [
+    {
+      "id": "porte-flyers",
+      "label": "Porte-flyers A5 intégré",
+      "price": 22
+    },
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 18
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 35
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

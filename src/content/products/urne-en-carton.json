@@ -1,0 +1,64 @@
+{
+  "name": "Urne en carton",
+  "shortDescription": "Urne personnalisable pour jeu concours, tirage au sort ou collecte de coordonnées en point de vente.",
+  "description": "Urne en carton recyclé, parfaite pour jeu concours, tirage au sort ou collecte de coordonnées. Fente de dépôt sur le dessus, ouverture sécurisée par bande adhésive. Personnalisation 4 faces. Modèle test Stripe.",
+  "price": 34.9,
+  "currency": "eur",
+  "image": "/assets/produits/urne-en-carton-personnalise.jpg",
+  "imageAlt": "Urne en carton — Kontfeel",
+  "specs": [
+    {
+      "label": "Format",
+      "value": "30 × 30 × 50 cm"
+    },
+    {
+      "label": "Fente",
+      "value": "Sur le dessus"
+    },
+    {
+      "label": "Faces personnalisables",
+      "value": "4"
+    },
+    {
+      "label": "Matière",
+      "value": "Carton recyclé"
+    }
+  ],
+  "variants": [
+    {
+      "id": "s",
+      "label": "Petite (25×25×40 cm)",
+      "price": 24.9
+    },
+    {
+      "id": "m",
+      "label": "Standard (30×30×50 cm)",
+      "price": 34.9,
+      "default": true
+    },
+    {
+      "id": "l",
+      "label": "Grande (40×40×60 cm)",
+      "price": 49.9
+    }
+  ],
+  "options": [
+    {
+      "id": "lamination",
+      "label": "Pelliculage mat anti-rayures",
+      "price": 12
+    },
+    {
+      "id": "express",
+      "label": "Délai express (5 jours ouvrés)",
+      "price": 20
+    }
+  ],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

@@ -38,7 +38,7 @@
       "ctas": [
         {
           "label": "Soumettre mon brief →",
-          "href": "/devis/",
+          "href": "#devis",
           "variant": "primary"
         },
         {
@@ -142,7 +142,7 @@
       "heading": "Votre projet mérite une étude unique",
       "body": "Partagez votre idée ou vos contraintes techniques. Nos designers vous répondent avec une proposition concrète sous 24h.",
       "btnLabel": "Démarrer mon projet sur mesure",
-      "btnHref": "/devis/"
+      "btnHref": "#devis"
     }
   ]
 }

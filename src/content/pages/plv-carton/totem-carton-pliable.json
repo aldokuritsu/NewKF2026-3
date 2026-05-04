@@ -34,7 +34,7 @@
       "ctas": [
         {
           "label": "Demander un devis →",
-          "href": "/devis/",
+          "href": "#devis",
           "variant": "primary"
         },
         {
@@ -59,7 +59,7 @@
       "heading": "Un projet totem carton pliable ? Devis sous 48h",
       "body": "Décrivez vos contraintes de format, de volume et d'identité visuelle — nous vous proposons la solution la plus adaptée.",
       "btnLabel": "Demander un devis gratuit",
-      "btnHref": "/devis/"
+      "btnHref": "#devis"
     }
   ]
 }

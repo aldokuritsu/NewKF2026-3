@@ -23,7 +23,7 @@
       "ctas": [
         {
           "label": "Demander un devis →",
-          "href": "/devis/",
+          "href": "#devis",
           "variant": "primary"
         },
         {
@@ -48,7 +48,7 @@
       "heading": "Besoin d'un présentoir de sol carton sur mesure ?",
       "body": "Décrivez votre projet et recevez un devis personnalisé sous 48h.",
       "btnLabel": "Demander un devis",
-      "btnHref": "/devis/"
+      "btnHref": "#devis"
     }
   ]
 }

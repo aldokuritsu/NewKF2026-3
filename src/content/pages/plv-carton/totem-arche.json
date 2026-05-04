@@ -38,7 +38,7 @@
       "ctas": [
         {
           "label": "Demander un devis →",
-          "href": "/devis/",
+          "href": "#devis",
           "variant": "primary"
         },
         {
@@ -220,7 +220,7 @@
       "heading": "Prêt à transformer votre linéaire ?",
       "body": "Nos experts vous accompagnent du design à la livraison sur site. Recevez votre étude de projet et devis gratuit sous 24h.",
       "btnLabel": "Démarrer mon projet",
-      "btnHref": "/devis/"
+      "btnHref": "#devis"
     }
   ]
 }

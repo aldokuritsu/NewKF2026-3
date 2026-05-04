@@ -1,0 +1,479 @@
+---
+/**
+ * DevisForm — Formulaire de demande de devis (réutilisable).
+ *
+ * Utilisé par :
+ *  - /devis/ (page standalone)
+ *  - DevisModal.astro (popup déclenchée par data-open-devis ou href="#devis")
+ *
+ * Une seule instance par page (les IDs sont fixes). Le BaseLayout passe
+ * automatiquement productRef depuis ChildLayout (= pageLabel d'un produit).
+ *
+ * Props :
+ *   productRef? : string — référence produit pré-remplie (ex: "Totem carton")
+ *   variant?    : 'page' | 'modal' — pour ajuster le padding/structure
+ */
+import { silos } from '../data/silos'
+
+interface Props {
+  productRef?: string
+  variant?: 'page' | 'modal'
+}
+
+const { productRef = '', variant = 'page' } = Astro.props
+const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
+---
+
+<form id="devis-form" class:list={['devis-form', `devis-form--${variant}`]} novalidate data-product-ref={productRef}>
+
+  {productRef && (
+    <div class="devis-context" role="note">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Demande pour&nbsp;: <strong>{productRef}</strong></span>
+    </div>
+  )}
+
+  <!-- ═══ PROJET ═══ -->
+  <fieldset class="devis-section">
+    <legend>Votre projet</legend>
+
+    <div class="devis-field">
+      <label for="d-support">Type de support souhaité *</label>
+      <select id="d-support" name="support" required>
+        <option value="">— Choisir —</option>
+        {silos.map((s) => <option value={s.label}>{s.label}</option>)}
+        <option value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
+      </select>
+    </div>
+
+    <div class="devis-field">
+      <label for="d-description">Description du projet *</label>
+      <textarea
+        id="d-description"
+        name="description"
+        rows="4"
+        required
+        placeholder="Quel produit précis ? Quelle utilisation ? Y a-t-il des contraintes (taille, matériau, délai…) ? Plus c'est précis, plus le devis sera juste."
+      ></textarea>
+    </div>
+
+    <div class="devis-row">
+      <div class="devis-field">
+        <label for="d-quantite">Quantité souhaitée *</label>
+        <input id="d-quantite" type="text" name="quantite" required placeholder="Ex : 100 unités" />
+      </div>
+
+      <div class="devis-field">
+        <label for="d-date">Date de livraison souhaitée</label>
+        <input id="d-date" type="date" name="dateLivraison" />
+      </div>
+    </div>
+
+    <div class="devis-field">
+      <label for="d-files">Visuels / cahier des charges (optionnel)</label>
+      <p class="devis-hint">JPG, PNG, WebP ou PDF — 10 Mo par fichier max.</p>
+      <input
+        id="d-files"
+        type="file"
+        multiple
+        accept="image/jpeg,image/png,image/webp,application/pdf"
+      />
+      <p id="d-files-status" class="devis-files-status hidden"></p>
+      <ul id="d-files-list" class="devis-files-list"></ul>
+    </div>
+  </fieldset>
+
+  <!-- ═══ COORDONNÉES ═══ -->
+  <fieldset class="devis-section">
+    <legend>Vos coordonnées</legend>
+
+    <div class="devis-row">
+      <div class="devis-field">
+        <label for="d-societe">Entreprise *</label>
+        <input id="d-societe" type="text" name="societe" required autocomplete="organization" />
+      </div>
+
+      <div class="devis-field">
+        <label for="d-nom">Nom complet *</label>
+        <input id="d-nom" type="text" name="nom" required autocomplete="name" />
+      </div>
+    </div>
+
+    <div class="devis-row">
+      <div class="devis-field">
+        <label for="d-email">Email *</label>
+        <input id="d-email" type="email" name="email" required autocomplete="email" />
+      </div>
+
+      <div class="devis-field">
+        <label for="d-tel">Téléphone *</label>
+        <input id="d-tel" type="tel" name="telephone" required autocomplete="tel" />
+      </div>
+    </div>
+
+    <div class="devis-field">
+      <label for="d-cpville">Code postal et ville de livraison</label>
+      <input id="d-cpville" type="text" name="cpVille" placeholder="Ex : 76690 Saint-Georges-sur-Fontaine" autocomplete="address-level2" />
+    </div>
+
+    <!-- Honeypot anti-bot : invisible aux humains -->
+    <div class="devis-hp" aria-hidden="true">
+      <label for="d-website">Site web (laissez vide)</label>
+      <input id="d-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="devis-field devis-rgpd">
+      <label class="devis-check">
+        <input id="d-rgpd" type="checkbox" name="rgpdAccepte" required />
+        <span>
+          J'accepte que mes données soient utilisées pour traiter ma demande de devis,
+          conformément à la <a href="/politique-de-confidentialite/">politique de confidentialité</a> *
+        </span>
+      </label>
+    </div>
+  </fieldset>
+
+  <p id="d-status" class="devis-status hidden" aria-live="polite"></p>
+
+  <div class="devis-actions">
+    <p class="devis-mention">* Champs obligatoires</p>
+    <button id="d-submit" type="submit" class="devis-submit">
+      Envoyer ma demande
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</form>
+
+<!-- État de succès affiché après envoi -->
+<div id="devis-success" class="devis-success hidden" data-variant={variant}>
+  <div class="devis-success-icon" aria-hidden="true">
+    <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+      <circle cx="24" cy="24" r="24" fill="var(--rose, #E8336D)" opacity=".12"/>
+      <path d="M14 24l7 7 13-13" stroke="var(--rose, #E8336D)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <h2>Demande envoyée !</h2>
+  <p>Merci pour votre confiance. Notre équipe analyse votre projet et vous revient sous <strong>48h ouvrées</strong> avec une proposition.</p>
+  {variant === 'page' && <a href="/" class="devis-back">← Retour à l'accueil</a>}
+</div>
+
+<style>
+  /* ═══ Conteneur ═══ */
+  .devis-form {
+    background: #fff;
+    border: 1px solid var(--gray-100, #e5e7eb);
+    border-radius: 16px;
+    padding: 32px;
+  }
+  /* En modal, pas de bordure / radius / fond — on hérite du dialog */
+  .devis-form--modal {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+  @media (max-width: 640px) {
+    .devis-form--page { padding: 20px; }
+  }
+
+  /* ═══ Bandeau contexte produit ═══ */
+  .devis-context {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    background: rgba(232, 51, 109, .08);
+    border: 1px solid rgba(232, 51, 109, .22);
+    border-radius: 8px;
+    color: var(--rose, #E8336D);
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+  .devis-context strong { color: var(--dark, #1a1a2e); font-weight: 600; }
+  .devis-context svg { flex-shrink: 0; }
+
+  /* ═══ Sections ═══ */
+  .devis-section { border: 0; padding: 0; margin: 0 0 24px; }
+  .devis-section + .devis-section {
+    margin-top: 32px; padding-top: 32px;
+    border-top: 1px solid var(--gray-100, #e5e7eb);
+  }
+  .devis-section legend {
+    font-size: 16px; font-weight: 700; color: var(--dark, #1a1a2e);
+    padding: 0; margin-bottom: 16px;
+  }
+
+  /* ═══ Layout champs ═══ */
+  .devis-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) { .devis-row { grid-template-columns: 1fr; } }
+
+  .devis-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .devis-row .devis-field { margin-bottom: 0; }
+
+  .devis-field label {
+    font-size: 13px; font-weight: 500; color: var(--dark, #1a1a2e);
+  }
+  .devis-hint {
+    font-size: 12px; color: var(--gray-500, #6b7280); margin: 0 0 6px;
+  }
+
+  .devis-field input,
+  .devis-field select,
+  .devis-field textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--dark, #1a1a2e);
+    background: #f9fafb;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+    box-sizing: border-box;
+  }
+  .devis-field textarea { resize: vertical; min-height: 96px; }
+  .devis-field input:focus,
+  .devis-field select:focus,
+  .devis-field textarea:focus {
+    outline: none;
+    border-color: var(--rose, #E8336D);
+    box-shadow: 0 0 0 3px rgba(232, 51, 109, .12);
+    background: #fff;
+  }
+  .devis-field input.is-invalid,
+  .devis-field select.is-invalid,
+  .devis-field textarea.is-invalid {
+    border-color: #ef4444;
+  }
+
+  /* ═══ Honeypot ═══ */
+  .devis-hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+  /* ═══ Files ═══ */
+  .devis-files-status { font-size: 12px; margin: 6px 0 0; }
+  .devis-files-status.is-error { color: #dc2626; }
+  .devis-files-status.is-success { color: #059669; }
+  .devis-files-status.is-info { color: var(--gray-500, #6b7280); }
+  .devis-files-list { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 4px; }
+  .devis-files-list li { font-size: 12px; color: var(--gray-700, #374151); display: flex; align-items: center; gap: 8px; }
+  .devis-files-list a { color: var(--rose, #E8336D); text-decoration: underline; }
+
+  /* ═══ RGPD ═══ */
+  .devis-rgpd { margin-top: 8px; }
+  .devis-check { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: 13px; line-height: 1.5; color: var(--gray-700, #374151); font-weight: 400; }
+  .devis-check input { margin-top: 3px; flex-shrink: 0; width: 16px; height: 16px; }
+  .devis-check a { color: var(--rose, #E8336D); text-decoration: underline; }
+
+  /* ═══ Status / actions ═══ */
+  .devis-status {
+    font-size: 13px; padding: 12px 16px;
+    background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px;
+    color: #ef4444; margin: 16px 0 0;
+  }
+
+  .devis-actions {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    margin-top: 24px; padding-top: 24px;
+    border-top: 1px solid var(--gray-100, #e5e7eb);
+  }
+  .devis-mention { font-size: 12px; color: var(--gray-500, #6b7280); margin: 0; }
+
+  .devis-submit {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, var(--rose, #E8336D) 0%, #D0356A 100%);
+    color: #fff; border: 0; border-radius: 8px;
+    font-size: 14px; font-weight: 600; font-family: inherit;
+    cursor: pointer; transition: opacity .15s, transform .15s;
+  }
+  .devis-submit:hover:not(:disabled) { opacity: .92; transform: translateY(-1px); }
+  .devis-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* ═══ Succès ═══ */
+  .devis-success {
+    text-align: center; max-width: 500px; margin: 0 auto;
+    padding: 32px 16px;
+  }
+  .devis-success[data-variant="page"] {
+    background: #fff; border: 1px solid var(--gray-100, #e5e7eb);
+    border-radius: 16px; padding: 48px 32px;
+  }
+  .devis-success h2 { font-size: 22px; font-weight: 700; color: var(--dark, #1a1a2e); margin: 16px 0 8px; }
+  .devis-success p { color: var(--gray-700, #374151); line-height: 1.6; margin: 0 0 16px; font-size: 14px; }
+  .devis-back { color: var(--rose, #E8336D); font-weight: 500; text-decoration: none; }
+  .devis-back:hover { text-decoration: underline; }
+
+  .hidden { display: none !important; }
+</style>
+
+<script>
+  // @ts-nocheck — Vercel Blob client SDK chargé en ESM
+  import { upload } from '@vercel/blob/client'
+  ;(window as any).__devisBlobUpload = upload
+</script>
+
+<script is:inline define:vars={{ endpoint }}>
+  const form = document.getElementById('devis-form')
+  if (form) (function init() {
+    const successEl = document.getElementById('devis-success')
+    const submit = document.getElementById('d-submit')
+    const status = document.getElementById('d-status')
+    const filesInput = document.getElementById('d-files')
+    const filesStatus = document.getElementById('d-files-status')
+    const filesList = document.getElementById('d-files-list')
+
+    let openedAt = Date.now()
+    let uploadedFiles = []
+    let uploading = false
+
+    function setFilesStatus(msg, kind) {
+      filesStatus.textContent = msg
+      filesStatus.className = 'devis-files-status'
+      if (kind) filesStatus.classList.add('is-' + kind)
+    }
+    function renderFilesList() {
+      filesList.innerHTML = ''
+      uploadedFiles.forEach((f) => {
+        const li = document.createElement('li')
+        li.innerHTML = `<span>📎</span> <a href="${f.url}" target="_blank" rel="noopener">${f.name}</a>`
+        filesList.appendChild(li)
+      })
+    }
+    function showStatus(msg) {
+      status.textContent = msg
+      status.classList.remove('hidden')
+    }
+    function hideStatus() {
+      status.classList.add('hidden')
+      status.textContent = ''
+    }
+
+    // ── Reset complet du formulaire (appelable depuis le modal lors d'une réouverture) ──
+    window.__resetDevisForm = function () {
+      form.reset()
+      form.querySelectorAll('.is-invalid').forEach((el) => el.classList.remove('is-invalid'))
+      hideStatus()
+      submit.disabled = false
+      submit.textContent = 'Envoyer ma demande'
+      uploadedFiles = []
+      renderFilesList()
+      filesStatus.className = 'devis-files-status hidden'
+      filesStatus.textContent = ''
+      form.classList.remove('hidden')
+      successEl.classList.add('hidden')
+      openedAt = Date.now()
+    }
+
+    // ── Upload Vercel Blob ──
+    filesInput?.addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files || [])
+      if (!files.length) return
+      for (const f of files) {
+        if (f.size > 10 * 1024 * 1024) {
+          setFilesStatus(`"${f.name}" dépasse 10 Mo. Fichier ignoré.`, 'error')
+          return
+        }
+      }
+      uploading = true
+      submit.disabled = true
+      setFilesStatus(`Upload de ${files.length} fichier(s)…`, 'info')
+      try {
+        let attempts = 0
+        while (!window.__devisBlobUpload && attempts < 50) {
+          await new Promise((r) => setTimeout(r, 100))
+          attempts++
+        }
+        if (!window.__devisBlobUpload) throw new Error('Module upload non chargé')
+        for (const file of files) {
+          const blob = await window.__devisBlobUpload(file.name, file, {
+            access: 'public',
+            handleUploadUrl: '/api/upload',
+          })
+          uploadedFiles.push({ name: file.name, url: blob.url })
+        }
+        setFilesStatus(`${uploadedFiles.length} fichier(s) uploadé(s) ✓`, 'success')
+        renderFilesList()
+        filesInput.value = ''
+      } catch (err) {
+        console.error('[devis upload]', err)
+        setFilesStatus(err.message || "Erreur lors de l'upload.", 'error')
+      } finally {
+        uploading = false
+        submit.disabled = false
+      }
+    })
+
+    form.addEventListener('input', (e) => {
+      e.target?.classList?.remove('is-invalid')
+    })
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      if (uploading) {
+        showStatus("Veuillez attendre la fin de l'upload des fichiers.")
+        return
+      }
+      // Anti-bot
+      const honey = document.getElementById('d-website')
+      const elapsed = Date.now() - openedAt
+      if (honey?.value || elapsed < 1500) {
+        form.classList.add('hidden')
+        successEl.classList.remove('hidden')
+        return
+      }
+      // Validation
+      const required = [...form.querySelectorAll('[required]')]
+      let valid = true
+      required.forEach((el) => {
+        const ok = el.checkValidity?.()
+        el.classList.toggle('is-invalid', !ok)
+        if (!ok) valid = false
+      })
+      if (!valid) {
+        showStatus('Veuillez remplir tous les champs obligatoires correctement.')
+        return
+      }
+      submit.disabled = true
+      hideStatus()
+      const originalLabel = submit.textContent
+      submit.textContent = 'Envoi…'
+      const fd = new FormData(form)
+      const payload = {
+        ...Object.fromEntries(fd),
+        productRef: form.dataset.productRef || '',
+        files: uploadedFiles,
+        source: window.location.href,
+        sentAt: new Date().toISOString(),
+      }
+      delete payload.website
+      payload.rgpdAccepte = !!fd.get('rgpdAccepte')
+      try {
+        if (!endpoint) throw new Error('Endpoint non configuré (PUBLIC_DEVIS_ENDPOINT manquant).')
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        form.classList.add('hidden')
+        successEl.classList.remove('hidden')
+        successEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      } catch (err) {
+        console.error('[devis submit]', err)
+        showStatus(
+          endpoint
+            ? 'Une erreur est survenue. Vous pouvez réessayer ou nous contacter au 02 78 77 53 93.'
+            : "⚙️ Endpoint non configuré — ajoutez PUBLIC_DEVIS_ENDPOINT dans les variables d'environnement."
+        )
+        submit.disabled = false
+        submit.textContent = originalLabel
+      }
+    })
+  })()
+</script>

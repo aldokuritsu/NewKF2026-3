@@ -21,6 +21,8 @@ interface Props {
   siloSlug?: string
   currentPath?: string
   ogImage?: string
+  productRef?: string
+  hideDevisModal?: boolean
 }
 
 const {
@@ -29,6 +31,8 @@ const {
   siloSlug,
   currentPath = Astro.url.pathname,
   ogImage = '/assets/solutions/Solutions-PLV-Kontfeel.jpg',
+  productRef,
+  hideDevisModal = false,
 } = Astro.props
 ---
 
@@ -79,7 +83,7 @@ const {
     <Footer />
 
     <!-- ═══ MODALE DEVIS (globale) ═══ -->
-    <DevisModal />
+    {!hideDevisModal && <DevisModal productRef={productRef} />}
 
   </body>
 </html>

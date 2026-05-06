@@ -53,7 +53,7 @@ Question de départ : que cherche le visiteur quand il arrive sur ce contenu ?
 
 ---
 
-## 3. Templates par type de contenu
+## 3. Templates par type de contenus
 
 ### 3.1 Article de blog (`ressource`)
 

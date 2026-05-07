@@ -7,19 +7,6 @@
       "_template": "hero",
       "heading": "Présentoir distributeur",
       "subheading": "Présentoir distributeur sur mesure pour votre point de vente",
-      "image": "/assets/produits/presentoir_20distributeur.jpg",
-      "imageAlt": "Présentoir distributeur sur mesure — KONTFEEL",
-      "badges": [
-        {
-          "text": "Sur mesure",
-          "green": false
-        },
-        {
-          "text": "Devis sous 24h",
-          "green": false
-        }
-      ],
-      "certifs": [],
       "ctas": [
         {
           "label": "Demander un devis →",
@@ -30,6 +17,20 @@
           "label": "02 78 77 53 93",
           "href": "tel:0278775393",
           "variant": "secondary"
+        }
+      ],
+      "certifs": [],
+      "intro": "",
+      "image": "/assets/produits/presentoir_20distributeur.jpg",
+      "imageAlt": "Présentoir distributeur sur mesure — KONTFEEL",
+      "badges": [
+        {
+          "text": "Sur mesure",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
         }
       ]
     },
@@ -44,6 +45,11 @@
       "body": "Décrivez votre projet et recevez un devis personnalisé sous 48h.",
       "btnLabel": "Demander un devis",
       "btnHref": "/devis/"
+    },
+    {
+      "_template": "product_buy",
+      "heading": "Commander en ligne",
+      "productSlug": "presentoir-distributeur"
     }
   ]
 }

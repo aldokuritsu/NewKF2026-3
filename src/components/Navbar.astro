@@ -2,24 +2,27 @@
 /**
  * Navbar — Navbar principale unifiée (toutes les pages).
  *
- * - Les 6 silos sont toujours affichés en top-level.
- * - Le silo de la page courante (si fourni) ouvre un mega-menu disclosure
- *   qui liste ses enfants en grille 3 colonnes + un lien pilier.
- * - Triggers : hover, clic, clavier (Enter/Space toggle, Escape ferme).
- * - Les autres silos restent des liens plats.
+ * - Les 6 silos sont toujours visibles en top-level (liens piliers).
+ * - Seul le silo courant ouvre son tiroir (mega-menu desktop / accordéon mobile).
+ * - Sur la home (showAllMegaMenus=true), tous les silos ouvrent leur tiroir.
+ * - Mobile : même logique que desktop — les silos non-courants restent des
+ *   liens plats, seul le silo courant (ou tous, sur la home) sont déployables.
+ * - Triggers du tiroir : hover, clic, clavier (Enter/Space toggle, Escape ferme).
  *
  * Props :
- *   currentSiloSlug? : string  — slug du silo courant (active le mega-menu)
- *   currentPath?     : string  — chemin URL pour marquer l'enfant actif
+ *   currentSiloSlug?   : string  — slug du silo courant (active le tiroir + état actif)
+ *   currentPath?       : string  — chemin URL pour marquer l'enfant actif
+ *   showAllMegaMenus?  : boolean — déploie tous les silos en tiroir (home)
  */
 import { silos } from '../data/silos'
 
 interface Props {
   currentSiloSlug?: string
   currentPath?: string
+  showAllMegaMenus?: boolean
 }
 
-const { currentSiloSlug, currentPath = '' } = Astro.props
+const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.props
 ---
 
 <header class="navbar" id="navbar">
@@ -32,9 +35,10 @@ const { currentSiloSlug, currentPath = '' } = Astro.props
     <nav class="nav-links" aria-label="Navigation principale">
       {silos.map(silo => {
         const isCurrent = silo.slug === currentSiloSlug
+        const showMega = showAllMegaMenus || isCurrent
         const panelId = `mega-${silo.slug}`
 
-        if (!isCurrent) {
+        if (!showMega) {
           return (
             <a href={silo.href} class="nav-link">{silo.label}</a>
           )
@@ -44,7 +48,7 @@ const { currentSiloSlug, currentPath = '' } = Astro.props
           <div class="nav-item nav-item--mega" data-mega-item>
             <button
               type="button"
-              class="nav-link nav-trigger is-active"
+              class:list={['nav-link', 'nav-trigger', { 'is-active': isCurrent }]}
               aria-haspopup="true"
               aria-expanded="false"
               aria-controls={panelId}
@@ -94,15 +98,27 @@ const { currentSiloSlug, currentPath = '' } = Astro.props
     <nav aria-label="Navigation mobile">
       {silos.map(silo => {
         const isCurrent = silo.slug === currentSiloSlug
-        if (!isCurrent) {
+        const showMega = showAllMegaMenus || isCurrent
+
+        if (!showMega) {
           return <a href={silo.href} class="mobile-link">{silo.label}</a>
         }
+
         return (
-          <div class="mobile-group">
-            <a href={silo.href} class="mobile-link mobile-link--pillar">
-              {silo.label}
-            </a>
+          <details class:list={['mobile-group', { 'is-current': isCurrent }]} open={isCurrent}>
+            <summary class="mobile-summary">
+              <span>{silo.label}</span>
+              <svg class="mobile-caret" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </summary>
             <div class="mobile-children">
+              <a
+                href={silo.href}
+                class:list={['mobile-link', 'mobile-pillar-link', { active: currentPath === silo.href }]}
+              >
+                Voir tout : {silo.label} <span aria-hidden="true">→</span>
+              </a>
               {silo.children.map(child => (
                 <a
                   href={child.href}
@@ -112,7 +128,7 @@ const { currentSiloSlug, currentPath = '' } = Astro.props
                 </a>
               ))}
             </div>
-          </div>
+          </details>
         )
       })}
       <a href="/devis/" class="mobile-cta">Devis gratuit →</a>
@@ -417,7 +433,7 @@ if (hamburger && mobileMenu) {
     padding: 16px 24px 20px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
 
   .mobile-link {
@@ -433,21 +449,66 @@ if (hamburger && mobileMenu) {
   .mobile-link:hover,
   .mobile-link.active { color: var(--rose); background: var(--rose-light); }
 
-  .mobile-link--pillar {
+  /* ── Accordéon mobile (un par silo) ── */
+  .mobile-group {
+    border-radius: var(--radius-sm);
+  }
+
+  .mobile-group + .mobile-group {
+    border-top: 1px solid var(--gray-100);
+  }
+
+  .mobile-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 12px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--dark);
-    background: var(--gray-50);
-    margin-top: 8px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    border-radius: var(--radius-sm);
+    transition: background .15s, color .15s;
   }
+
+  .mobile-summary::-webkit-details-marker { display: none; }
+  .mobile-summary:hover { background: var(--gray-50); }
+
+  .mobile-group.is-current > .mobile-summary {
+    color: var(--rose);
+    background: var(--rose-light);
+  }
+
+  .mobile-caret {
+    flex-shrink: 0;
+    color: var(--gray-700);
+    transition: transform .2s;
+  }
+
+  .mobile-group[open] > .mobile-summary .mobile-caret { transform: rotate(180deg); }
 
   .mobile-children {
     display: flex;
     flex-direction: column;
     gap: 1px;
-    padding: 4px 0 8px 12px;
+    padding: 4px 0 12px 12px;
     border-left: 2px solid var(--gray-100);
-    margin-left: 12px;
+    margin: 0 0 4px 16px;
   }
+
+  .mobile-pillar-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rose);
+    background: var(--rose-light);
+    padding: 8px 12px;
+    margin-bottom: 4px;
+  }
+
+  .mobile-pillar-link:hover { background: rgba(232, 70, 124, .14); color: var(--rose); }
 
   .mobile-child { font-size: 14px; padding: 8px 12px; }
 

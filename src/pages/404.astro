@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { silos } from '../data/silos'
+---
+
+<BaseLayout
+  title="Page introuvable — KONTFEEL"
+  description="La page demandée n'existe pas ou a été déplacée. Découvrez nos solutions PLV ou contactez nos équipes."
+>
+  <main class="mx-auto max-w-5xl px-6 py-20 lg:py-28">
+    <div class="text-center">
+      <p class="text-sm font-medium uppercase tracking-widest text-neutral-500">
+        Erreur 404
+      </p>
+      <h1 class="mt-3 text-5xl font-semibold text-neutral-900 lg:text-6xl">
+        Cette page a fait sa valise.
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-lg text-neutral-600">
+        L'adresse demandée n'existe pas ou a été déplacée.
+        Pas de panique, on vous remet sur les rails.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center rounded-md bg-neutral-900 px-6 py-3 font-medium text-white transition hover:bg-neutral-700"
+        >
+          Retour à l'accueil
+        </a>
+        <a
+          href="/plan-du-site/"
+          class="inline-flex items-center justify-center rounded-md border border-neutral-300 px-6 py-3 font-medium text-neutral-900 transition hover:border-neutral-900"
+        >
+          Voir le plan du site
+        </a>
+        <a
+          href="/contact/"
+          class="inline-flex items-center justify-center rounded-md border border-transparent px-6 py-3 font-medium text-neutral-700 underline-offset-4 hover:underline"
+        >
+          Contacter une équipe
+        </a>
+      </div>
+    </div>
+
+    <section class="mt-20 border-t border-neutral-200 pt-12">
+      <h2 class="text-center text-sm font-medium uppercase tracking-widest text-neutral-500">
+        Ou explorez nos univers
+      </h2>
+      <ul class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {silos.map((silo) => (
+          <li>
+            <a
+              href={silo.href}
+              class="group flex items-center justify-between rounded-lg border border-neutral-200 px-5 py-4 transition hover:border-neutral-900 hover:bg-neutral-50"
+            >
+              <span class="font-medium text-neutral-900">{silo.label}</span>
+              <span class="text-neutral-400 transition group-hover:translate-x-0.5 group-hover:text-neutral-900">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,19 @@
+{
+  "name": "Présentoir distributeur",
+  "shortDescription": "Description courte",
+  "description": "Description complète",
+  "price": 258,
+  "currency": "eur",
+  "image": "/assets/produits/presentoir_20distributeur_20sur_20mesure.jpg",
+  "imageAlt": "Presentoir distributeur",
+  "specs": [],
+  "variants": [],
+  "options": [],
+  "shippingCountries": [
+    "FR",
+    "BE",
+    "CH",
+    "LU"
+  ],
+  "active": true
+}

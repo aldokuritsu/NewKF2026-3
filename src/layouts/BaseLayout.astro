@@ -23,6 +23,7 @@ interface Props {
   ogImage?: string
   productRef?: string
   hideDevisModal?: boolean
+  lcpImage?: string
 }
 
 const {
@@ -33,6 +34,7 @@ const {
   ogImage = '/assets/solutions/Solutions-PLV-Kontfeel.jpg',
   productRef,
   hideDevisModal = false,
+  lcpImage,
 } = Astro.props
 
 // Sur la home, on déploie tous les silos en mega-menu (vue d'ensemble du site).
@@ -60,10 +62,16 @@ const showAllMegaMenus = currentPath === '/' && !siloSlug
     <meta property="og:locale"      content="fr_FR" />
     <meta property="og:site_name"   content="KONTFEEL" />
 
-    <!-- Google Fonts -->
+    <!-- LCP image preload (si fourni par la page) -->
+    {lcpImage && (
+      <link rel="preload" as="image" href={lcpImage} fetchpriority="high" />
+    )}
+
+    <!-- Google Fonts — chargement asynchrone pour ne pas bloquer le rendu -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" /></noscript>
 
     <!-- Favicons -->
     <link rel="icon"             type="image/svg+xml" href="/favicon.svg" />

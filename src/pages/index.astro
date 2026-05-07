@@ -10,12 +10,15 @@ import BlockRenderer from '../components/blocks/BlockRenderer.astro'
 import homeData      from '../content/home/index.json'
 
 const blocks = (homeData.blocks ?? []) as any[]
+const heroBlock = blocks.find((b: any) => b._template === 'hero_home')
+const lcpImage: string | undefined = heroBlock?.bgImage ?? undefined
 ---
 
 <BaseLayout
   title={homeData.seoTitle ?? 'KONTFEEL — Fabricant de PLV sur mesure'}
   description={homeData.seoDescription ?? 'Fabricant français de PLV sur mesure : présentoirs, mobilier commercial et signalétique pour vos points de vente. Devis sous 48h.'}
   ogImage={(homeData as any).ogImage ?? undefined}
+  lcpImage={lcpImage}
 >
   <BlockRenderer blocks={blocks} />
 </BaseLayout>

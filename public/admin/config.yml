@@ -417,9 +417,13 @@ collections:
     format: json
     extension: json
     create: true
-    slug: "{{slug}}"
-    identifier_field: name
+    slug: "{{fields.slug}}"
+    identifier_field: slug
     fields:
+      - name: slug
+        label: Identifiant (slug)
+        widget: string
+        hint: "Sans espaces ni majuscules, tirets à la place des espaces. Ex : presentoir-comptoir — c'est cette valeur à copier dans le bloc Achat."
       - { name: name,             label: Nom du produit,       widget: string }
       - { name: shortDescription, label: Description courte,   widget: text }
       - { name: description,      label: Description complète, widget: text }

@@ -49,7 +49,8 @@ Home (/) ─────────────┬─ Pillar 1: /plv-carton/
 - **Pillar pages**: `src/content/silos/[silo-slug].json` → `src/pages/[silo]/index.astro`
 - **Child pages**: `src/content/pages/[silo]/[slug].json` → `src/pages/[silo]/[slug].astro`
 - **Products**: `src/content/products/[slug].json` (Stripe checkout, variants/options)
-- **Blog posts**: `src/content/posts/*.md` (loaded but not currently routed)
+- **Blog posts**: `src/content/posts/*.md` → `src/pages/actualites-plv/[slug].astro` (route `/actualites-plv/[slug]/`)
+- **Réalisations**: `src/content/realisations/[slug].json` → `src/pages/realisations-plv/[slug].astro` (route `/realisations-plv/[slug]/`)
 
 ### Block System (CMS)
 
@@ -96,6 +97,7 @@ Pages are built from **blocks**—typed JSON objects with a `_template` field. E
 - **DevisModal**: Global popup for quote requests. Auto-fills `productRef` if passed. 2-step form: Project details → Contact info.
 - **BlockRenderer**: Maps block `_template` to components.
 - **SubNav**: Sidebar anchors generated from `buildSubNav()`.
+- **AISummaryBanner** (`src/components/AISummaryBanner.astro`): Encart "Résumer cet article avec" générant des liens vers ChatGPT, Mistral, Claude, Perplexity et Grok. Props: `title` (string), `url` (string — URL absolue). Les prompts demandent un résumé + articles connexes exclusivement sur kontfeel.fr. Placé sur les pages articles et réalisations.
 
 ### E-commerce Integration
 
@@ -198,6 +200,26 @@ Run with `node scripts/[name].mjs`
 - Mega-menu styling: edit `<style>` in `src/components/Navbar.astro`
 - JS behavior (hover/click/keyboard): edit `<script>` in `src/components/Navbar.astro`
 
+### Adding a Blog Article
+
+1. Create `src/content/posts/[slug].md` with frontmatter:
+   - Required: `title`, `date` (YYYY-MM-DD)
+   - Recommended: `description`, `image`, `imageAlt`, `author`, `tags[]`
+   - Maillage: `relatedRealisation` (slug), `relatedLinks[]` (label + href)
+   - TL;DR box: `tldr` object with `before`, `linkLabel`, `linkHref`, `after` — the link must use an anchor **different from the target page title**
+2. The article appears automatically on `/actualites-plv/` (list) and gets a route at `/actualites-plv/[slug]/`
+3. Only posts with a `date` field are listed and routed
+
+### Adding a Réalisation
+
+1. Create `src/content/realisations/[slug].json` with:
+   - Required: `title`, `client`, `sector`, `date` (YYYY-MM), `description`, `challenge`, `solution`, `results[]` (value + label), `image`
+   - Optional: `imageAlt`, `quote` (text + author + role)
+   - Maillage: `relatedPost` (slug), `relatedLinks[]` (label + href)
+   - TL;DR box: same `tldr` structure — the link (to a product page) must use an anchor **different from the product page title**
+2. Set `active: true` (false hides it from list and route)
+3. Appears on `/realisations-plv/` and gets a route at `/realisations-plv/[slug]/`
+
 ### Adding a Product for E-commerce
 
 1. Create `src/content/products/[slug].json` with schema from `src/content.config.ts`
@@ -206,9 +228,10 @@ Run with `node scripts/[name].mjs`
 
 ## Implicit Conventions
 
-### Two-tier content system
-- **Typed** (Zod-validated): `products` and `posts` collections via `src/content.config.ts`
-- **Untyped** (raw JSON): home, silo pages, child pages — loaded via `readFileSync` and cast to `any[]`. A misspelled field is silently ignored at build time.
+### Three content tiers
+- **Fully typed** (Zod + rendered): `posts` (Markdown) and `realisations` (JSON) — collections with rich schemas, individual routes, `AISummaryBanner`, "En bref" box
+- **Typed but no route**: `products` — Zod schema, used only by `ProductBuyBlock` and `/api/checkout`
+- **Untyped** (raw JSON): home, silo pages, child pages — `readFileSync` + cast to `any[]`. A misspelled field is silently ignored at build time.
 
 ### `silos.ts` is the authoritative router
 `getStaticPaths()` in both `[silo]/index.astro` and `[silo]/[slug].astro` loops exclusively over `silos.ts`. A JSON file in `src/content/pages/` without a matching entry in `silos.ts` generates **no route**. The slug is extracted from `child.href` using `.split('/').filter(Boolean).pop()`.
@@ -237,13 +260,31 @@ No `@layer` custom utilities, no `@apply`.
 ### `productRef` prop threading
 `BaseLayout` → `DevisModal` → `DevisForm`. Set on product pages to pre-fill the product reference field in the quote form.
 
+### Internal linking rules (maillage SEO)
+
+Three-level content chain: **Article blog → Réalisation → Produit/Solution**
+
+- **Article → Réalisation**: link placed in the "En bref" box (`tldr` field), within the first visible lines. The `linkLabel` (anchor) must be **different from the réalisation page title** to broaden keyword coverage.
+- **Réalisation → Produit**: same rule — link in the "En bref" box, anchor ≠ product page title.
+- Both pages include `AISummaryBanner` (after the "En bref" box, before body content).
+- Sidebar carries secondary links (same destinations, different visual weight).
+
+The `tldr` field structure:
+```yaml
+tldr:
+  before: "Texte avant le lien."
+  linkLabel: "ancre du lien (≠ titre de la page cible)"
+  linkHref: "/chemin/vers/page-cible/"
+  after: "Texte après le lien (optionnel)."
+```
+
 ## Known Risk Zones
 
 1. **No Zod validation for page/silo JSON**: A malformed JSON crashes the build without a clear message. Blocks fields are all `any`.
 2. **`silos.ts` ↔ `src/content/pages/` sync is manual**: No script or test verifies consistency between declared children and actual JSON files.
 3. **`test-stripe.astro` is in the production build**: Accessible at `/test-stripe/` unless explicitly excluded.
 4. **Orphaned static pages**: `digital.astro`, `display.astro`, `mobilier.astro`, `stand.astro`, `realisations.astro` exist but have no visible nav integration. Their relationship to the silo architecture is unclear.
-5. **`posts` collection has no route**: Defined in `content.config.ts` but no `/actualites-plv/[slug]/` page exists.
+5. **`realisations.astro` is an orphaned static page**: `/realisations-plv/` (list) and `/realisations-plv/[slug]/` (detail) are the canonical routes. The old `realisations.astro` at `/realisations/` still exists and should be redirected or removed.
 6. **Vercel Blob URL in Stripe metadata**: The customer file URL (7-day expiry) is stored in Stripe session metadata. Deferred order processing will receive a dead link.
 7. **External PHP devis endpoint**: `PUBLIC_DEVIS_ENDPOINT` has no visible fallback. Failures surface as generic error to the user.
 8. **`plan-du-site.astro` and `contact.astro` are placeholders**: No sitemap.xml generated; contact page has no form.

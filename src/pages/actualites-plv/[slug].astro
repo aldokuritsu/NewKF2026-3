@@ -1,0 +1,393 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AISummaryBanner from '../../components/AISummaryBanner.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', p => !!p.data.date);
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, date, description, image, imageAlt, author, tags, relatedRealisation, relatedLinks, tldr } = post.data;
+
+const dateFormatted = date
+  ? new Date(date).toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })
+  : null;
+---
+
+<BaseLayout
+  title={`${title} | Actualités PLV KONTFEEL`}
+  description={description ?? title}
+  ogImage={image}
+>
+  <article class="article-page">
+
+    <!-- En-tête -->
+    <header class="article-header">
+      <div class="article-container">
+        <nav class="article-breadcrumb">
+          <a href="/">Accueil</a>
+          <span>›</span>
+          <a href="/actualites-plv/">Actualités PLV</a>
+          <span>›</span>
+          <span>{title}</span>
+        </nav>
+
+        {tags && tags.length > 0 && (
+          <div class="article-tags">
+            {tags.map(tag => <span class="article-tag">{tag}</span>)}
+          </div>
+        )}
+
+        <h1 class="article-title">{title}</h1>
+
+        {description && <p class="article-description">{description}</p>}
+
+        <div class="article-meta">
+          {dateFormatted && <time datetime={date}>{dateFormatted}</time>}
+          {dateFormatted && <span class="meta-sep">·</span>}
+          <span>{author}</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Image hero -->
+    {image && (
+      <div class="article-hero">
+        <div class="article-container">
+          <img src={image} alt={imageAlt ?? title} class="article-hero-img" loading="eager" />
+        </div>
+      </div>
+    )}
+
+    <!-- Corps + sidebar -->
+    <div class="article-body-wrapper">
+      <div class="article-container article-layout">
+
+        <!-- Contenu Markdown -->
+        <div class="article-content">
+
+          {tldr && (
+            <aside class="tldr-box">
+              <span class="tldr-label">En bref</span>
+              <p>
+                {tldr.before}{' '}
+                <a href={tldr.linkHref}>{tldr.linkLabel}</a>
+                {tldr.after ? ` ${tldr.after}` : ''}
+              </p>
+            </aside>
+          )}
+
+          <AISummaryBanner
+            title={title}
+            url={Astro.url.href}
+          />
+
+          <Content />
+        </div>
+
+        <!-- Sidebar maillage -->
+        <aside class="article-sidebar">
+
+          {relatedRealisation && (
+            <div class="sidebar-card sidebar-card--realisation">
+              <p class="sidebar-card-eyebrow">Cas client</p>
+              <p class="sidebar-card-text">Découvrez comment nous avons mis en œuvre cette approche pour un déploiement réseau GMS en 10 jours.</p>
+              <a href={`/realisations-plv/${relatedRealisation}/`} class="sidebar-card-link">
+                Lire la réalisation →
+              </a>
+            </div>
+          )}
+
+          {relatedLinks && relatedLinks.length > 0 && (
+            <div class="sidebar-card">
+              <p class="sidebar-card-eyebrow">Sur le même sujet</p>
+              <ul class="sidebar-links">
+                {relatedLinks.map(link => (
+                  <li><a href={link.href}>{link.label} →</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div class="sidebar-card sidebar-card--cta">
+            <p class="sidebar-card-eyebrow">Votre projet</p>
+            <p class="sidebar-card-text">Un déploiement en réseau, un lancement produit ? Obtenez votre devis sous 24h.</p>
+            <a href="#devis" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">
+              Demander un devis →
+            </a>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+
+  </article>
+</BaseLayout>
+
+<style>
+  .article-page {
+    background: white;
+  }
+
+  .article-container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* En-tête */
+  .article-header {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .article-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 20px;
+  }
+  .article-breadcrumb a {
+    color: var(--gray-500);
+    text-decoration: none;
+  }
+  .article-breadcrumb a:hover { color: var(--rose); }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .article-tag {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--rose);
+    background: var(--rose-light);
+    padding: 4px 10px;
+    border-radius: 99px;
+  }
+
+  .article-title {
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .article-description {
+    font-size: 18px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    max-width: 720px;
+    margin-bottom: 20px;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--gray-500);
+  }
+  .meta-sep { color: var(--gray-300); }
+
+  /* Image hero */
+  .article-hero {
+    padding: 32px 0;
+  }
+  .article-hero-img {
+    width: 100%;
+    max-height: 460px;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  /* Layout corps + sidebar */
+  .article-body-wrapper {
+    padding: 40px 0 80px;
+  }
+  .article-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 48px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .article-layout {
+      grid-template-columns: 1fr;
+    }
+    .article-sidebar {
+      order: -1;
+    }
+  }
+
+  /* Prose markdown */
+  .article-content :global(h2) {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    margin: 40px 0 12px;
+    padding-top: 8px;
+    border-top: 2px solid var(--gray-100);
+  }
+  .article-content :global(h3) {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 28px 0 8px;
+  }
+  .article-content :global(p) {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray-700);
+    margin-bottom: 20px;
+  }
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    padding-left: 24px;
+    margin-bottom: 20px;
+  }
+  .article-content :global(li) {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray-700);
+    margin-bottom: 6px;
+  }
+  .article-content :global(strong) {
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .article-content :global(em) {
+    font-style: italic;
+  }
+  .article-content :global(blockquote) {
+    border-left: 3px solid var(--rose);
+    padding: 16px 20px;
+    margin: 32px 0;
+    background: var(--rose-light);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .article-content :global(blockquote p) {
+    margin: 0;
+    color: var(--dark);
+    font-weight: 500;
+  }
+  .article-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--gray-100);
+    margin: 40px 0;
+  }
+  .article-content :global(a) {
+    color: var(--rose);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* TL;DR */
+  .tldr-box {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-left: 3px solid var(--dark);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+  }
+  .tldr-label {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dark);
+    padding-top: 1px;
+  }
+  .tldr-box p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--gray-700);
+  }
+  .tldr-box a {
+    color: var(--rose);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Sidebar */
+  .article-sidebar {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .sidebar-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .sidebar-card--realisation {
+    border-color: var(--rose);
+    background: var(--rose-light);
+  }
+  .sidebar-card--cta {
+    background: var(--dark);
+    border-color: var(--dark);
+  }
+  .sidebar-card--cta .sidebar-card-eyebrow { color: var(--gray-400); }
+  .sidebar-card--cta .sidebar-card-text { color: var(--gray-200); }
+
+  .sidebar-card-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--rose);
+    margin-bottom: 8px;
+  }
+  .sidebar-card-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-600);
+    margin-bottom: 14px;
+  }
+  .sidebar-card-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rose);
+    text-decoration: none;
+  }
+  .sidebar-card-link:hover { text-decoration: underline; }
+
+  .sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sidebar-links a {
+    font-size: 14px;
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .sidebar-links a:hover { color: var(--rose); }
+</style>

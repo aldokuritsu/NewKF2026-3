@@ -1,0 +1,441 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AISummaryBanner from '../../components/AISummaryBanner.astro';
+
+export async function getStaticPaths() {
+  const realisations = await getCollection('realisations', r => r.data.active !== false);
+  return realisations.map(realisation => ({
+    params: { slug: realisation.id },
+    props: { realisation },
+  }));
+}
+
+const { realisation } = Astro.props;
+const { title, client, sector, date, description, challenge, solution, results, image, imageAlt, quote, relatedPost, relatedLinks, tldr } = realisation.data;
+
+const dateFormatted = new Date(date + '-01').toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
+---
+
+<BaseLayout
+  title={`${title} | Réalisations PLV KONTFEEL`}
+  description={description}
+  ogImage={image}
+>
+  <div class="real-page">
+
+    <!-- En-tête -->
+    <header class="real-header">
+      <div class="real-container">
+        <nav class="real-breadcrumb">
+          <a href="/">Accueil</a>
+          <span>›</span>
+          <a href="/realisations-plv/">Réalisations PLV</a>
+          <span>›</span>
+          <span>{title}</span>
+        </nav>
+
+        <div class="real-meta-top">
+          <span class="real-sector">{sector}</span>
+          <span class="real-sep">·</span>
+          <span class="real-date">{dateFormatted}</span>
+        </div>
+
+        <h1 class="real-title">{title}</h1>
+        <p class="real-description">{description}</p>
+      </div>
+    </header>
+
+    <!-- Image hero + chiffres clés -->
+    <div class="real-hero-section">
+      <div class="real-container real-hero-layout">
+        <img src={image} alt={imageAlt ?? title} class="real-hero-img" loading="eager" />
+        <div class="real-results">
+          <p class="results-eyebrow">Résultats clés</p>
+          <ul class="results-list">
+            {results.map(r => (
+              <li class="results-item">
+                <span class="results-value">{r.value}</span>
+                <span class="results-label">{r.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Corps : challenge + solution -->
+    <div class="real-body">
+      <div class="real-container real-body-layout">
+
+        <div class="real-main">
+
+          {tldr && (
+            <aside class="tldr-box">
+              <span class="tldr-label">En bref</span>
+              <p>
+                {tldr.before}{' '}
+                <a href={tldr.linkHref}>{tldr.linkLabel}</a>
+                {tldr.after ? ` ${tldr.after}` : ''}
+              </p>
+            </aside>
+          )}
+
+          <AISummaryBanner
+            title={title}
+            url={Astro.url.href}
+          />
+
+          <section class="real-section">
+            <h2 class="real-section-title">Le défi</h2>
+            <div class="real-prose">
+              {challenge.split('\n\n').map(para => <p>{para}</p>)}
+            </div>
+          </section>
+
+          <section class="real-section">
+            <h2 class="real-section-title">Notre réponse</h2>
+            <div class="real-prose">
+              {solution.split('\n\n').map(para => <p>{para}</p>)}
+            </div>
+          </section>
+
+          <!-- Citation client -->
+          {quote && (
+            <blockquote class="real-quote">
+              <p class="real-quote-text">« {quote.text} »</p>
+              <footer class="real-quote-author">
+                <strong>{quote.author}</strong>
+                <span>{quote.role}</span>
+              </footer>
+            </blockquote>
+          )}
+        </div>
+
+        <!-- Sidebar maillage -->
+        <aside class="real-sidebar">
+
+          <div class="sidebar-card sidebar-card--client">
+            <p class="sidebar-eyebrow">Client</p>
+            <p class="sidebar-value">{client}</p>
+          </div>
+
+          {relatedPost && (
+            <div class="sidebar-card sidebar-card--article">
+              <p class="sidebar-eyebrow">Approfondir le sujet</p>
+              <p class="sidebar-text">Comprendre les choix techniques derrière ce déploiement.</p>
+              <a href={`/actualites-plv/${relatedPost}/`} class="sidebar-link">
+                Lire l'article →
+              </a>
+            </div>
+          )}
+
+          {relatedLinks && relatedLinks.length > 0 && (
+            <div class="sidebar-card">
+              <p class="sidebar-eyebrow">Produits associés</p>
+              <ul class="sidebar-links">
+                {relatedLinks.map(link => (
+                  <li><a href={link.href}>{link.label} →</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div class="sidebar-card sidebar-card--cta">
+            <p class="sidebar-eyebrow sidebar-eyebrow--light">Projet similaire ?</p>
+            <p class="sidebar-text sidebar-text--light">Parlez-nous de votre réseau, vos délais, votre brief. Devis sous 24h.</p>
+            <a href="#devis" class="btn-primary" style="display:block;text-align:center;text-decoration:none;">
+              Demander un devis →
+            </a>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .real-page { background: white; }
+
+  .real-container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* En-tête */
+  .real-header {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+
+  .real-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 20px;
+  }
+  .real-breadcrumb a { color: var(--gray-500); text-decoration: none; }
+  .real-breadcrumb a:hover { color: var(--rose); }
+
+  .real-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .real-sector {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rose);
+    background: var(--rose-light);
+    padding: 4px 12px;
+    border-radius: 99px;
+  }
+  .real-sep, .real-date {
+    font-size: 13px;
+    color: var(--gray-500);
+  }
+
+  .real-title {
+    font-size: clamp(22px, 3.5vw, 36px);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.25;
+    margin-bottom: 16px;
+  }
+  .real-description {
+    font-size: 17px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  /* Hero + résultats */
+  .real-hero-section {
+    padding: 40px 0;
+    background: var(--gray-50);
+  }
+  .real-hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 780px) {
+    .real-hero-layout { grid-template-columns: 1fr; }
+  }
+  .real-hero-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+  .real-results {
+    background: white;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    border: 1px solid var(--gray-100);
+  }
+  .results-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-500);
+    margin-bottom: 20px;
+  }
+  .results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .results-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .results-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  .results-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--rose);
+    line-height: 1;
+  }
+  .results-label {
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.4;
+  }
+
+  /* Corps */
+  .real-body { padding: 56px 0 80px; }
+  .real-body-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .real-body-layout { grid-template-columns: 1fr; }
+  }
+
+  .real-section { margin-bottom: 48px; }
+  .real-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gray-100);
+  }
+  .real-prose p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--gray-700);
+    margin-bottom: 16px;
+  }
+
+  .real-quote {
+    border-left: 3px solid var(--rose);
+    padding: 24px 28px;
+    margin: 0 0 48px;
+    background: var(--rose-light);
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .real-quote-text {
+    font-size: 17px;
+    font-style: italic;
+    color: var(--dark);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .real-quote-author {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 14px;
+  }
+  .real-quote-author strong { color: var(--dark); font-style: normal; }
+  .real-quote-author span { color: var(--gray-500); font-style: normal; }
+
+  /* TL;DR */
+  .tldr-box {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-left: 3px solid var(--dark);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 16px 20px;
+    margin-bottom: 36px;
+  }
+  .tldr-label {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dark);
+    padding-top: 1px;
+  }
+  .tldr-box p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--gray-700);
+  }
+  .tldr-box a {
+    color: var(--rose);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Sidebar */
+  .real-sidebar {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .sidebar-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .sidebar-card--client {
+    background: white;
+    border-color: var(--gray-200);
+  }
+  .sidebar-card--article {
+    border-color: var(--rose);
+    background: var(--rose-light);
+  }
+  .sidebar-card--cta {
+    background: var(--dark);
+    border-color: var(--dark);
+  }
+
+  .sidebar-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-500);
+    margin-bottom: 6px;
+  }
+  .sidebar-eyebrow--light { color: var(--gray-400); }
+  .sidebar-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+    margin: 0;
+  }
+  .sidebar-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-600);
+    margin-bottom: 12px;
+  }
+  .sidebar-text--light { color: var(--gray-300); }
+  .sidebar-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rose);
+    text-decoration: none;
+  }
+  .sidebar-link:hover { text-decoration: underline; }
+
+  .sidebar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .sidebar-links a {
+    font-size: 14px;
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .sidebar-links a:hover { color: var(--rose); }
+</style>

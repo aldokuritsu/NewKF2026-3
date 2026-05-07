@@ -1,13 +1,203 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const allRealisations = await getCollection('realisations', r => r.data.active !== false);
+const realisations = allRealisations.sort((a, b) =>
+  b.data.date.localeCompare(a.data.date)
+);
 ---
 
 <BaseLayout
   title="Réalisations PLV sur mesure | KONTFEEL"
-  description="Études de cas et projets PLV réalisés par KONTFEEL : présentoirs, mobilier commercial et signalétique."
+  description="Études de cas et projets PLV réalisés par KONTFEEL : déploiements réseau, lancements produit, signalétique et mobilier commercial sur mesure."
 >
-  <section style="max-width:var(--max-w);margin:0 auto;padding:64px 24px;">
-    <h1 style="font-size:32px;font-weight:700;color:var(--dark);margin-bottom:16px;">Réalisations PLV</h1>
-    <p style="font-size:16px;color:var(--gray-700);line-height:1.7;">Galerie de réalisations PLV à venir. Découvrez bientôt nos études de cas et nos projets les plus marquants.</p>
+  <section class="real-list">
+    <div class="real-container">
+
+      <header class="real-header">
+        <h1 class="real-title">Réalisations PLV</h1>
+        <p class="real-intro">Retours terrain sur nos projets les plus marquants : contexte client, solution retenue, résultats mesurés.</p>
+      </header>
+
+      {realisations.length === 0 ? (
+        <p class="real-empty">Réalisations à venir.</p>
+      ) : (
+        <ul class="real-grid">
+          {realisations.map(real => {
+            const date = new Date(real.data.date + '-01').toLocaleDateString('fr-FR', {
+              year: 'numeric', month: 'long'
+            });
+            const firstResult = real.data.results[0];
+            return (
+              <li class="real-card">
+                <a href={`/realisations-plv/${real.id}/`} class="real-card-img-link">
+                  <img
+                    src={real.data.image}
+                    alt={real.data.imageAlt ?? real.data.title}
+                    class="real-card-img"
+                    loading="lazy"
+                  />
+                  {firstResult && (
+                    <div class="real-card-badge">
+                      <span class="badge-value">{firstResult.value}</span>
+                      <span class="badge-label">{firstResult.label}</span>
+                    </div>
+                  )}
+                </a>
+                <div class="real-card-body">
+                  <div class="real-card-meta">
+                    <span class="real-card-sector">{real.data.sector}</span>
+                    <span class="real-card-sep">·</span>
+                    <span class="real-card-date">{date}</span>
+                  </div>
+                  <h2 class="real-card-title">
+                    <a href={`/realisations-plv/${real.id}/`}>{real.data.title}</a>
+                  </h2>
+                  <p class="real-card-desc">{real.data.description}</p>
+                  <a href={`/realisations-plv/${real.id}/`} class="real-card-link">
+                    Lire la réalisation →
+                  </a>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+
+    </div>
   </section>
 </BaseLayout>
+
+<style>
+  .real-list {
+    padding: 64px 0 96px;
+  }
+  .real-container {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .real-header {
+    margin-bottom: 48px;
+  }
+  .real-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 12px;
+  }
+  .real-intro {
+    font-size: 17px;
+    color: var(--gray-600);
+    line-height: 1.6;
+  }
+  .real-empty {
+    color: var(--gray-500);
+    font-size: 16px;
+  }
+  .real-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 32px;
+  }
+  .real-card {
+    background: white;
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .real-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+
+  .real-card-img-link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .real-card-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+  }
+  .real-card:hover .real-card-img { transform: scale(1.03); }
+
+  .real-card-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: white;
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .badge-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--rose);
+    line-height: 1;
+  }
+  .badge-label {
+    font-size: 11px;
+    color: var(--gray-600);
+    line-height: 1.3;
+  }
+
+  .real-card-body {
+    padding: 20px 24px 24px;
+  }
+  .real-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .real-card-sector {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--rose);
+    background: var(--rose-light);
+    padding: 3px 8px;
+    border-radius: 99px;
+  }
+  .real-card-sep { font-size: 12px; color: var(--gray-300); }
+  .real-card-date { font-size: 12px; color: var(--gray-500); }
+
+  .real-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  .real-card-title a {
+    color: var(--dark);
+    text-decoration: none;
+  }
+  .real-card-title a:hover { color: var(--rose); }
+
+  .real-card-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-600);
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .real-card-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rose);
+    text-decoration: none;
+  }
+  .real-card-link:hover { text-decoration: underline; }
+</style>

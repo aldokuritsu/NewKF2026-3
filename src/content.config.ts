@@ -5,6 +5,59 @@ const posts = defineCollection({
 	loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
 	schema: z.object({
 		title: z.string(),
+		date: z.string().optional(),
+		description: z.string().optional(),
+		image: z.string().optional(),
+		imageAlt: z.string().optional(),
+		author: z.string().default('Équipe Kontfeel'),
+		tags: z.array(z.string()).optional(),
+		relatedRealisation: z.string().optional(),
+		relatedLinks: z.array(z.object({
+			label: z.string(),
+			href: z.string(),
+		})).optional(),
+		tldr: z.object({
+			before: z.string(),
+			linkLabel: z.string(),
+			linkHref: z.string(),
+			after: z.string().optional(),
+		}).optional(),
+	}),
+});
+
+const realisations = defineCollection({
+	loader: glob({ pattern: "*.json", base: "./src/content/realisations" }),
+	schema: z.object({
+		title: z.string(),
+		client: z.string(),
+		sector: z.string(),
+		date: z.string(),
+		description: z.string(),
+		challenge: z.string(),
+		solution: z.string(),
+		results: z.array(z.object({
+			value: z.string(),
+			label: z.string(),
+		})),
+		image: z.string(),
+		imageAlt: z.string().optional(),
+		quote: z.object({
+			text: z.string(),
+			author: z.string(),
+			role: z.string(),
+		}).optional(),
+		relatedPost: z.string().optional(),
+		relatedLinks: z.array(z.object({
+			label: z.string(),
+			href: z.string(),
+		})).optional(),
+		tldr: z.object({
+			before: z.string(),
+			linkLabel: z.string(),
+			linkHref: z.string(),
+			after: z.string().optional(),
+		}).optional(),
+		active: z.boolean().default(true),
 	}),
 });
 
@@ -38,4 +91,4 @@ const products = defineCollection({
 	}),
 });
 
-export const collections = { posts, products };
+export const collections = { posts, realisations, products };

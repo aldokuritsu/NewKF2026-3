@@ -4,9 +4,9 @@ description: État de couverture du contenu, pages orphelines, et questions ouve
 type: project
 originSessionId: 5837a402-8ef6-495e-bb42-c116dae1f330
 ---
-Exploration complète réalisée le 2026-05-07.
+Dernière mise à jour : 2026-05-07.
 
-## Couverture contenu
+## Couverture contenu silo/enfant
 
 93 fichiers JSON child-pages pour 93 enfants déclarés dans `silos.ts` — couverture totale.
 20 produits JSON dans `src/content/products/` — tous dans le silo `plv-carton`.
@@ -15,11 +15,19 @@ Exploration complète réalisée le 2026-05-07.
 
 **How to apply:** Ne pas supposer que les autres silos ont des produits. Vérifier `src/content/products/` avant d'ajouter un bloc `product_buy` hors de `plv-carton`.
 
+## Contenu éditorial (blog + réalisations)
+
+Système en place avec routes, schemas Zod, "En bref" box et AISummaryBanner.
+
+- `src/content/posts/` : 1 article exemple (`totem-carton-gms.md`)
+- `src/content/realisations/` : 1 réalisation exemple (`campagne-totem-gms.json`)
+- Maillage : article → réalisation → `/plv-carton/totem-carton-automatique/` + `/solutions/plv-grande-distribution/`
+
 ## Pages statiques orphelines (à clarifier)
 
 Ces pages existent dans `src/pages/` mais n'ont aucune intégration nav visible :
 - `digital.astro`, `display.astro`, `mobilier.astro`, `stand.astro` — probablement legacy d'une ancienne architecture pre-cocon
-- `realisations.astro` — doublon apparent de `realisations-plv.astro` (laquelle est canonique ?)
+- `realisations.astro` — doublon de `realisations-plv.astro` (à rediriger ou supprimer)
 - `test-stripe.astro` — page de test accessible publiquement en prod
 
 ## Produit sans route silo
@@ -32,4 +40,4 @@ Ces pages existent dans `src/pages/` mais n'ont aucune intégration nav visible 
 - Sveltia CMS : utilisé en prod avec OAuth ou uniquement en local ?
 - Sitemap.xml : généré côté Vercel ou plugin Astro prévu ?
 - PHP endpoint devis : infrastructure Kontfeel partagée ou service externe ?
-- `actualites-plv.astro` : liste statique ou chargement collection `posts` ?
+- `realisations.astro` (route `/realisations/`) : rediriger vers `/realisations-plv/` ?

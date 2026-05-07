@@ -1,15 +1,16 @@
 ---
 name: Kontfeel — architecture et conventions implicites
-description: Patterns architecturaux non-évidents détectés par lecture de code : système de contenu à deux vitesses, règles SEO cocon, flux de données
+description: Patterns architecturaux non-évidents détectés par lecture de code : système de contenu à trois vitesses, règles SEO cocon, maillage éditorial, flux de données
 type: project
 originSessionId: 5837a402-8ef6-495e-bb42-c116dae1f330
 ---
-## Système contenu à deux vitesses
+## Système contenu à trois vitesses
 
-- **Typé (Zod)** : `products` et `posts` via `src/content.config.ts`
+- **Totalement typé + routé** : `posts` (Markdown) et `realisations` (JSON) — Zod schemas, routes individuelles, "En bref" box, AISummaryBanner
+- **Typé sans route** : `products` — Zod schema, utilisé uniquement par ProductBuyBlock et /api/checkout
 - **Non-typé (any)** : JSON home, silos, pages enfants — `readFileSync` + cast `any`
 
-Un champ mal nommé dans un JSON page/silo est silencieusement ignoré au build. Pas de validation.
+Un champ mal nommé dans un JSON page/silo est silencieusement ignoré au build.
 
 ## `silos.ts` = source de vérité du routage
 
@@ -29,6 +30,24 @@ Nouveaux blocs : utiliser uniquement `_template`.
 - Footer : 6 piliers + légaux uniquement, jamais de pages enfants
 - `ObfuscatedLink` : liens légaux/contact encodés XOR pour crawler-hiding
 - `bypass: true` sur `ObfuscatedLink` depuis la home = lien standard pour PageRank transfer
+
+## Maillage éditorial — chaîne à 3 niveaux
+
+**Article blog → Réalisation → Produit/Solution**
+
+Règle : le lien fort se situe dans le bloc "En bref" (champ `tldr`), dans les premières lignes visibles.
+L'ancre (`linkLabel`) doit être différente du titre de la page cible (élargissement du champ lexical).
+
+Structure `tldr` :
+```yaml
+tldr:
+  before: "Texte avant le lien."
+  linkLabel: "ancre différente du titre cible"
+  linkHref: "/chemin/"
+  after: "Texte après (optionnel)."
+```
+
+Les deux types de publication incluent aussi `AISummaryBanner` (composant Astro, props: title + url).
 
 ## flux devis vs checkout
 

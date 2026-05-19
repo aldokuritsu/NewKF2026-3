@@ -1,0 +1,66 @@
+---
+/**
+ * Fiches produits — URL flat /p/[slug]/
+ *
+ * Contenu : src/content/produits/<slug>.json (même système de blocs que les
+ * pages, format natif Sveltia). Hors arborescence cocon (silos.ts) : une fiche
+ * produit est rattachée à sa catégorie via `parentHref`/`parentLabel` pour le
+ * fil d'Ariane et le maillage retour, et `siloSlug` garde le mega-menu de la
+ * rubrique actif.
+ *
+ * Route plus spécifique que `[...path].astro` (rest) → aucun conflit.
+ */
+import ChildLayout from '../../layouts/ChildLayout.astro'
+import { readFileSync, readdirSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+export async function getStaticPaths() {
+  const dir = resolve(process.cwd(), 'src/content/produits')
+  let files: string[] = []
+  try {
+    files = readdirSync(dir).filter((f) => f.endsWith('.json'))
+  } catch {
+    files = []
+  }
+
+  return files.map((file) => {
+    const slug = file.replace(/\.json$/, '')
+    let pageData: any = null
+    try {
+      pageData = JSON.parse(readFileSync(resolve(dir, file), 'utf-8'))
+    } catch {
+      // JSON invalide — page rendue vide plutôt que de casser le build
+    }
+    return { params: { slug }, props: { slug, pageData } }
+  })
+}
+
+const { slug, pageData } = Astro.props as { slug: string; pageData: any | null }
+
+const blocks = (pageData?.blocks ?? []) as any[]
+const title = pageData?.title ?? slug
+const siloSlug = pageData?.siloSlug ?? 'plv-carton'
+const parentLabel = pageData?.parentLabel
+const parentHref = pageData?.parentHref
+// La fiche produit n'est pas dans le menu : on met en surbrillance sa
+// catégorie parente (le mega-menu surligne l'item dont href === currentPath).
+const navActivePath = parentHref ?? `/p/${slug}/`
+
+const crumbs = [
+  { label: 'Accueil', href: '/' },
+  ...(parentLabel && parentHref ? [{ label: parentLabel, href: parentHref }] : []),
+  { label: title },
+]
+---
+
+<ChildLayout
+  seoTitle={pageData?.seoTitle ?? `${title} | KONTFEEL`}
+  seoDescription={pageData?.seoDescription ??
+    `${title} sur mesure par KONTFEEL, fabricant français de PLV. Devis gratuit sous 24h.`}
+  siloSlug={siloSlug}
+  pageLabel={title}
+  crumbs={crumbs}
+  currentPath={navActivePath}
+  ogImage={pageData?.ogImage ?? undefined}
+  blocks={blocks}
+/>

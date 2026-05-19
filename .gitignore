@@ -30,3 +30,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Liste des pages SEO
+kontfeel_seo_full.xlsx

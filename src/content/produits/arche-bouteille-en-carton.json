@@ -1,0 +1,56 @@
+{
+  "title": "Arche bouteille en carton",
+  "seoTitle": "Arche bouteille en carton sur mesure | KONTFEEL",
+  "seoDescription": "Arche bouteille en carton : deux box et une traverse pour un effet de masse. S'adapte à tous types de bouteilles, 100 % personnalisable. Devis sous 24h.",
+  "siloSlug": "plv-carton",
+  "parentLabel": "Arches carton",
+  "parentHref": "/plv-carton/arches/",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Arche bouteille en carton",
+      "subheading": "Deux box et une traverse pour un effet de masse original et dynamique",
+      "image": "/assets/produits/Arche_20totem_20carton_20elliptique.jpg",
+      "imageAlt": "Arche bouteille en carton personnalisable pour la mise en avant de bouteilles",
+      "badges": [
+        { "text": "Carton 100 % recyclable", "green": true },
+        { "text": "Fabrication française", "green": false },
+        { "text": "100 % personnalisable", "green": false }
+      ],
+      "ctas": [
+        { "label": "Demander un devis →", "href": "#devis", "variant": "primary" },
+        { "label": "02 78 77 53 93", "href": "tel:0278775393", "variant": "secondary" }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Un effet de masse pour vos bouteilles en magasin",
+      "content": "L'arche bouteille en carton est une structure composée de deux box reliés par une traverse horizontale. Elle est conçue pour stocker des bouteilles et créer un effet de masse original et dynamique en point de vente. Elle s'adapte à tous types de bouteilles — vins, champagnes, bières, sodas, jus de fruits, eaux — et est 100 % personnalisable.\n\n### Caractéristiques techniques\n\n- **Matière** : carton micro double-cannelure\n- **Dimensions** : sur mesure\n- **Impression** : quadri ou sérigraphie\n- **Découpe** : à la forme\n\n### Le conseil KONTFEEL\n\nL'arche bouteille est un outil de communication idéal pour vos temps forts. Elle peut être rendue télescopique pour délimiter une zone de promotion complète, en l'associant à des displays ou des totems carton."
+    },
+    {
+      "_template": "faq",
+      "heading": "Questions fréquentes — Arche bouteille",
+      "items": [
+        {
+          "question": "L'arche supporte-t-elle le poids des bouteilles ?",
+          "answer": "Oui : les box sont réalisés en carton micro double-cannelure, dimensionnés pour supporter la charge des bouteilles (verre inclus). La structure et le lestage sont validés en étude technique selon le format retenu."
+        },
+        {
+          "question": "S'adapte-t-elle à tous les formats de bouteilles ?",
+          "answer": "Elle s'adapte à tous types de bouteilles : vins, champagnes, bières, sodas, jus, eaux. Les alvéoles et la hauteur sont ajustées à votre référence."
+        },
+        {
+          "question": "Peut-on l'utiliser pour délimiter une zone de promotion ?",
+          "answer": "Oui, en version télescopique : la traverse réglable permet de créer un portique au-dessus d'une allée ou d'un îlot, à associer à des displays ou totems carton pour une zone promo cohérente."
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet d'arche bouteille ? Devis sous 24h.",
+      "body": "Conception, fabrication et logistique de A à Z. Fabrication française, carton certifié FSC/PEFC.",
+      "btnLabel": "Demander un devis gratuit →",
+      "btnHref": "#devis"
+    }
+  ]
+}

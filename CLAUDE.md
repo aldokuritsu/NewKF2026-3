@@ -8,7 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Styling**: Tailwind CSS 4.2.2 (via @tailwindcss/vite plugin)
 - **Dynamic Components**: React 19.2.5 (loaded where needed via @astrojs/react)
 - **CMS**: Sveltia CMS (Git-based, no npm package—loaded via CDN in `/admin/`)
-- **E-commerce**: Stripe v22.1.0 (checkout sessions, variants, options)
+- **E-commerce**: Stripe v22.1.0 (checkout sessions, variants, options) + a
+  **functional client cart** (localStorage, no backend) → multi-item Stripe Checkout
 - **Search**: home-made static index (`/search-index.json` built endpoint) + zero-dep
   client matcher in the Navbar (no Algolia/Pagefind)
 - **Node**: >=22.12.0
@@ -72,11 +73,19 @@ Home (/) ──┬─ /plv-carton/                (rubrique, niv. 0)
   - ⚠️ The old split (`src/content/silos/` for pillars + `src/pages/[silo]/index.astro`
     + `src/pages/[silo]/[slug].astro`) **no longer exists** — `src/content/silos/`
     and both old route files were deleted in the 2026 refonte.
+- **Product pages (flat)**: `src/content/produits/<slug>.json` → `src/pages/p/[slug].astro`
+  (route `/p/<slug>/`). Block-based like pages, **outside the silos cocon tree**.
+  Each carries `title`, `siloSlug`, `parentLabel`, `parentHref` (category it belongs
+  to — used for breadcrumb + to highlight the parent in the menu). Example:
+  `src/content/produits/plv-arche-palette.json` → `/p/plv-arche-palette/`.
 - **Search index**: `src/pages/search-index.json.ts` → static `/search-index.json`
-  (prerendered at build). Indexes pages + dated posts + active réalisations.
-- **Products**: `src/content/products/[slug].json` (Stripe checkout, variants/options).
-  ⚠️ Products still have **no individual route/page** — flat `/p/[slug]` URLs are
-  planned but not built. They are NOT in the search index.
+  (prerendered). Indexes pages + product pages (`produits`) + dated posts + active réalisations.
+- ⚠️ **Two distinct "product" concepts — do not confuse**:
+  - `src/content/products/` = **Stripe catalog data** (Zod-typed: price, variants,
+    options). No route of its own; consumed by `ProductBuyBlock` + `/api/checkout` + cart.
+  - `src/content/produits/` = **editorial product *pages*** at `/p/<slug>/` (untyped
+    blocks). A `/p/` page may *reference* a Stripe `products` entry via a
+    `product_buy` block, but the two are separate files/dirs.
 - **Blog posts**: `src/content/posts/*.md` → `src/pages/actualites-plv/[slug].astro` (route `/actualites-plv/[slug]/`)
 - **Réalisations**: `src/content/realisations/[slug].json` → `src/pages/realisations-plv/[slug].astro` (route `/realisations-plv/[slug]/`)
 
@@ -121,12 +130,17 @@ Pages are built from **blocks**—typed JSON objects with a `_template` field. E
      node's ancestor chain — no longer a fixed 3-level breadcrumb)
    - Adds breadcrumb (Schema.org `BreadcrumbList`) and sub-nav (blocks with anchors)
 
-**Routing**: `src/pages/[...path].astro` is a single catch-all. `getStaticPaths()`
-calls `walkSilos()` and emits one path per node; it reads
-`src/content/pages/<segments>.json`, picks Pillar vs Child layout by depth, and
-builds the breadcrumb from the ancestors. Being a `[...rest]` route it has lowest
-Astro priority — it never shadows static pages, `/p/[slug]` (future), or
-`/search-index.json`.
+**Routing**:
+- `src/pages/[...path].astro` — single catch-all for the whole silos tree.
+  `getStaticPaths()` calls `walkSilos()`, emits one path per node, reads
+  `src/content/pages/<segments>.json`, picks Pillar vs Child layout by depth, and
+  builds the breadcrumb from the ancestors. Being `[...rest]` it has lowest Astro
+  priority — never shadows static pages, `/p/[slug]`, or `/search-index.json`.
+- `src/pages/p/[slug].astro` — flat product pages. `getStaticPaths()` reads
+  `src/content/produits/*.json`; renders via **ChildLayout** with a breadcrumb
+  `Accueil › <parentLabel> › <title>` and `siloSlug` to keep the rubrique mega-menu
+  active. ⚠️ It passes `currentPath = parentHref` (NOT the real `/p/<slug>/`) so the
+  **parent category is highlighted in the menu** (see *Gotchas*).
 
 ### Key Components
 
@@ -146,7 +160,12 @@ Astro priority — it never shadows static pages, `/p/[slug]` (future), or
     on desktop + inline results in the mobile menu. ⚠️ Result items are injected via
     `innerHTML` → their CSS must be `:global(...)` (Astro scoped styles don't reach
     runtime-injected nodes).
-  - **Cart**: visual **placeholder only** (non-functional, no e-commerce wiring).
+  - **Cart**: **functional**. The cart button opens a slide-over **drawer** (lines,
+    qty steppers, remove, total, "Passer commande"). Badge + total are live. State
+    lives in `src/scripts/cart.ts` (localStorage `kf_cart_v1`, singleton
+    `window.__kfCart`, events `kf-cart-change`/`kf-cart-open`). The Navbar `<script>`
+    `import`s it → it's a real `_astro/*.js` bundle loaded on every page. ⚠️ Drawer
+    line items are JS-injected → their CSS (`.cd-*`) must be `:global(...)`.
   - Header + footer width capped by the `--header-max-w` token (1250px); page
     content stays on `--max-w` (1140px).
 - **DevisModal**: Global popup for quote requests. Auto-fills `productRef` if passed. 2-step form: Project details → Contact info.
@@ -156,11 +175,21 @@ Astro priority — it never shadows static pages, `/p/[slug]` (future), or
 
 ### E-commerce Integration
 
-**Stripe Checkout Flow**:
-1. User selects product, variant (if any), options, quantity
-2. ProductBuyBlock sends POST to `/api/checkout` with: `slug`, `quantity`, `variantId`, `optionIds`, `customAssetUrl`
-3. Route creates Stripe session with line items (product + per-option lines)
-4. Redirects to Stripe checkout (success/cancel URLs)
+**Two checkout paths, one endpoint**. `ProductBuyBlock` shows **two buttons**:
+- *Commander maintenant* — direct express checkout (legacy single-product flow).
+- *Ajouter au panier* — pushes the configured line into `window.__kfCart`, opens
+  the drawer. The drawer's *Passer commande* then checks out the whole cart.
+
+`/api/checkout` (`prerender = false`) accepts **either** shape and normalises:
+- legacy single: `{ slug, quantity, variantId, optionIds, customAssetUrl }`
+- cart: `{ items: [ {slug, quantity, variantId, optionIds, customAssetUrl}, … ] }`
+
+Per item it re-loads the Stripe product, **recomputes price server-side** (never
+trusts the client `unitPrice`), builds line items (product + per-option lines),
+then: single-currency guard, shipping = intersection of products' `shippingCountries`
+(fallback FR/BE/CH/LU), compact metadata, one Stripe session → redirect.
+⚠️ No `checkout.session.completed` webhook / order persistence (flow ends at
+`/success`, which clears the cart via `cart.ts`).
 
 **Product Schema** (`src/content.config.ts`):
 - `name`, `shortDescription`, `description`
@@ -231,6 +260,9 @@ Astro priority — it never shadows static pages, `/p/[slug]` (future), or
   `nested: { depth: 3 }`, `path: "{{slug}}"` (file path mirrors the URL).
   Editing the 3-level nested tree in the Sveltia UI should be validated in
   `/admin/`; direct JSON editing always works.
+- `produits` collection (label *Fiches produits (/p/)*): `folder:
+  src/content/produits`, flat, fields `title`/`parentLabel`/`parentHref`/`siloSlug`
+  + blocks. Distinct from the `products` (Stripe) collection.
 - `home` and `products` collections unchanged.
 
 ### Scripts (one-off utilities)
@@ -300,20 +332,33 @@ overwritten). Never `mkdir` content by hand outside the tree (the script prunes 
 2. Set `active: true` (false hides it from list and route)
 3. Appears on `/realisations-plv/` and gets a route at `/realisations-plv/[slug]/`
 
-### Adding a Product for E-commerce
+### Adding a product page (`/p/<slug>/`)
+
+1. Create `src/content/produits/<slug>.json`: `title`, `seoTitle`,
+   `seoDescription`, `siloSlug` (e.g. `plv-carton`), `parentLabel` +
+   `parentHref` (the category it sits under, e.g. `Arches carton` /
+   `/plv-carton/arches/`), then `blocks` (same block system as pages).
+2. Route + breadcrumb + menu-highlight auto-generate via `src/pages/p/[slug].astro`.
+3. Link it from its category page's `products_grid` (`href: "/p/<slug>/"`) — that's
+   the cocon entry point (product pages are not in the menu/silos tree).
+4. Optionally add a `product_buy` block referencing a Stripe `products` slug.
+
+### Adding a Stripe product (e-commerce data)
 
 1. Create `src/content/products/[slug].json` with schema from `src/content.config.ts`
-2. Reference in a `product_buy` block or standalone page
-3. Test in Stripe test mode (use test card 4242 4242 4242 4242)
+2. Reference it via a `product_buy` block (its `productSlug`)
+3. Test in Stripe test mode (test card 4242 4242 4242 4242). Works for both the
+   direct *Commander maintenant* button and the cart.
 
 ## Implicit Conventions
 
 ### Three content tiers
 - **Fully typed** (Zod + rendered): `posts` (Markdown) and `realisations` (JSON) — collections with rich schemas, individual routes, `AISummaryBanner`, "En bref" box
-- **Typed but no route**: `products` — Zod schema, used only by `ProductBuyBlock` and `/api/checkout`
-- **Untyped** (raw JSON): home + the whole `src/content/pages/**` tree (rubriques,
-  catégories, sous-catégories) — `readFileSync` + cast to `any[]`. A misspelled field
-  is silently ignored at build time.
+- **Typed but no route**: `products` (Stripe data) — Zod schema, used only by
+  `ProductBuyBlock` + `/api/checkout` + cart
+- **Untyped** (raw JSON): home + the `src/content/pages/**` tree + the
+  `src/content/produits/*` product pages — `readFileSync` + cast to `any[]`. A
+  misspelled field is silently ignored at build time.
 
 ### `silos.ts` is the authoritative router (and is generated)
 `getStaticPaths()` in `src/pages/[...path].astro` loops exclusively over
@@ -379,19 +424,24 @@ tldr:
 3. **2026 refonte = no redirects**: old URLs (old 6 silos, ~95 pages) 404. SEO
    equity on old pages is lost, and internal links in `home/index.json`, posts and
    réalisations still point to old slugs → dead links until those are rewritten.
-4. **Products have no pages**: `src/content/products/*.json` has no route (flat
-   `/p/[slug]` planned, not built). Search index excludes them by design; any
-   `href` to a product path is currently dead.
-5. **Astro scoped styles vs `innerHTML`**: nodes injected at runtime (search
-   results `.sr-*`) don't get the `data-astro-cid` attribute → their CSS **must**
-   use `:global(...)`. Applies to any future JS-injected styled markup.
-6. **`test-stripe.astro` is in the production build**: Accessible at `/test-stripe/` unless explicitly excluded.
-7. **Orphaned static pages**: `digital.astro`, `display.astro`, `mobilier.astro`, `stand.astro`, `realisations.astro` exist but have no visible nav integration. Their relationship to the new arborescence is unclear (and pre-2026 in origin).
-8. **`realisations.astro` is an orphaned static page**: `/realisations-plv/` (list) and `/realisations-plv/[slug]/` (detail) are the canonical routes. The old `realisations.astro` at `/realisations/` still exists and should be redirected or removed.
-9. **Vercel Blob URL in Stripe metadata**: The customer file URL (7-day expiry) is stored in Stripe session metadata. Deferred order processing will receive a dead link.
-10. **External PHP devis endpoint**: `PUBLIC_DEVIS_ENDPOINT` has no visible fallback. Failures surface as generic error to the user.
-11. **`plan-du-site.astro` and `contact.astro` are placeholders**: No sitemap.xml generated; contact page has no form. (Note: `/contact/` is now linked from the header dark band, so the empty page is more visible.)
-12. **URL obfuscation key is public**: The XOR key `'kf26-x9m-q-zt'` is in source. Effective against crawlers, not against humans.
+4. **`products` vs `produits`**: two near-homonym dirs. `src/content/products/` =
+   Stripe data (typed); `src/content/produits/` = `/p/` editorial pages (untyped).
+   Easy to mis-target. A `/p/` page only sells if it has a `product_buy` block
+   pointing to a valid `products` slug.
+5. **Cart is client-only**: localStorage, no backend, **no order webhook** — Stripe
+   is the only record of a sale. `unitPrice` in the cart is display-only (server
+   recomputes). Add-to-cart is reachable only where a `product_buy` block exists.
+6. **Astro scoped styles vs `innerHTML`**: nodes injected at runtime — search
+   results (`.sr-*`) and cart drawer lines (`.cd-*`) — don't get the
+   `data-astro-cid` attribute → their CSS **must** use `:global(...)`. Applies to
+   any future JS-injected styled markup.
+7. **`test-stripe.astro` is in the production build**: Accessible at `/test-stripe/` unless explicitly excluded.
+8. **Orphaned static pages**: `digital.astro`, `display.astro`, `mobilier.astro`, `stand.astro`, `realisations.astro` exist but have no visible nav integration. Their relationship to the new arborescence is unclear (and pre-2026 in origin).
+9. **`realisations.astro` is an orphaned static page**: `/realisations-plv/` (list) and `/realisations-plv/[slug]/` (detail) are the canonical routes. The old `realisations.astro` at `/realisations/` still exists and should be redirected or removed.
+10. **Vercel Blob URL in Stripe metadata**: The customer file URL (7-day expiry) is stored in Stripe session metadata. Deferred order processing will receive a dead link.
+11. **External PHP devis endpoint**: `PUBLIC_DEVIS_ENDPOINT` has no visible fallback. Failures surface as generic error to the user.
+12. **`plan-du-site.astro` and `contact.astro` are placeholders**: No sitemap.xml generated; contact page has no form. (Note: `/contact/` is now linked from the header dark band, so the empty page is more visible.)
+13. **URL obfuscation key is public**: The XOR key `'kf26-x9m-q-zt'` is in source. Effective against crawlers, not against humans.
 
 ## Important Constraints & Gotchas
 
@@ -417,6 +467,16 @@ tldr:
    `astro check` may emit a benign “unreachable code” *Hint* on the `silos.map`
    `if(!showMega) return …; return (…)` pattern — pre-existing, ignore.
 
+9. **`currentPath` = nav-active path, not the real URL**: it only drives the
+   menu/mega `active` state (breadcrumb uses `crumbs`, OG uses `Astro.url`).
+   `/p/[slug].astro` deliberately passes `parentHref` so the parent category
+   lights up. Don't assume `currentPath === location.pathname`.
+
+10. **Astro inlines small `<script>`, externalises imported ones**: a `<script>`
+    with no import gets inlined into each page's HTML; adding an `import` (e.g.
+    `cart.ts` in Navbar) makes Astro emit a shared `_astro/*.js` bundle instead.
+    Grep both the HTML and `_astro/*.js` when verifying client code shipped.
+
 ## Debugging Tips
 
 - **Dev server issues**: Clear `.astro/` and `dist/` folders, restart `npm run dev`
@@ -434,9 +494,12 @@ tldr:
   the arborescence/menu (generates `silos.ts` + page skeletons)
 - `src/data/silos.ts`: generated recursive tree + `walkSilos()` / `getSiloBySlug()`
 - `src/pages/[...path].astro`: single recursive route for all rubrique/cat/sous-cat pages
+- `src/pages/p/[slug].astro` + `src/content/produits/`: flat product pages `/p/<slug>/`
+- `src/scripts/cart.ts`: client cart store (localStorage, `window.__kfCart`)
+- `src/pages/api/checkout.ts`: Stripe session — accepts cart `items[]` or legacy single
 - `src/pages/search-index.json.ts`: build-time static search index
 - `src/components/Navbar.astro`: 2-row header (dark band + sticky brand row + nav row),
-  mega-menu, search client
+  mega-menu, search client, cart drawer
 - `astro.config.mjs`: Build config, adapter, integrations, redirects
 - `.env.example`: Template for environment variables
 - `public/admin/config.yml`: Sveltia CMS collection definitions (must match actual folder structure)

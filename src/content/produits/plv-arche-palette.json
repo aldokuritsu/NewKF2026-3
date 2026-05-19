@@ -1,0 +1,56 @@
+{
+  "title": "PLV arche palette",
+  "seoTitle": "PLV arche palette carton sur mesure | KONTFEEL",
+  "seoDescription": "PLV arche palette en carton, adaptée au format palette Europe. Légère, facile à monter en GMS, 100 % personnalisable. Fabrication française, devis sous 24h.",
+  "siloSlug": "plv-carton",
+  "parentLabel": "Arches carton",
+  "parentHref": "/plv-carton/arches/",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "PLV arche palette",
+      "subheading": "La structure carton conçue pour s'adapter au format palette Europe",
+      "image": "/assets/produits/Totem-Arche-600x600px-Kontfeel.jpg",
+      "imageAlt": "PLV arche tour palette en carton positionnée sur palette Europe",
+      "badges": [
+        { "text": "Carton 100 % recyclable", "green": true },
+        { "text": "Fabrication française", "green": false },
+        { "text": "Devis sous 24h", "green": false }
+      ],
+      "ctas": [
+        { "label": "Demander un devis →", "href": "#devis", "variant": "primary" },
+        { "label": "02 78 77 53 93", "href": "tel:0278775393", "variant": "secondary" }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Une arche pensée pour vos temps forts en GMS",
+      "content": "Légère et facile à monter en GMS, la PLV arche palette est parfaite pour promouvoir différentes gammes de produits lors d'un temps fort magasin. Son design personnalisable permet de mettre en avant vos produits de manière attrayante et professionnelle, attirant ainsi l'attention des consommateurs dès l'entrée de l'allée.\n\n### Caractéristiques techniques\n\n- **Matière** : carton micro-cannelure\n- **Format** : adapté au format palette Europe\n- **Impression** : numérique ou sérigraphie\n- **Découpe** : à la forme\n\n### Le conseil KONTFEEL\n\nLa PLV arche palette peut être complétée d'un **fronton en pop-up** découpé à la forme, qui permet de sublimer la marque et de renforcer l'effet de hauteur au-dessus de la palette."
+    },
+    {
+      "_template": "faq",
+      "heading": "Questions fréquentes — PLV arche palette",
+      "items": [
+        {
+          "question": "L'arche s'adapte-t-elle à toutes les palettes ?",
+          "answer": "Elle est dimensionnée pour la palette Europe (800 × 1200 mm), format standard en GMS. D'autres dimensions sont réalisables sur mesure pour des palettes ou îlots spécifiques."
+        },
+        {
+          "question": "Peut-on l'imprimer recto-verso et la découper à la forme ?",
+          "answer": "Oui : impression numérique ou sérigraphie sur l'ensemble des faces visibles, et découpe à la forme pour épouser votre univers de marque. Un fronton pop-up est disponible en option."
+        },
+        {
+          "question": "Quels délais pour une arche palette ?",
+          "answer": "Devis sous 24 à 48h, fabrication en 10 à 15 jours ouvrés après validation du BAT, service express possible. Livraison à plat partout en France."
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet de PLV arche palette ? Devis sous 24h.",
+      "body": "Conception, fabrication et logistique de A à Z. Fabrication française, carton certifié FSC/PEFC.",
+      "btnLabel": "Demander un devis gratuit →",
+      "btnHref": "#devis"
+    }
+  ]
+}

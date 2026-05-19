@@ -1,0 +1,56 @@
+{
+  "title": "Arche automatique en carton",
+  "seoTitle": "Arche automatique en carton sur mesure | KONTFEEL",
+  "seoDescription": "Arche automatique en carton à montage des totems, simple à installer en magasin et à fort impact visuel. Formes carrée, elliptique, ronde. Devis sous 24h.",
+  "siloSlug": "plv-carton",
+  "parentLabel": "Arches carton",
+  "parentHref": "/plv-carton/arches/",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Arche automatique en carton",
+      "subheading": "Montage automatique des totems, un impact visuel fort dès l'installation",
+      "image": "/assets/produits/Arche_20automatique_20totem_20en_20carton.jpg",
+      "imageAlt": "Arche colonne carrée automatique en carton déployée en magasin",
+      "badges": [
+        { "text": "Carton 100 % recyclable", "green": true },
+        { "text": "Fabrication française", "green": false },
+        { "text": "Montage automatique", "green": false }
+      ],
+      "ctas": [
+        { "label": "Demander un devis →", "href": "#devis", "variant": "primary" },
+        { "label": "02 78 77 53 93", "href": "tel:0278775393", "variant": "secondary" }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Une arche prête à déployer en quelques secondes",
+      "content": "L'arche à montage automatique en carton est simple à installer en magasin : les totems se déploient seuls, sans outil. Elle offre un impact visuel important pour l'animation du point de vente et fiabilise les déploiements en réseau réalisés par les équipes terrain.\n\n### Caractéristiques techniques\n\n- **Matière** : carte 400 g\n- **Finition** : impression offset + pelliculage\n- **Montage** : automatique des totems\n- **Conditionnement** : remis sous kit carton unitaire\n- **Dimensions** : sur mesure et à la demande\n- **Formes disponibles** : carrée, elliptique, ronde\n\n### Le conseil KONTFEEL\n\nIdéale pour les opérations multi-magasins : le conditionnement en kit unitaire et le montage automatique réduisent fortement le temps d'installation et le taux d'erreur sur le terrain."
+    },
+    {
+      "_template": "faq",
+      "heading": "Questions fréquentes — Arche automatique",
+      "items": [
+        {
+          "question": "Comment se monte l'arche automatique ?",
+          "answer": "Les totems sont auto-déployants : il suffit de les sortir du kit carton et de les positionner, la structure s'ouvre d'elle-même en quelques secondes. Aucun outil ni compétence particulière requis — idéal pour un déploiement par les équipes magasin."
+        },
+        {
+          "question": "Quelles formes et dimensions sont possibles ?",
+          "answer": "Colonnes carrées, elliptiques ou rondes, dans les dimensions de votre choix (sur mesure). La traverse est adaptée à la largeur d'implantation souhaitée."
+        },
+        {
+          "question": "L'impression est-elle de qualité durable ?",
+          "answer": "Oui : impression offset quadri avec pelliculage de protection, pour un rendu premium qui résiste aux manipulations pendant toute la durée de l'opération."
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet d'arche automatique ? Devis sous 24h.",
+      "body": "Conception, fabrication et logistique de A à Z. Fabrication française, carton certifié FSC/PEFC.",
+      "btnLabel": "Demander un devis gratuit →",
+      "btnHref": "#devis"
+    }
+  ]
+}

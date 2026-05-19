@@ -1,39 +1,155 @@
 {
-  "seoTitle": "Arches carton | KONTFEEL",
-  "seoDescription": "Arches carton sur mesure par KONTFEEL, fabricant français de PLV. Conception, fabrication et logistique. Devis gratuit sous 24h.",
+  "seoTitle": "Arche carton publicitaire sur mesure | KONTFEEL",
+  "seoDescription": "Arches carton personnalisables : arche palette, arche automatique, arche bouteille. Délimitez vos temps forts en GMS. Fabrication française, devis sous 24h.",
   "siloSlug": "plv-carton",
   "blocks": [
     {
       "_template": "hero",
       "heading": "Arches carton",
-      "subheading": "Arches carton personnalisable à votre image",
+      "subheading": "L'arche PLV en carton pour donner de la hauteur à votre offre en point de vente",
+      "image": "/assets/produits/Totem-Arche-1170x780px-Kontfeel_1.jpg",
+      "imageAlt": "Arche publicitaire en carton personnalisée en magasin",
       "badges": [
-        {
-          "text": "Fabrication française",
-          "green": false
-        },
-        {
-          "text": "Devis sous 24h",
-          "green": false
-        }
+        { "text": "Carton 100 % recyclable", "green": true },
+        { "text": "Fabrication française", "green": false },
+        { "text": "Devis sous 24h", "green": false }
+      ],
+      "certifs": [
+        { "label": "♻ Imprim'Vert" },
+        { "label": "🌲 FSC" },
+        { "label": "🌿 PEFC" }
       ],
       "ctas": [
+        { "label": "Demander un devis →", "href": "#devis", "variant": "primary" },
+        { "label": "02 78 77 53 93", "href": "tel:0278775393", "variant": "secondary" }
+      ]
+    },
+    {
+      "_template": "products_grid",
+      "heading": "Découvrez notre gamme d'arches carton",
+      "subtitle": "Légères, faciles à monter et 100 % personnalisables — pour délimiter et théâtraliser vos temps forts magasin.",
+      "products": [
         {
-          "label": "Demander un devis →",
-          "href": "#devis",
-          "variant": "primary"
+          "title": "PLV arche palette",
+          "image": "/assets/produits/Totem-Arche-600x600px-Kontfeel.jpg",
+          "imageAlt": "PLV arche carton positionnée sur palette Europe en GMS",
+          "tag": "GMS",
+          "description": "Structure carton conçue pour s'adapter au format palette Europe. Légère et facile à monter, idéale pour promouvoir une gamme lors d'un temps fort magasin. Fronton pop-up découpé à la forme en option.",
+          "href": "/p/plv-arche-palette/",
+          "specs": [
+            { "text": "Format palette Europe" },
+            { "text": "Micro-cannelure" },
+            { "text": "Découpe à la forme" },
+            { "text": "Fronton pop-up en option" }
+          ]
         },
         {
-          "label": "02 78 77 53 93",
-          "href": "tel:0278775393",
-          "variant": "secondary"
+          "title": "Arche automatique en carton",
+          "image": "/assets/produits/Arche_20automatique_20totem_20en_20carton.jpg",
+          "imageAlt": "Arche automatique en carton sur mesure déployée en magasin",
+          "tag": "Montage express",
+          "description": "Arche à montage automatique des totems, simple à installer en magasin et à fort impact visuel. Formes carrée, elliptique ou ronde, livrée en kit carton unitaire.",
+          "href": "/p/arche-automatique-en-carton/",
+          "specs": [
+            { "text": "Montage automatique" },
+            { "text": "Carte 400 g" },
+            { "text": "Offset + pelliculage" },
+            { "text": "Carrée / elliptique / ronde" }
+          ]
+        },
+        {
+          "title": "Arche bouteille en carton",
+          "image": "/assets/produits/Arche_20totem_20carton_20elliptique.jpg",
+          "imageAlt": "Arche bouteille en carton avec deux box et traverse horizontale",
+          "description": "Deux box reliés par une traverse horizontale pour créer un effet de masse dynamique. S'adapte à tous types de bouteilles (vins, champagnes, bières, sodas, eaux). 100 % personnalisable.",
+          "href": "/p/arche-bouteille-en-carton/",
+          "specs": [
+            { "text": "2 box + traverse" },
+            { "text": "Effet de masse" },
+            { "text": "Micro double cannelure" },
+            { "text": "Tous formats de bouteilles" }
+          ]
+        }
+      ]
+    },
+    {
+      "_template": "text_editorial",
+      "heading": "Pourquoi choisir KONTFEEL pour votre arche carton ?",
+      "content": "Fabricant français de PLV depuis plus de 10 ans, nous accompagnons votre projet d'arche carton de l'idée au déploiement en magasin.\n\n### Devis sur mesure sous 24 à 48h\n\nUn chiffrage rapide et précis, adapté à votre temps fort et à vos volumes.\n\n### Étude technique & structure\n\nNous validons la tenue mécanique de l'arche (cannelure, traverse, lestage) pour un montage fiable en point de vente.\n\n### Design & PAO intégrés\n\nNotre studio met en page vos visuels selon une grille de lecture pensée pour la distance d'accroche en rayon.\n\n### Éco-conception\n\nCarton recyclable issu de forêts gérées durablement (FSC / PEFC), encres à base végétale, certification Imprim'Vert.\n\n### Logistique & transport optimisés\n\nLivraison à plat pour réduire le volume de transport et simplifier le stockage de vos équipes terrain.\n\n### Interlocuteur unique\n\nUn seul contact de la conception à la livraison, sur toute la France."
+    },
+    {
+      "_template": "realizations",
+      "heading": "Réalisations — Arches carton",
+      "subtitle": "Des arches déployées pour nos clients en point de vente et en événementiel.",
+      "items": [
+        {
+          "image": "/assets/realisations/arche-evenementielle.jpg",
+          "imageAlt": "Arche événementielle en carton sur mesure pour une opération de Noël",
+          "category": "Événementiel · Sur mesure",
+          "heading": "Arche événementielle de Noël",
+          "excerpt": "Arche carton sur mesure avec découpe silhouette pour une animation de fin d'année à fort trafic.",
+          "featured": true,
+          "isNew": false
+        },
+        {
+          "image": "/assets/realisations/arches-en-carton-pour-mise-en-avant-magasin.jpg",
+          "imageAlt": "Arches en carton pour mise en avant produit en magasin",
+          "category": "GMS · Temps fort",
+          "heading": "Mise en avant gamme en GMS",
+          "excerpt": "Arches palette déployées en réseau pour théâtraliser une opération promotionnelle nationale.",
+          "featured": false,
+          "isNew": false
+        },
+        {
+          "image": "/assets/realisations/theatralisation-magasin-avec-plvc-carton-sur-mesure.jpg",
+          "imageAlt": "Théâtralisation magasin avec PLV carton sur mesure",
+          "category": "Spiritueux · Effet de masse",
+          "heading": "Arche bouteille spiritueux",
+          "excerpt": "Arche bouteille en carton double cannelure pour un effet de masse premium en cave.",
+          "featured": false,
+          "isNew": false
+        }
+      ]
+    },
+    {
+      "_template": "client_logos",
+      "eyebrow": "Ils nous font confiance",
+      "subtitle": "Marques et enseignes qui ont déployé nos arches carton en point de vente",
+      "logos": [
+        { "image": "/assets/logo-region-normandie.png", "alt": "Région Normandie" },
+        { "text": "FNAC" },
+        { "text": "CANAL+" },
+        { "text": "HACHETTE" },
+        { "text": "SMEG" },
+        { "text": "SODASTREAM" }
+      ]
+    },
+    {
+      "_template": "faq",
+      "heading": "Questions fréquentes sur l'arche carton",
+      "items": [
+        {
+          "question": "Qu'est-ce qu'une arche carton et quels sont ses avantages ?",
+          "answer": "Une arche carton est une structure publicitaire en carton (souvent deux colonnes ou box reliés par une traverse) qui délimite et surplombe un espace de marque en point de vente. Légère, livrée à plat et montable par une seule personne, elle donne de la hauteur à votre offre et crée un repère visible à plusieurs mètres, pour un coût et un impact RSE bien inférieurs à une structure métallique."
+        },
+        {
+          "question": "Quels matériaux utilisez-vous pour fabriquer une arche carton ?",
+          "answer": "Selon l'usage : carton micro-cannelure pour les opérations courtes, micro double-cannelure pour les arches bouteilles soumises à charge, ou carte 400 g pour les arches automatiques. Tous nos cartons sont certifiés FSC et PEFC, l'impression est réalisée avec des encres à base végétale sous certification Imprim'Vert."
+        },
+        {
+          "question": "Peut-on personnaliser entièrement une arche carton ?",
+          "answer": "Oui, l'arche est 100 % personnalisable : dimensions sur mesure, découpe à la forme, impression quadri ou sérigraphie, fronton pop-up à votre marque. Nous adaptons aussi le format au support (palette Europe, îlot, allée centrale)."
+        },
+        {
+          "question": "Quels sont les délais et la zone de livraison ?",
+          "answer": "Devis retourné sous 24 à 48h, fabrication en 10 à 15 jours ouvrés après validation du BAT (service express possible). Livraison à plat partout en France métropolitaine, avec possibilité de livraison multi-points sur votre réseau."
         }
       ]
     },
     {
       "_template": "cta_banner",
-      "heading": "Un projet arches carton ? Parlons-en.",
-      "body": "Conception, fabrication et logistique de A à Z. Devis gratuit sous 24h.",
+      "heading": "Un projet d'arche carton ? Obtenez votre devis sous 24h.",
+      "body": "Interlocuteur unique de la conception à la livraison. Fabrication française, carton certifié FSC/PEFC.",
       "btnLabel": "Demander un devis gratuit →",
       "btnHref": "#devis"
     }

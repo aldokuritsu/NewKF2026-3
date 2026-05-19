@@ -399,6 +399,31 @@ collections:
       - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
       - *blocks_field
 
+  # ── Fiches produits (URL flat /p/<slug>/) ──
+  #
+  # Hors arborescence cocon. Le slug du fichier = le slug d'URL :
+  #   src/content/produits/plv-arche-palette.json → /p/plv-arche-palette/
+  # `parentLabel`/`parentHref` = catégorie de rattachement (fil d'Ariane +
+  # maillage retour) ; `siloSlug` garde le mega-menu de la rubrique actif.
+  - name: produits
+    label: Fiches produits (/p/)
+    label_singular: Fiche produit
+    folder: src/content/produits
+    format: json
+    extension: json
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    fields:
+      - { name: title,          label: Titre produit,   widget: string }
+      - { name: seoTitle,       label: Titre SEO,       widget: string }
+      - { name: seoDescription, label: Description SEO, widget: text,   required: false }
+      - { name: siloSlug,       label: Rubrique (slug), widget: string, required: false, default: "plv-carton" }
+      - { name: parentLabel,    label: Catégorie (libellé), widget: string, required: false, hint: "Ex : Arches carton" }
+      - { name: parentHref,     label: Catégorie (URL), widget: string, required: false, hint: "Ex : /plv-carton/arches/" }
+      - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
+      - *blocks_field
+
   # ── Produits (catalogue Stripe Checkout) ──────────────────────
   - name: products
     label: Produits

@@ -17,7 +17,7 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 import { walkSilos } from '../data/silos'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 export const prerender = true
@@ -90,6 +90,30 @@ export const GET: APIRoute = async () => {
         [r.data.title, r.data.client, r.data.sector, r.data.description].filter(Boolean).join(' '),
       ),
     })
+  }
+
+  // ── Fiches produits (URL flat /p/[slug]) ──────────────────────────────────
+  try {
+    const dir = resolve(process.cwd(), 'src/content/produits')
+    for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+      let d: any = {}
+      try {
+        d = JSON.parse(readFileSync(resolve(dir, file), 'utf-8'))
+      } catch {
+        continue
+      }
+      const slug = file.replace(/\.json$/, '')
+      const title = d.title ?? slug
+      entries.push({
+        t: title,
+        u: `/p/${slug}/`,
+        k: d.parentLabel ? `Produit · ${d.parentLabel}` : 'Produit',
+        d: clip(String(d.seoDescription ?? '')),
+        s: norm([title, d.parentLabel, d.seoTitle, d.seoDescription].filter(Boolean).join(' ')),
+      })
+    }
+  } catch {
+    /* dossier produits absent — rien à indexer */
   }
 
   return new Response(JSON.stringify(entries), {

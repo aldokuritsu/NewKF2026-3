@@ -541,6 +541,38 @@ export const silos: SiloNode[] = [
         "href": "/packaging-et-coffrets/etuis-et-fourreaux-personnalises/"
       }
     ]
+  },
+  {
+    "slug": "solutions-metiers",
+    "label": "Solutions métiers",
+    "href": "/solutions-metiers/",
+    "children": [
+      {
+        "slug": "pharmacie-sante-bien-etre",
+        "label": "Pharmacie, Santé & Bien-être",
+        "href": "/solutions-metiers/pharmacie-sante-bien-etre/"
+      },
+      {
+        "slug": "beaute-cosmetique-luxe",
+        "label": "Beauté, Cosmétique & Luxe",
+        "href": "/solutions-metiers/beaute-cosmetique-luxe/"
+      },
+      {
+        "slug": "agroalimentaire-epicerie-terroir",
+        "label": "Agroalimentaire, Épicerie & Terroir",
+        "href": "/solutions-metiers/agroalimentaire-epicerie-terroir/"
+      },
+      {
+        "slug": "edition-culture-loisirs",
+        "label": "Édition, Culture & Loisirs",
+        "href": "/solutions-metiers/edition-culture-loisirs/"
+      },
+      {
+        "slug": "services-chr-institutionnel",
+        "label": "Services, CHR & Institutionnel",
+        "href": "/solutions-metiers/services-chr-institutionnel/"
+      }
+    ]
   }
 ]
 

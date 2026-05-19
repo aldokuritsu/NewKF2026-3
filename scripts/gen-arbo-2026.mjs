@@ -160,6 +160,16 @@ const TREE = [
       { slug: 'etuis-et-fourreaux-personnalises',        label: 'Étuis et fourreaux personnalisés' },
     ],
   },
+  {
+    slug: 'solutions-metiers', label: 'Solutions métiers',
+    children: [
+      { slug: 'pharmacie-sante-bien-etre',       label: 'Pharmacie, Santé & Bien-être' },
+      { slug: 'beaute-cosmetique-luxe',          label: 'Beauté, Cosmétique & Luxe' },
+      { slug: 'agroalimentaire-epicerie-terroir',label: 'Agroalimentaire, Épicerie & Terroir' },
+      { slug: 'edition-culture-loisirs',         label: 'Édition, Culture & Loisirs' },
+      { slug: 'services-chr-institutionnel',     label: 'Services, CHR & Institutionnel' },
+    ],
+  },
 ]
 
 /* ─────────────────────────────────────────────────────────────────────────

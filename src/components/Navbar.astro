@@ -1,17 +1,22 @@
 ---
 /**
- * Navbar — Navbar principale unifiée (toutes les pages).
+ * Navbar — En-tête principal sur 2 lignes (toutes les pages).
  *
- * - Les 6 rubriques sont toujours visibles en top-level (liens piliers).
- * - Seule la rubrique courante ouvre son tiroir (mega-menu desktop / accordéon mobile).
+ * Ligne 1 (marque) : logo · recherche (placeholder) · liens utilitaires
+ *                     (Réalisations, Blog, Contact, téléphone) · panier (placeholder).
+ * Ligne 2 (nav)    : les rubriques, chacune avec son mega-menu (3 niveaux).
+ *
+ * - Seule la rubrique courante ouvre son tiroir (mega desktop / accordéon mobile).
  * - Sur la home (showAllMegaMenus=true), toutes les rubriques ouvrent leur tiroir.
- * - Le mega-menu gère 3 niveaux : rubrique › catégorie › sous-catégorie.
  * - Triggers du tiroir : hover, clic, clavier (Enter/Space toggle, Escape ferme).
  *
+ * ⚠️ Recherche et panier sont des PLACEHOLDERS visuels non fonctionnels
+ *    (site statique — câblage ultérieur).
+ *
  * Props :
- *   currentSiloSlug?   : string  — slug de la rubrique courante (active le tiroir + état actif)
+ *   currentSiloSlug?   : string  — slug de la rubrique courante
  *   currentPath?       : string  — chemin URL pour marquer l'élément actif
- *   showAllMegaMenus?  : boolean — déploie toutes les rubriques en tiroir (home)
+ *   showAllMegaMenus?  : boolean — déploie toutes les rubriques (home)
  */
 import { silos } from '../data/silos'
 
@@ -25,12 +30,59 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
 ---
 
 <header class="navbar" id="navbar">
-  <div class="navbar-inner">
 
-    <a href="/" class="logo" aria-label="KONTFEEL — Accueil">
-      <img src="/assets/images/logo.svg" alt="KONTFEEL" width="160" height="48" />
-    </a>
+  <!-- ═══ Ligne 1 : marque · recherche · utilitaires · panier ═══ -->
+  <div class="header-top">
+    <div class="header-top-inner">
 
+      <a href="/" class="logo" aria-label="KONTFEEL — Accueil">
+        <img src="/assets/images/logo.svg" alt="KONTFEEL" width="160" height="48" />
+      </a>
+
+      <!-- Recherche — PLACEHOLDER visuel (non fonctionnel) -->
+      <form class="search" role="search" aria-label="Recherche produit (bientôt disponible)" onsubmit="return false;">
+        <input
+          type="search"
+          class="search-input"
+          placeholder="Trouver un produit"
+          aria-label="Trouver un produit"
+          autocomplete="off"
+        />
+        <button type="button" class="search-btn" aria-label="Rechercher" tabindex="-1">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </form>
+
+      <nav class="header-utils" aria-label="Liens utiles">
+        <a href="/realisations-plv/" class="util-link">Réalisations</a>
+        <a href="/actualites-plv/" class="util-link">Blog</a>
+        <a href="/contact/" class="util-link">Contact</a>
+        <a href="tel:0278775393" class="util-phone">02&nbsp;78&nbsp;77&nbsp;53&nbsp;93</a>
+      </nav>
+
+      <!-- Panier — PLACEHOLDER (non fonctionnel) -->
+      <div class="cart" role="img" aria-label="Panier — bientôt disponible (0 article, 0,00 €)" title="Panier — bientôt disponible">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 4h2l2.4 12.3a1 1 0 0 0 1 .8h9.2a1 1 0 0 0 1-.8L21 8H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
+          <circle cx="18" cy="20" r="1.4" fill="currentColor"/>
+        </svg>
+        <span class="cart-badge" aria-hidden="true">0</span>
+        <span class="cart-total">0,00&nbsp;€</span>
+      </div>
+
+      <button class="hamburger" id="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ═══ Ligne 2 : rubriques (mega-menu) ═══ -->
+  <div class="header-nav">
     <nav class="nav-links" aria-label="Navigation principale">
       {silos.map(silo => {
         const isCurrent = silo.slug === currentSiloSlug
@@ -98,16 +150,17 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         )
       })}
     </nav>
-
-    <button class="hamburger" id="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
-      <span></span><span></span><span></span>
-    </button>
-
   </div>
 
   <!-- ═══ Menu mobile ═══ -->
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <nav aria-label="Navigation mobile">
+
+      <!-- Recherche mobile — PLACEHOLDER visuel -->
+      <form class="mobile-search" role="search" aria-label="Recherche produit (bientôt disponible)" onsubmit="return false;">
+        <input type="search" placeholder="Trouver un produit" aria-label="Trouver un produit" autocomplete="off" />
+      </form>
+
       {silos.map(silo => {
         const isCurrent = silo.slug === currentSiloSlug
         const showMega = showAllMegaMenus || isCurrent
@@ -171,6 +224,15 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
           </details>
         )
       })}
+
+      <!-- Liens utilitaires (mobile) -->
+      <div class="mobile-utils">
+        <a href="/realisations-plv/" class="mobile-link">Réalisations</a>
+        <a href="/actualites-plv/" class="mobile-link">Blog</a>
+        <a href="/contact/" class="mobile-link">Contact</a>
+        <a href="tel:0278775393" class="mobile-link">02 78 77 53 93</a>
+      </div>
+
       <a href="/devis/" class="mobile-cta">Devis gratuit →</a>
     </nav>
   </div>
@@ -285,27 +347,140 @@ if (hamburger && mobileMenu) {
     box-shadow: 0 1px 4px rgba(0, 0, 0, .04);
   }
 
-  .navbar-inner {
+  /* ══ Ligne 1 : marque ══ */
+  .header-top { border-bottom: 1px solid var(--gray-100); }
+
+  .header-top-inner {
     max-width: var(--header-max-w);
     margin: 0 auto;
-    /* Header centré (≤1250px), marge gauche du logo = marge droite du menu */
     padding: 0 24px;
     height: 72px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 24px;
+    gap: 20px;
   }
 
-  /* ── Logo ── */
   .logo { flex-shrink: 0; display: flex; align-items: center; }
-  .logo img { height: 44px; width: auto; display: block; }
+  .logo img { height: 42px; width: auto; display: block; }
 
-  /* ── Nav links ── */
-  .nav-links {
+  /* ── Recherche (placeholder) ── */
+  .search {
+    flex: 1 1 auto;
+    max-width: 440px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    gap: 2px;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 99px;
+    padding: 0 6px 0 18px;
+    height: 42px;
+    transition: border-color .15s, background .15s;
+  }
+
+  .search:focus-within { border-color: var(--rose); background: var(--white); }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--gray-900);
+    min-width: 0;
+  }
+
+  .search-input::placeholder { color: var(--gray-500); }
+
+  .search-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: none;
+    color: var(--rose);
+    cursor: pointer;
+  }
+
+  /* ── Liens utilitaires ── */
+  .header-utils {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+
+  .util-link,
+  .util-phone {
+    font-size: 14px;
+    color: var(--gray-700);
+    text-decoration: none;
+    transition: color .15s;
+    white-space: nowrap;
+  }
+
+  .util-link:hover { color: var(--rose); }
+
+  .util-phone {
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: .01em;
+  }
+
+  .util-phone:hover { color: var(--rose); }
+
+  /* ── Panier (placeholder) ── */
+  .cart {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--rose);
+    color: var(--white);
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: default;
+    user-select: none;
+    position: relative;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -4px;
+    left: 8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--white);
+    color: var(--rose);
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  .cart-total { white-space: nowrap; }
+
+  /* ══ Ligne 2 : rubriques ══ */
+  .header-nav { background: var(--white); }
+
+  .nav-links {
+    max-width: var(--header-max-w);
+    margin: 0 auto;
+    padding: 0 16px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
   }
 
   .nav-link {
@@ -316,12 +491,12 @@ if (hamburger && mobileMenu) {
     font-weight: 500;
     color: var(--gray-700);
     text-decoration: none;
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: var(--radius-sm);
     transition: color .15s, background .15s;
     white-space: nowrap;
     letter-spacing: .01em;
-    line-height: 1;
+    line-height: 1.15;
     background: none;
     border: none;
     cursor: pointer;
@@ -449,9 +624,9 @@ if (hamburger && mobileMenu) {
     border: none;
     cursor: pointer;
     padding: 8px;
-    margin-left: auto;
     border-radius: var(--radius-sm);
     transition: background .15s;
+    flex-shrink: 0;
   }
 
   .hamburger:hover { background: var(--gray-50); }
@@ -469,7 +644,7 @@ if (hamburger && mobileMenu) {
   .hamburger.is-open span:nth-child(2) { opacity: 0; }
   .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  /* ── Mobile menu ── */
+  /* ── Menu mobile ── */
   .mobile-menu {
     display: none;
     overflow: hidden;
@@ -482,13 +657,37 @@ if (hamburger && mobileMenu) {
   .mobile-menu.is-open { max-height: calc(100vh - 72px); overflow-y: auto; }
 
   .mobile-menu nav {
-    max-width: var(--max-w);
+    max-width: var(--header-max-w);
     margin: 0 auto;
     padding: 16px 24px 20px;
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
+
+  .mobile-search {
+    display: flex;
+    align-items: center;
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: 99px;
+    padding: 0 18px;
+    height: 44px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-search input {
+    flex: 1;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--gray-900);
+    min-width: 0;
+  }
+
+  .mobile-search input::placeholder { color: var(--gray-500); }
 
   .mobile-link {
     font-size: 15px;
@@ -609,6 +808,15 @@ if (hamburger && mobileMenu) {
 
   .mobile-cat-link:hover { background: rgba(232, 70, 124, .14); color: var(--rose); }
 
+  .mobile-utils {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--gray-100);
+  }
+
   .mobile-cta {
     margin-top: 12px;
     padding: 12px 20px;
@@ -621,14 +829,27 @@ if (hamburger && mobileMenu) {
   }
 
   /* ── Responsive ── */
+  @media (max-width: 1180px) {
+    .nav-link { font-size: 13px; padding: 8px 8px; }
+  }
+
   @media (max-width: 1100px) {
     .mega-panel { min-width: 560px; }
     .mega-grid { columns: 3 200px; }
   }
 
+  @media (max-width: 980px) {
+    .search { max-width: 280px; }
+    .header-utils { gap: 16px; }
+    .util-link:not(.util-phone) { display: none; }
+  }
+
   @media (max-width: 900px) {
-    .nav-links { display: none; }
+    .header-nav { display: none; }
+    .search,
+    .header-utils { display: none; }
     .hamburger { display: flex; }
     .mobile-menu { display: block; }
+    .header-top-inner { justify-content: space-between; gap: 12px; }
   }
 </style>

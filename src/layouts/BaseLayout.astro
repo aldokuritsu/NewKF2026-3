@@ -9,7 +9,6 @@
  *   currentPath : string?  — URL courante pour l'état actif (défaut : Astro.url.pathname)
  *   ogImage     : string?  — URL absolue de l'image Open Graph
  */
-import Topbar from '../components/Topbar.astro'
 import Navbar from '../components/Navbar.astro'
 import Footer from '../components/Footer.astro'
 import DevisModal from '../components/DevisModal.astro'
@@ -80,10 +79,7 @@ const showAllMegaMenus = currentPath === '/' && !siloSlug
   </head>
   <body>
 
-    <!-- ═══ TOPBAR ═══ -->
-    <Topbar />
-
-    <!-- ═══ NAVBAR ═══ -->
+    <!-- ═══ NAVBAR (en-tête 2 lignes : marque + rubriques) ═══ -->
     <Navbar currentSiloSlug={siloSlug} currentPath={currentPath} showAllMegaMenus={showAllMegaMenus} />
 
     <!-- ═══ CONTENU ═══ -->

@@ -31,7 +31,28 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
 
 <header class="navbar" id="navbar">
 
-  <!-- ═══ Ligne 1 : marque · recherche · utilitaires · panier ═══ -->
+  <!-- ═══ Bandeau utilitaire foncé (NON sticky — défile au scroll) ═══ -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <nav class="topbar-links" aria-label="Liens utiles">
+        <a href="/realisations-plv/">Réalisations</a>
+        <a href="/actualites-plv/">Blog</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+      <p class="topbar-delivery">
+        <span class="flag" aria-hidden="true">
+          <svg width="18" height="12" viewBox="0 0 18 12">
+            <rect width="6" height="12" fill="#0055A4"/>
+            <rect x="6" width="6" height="12" fill="#FFFFFF"/>
+            <rect x="12" width="6" height="12" fill="#EF4135"/>
+          </svg>
+        </span>
+        Livraison partout en France
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══ Ligne marque (STICKY) : logo · recherche · panier ═══ -->
   <div class="header-top">
     <div class="header-top-inner">
 
@@ -39,14 +60,19 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         <img src="/assets/images/logo.svg" alt="KONTFEEL" width="160" height="48" />
       </a>
 
-      <!-- Recherche — PLACEHOLDER visuel (non fonctionnel) -->
-      <form class="search" role="search" aria-label="Recherche produit (bientôt disponible)" onsubmit="return false;">
+      <!-- Recherche (index statique + matcher client) -->
+      <form class="search" role="search" aria-label="Recherche sur le site" onsubmit="return false;">
         <input
           type="search"
+          id="site-search"
           class="search-input"
           placeholder="Trouver un produit"
           aria-label="Trouver un produit"
           autocomplete="off"
+          role="combobox"
+          aria-expanded="false"
+          aria-controls="search-results"
+          aria-autocomplete="list"
         />
         <button type="button" class="search-btn" aria-label="Rechercher" tabindex="-1">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -54,14 +80,21 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
             <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </button>
+        <div class="search-results" id="search-results" role="listbox" aria-label="Résultats de recherche" hidden></div>
       </form>
 
-      <nav class="header-utils" aria-label="Liens utiles">
-        <a href="/realisations-plv/" class="util-link">Réalisations</a>
-        <a href="/actualites-plv/" class="util-link">Blog</a>
-        <a href="/contact/" class="util-link">Contact</a>
-        <a href="tel:0278775393" class="util-phone">02&nbsp;78&nbsp;77&nbsp;53&nbsp;93</a>
-      </nav>
+      <!-- Téléphone + accroche -->
+      <a href="tel:0278775393" class="header-phone" aria-label="Appelez-nous au 02 78 77 53 93 — conseil et prise de commande">
+        <span class="header-phone-ico" aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+            <path d="M6.6 3.5c.6 0 1.13.4 1.3.98l.86 2.96a1.4 1.4 0 0 1-.36 1.4L7.06 10.1a13 13 0 0 0 5.4 5.4l1.26-1.34a1.4 1.4 0 0 1 1.4-.36l2.96.86c.58.17.98.7.98 1.3v2.8c0 .82-.7 1.47-1.52 1.38C9.9 19.96 3.54 13.6 2.84 5.42 2.77 4.6 3.42 3.9 4.24 3.9L6.6 3.5Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="header-phone-txt">
+          <span class="header-phone-hook">Un conseil ou une commande ?</span>
+          <span class="header-phone-num">02 78 77 53 93</span>
+        </span>
+      </a>
 
       <!-- Panier — PLACEHOLDER (non fonctionnel) -->
       <div class="cart" role="img" aria-label="Panier — bientôt disponible (0 article, 0,00 €)" title="Panier — bientôt disponible">
@@ -156,10 +189,21 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <nav aria-label="Navigation mobile">
 
-      <!-- Recherche mobile — PLACEHOLDER visuel -->
-      <form class="mobile-search" role="search" aria-label="Recherche produit (bientôt disponible)" onsubmit="return false;">
-        <input type="search" placeholder="Trouver un produit" aria-label="Trouver un produit" autocomplete="off" />
+      <!-- Recherche mobile (même index, résultats en ligne) -->
+      <form class="mobile-search" role="search" aria-label="Recherche sur le site" onsubmit="return false;">
+        <input
+          type="search"
+          id="mobile-site-search"
+          placeholder="Trouver un produit"
+          aria-label="Trouver un produit"
+          autocomplete="off"
+          role="combobox"
+          aria-expanded="false"
+          aria-controls="mobile-search-results"
+          aria-autocomplete="list"
+        />
       </form>
+      <div class="mobile-search-results" id="mobile-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div>
 
       {silos.map(silo => {
         const isCurrent = silo.slug === currentSiloSlug
@@ -335,20 +379,224 @@ if (hamburger && mobileMenu) {
     mobileMenu.classList.toggle('is-open', !isOpen)
   })
 }
+
+// ── Recherche : index statique + matcher client ─────────────────────────────
+type SearchEntry = { t: string; u: string; k: string; d: string; s: string }
+
+let searchIndex: SearchEntry[] | null = null
+let indexPromise: Promise<SearchEntry[]> | null = null
+
+const normalizeQuery = (str: string): string =>
+  str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+
+function loadSearchIndex(): Promise<SearchEntry[]> {
+  if (searchIndex) return Promise.resolve(searchIndex)
+  if (!indexPromise) {
+    indexPromise = fetch('/search-index.json')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((d: SearchEntry[]) => (searchIndex = Array.isArray(d) ? d : []))
+      .catch(() => (searchIndex = []))
+  }
+  return indexPromise
+}
+
+function runSearch(query: string, idx: SearchEntry[], limit = 8): SearchEntry[] {
+  const q = normalizeQuery(query)
+  if (!q) return []
+  const tokens = q.split(' ').filter(Boolean)
+  const scored: { e: SearchEntry; score: number }[] = []
+  for (const e of idx) {
+    const title = normalizeQuery(e.t)
+    let score = 0
+    let ok = true
+    for (const tk of tokens) {
+      if (!e.s.includes(tk)) { ok = false; break }
+      if (title.startsWith(tk)) score += 6
+      else if (title.includes(tk)) score += 4
+      else score += 1
+    }
+    if (!ok) continue
+    if (title === q) score += 12
+    else if (title.startsWith(q)) score += 6
+    scored.push({ e, score })
+  }
+  scored.sort((a, b) => b.score - a.score)
+  return scored.slice(0, limit).map((x) => x.e)
+}
+
+const escapeHtml = (s: string): string =>
+  s.replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string),
+  )
+
+function initSearch(input: HTMLInputElement | null, results: HTMLElement | null) {
+  if (!input || !results) return
+  let activeIdx = -1
+  let currentItems: SearchEntry[] = []
+  let timer: number | undefined
+
+  const closeResults = () => {
+    results.hidden = true
+    results.innerHTML = ''
+    input.setAttribute('aria-expanded', 'false')
+    input.removeAttribute('aria-activedescendant')
+    activeIdx = -1
+    currentItems = []
+  }
+
+  const renderResults = (items: SearchEntry[]) => {
+    currentItems = items
+    activeIdx = -1
+    if (!input.value.trim()) { closeResults(); return }
+    results.innerHTML = items.length
+      ? items
+          .map(
+            (e, i) =>
+              `<a class="sr-item" role="option" id="${results.id}-opt-${i}" href="${escapeHtml(e.u)}" tabindex="-1">` +
+              `<span class="sr-text">` +
+              `<span class="sr-title">${escapeHtml(e.t)}</span>` +
+              `<span class="sr-kind">${escapeHtml(e.k)}</span>` +
+              `</span>` +
+              `</a>`,
+          )
+          .join('')
+      : '<p class="sr-empty">Aucun résultat pour cette recherche</p>'
+    results.hidden = false
+    input.setAttribute('aria-expanded', 'true')
+  }
+
+  const optionEls = (): HTMLElement[] =>
+    Array.from(results.querySelectorAll<HTMLElement>('.sr-item'))
+
+  const setActive = (idx: number) => {
+    const els = optionEls()
+    if (!els.length) return
+    els.forEach((el) => el.classList.remove('is-active'))
+    activeIdx = (idx + els.length) % els.length
+    const el = els[activeIdx]
+    el.classList.add('is-active')
+    el.scrollIntoView({ block: 'nearest' })
+    input.setAttribute('aria-activedescendant', el.id)
+  }
+
+  const doSearch = async () => {
+    const idx = await loadSearchIndex()
+    renderResults(runSearch(input.value, idx))
+  }
+
+  input.addEventListener('input', () => {
+    window.clearTimeout(timer)
+    if (!input.value.trim()) { closeResults(); return }
+    void loadSearchIndex()
+    timer = window.setTimeout(doSearch, 130)
+  })
+
+  input.addEventListener('focus', () => {
+    void loadSearchIndex()
+    if (input.value.trim() && currentItems.length) results.hidden = false
+  })
+
+  input.addEventListener('keydown', (ev: KeyboardEvent) => {
+    const els = optionEls()
+    if (ev.key === 'ArrowDown') {
+      ev.preventDefault()
+      if (els.length) setActive(activeIdx + 1)
+    } else if (ev.key === 'ArrowUp') {
+      ev.preventDefault()
+      if (els.length) setActive(activeIdx - 1)
+    } else if (ev.key === 'Enter') {
+      const target = els[activeIdx] ?? els[0]
+      if (target) {
+        ev.preventDefault()
+        window.location.href = target.getAttribute('href') as string
+      }
+    } else if (ev.key === 'Escape') {
+      closeResults()
+      input.blur()
+    }
+  })
+
+  document.addEventListener('click', (ev) => {
+    const node = ev.target as Node
+    if (node !== input && !results.contains(node)) closeResults()
+  })
+}
+
+initSearch(
+  document.getElementById('site-search') as HTMLInputElement | null,
+  document.getElementById('search-results'),
+)
+initSearch(
+  document.getElementById('mobile-site-search') as HTMLInputElement | null,
+  document.getElementById('mobile-search-results'),
+)
+
+// Loupe (desktop) : focus le champ
+document
+  .querySelector<HTMLButtonElement>('.search-btn')
+  ?.addEventListener('click', () => document.getElementById('site-search')?.focus())
 </script>
 
 <style>
-  .navbar {
-    background: var(--white);
-    border-bottom: 1px solid var(--gray-100);
+  /* Le <header> ne génère pas de boîte : ses sections deviennent enfants
+     directs du <body>, ce qui permet à .header-top de rester sticky sur
+     toute la hauteur de page (et non seulement sur la zone du header). */
+  .navbar { display: contents; }
+
+  /* ══ Bandeau utilitaire foncé (NON sticky — défile au scroll) ══ */
+  .topbar {
+    background: var(--dark);
+    color: var(--gray-300);
+    font-size: 13px;
+  }
+
+  .topbar-inner {
+    max-width: var(--header-max-w);
+    margin: 0 auto;
+    padding: 7px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .topbar-links { display: flex; gap: 22px; flex-wrap: wrap; }
+
+  .topbar-links a {
+    color: var(--gray-300);
+    text-decoration: none;
+    transition: color .15s;
+  }
+
+  .topbar-links a:hover { color: var(--white); }
+
+  .topbar-delivery {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: var(--gray-300);
+    white-space: nowrap;
+  }
+
+  .flag {
+    display: inline-flex;
+    border-radius: 2px;
+    overflow: hidden;
+    line-height: 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .15);
+  }
+  .flag svg { display: block; }
+
+  /* ══ Ligne marque — la SEULE partie sticky ══ */
+  .header-top {
     position: sticky;
     top: 0;
     z-index: 100;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
     box-shadow: 0 1px 4px rgba(0, 0, 0, .04);
   }
-
-  /* ══ Ligne 1 : marque ══ */
-  .header-top { border-bottom: 1px solid var(--gray-100); }
 
   .header-top-inner {
     max-width: var(--header-max-w);
@@ -365,6 +613,7 @@ if (hamburger && mobileMenu) {
 
   /* ── Recherche (placeholder) ── */
   .search {
+    position: relative;
     flex: 1 1 auto;
     max-width: 440px;
     margin: 0 auto;
@@ -379,6 +628,93 @@ if (hamburger && mobileMenu) {
   }
 
   .search:focus-within { border-color: var(--rose); background: var(--white); }
+
+  /* ── Résultats de recherche (dropdown desktop) ── */
+  .search-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    box-shadow: 0 16px 40px rgba(26, 26, 46, .16);
+    padding: 6px;
+    z-index: 300;
+    max-height: min(64vh, 460px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .search-results[hidden] { display: none; }
+
+  /* Les .sr-* sont injectés en JS (pas de scope Astro) → sélecteurs :global */
+  :global(.sr-item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 9px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background .12s;
+  }
+
+  :global(.sr-item::after) {
+    content: '›';
+    flex-shrink: 0;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--gray-300);
+    transition: color .12s, transform .12s;
+  }
+
+  :global(.sr-item:hover),
+  :global(.sr-item.is-active) { background: var(--rose-light); }
+
+  :global(.sr-item:hover::after),
+  :global(.sr-item.is-active::after) {
+    color: var(--rose);
+    transform: translateX(2px);
+  }
+
+  :global(.sr-text) {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  :global(.sr-title) {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.sr-item:hover .sr-title),
+  :global(.sr-item.is-active .sr-title) { color: var(--rose); }
+
+  :global(.sr-kind) {
+    font-size: 12px;
+    color: var(--gray-500);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.sr-empty) {
+    margin: 0;
+    padding: 16px 12px;
+    font-size: 13px;
+    color: var(--gray-500);
+    text-align: center;
+  }
 
   .search-input {
     flex: 1;
@@ -407,32 +743,50 @@ if (hamburger && mobileMenu) {
     cursor: pointer;
   }
 
-  /* ── Liens utilitaires ── */
-  .header-utils {
+  /* ── Téléphone + accroche ── */
+  .header-phone {
     flex-shrink: 0;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 22px;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--gray-700);
+    transition: color .15s;
   }
 
-  .util-link,
-  .util-phone {
-    font-size: 14px;
-    color: var(--gray-700);
-    text-decoration: none;
-    transition: color .15s;
+  .header-phone-ico {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--rose-light);
+    color: var(--rose);
+    flex-shrink: 0;
+    transition: background .15s;
+  }
+
+  .header-phone:hover .header-phone-ico { background: rgba(232, 70, 124, .14); }
+
+  .header-phone-txt { display: flex; flex-direction: column; line-height: 1.2; }
+
+  .header-phone-hook {
+    font-size: 12px;
+    color: var(--gray-500);
     white-space: nowrap;
   }
 
-  .util-link:hover { color: var(--rose); }
-
-  .util-phone {
+  .header-phone-num {
+    font-size: 16px;
     font-weight: 700;
     color: var(--dark);
     letter-spacing: .01em;
+    white-space: nowrap;
+    transition: color .15s;
   }
 
-  .util-phone:hover { color: var(--rose); }
+  .header-phone:hover .header-phone-num { color: var(--rose); }
 
   /* ── Panier (placeholder) ── */
   .cart {
@@ -689,6 +1043,17 @@ if (hamburger && mobileMenu) {
 
   .mobile-search input::placeholder { color: var(--gray-500); }
 
+  /* Résultats recherche mobile : liste en ligne (pas de dropdown) */
+  .mobile-search-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 2px 0 10px;
+  }
+
+  .mobile-search-results[hidden] { display: none; }
+  :global(.mobile-search-results .sr-item) { background: var(--gray-50); }
+
   .mobile-link {
     font-size: 15px;
     font-weight: 500;
@@ -838,18 +1203,23 @@ if (hamburger && mobileMenu) {
     .mega-grid { columns: 3 200px; }
   }
 
-  @media (max-width: 980px) {
-    .search { max-width: 280px; }
-    .header-utils { gap: 16px; }
-    .util-link:not(.util-phone) { display: none; }
+  @media (max-width: 1040px) {
+    /* On garde l'icône + le numéro, on masque l'accroche pour gagner de la place */
+    .header-phone-hook { display: none; }
+    .search { max-width: 320px; }
   }
 
   @media (max-width: 900px) {
     .header-nav { display: none; }
-    .search,
-    .header-utils { display: none; }
+    .search { display: none; }
+    .header-phone { display: none; }
     .hamburger { display: flex; }
     .mobile-menu { display: block; }
     .header-top-inner { justify-content: space-between; gap: 12px; }
+  }
+
+  @media (max-width: 640px) {
+    .topbar-links { display: none; }
+    .topbar-inner { justify-content: center; }
   }
 </style>

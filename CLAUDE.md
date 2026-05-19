@@ -9,6 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Dynamic Components**: React 19.2.5 (loaded where needed via @astrojs/react)
 - **CMS**: Sveltia CMS (Git-based, no npm package—loaded via CDN in `/admin/`)
 - **E-commerce**: Stripe v22.1.0 (checkout sessions, variants, options)
+- **Search**: home-made static index (`/search-index.json` built endpoint) + zero-dep
+  client matcher in the Navbar (no Algolia/Pagefind)
 - **Node**: >=22.12.0
 - **Language**: TypeScript (strict mode)
 - **Deployment**: Vercel (static output with 2 SSR API routes)
@@ -26,29 +28,55 @@ npm run astro     # Astro CLI (astro add, astro check, etc.)
 
 ### Content Model & Page Structure
 
-This is a **semantic siloing** architecture with a hierarchical information structure:
+This is a **semantic siloing** architecture. Since the **2026 refonte** it is a
+**recursive tree up to 3 levels deep** (rubrique › catégorie › sous-catégorie),
+with **7 top-level rubriques**:
 
 ```
-Home (/) ─────────────┬─ Pillar 1: /plv-carton/
-                      │  └─ Child pages: /plv-carton/[slug]/
-                      ├─ Pillar 2: /presentoirs/
-                      │  └─ Child pages: /presentoirs/[slug]/
-                      ├─ Pillar 3: /signaletique/
-                      ├─ Pillar 4: /impression/
-                      ├─ Pillar 5: /plv-evenementielle/
-                      └─ Pillar 6: /solutions/
+Home (/) ──┬─ /plv-carton/                (rubrique, niv. 0)
+           │   ├─ /plv-carton/totems/      (catégorie, niv. 1)
+           │   │   ├─ /plv-carton/totems/elliptiques/   (sous-catégorie, niv. 2)
+           │   │   └─ … (cubes, triptyques, carres)
+           │   └─ … (arches, cubes, podiums, frontons-publicitaires/…)
+           ├─ /presentoir-comptoir/
+           ├─ /presentoir-sol/
+           ├─ /signaletique-et-lineaire/
+           ├─ /stand-evenementiel/
+           ├─ /packaging-et-coffrets/
+           └─ /solutions-metiers/          (rubriques métiers : pharmacie, beauté…)
 ```
 
-- **Silos** are defined in `src/data/silos.ts` with full child hierarchies
-- **Navigation rule**: No cross-silo links; navbar/footer only link to pillar pages
-- **Mega-menu**: Current silo (if on a pillar or child page) opens inline with its children
+- **The tree is GENERATED**: `src/data/silos.ts` is produced by
+  `scripts/gen-arbo-2026.mjs` (the canonical source of the arborescence).
+  ⚠️ **Do not hand-edit `silos.ts`** — modify the `TREE` in the script and re-run
+  `node scripts/gen-arbo-2026.mjs`. `SiloNode` is recursive (`children?: SiloNode[]`);
+  helpers exported: `walkSilos()`, `getSiloBySlug()`.
+- **Slug convention**: children are normalized **under their parent's slug**
+  (URLs are strictly hierarchical, e.g. `/plv-carton/totems/elliptiques/`).
+- **Navigation rule**: No cross-silo links; navbar/footer only link to rubrique pages.
+- **Mega-menu**: the current rubrique (on any of its pages) opens inline; it renders
+  all 3 levels (catégories + sous-catégories). On the home, all rubriques open.
+- **No legacy redirects**: the 2026 refonte was a deliberate clean slate — old URLs
+  (old 6 silos / ~95 pages) return 404; internal links still pointing to old slugs
+  in `home/index.json`, posts and réalisations are dead until rewritten.
 
 ### Content Files vs. Pages
 
 - **Home**: `src/content/home/index.json` → `src/pages/index.astro`
-- **Pillar pages**: `src/content/silos/[silo-slug].json` → `src/pages/[silo]/index.astro`
-- **Child pages**: `src/content/pages/[silo]/[slug].json` → `src/pages/[silo]/[slug].astro`
-- **Products**: `src/content/products/[slug].json` (Stripe checkout, variants/options)
+- **All rubrique / catégorie / sous-catégorie pages**: unified tree mirroring the
+  URL, `src/content/pages/<chemin>.json` → single recursive route
+  `src/pages/[...path].astro`. Examples:
+  - `src/content/pages/plv-carton.json` → `/plv-carton/`
+  - `src/content/pages/plv-carton/totems.json` → `/plv-carton/totems/`
+  - `src/content/pages/plv-carton/totems/elliptiques.json` → `/plv-carton/totems/elliptiques/`
+  - ⚠️ The old split (`src/content/silos/` for pillars + `src/pages/[silo]/index.astro`
+    + `src/pages/[silo]/[slug].astro`) **no longer exists** — `src/content/silos/`
+    and both old route files were deleted in the 2026 refonte.
+- **Search index**: `src/pages/search-index.json.ts` → static `/search-index.json`
+  (prerendered at build). Indexes pages + dated posts + active réalisations.
+- **Products**: `src/content/products/[slug].json` (Stripe checkout, variants/options).
+  ⚠️ Products still have **no individual route/page** — flat `/p/[slug]` URLs are
+  planned but not built. They are NOT in the search index.
 - **Blog posts**: `src/content/posts/*.md` → `src/pages/actualites-plv/[slug].astro` (route `/actualites-plv/[slug]/`)
 - **Réalisations**: `src/content/realisations/[slug].json` → `src/pages/realisations-plv/[slug].astro` (route `/realisations-plv/[slug]/`)
 
@@ -84,16 +112,43 @@ Pages are built from **blocks**—typed JSON objects with a `_template` field. E
    - Props: `title`, `description`, `siloSlug`, `ogImage`, `productRef`, `hideDevisModal`
 
 2. **PillarLayout** (extends BaseLayout)
-   - For `/[silo]/` pages
-   - Passes `siloSlug` to activate mega-menu for current silo
+   - Used by `src/pages/[...path].astro` for **depth-0 nodes** (rubriques)
+   - Passes `siloSlug` (the rubrique slug) to activate its mega-menu
 
 3. **ChildLayout** (extends BaseLayout)
-   - For `/[silo]/[slug]/` pages
-   - Adds breadcrumb and sub-nav (blocks with anchors)
+   - Used by `[...path].astro` for **depth ≥ 1 nodes** (catégories / sous-catégories)
+   - Takes a **`crumbs: Crumb[]`** prop (variable-depth breadcrumb, built from the
+     node's ancestor chain — no longer a fixed 3-level breadcrumb)
+   - Adds breadcrumb (Schema.org `BreadcrumbList`) and sub-nav (blocks with anchors)
+
+**Routing**: `src/pages/[...path].astro` is a single catch-all. `getStaticPaths()`
+calls `walkSilos()` and emits one path per node; it reads
+`src/content/pages/<segments>.json`, picks Pillar vs Child layout by depth, and
+builds the breadcrumb from the ancestors. Being a `[...rest]` route it has lowest
+Astro priority — it never shadows static pages, `/p/[slug]` (future), or
+`/search-index.json`.
 
 ### Key Components
 
-- **Navbar**: Mega-menu for current silo (if active), flat links for others. Keyboard support (Enter/Space/Arrow/Escape). JS adjusts right-alignment if panel overflows viewport.
+- **Navbar** (`src/components/Navbar.astro`): since the 2026 refonte it is a
+  **2-row header** and also owns the (ex-)Topbar content:
+  - **Dark utility band** (`.topbar`, NOT sticky — scrolls away): Réalisations · Blog ·
+    Contact (left) ; 🇫🇷 « Livraison partout en France » (right). The old
+    `Topbar.astro` component was **deleted** and merged here (removed from BaseLayout).
+  - **Brand row** (`.header-top`, the **only sticky** part — `.navbar` is
+    `display:contents` so this stays pinned for the whole page): logo · search ·
+    phone+accroche · cart.
+  - **Nav row** (`.header-nav`, not sticky): the 7 rubriques, each with its 3-level
+    mega-menu. Keyboard support (Enter/Space/Arrow/Escape). JS clamps the mega-panel
+    inside the viewport (`adjustAlignment` — never overflows left nor right).
+  - **Search**: functional. Lazy-fetches `/search-index.json`, client matcher
+    (accent-insensitive, multi-token AND, weighted scoring), dropdown autocomplete
+    on desktop + inline results in the mobile menu. ⚠️ Result items are injected via
+    `innerHTML` → their CSS must be `:global(...)` (Astro scoped styles don't reach
+    runtime-injected nodes).
+  - **Cart**: visual **placeholder only** (non-functional, no e-commerce wiring).
+  - Header + footer width capped by the `--header-max-w` token (1250px); page
+    content stays on `--max-w` (1140px).
 - **DevisModal**: Global popup for quote requests. Auto-fills `productRef` if passed. 2-step form: Project details → Contact info.
 - **BlockRenderer**: Maps block `_template` to components.
 - **SubNav**: Sidebar anchors generated from `buildSubNav()`.
@@ -142,7 +197,10 @@ Pages are built from **blocks**—typed JSON objects with a `_template` field. E
 
 ### Styling
 
-- **CSS variables** in global scope: `--white`, `--rose`, `--gray-*`, `--max-w`, `--radius`, `--radius-sm`
+- **CSS variables** in global scope: `--white`, `--rose`, `--gray-*`, `--max-w`
+  (1140px, page content), `--header-max-w` (1250px, header + footer width — single
+  knob, used by Navbar `.topbar`/`.header-top`/`.nav-links` and Footer), `--radius`,
+  `--radius-sm`
 - **Global CSS**: `src/styles/global.css` (only `@import "tailwindcss"` — no other imports after, or Tailwind PostCSS breaks)
 - **Component styles**: Scoped `<style>` blocks in .astro files use CSS variables
 - **Tailwind**: Only for utility classes in component markup (no @layer custom utilities in this project)
@@ -167,9 +225,22 @@ Pages are built from **blocks**—typed JSON objects with a `_template` field. E
 - Collections point to folders in `src/content/`
 - No OAuth needed if using local editing; OAuth required for prod admin if hosted
 
+**Collections after the 2026 refonte**:
+- The `silos` collection was **removed** (no more `src/content/silos/`).
+- The `pages` collection now covers the whole tree: `folder: src/content/pages`,
+  `nested: { depth: 3 }`, `path: "{{slug}}"` (file path mirrors the URL).
+  Editing the 3-level nested tree in the Sveltia UI should be validated in
+  `/admin/`; direct JSON editing always works.
+- `home` and `products` collections unchanged.
+
 ### Scripts (one-off utilities)
 
 Located in `scripts/`:
+- **`gen-arbo-2026.mjs`** ⭐ — **canonical source of the site arborescence**.
+  Holds the `TREE` (7 rubriques + children). Regenerates `src/data/silos.ts` and
+  the `src/content/pages/**.json` skeletons; prunes any page JSON not in the tree;
+  **idempotent** (won't overwrite an existing JSON — preserves CMS-authored content).
+  To change the menu/arborescence, edit `TREE` here then run it.
 - `gen-plv-carton-products.mjs`: Generates product JSON files for PLV carton silo
 - `add-product-buy-blocks.mjs`: Patches `product_buy` blocks into existing page JSON
 - `use-popup-devis-plv-carton.mjs`: Modifies devis behavior (modal vs. page)
@@ -179,12 +250,17 @@ Run with `node scripts/[name].mjs`
 
 ## Common Workflows
 
-### Adding a New Child Page
+### Adding / moving a page or rubrique (arborescence change)
 
-1. Create content file: `src/content/pages/[silo]/[slug].json`
-2. Add entry to `src/data/silos.ts` under the silo's `children[]` array
-3. Route auto-generates via `src/pages/[silo]/[slug].astro` (dynamic)
-4. Edit in Sveltia CMS at `/admin/` or directly in JSON
+1. Edit the `TREE` in **`scripts/gen-arbo-2026.mjs`** (add the node anywhere in the
+   recursive structure — depth 1, 2 or 3; give `slug` + `label`).
+2. Run `node scripts/gen-arbo-2026.mjs` → regenerates `src/data/silos.ts`, creates
+   the missing skeleton JSON(s), prunes removed ones (existing JSON is preserved).
+3. Route auto-generates via `src/pages/[...path].astro`.
+4. Flesh out content in Sveltia CMS at `/admin/` or directly in the page JSON.
+
+⚠️ Never add the entry directly to `silos.ts` (it's generated and will be
+overwritten). Never `mkdir` content by hand outside the tree (the script prunes it).
 
 ### Adding a New Block Type
 
@@ -194,11 +270,15 @@ Run with `node scripts/[name].mjs`
 4. Add default anchor/label in `src/lib/blockNav.ts` DEFAULTS
 5. Configure in Sveltia CMS (see `public/admin/config.yml`)
 
-### Modifying the Navbar
+### Modifying the Navbar / header
 
-- Silo structure: edit `src/data/silos.ts`
-- Mega-menu styling: edit `<style>` in `src/components/Navbar.astro`
-- JS behavior (hover/click/keyboard): edit `<script>` in `src/components/Navbar.astro`
+- Rubrique/menu structure: edit `TREE` in `scripts/gen-arbo-2026.mjs`, then re-run it
+  (NOT `silos.ts` directly).
+- Header markup (dark band, brand row, nav row, search, mobile menu), styling and
+  JS (mega-menu, hamburger, search matcher) all live in `src/components/Navbar.astro`.
+- Search behaviour: client logic in Navbar `<script>`; index content in
+  `src/pages/search-index.json.ts`.
+- Header/footer width: `--header-max-w` token in `src/styles/global.css`.
 
 ### Adding a Blog Article
 
@@ -231,10 +311,16 @@ Run with `node scripts/[name].mjs`
 ### Three content tiers
 - **Fully typed** (Zod + rendered): `posts` (Markdown) and `realisations` (JSON) — collections with rich schemas, individual routes, `AISummaryBanner`, "En bref" box
 - **Typed but no route**: `products` — Zod schema, used only by `ProductBuyBlock` and `/api/checkout`
-- **Untyped** (raw JSON): home, silo pages, child pages — `readFileSync` + cast to `any[]`. A misspelled field is silently ignored at build time.
+- **Untyped** (raw JSON): home + the whole `src/content/pages/**` tree (rubriques,
+  catégories, sous-catégories) — `readFileSync` + cast to `any[]`. A misspelled field
+  is silently ignored at build time.
 
-### `silos.ts` is the authoritative router
-`getStaticPaths()` in both `[silo]/index.astro` and `[silo]/[slug].astro` loops exclusively over `silos.ts`. A JSON file in `src/content/pages/` without a matching entry in `silos.ts` generates **no route**. The slug is extracted from `child.href` using `.split('/').filter(Boolean).pop()`.
+### `silos.ts` is the authoritative router (and is generated)
+`getStaticPaths()` in `src/pages/[...path].astro` loops exclusively over
+`walkSilos()` (recursive walk of `silos.ts`). A JSON file in `src/content/pages/`
+without a matching node in the tree generates **no route** (and is pruned on the
+next `gen-arbo-2026.mjs` run). `silos.ts` itself is generated by that script — the
+real source of truth is the `TREE` constant in `scripts/gen-arbo-2026.mjs`.
 
 ### `_template` vs `__typename` in BlockRenderer
 `BlockRenderer.astro` normalises both formats via `tpl()`. The `__typename` form is a migration artifact from a previous GraphQL CMS. New blocks use only `_template`.
@@ -243,8 +329,12 @@ Run with `node scripts/[name].mjs`
 All `href` values in `silos.ts` end with `/`. Static pages also use trailing slashes. Astro static mode generates directories, not files — missing slash → 404.
 
 ### SEO cocon — no cross-silo linking
-- Footer: 6 pillar links + legal pages only. No child-page links.
-- Navbar mega-menu: children of active silo only, no cross-silo links.
+- Footer (`Footer.astro`): about + legal + contact/devis/réalisations/actualités
+  columns only. No rubrique-pillar links and no deep child links. (Note: it does
+  **not** list the 7 rubriques — earlier doc claiming "6 pillar links" was wrong.)
+- Navbar mega-menu: only the **current rubrique** opens (all 3 of its levels);
+  other rubriques are flat top-level links. On the home, all rubriques open. No
+  cross-rubrique deep links.
 - `ObfuscatedLink` hides legal/contact URLs from crawlers via XOR encoding. The `bypass` prop on the home page allows a standard `<a href>` for PageRank transfer.
 
 ### Styling conventions
@@ -280,15 +370,28 @@ tldr:
 
 ## Known Risk Zones
 
-1. **No Zod validation for page/silo JSON**: A malformed JSON crashes the build without a clear message. Blocks fields are all `any`.
-2. **`silos.ts` ↔ `src/content/pages/` sync is manual**: No script or test verifies consistency between declared children and actual JSON files.
-3. **`test-stripe.astro` is in the production build**: Accessible at `/test-stripe/` unless explicitly excluded.
-4. **Orphaned static pages**: `digital.astro`, `display.astro`, `mobilier.astro`, `stand.astro`, `realisations.astro` exist but have no visible nav integration. Their relationship to the silo architecture is unclear.
-5. **`realisations.astro` is an orphaned static page**: `/realisations-plv/` (list) and `/realisations-plv/[slug]/` (detail) are the canonical routes. The old `realisations.astro` at `/realisations/` still exists and should be redirected or removed.
-6. **Vercel Blob URL in Stripe metadata**: The customer file URL (7-day expiry) is stored in Stripe session metadata. Deferred order processing will receive a dead link.
-7. **External PHP devis endpoint**: `PUBLIC_DEVIS_ENDPOINT` has no visible fallback. Failures surface as generic error to the user.
-8. **`plan-du-site.astro` and `contact.astro` are placeholders**: No sitemap.xml generated; contact page has no form.
-9. **URL obfuscation key is public**: The XOR key `'kf26-x9m-q-zt'` is in source. Effective against crawlers, not against humans.
+1. **No Zod validation for page JSON**: A malformed `src/content/pages/**.json`
+   crashes the build without a clear message. Block fields are all `any`.
+2. **`silos.ts` ↔ `src/content/pages/` sync**: now handled by
+   `scripts/gen-arbo-2026.mjs` (generates `silos.ts`, creates missing skeletons,
+   prunes orphans). The risk shifted: forgetting to **re-run the script** after
+   editing `TREE`, or hand-editing `silos.ts` (overwritten on next run).
+3. **2026 refonte = no redirects**: old URLs (old 6 silos, ~95 pages) 404. SEO
+   equity on old pages is lost, and internal links in `home/index.json`, posts and
+   réalisations still point to old slugs → dead links until those are rewritten.
+4. **Products have no pages**: `src/content/products/*.json` has no route (flat
+   `/p/[slug]` planned, not built). Search index excludes them by design; any
+   `href` to a product path is currently dead.
+5. **Astro scoped styles vs `innerHTML`**: nodes injected at runtime (search
+   results `.sr-*`) don't get the `data-astro-cid` attribute → their CSS **must**
+   use `:global(...)`. Applies to any future JS-injected styled markup.
+6. **`test-stripe.astro` is in the production build**: Accessible at `/test-stripe/` unless explicitly excluded.
+7. **Orphaned static pages**: `digital.astro`, `display.astro`, `mobilier.astro`, `stand.astro`, `realisations.astro` exist but have no visible nav integration. Their relationship to the new arborescence is unclear (and pre-2026 in origin).
+8. **`realisations.astro` is an orphaned static page**: `/realisations-plv/` (list) and `/realisations-plv/[slug]/` (detail) are the canonical routes. The old `realisations.astro` at `/realisations/` still exists and should be redirected or removed.
+9. **Vercel Blob URL in Stripe metadata**: The customer file URL (7-day expiry) is stored in Stripe session metadata. Deferred order processing will receive a dead link.
+10. **External PHP devis endpoint**: `PUBLIC_DEVIS_ENDPOINT` has no visible fallback. Failures surface as generic error to the user.
+11. **`plan-du-site.astro` and `contact.astro` are placeholders**: No sitemap.xml generated; contact page has no form. (Note: `/contact/` is now linked from the header dark band, so the empty page is more visible.)
+12. **URL obfuscation key is public**: The XOR key `'kf26-x9m-q-zt'` is in source. Effective against crawlers, not against humans.
 
 ## Important Constraints & Gotchas
 
@@ -306,6 +409,14 @@ tldr:
 
 6. **Vercel Blob URLs**: Signed URLs expire after 7 days. If a custom asset URL is stale, re-upload or use a permanent CDN.
 
+7. **`silos.ts` is generated**: edit `scripts/gen-arbo-2026.mjs` `TREE` and re-run;
+   never hand-edit `silos.ts` (overwritten) and never create page JSON outside the
+   tree (pruned).
+
+8. **One catch-all route**: `src/pages/[...path].astro` serves the whole tree.
+   `astro check` may emit a benign “unreachable code” *Hint* on the `silos.map`
+   `if(!showMega) return …; return (…)` pattern — pre-existing, ignore.
+
 ## Debugging Tips
 
 - **Dev server issues**: Clear `.astro/` and `dist/` folders, restart `npm run dev`
@@ -318,8 +429,14 @@ tldr:
 
 - `SETUP.md`: Detailed step-by-step setup for Astro 6 + Tailwind 4 + Sveltia CMS (reference, not always current)
 - `README.md`: Generic Astro starter template info (mostly outdated for this project)
-- `src/content.config.ts`: Zod schemas for all content types
-- `src/data/silos.ts`: Silo/child hierarchy definition (source of truth for nav)
+- `src/content.config.ts`: Zod schemas for typed collections (posts, realisations, products)
+- **`scripts/gen-arbo-2026.mjs`**: the `TREE` constant — **real source of truth** for
+  the arborescence/menu (generates `silos.ts` + page skeletons)
+- `src/data/silos.ts`: generated recursive tree + `walkSilos()` / `getSiloBySlug()`
+- `src/pages/[...path].astro`: single recursive route for all rubrique/cat/sous-cat pages
+- `src/pages/search-index.json.ts`: build-time static search index
+- `src/components/Navbar.astro`: 2-row header (dark band + sticky brand row + nav row),
+  mega-menu, search client
 - `astro.config.mjs`: Build config, adapter, integrations, redirects
 - `.env.example`: Template for environment variables
 - `public/admin/config.yml`: Sveltia CMS collection definitions (must match actual folder structure)

@@ -54,6 +54,9 @@ const initialPrice = defaultVariant?.price ?? product?.price ?? 0
 
 const productJson = product
   ? JSON.stringify({
+      slug: productSlug,
+      name: product.name,
+      image: product.image,
       variants: product.variants ?? [],
       options: product.options ?? [],
       basePrice: product.price,
@@ -178,14 +181,24 @@ const productJson = product
             <span id="pb-total-amount">{fmt(initialPrice)}</span>
           </div>
 
-          <button
-            id="pb-checkout-btn"
-            type="button"
-            class="pb-checkout-btn"
-            data-slug={productSlug}
-          >
-            Payer avec Stripe
-          </button>
+          <div class="pb-actions">
+            <button
+              id="pb-addcart-btn"
+              type="button"
+              class="pb-addcart-btn"
+              data-slug={productSlug}
+            >
+              Ajouter au panier
+            </button>
+            <button
+              id="pb-checkout-btn"
+              type="button"
+              class="pb-checkout-btn"
+              data-slug={productSlug}
+            >
+              Commander maintenant
+            </button>
+          </div>
 
           <p id="pb-status" class="pb-status hidden"></p>
         </div>
@@ -268,9 +281,22 @@ const productJson = product
   .pb-total > :first-child { color: #6b7280; font-size: 14px; }
   .pb-total > :last-child { font-size: 24px; font-weight: 700; color: #1a1a2e; }
 
-  .pb-checkout-btn {
-    background: linear-gradient(135deg, #635bff 0%, #4f46e5 100%);
+  .pb-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .pb-actions > button { flex: 1 1 200px; }
+
+  .pb-addcart-btn {
+    background: var(--rose, #e8467c);
     color: #fff; border: 0; border-radius: 8px;
+    padding: 14px 28px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: opacity .15s, transform .15s;
+  }
+  .pb-addcart-btn:hover:not(:disabled) { opacity: .92; transform: translateY(-1px); }
+  .pb-addcart-btn:disabled { opacity: .5; cursor: not-allowed; }
+  .pb-addcart-btn.is-added { background: #15803d; }
+
+  .pb-checkout-btn {
+    background: #1a1a2e;
+    color: #fff; border: 1px solid #1a1a2e; border-radius: 8px;
     padding: 14px 28px; font-size: 15px; font-weight: 600;
     cursor: pointer; transition: opacity .15s, transform .15s;
   }
@@ -413,6 +439,55 @@ const productJson = product
         btn.disabled = false
         btn.textContent = original
       }
+    })
+
+    // ── Ajouter au panier ──────────────────────────────────────────────────
+    const addBtn = document.getElementById('pb-addcart-btn')
+    addBtn?.addEventListener('click', async () => {
+      if (uploading) {
+        status.textContent = 'Veuillez attendre la fin de l’upload du visuel.'
+        status.classList.remove('hidden')
+        return
+      }
+      // Le panier est exposé par la Navbar (script module). Petit poll de sûreté.
+      let tries = 0
+      while (!window.__kfCart && tries < 50) {
+        await new Promise((r) => setTimeout(r, 60))
+        tries++
+      }
+      if (!window.__kfCart) {
+        status.textContent = 'Panier indisponible, réessayez.'
+        status.classList.remove('hidden')
+        return
+      }
+      const variant = getVariant()
+      const options = getOptions()
+      const qty = Math.max(1, Math.min(99, parseInt(qtyInput.value, 10) || 1))
+      const unitPrice = (variant?.price ?? data.basePrice) + options.reduce((s, o) => s + o.price, 0)
+
+      window.__kfCart.add({
+        slug: data.slug,
+        name: data.name,
+        qty,
+        variantId: variant?.id ?? null,
+        variantLabel: variant?.label,
+        optionIds: options.map((o) => o.id),
+        optionLabels: options.map((o) => o.label),
+        unitPrice,
+        currency: data.currency,
+        image: data.image,
+        customAssetUrl,
+      })
+
+      status.classList.add('hidden')
+      const label = addBtn.textContent
+      addBtn.classList.add('is-added')
+      addBtn.textContent = 'Ajouté au panier ✓'
+      window.__kfCart.openDrawer()
+      setTimeout(() => {
+        addBtn.classList.remove('is-added')
+        addBtn.textContent = label
+      }, 1600)
     })
   })()
 </script>

@@ -96,16 +96,24 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         </span>
       </a>
 
-      <!-- Panier — PLACEHOLDER (non fonctionnel) -->
-      <div class="cart" role="img" aria-label="Panier — bientôt disponible (0 article, 0,00 €)" title="Panier — bientôt disponible">
+      <!-- Panier (drawer) -->
+      <button
+        class="cart"
+        type="button"
+        data-cart-toggle
+        aria-label="Ouvrir le panier"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="cart-drawer"
+      >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M3 4h2l2.4 12.3a1 1 0 0 0 1 .8h9.2a1 1 0 0 0 1-.8L21 8H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
           <circle cx="18" cy="20" r="1.4" fill="currentColor"/>
         </svg>
-        <span class="cart-badge" aria-hidden="true">0</span>
-        <span class="cart-total">0,00&nbsp;€</span>
-      </div>
+        <span class="cart-badge" data-cart-count aria-hidden="true">0</span>
+        <span class="cart-total" data-cart-total>0,00&nbsp;€</span>
+      </button>
 
       <button class="hamburger" id="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
@@ -280,9 +288,46 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
       <a href="/devis/" class="mobile-cta">Devis gratuit →</a>
     </nav>
   </div>
+
+  <!-- ═══ Drawer panier ═══ -->
+  <div class="cart-overlay" data-cart-overlay hidden></div>
+  <aside
+    class="cart-drawer"
+    id="cart-drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Votre panier"
+    aria-hidden="true"
+  >
+    <div class="cd-head">
+      <h2 class="cd-title">Votre panier</h2>
+      <button type="button" class="cd-close" data-cart-close aria-label="Fermer le panier">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <p class="cd-empty" data-cart-empty>Votre panier est vide.</p>
+
+    <div class="cd-lines" data-cart-lines></div>
+
+    <div class="cd-foot" data-cart-foot hidden>
+      <div class="cd-total-row">
+        <span>Total</span>
+        <span class="cd-total" data-cart-total-text>0,00 €</span>
+      </div>
+      <p class="cd-note">Livraison &amp; remises calculées à l'étape de paiement sécurisé.</p>
+      <button type="button" class="cd-checkout" data-cart-checkout>Passer commande</button>
+      <button type="button" class="cd-clear" data-cart-clear>Vider le panier</button>
+      <p class="cd-error" data-cart-error hidden></p>
+    </div>
+  </aside>
 </header>
 
 <script>
+import { cart } from '../scripts/cart'
+
 // ── Mega-menu : hover + clic + clavier ──────────────────────────────────────
 const items = document.querySelectorAll<HTMLElement>('[data-mega-item]')
 
@@ -535,6 +580,142 @@ initSearch(
 document
   .querySelector<HTMLButtonElement>('.search-btn')
   ?.addEventListener('click', () => document.getElementById('site-search')?.focus())
+
+// ── Panier : drawer + badge ─────────────────────────────────────────────────
+;(function initCart() {
+  const drawer  = document.getElementById('cart-drawer')
+  const overlay = document.querySelector<HTMLElement>('[data-cart-overlay]')
+  const toggle  = document.querySelector<HTMLButtonElement>('[data-cart-toggle]')
+  if (!drawer || !overlay || !toggle) return
+
+  const linesEl = drawer.querySelector<HTMLElement>('[data-cart-lines]')!
+  const emptyEl = drawer.querySelector<HTMLElement>('[data-cart-empty]')!
+  const footEl  = drawer.querySelector<HTMLElement>('[data-cart-foot]')!
+  const errEl   = drawer.querySelector<HTMLElement>('[data-cart-error]')!
+  const countEls = Array.from(document.querySelectorAll<HTMLElement>('[data-cart-count]'))
+  const totalEls = Array.from(document.querySelectorAll<HTMLElement>('[data-cart-total]'))
+  const totalTextEl = drawer.querySelector<HTMLElement>('[data-cart-total-text]')!
+
+  const esc = (s: string) =>
+    String(s).replace(/[&<>"']/g, (c) =>
+      ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string),
+    )
+  const fmt = (n: number, cur: string) =>
+    new Intl.NumberFormat('fr-FR', { style: 'currency', currency: (cur || 'eur').toUpperCase() }).format(n)
+
+  function renderBadge() {
+    const c = cart.count()
+    countEls.forEach((el) => (el.textContent = String(c)))
+    totalEls.forEach((el) => (el.textContent = fmt(cart.total(), cart.currency())))
+  }
+
+  function renderDrawer() {
+    const lines = cart.all()
+    const empty = lines.length === 0
+    emptyEl.hidden = !empty
+    footEl.hidden = empty
+    linesEl.innerHTML = empty
+      ? ''
+      : lines
+          .map((l) => {
+            const sub = [l.variantLabel, ...(l.optionLabels ?? [])].filter(Boolean).join(' · ')
+            return (
+              `<div class="cd-line" data-line="${esc(l.id)}">` +
+              (l.image ? `<img class="cd-thumb" src="${esc(l.image)}" alt="" loading="lazy" />` : `<div class="cd-thumb"></div>`) +
+              `<div class="cd-info">` +
+              `<p class="cd-name">${esc(l.name)}</p>` +
+              (sub ? `<p class="cd-sub">${esc(sub)}</p>` : '') +
+              `<div class="cd-qty">` +
+              `<button type="button" class="cd-step" data-dec aria-label="Diminuer">−</button>` +
+              `<span class="cd-qval">${l.qty}</span>` +
+              `<button type="button" class="cd-step" data-inc aria-label="Augmenter">+</button>` +
+              `<button type="button" class="cd-rm" data-rm>Retirer</button>` +
+              `</div></div>` +
+              `<span class="cd-price">${esc(fmt(l.unitPrice * l.qty, l.currency))}</span>` +
+              `</div>`
+            )
+          })
+          .join('')
+    totalTextEl.textContent = fmt(cart.total(), cart.currency())
+  }
+
+  function refresh() {
+    renderBadge()
+    if (drawer!.classList.contains('is-open')) renderDrawer()
+  }
+
+  function open() {
+    renderDrawer()
+    drawer!.classList.add('is-open')
+    overlay!.hidden = false
+    requestAnimationFrame(() => overlay!.classList.add('is-open'))
+    drawer!.setAttribute('aria-hidden', 'false')
+    toggle!.setAttribute('aria-expanded', 'true')
+    document.body.style.overflow = 'hidden'
+  }
+  function close() {
+    drawer!.classList.remove('is-open')
+    overlay!.classList.remove('is-open')
+    drawer!.setAttribute('aria-hidden', 'true')
+    toggle!.setAttribute('aria-expanded', 'false')
+    document.body.style.overflow = ''
+    setTimeout(() => { if (!drawer!.classList.contains('is-open')) overlay!.hidden = true }, 250)
+  }
+
+  toggle.addEventListener('click', open)
+  overlay.addEventListener('click', close)
+  drawer.querySelector('[data-cart-close]')?.addEventListener('click', close)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) close()
+  })
+
+  linesEl.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('button')
+    if (!btn) return
+    const row = btn.closest<HTMLElement>('[data-line]')
+    if (!row) return
+    const id = row.getAttribute('data-line')!
+    const line = cart.all().find((l) => l.id === id)
+    if (!line) return
+    if (btn.hasAttribute('data-rm')) cart.remove(id)
+    else if (btn.hasAttribute('data-inc')) cart.setQty(id, line.qty + 1)
+    else if (btn.hasAttribute('data-dec')) {
+      if (line.qty <= 1) cart.remove(id)
+      else cart.setQty(id, line.qty - 1)
+    }
+  })
+
+  drawer.querySelector('[data-cart-clear]')?.addEventListener('click', () => cart.clear())
+
+  const checkoutBtn = drawer.querySelector<HTMLButtonElement>('[data-cart-checkout]')!
+  checkoutBtn.addEventListener('click', async () => {
+    const items = cart.checkoutItems()
+    if (!items.length) return
+    errEl.hidden = true
+    const label = checkoutBtn.textContent
+    checkoutBtn.disabled = true
+    checkoutBtn.textContent = 'Redirection…'
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items }),
+      })
+      const result = await res.json()
+      if (!res.ok || !result.url) throw new Error(result.error || 'Erreur Stripe')
+      window.location.href = result.url
+    } catch (err: any) {
+      errEl.textContent = err?.message || 'Une erreur est survenue.'
+      errEl.hidden = false
+      checkoutBtn.disabled = false
+      checkoutBtn.textContent = label
+    }
+  })
+
+  cart.onChange(refresh)
+  cart.onOpenRequest(open)
+  renderBadge()
+})()
 </script>
 
 <style>
@@ -797,13 +978,18 @@ document
     padding: 8px 16px;
     background: var(--rose);
     color: var(--white);
+    border: none;
     border-radius: 99px;
     font-size: 14px;
     font-weight: 600;
-    cursor: default;
+    font-family: inherit;
+    cursor: pointer;
     user-select: none;
     position: relative;
+    transition: background .15s;
   }
+
+  .cart:hover { background: var(--rose-dark); }
 
   .cart-badge {
     position: absolute;
@@ -822,6 +1008,176 @@ document
   }
 
   .cart-total { white-space: nowrap; }
+
+  /* ── Drawer panier ── */
+  .cart-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 46, .45);
+    z-index: 400;
+    opacity: 0;
+    transition: opacity .25s;
+  }
+  .cart-overlay.is-open { opacity: 1; }
+
+  .cart-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
+    width: min(400px, 92vw);
+    background: var(--white);
+    z-index: 401;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .28s ease;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, .18);
+  }
+  .cart-drawer.is-open { transform: translateX(0); }
+
+  .cd-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--gray-100);
+    flex-shrink: 0;
+  }
+  .cd-title { font-size: 17px; font-weight: 700; color: var(--dark); margin: 0; }
+  .cd-close {
+    display: inline-flex;
+    border: none;
+    background: none;
+    color: var(--gray-500);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+  }
+  .cd-close:hover { color: var(--rose); background: var(--gray-50); }
+
+  .cd-empty {
+    margin: 0;
+    padding: 48px 20px;
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 14px;
+  }
+  .cd-empty[hidden] { display: none; }
+
+  .cd-lines { flex: 1; overflow-y: auto; padding: 8px 12px; }
+
+  :global(.cd-line) {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 12px;
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--gray-100);
+    align-items: start;
+  }
+  :global(.cd-thumb) {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    background: var(--gray-50);
+  }
+  :global(.cd-info) { min-width: 0; }
+  :global(.cd-name) {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+  :global(.cd-sub) {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: var(--gray-500);
+  }
+  :global(.cd-qty) { display: flex; align-items: center; gap: 6px; margin-top: 8px; }
+  :global(.cd-step) {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--gray-100);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    color: var(--gray-700);
+  }
+  :global(.cd-step:hover) { border-color: var(--rose); color: var(--rose); }
+  :global(.cd-qval) { font-size: 13px; font-weight: 600; min-width: 18px; text-align: center; }
+  :global(.cd-rm) {
+    margin-left: 8px;
+    border: none;
+    background: none;
+    color: var(--gray-500);
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  :global(.cd-rm:hover) { color: var(--rose); }
+  :global(.cd-price) {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--dark);
+    white-space: nowrap;
+  }
+
+  .cd-foot {
+    flex-shrink: 0;
+    padding: 16px 20px 20px;
+    border-top: 1px solid var(--gray-100);
+    background: var(--gray-50);
+  }
+  .cd-foot[hidden] { display: none; }
+  .cd-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .cd-total { font-size: 20px; font-weight: 800; }
+  .cd-note { margin: 6px 0 14px; font-size: 12px; color: var(--gray-500); }
+  .cd-checkout {
+    width: 100%;
+    padding: 13px 20px;
+    background: var(--rose);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .cd-checkout:hover:not(:disabled) { background: var(--rose-dark); }
+  .cd-checkout:disabled { opacity: .6; cursor: not-allowed; }
+  .cd-clear {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .cd-clear:hover { color: var(--rose); }
+  .cd-error {
+    margin: 10px 0 0;
+    font-size: 12.5px;
+    color: #dc2626;
+    text-align: center;
+  }
+  .cd-error[hidden] { display: none; }
 
   /* ══ Ligne 2 : rubriques ══ */
   .header-nav { background: var(--white); }

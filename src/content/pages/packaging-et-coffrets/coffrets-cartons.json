@@ -1,0 +1,41 @@
+{
+  "seoTitle": "Coffrets cartons | KONTFEEL",
+  "seoDescription": "Coffrets cartons sur mesure par KONTFEEL, fabricant français de PLV. Conception, fabrication et logistique. Devis gratuit sous 24h.",
+  "siloSlug": "packaging-et-coffrets",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Coffrets cartons",
+      "subheading": "Coffrets cartons personnalisable à votre image",
+      "badges": [
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "#devis",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet coffrets cartons ? Parlons-en.",
+      "body": "Conception, fabrication et logistique de A à Z. Devis gratuit sous 24h.",
+      "btnLabel": "Demander un devis gratuit →",
+      "btnHref": "#devis"
+    }
+  ]
+}

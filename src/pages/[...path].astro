@@ -1,0 +1,83 @@
+---
+/**
+ * Route récursive unique — /[rubrique]/, /[rubrique]/[cat]/,
+ * /[rubrique]/[cat]/[sous-cat]/ (1 à 3 niveaux).
+ *
+ * Source des chemins : src/data/silos.ts (walkSilos).
+ * Contenu : src/content/pages/<chemin>.json (miroir exact des URLs).
+ *
+ * Priorité de routage Astro : cette route « rest » a la priorité la plus
+ * basse — elle ne génère QUE les chemins listés par getStaticPaths(), donc
+ * aucun conflit avec les pages statiques (/contact/, /devis/…) ni avec une
+ * future route produit /p/[slug].
+ */
+import PillarLayout from '../layouts/PillarLayout.astro'
+import ChildLayout  from '../layouts/ChildLayout.astro'
+import { walkSilos } from '../data/silos'
+import { readFileSync } from 'node:fs'
+import { resolve }      from 'node:path'
+
+export async function getStaticPaths() {
+  return walkSilos().map(({ node, ancestors }) => {
+    const segs    = [...ancestors.map(a => a.slug), node.slug]
+    const urlPath = segs.join('/')
+
+    let pageData: any = null
+    try {
+      const abs = resolve(process.cwd(), `src/content/pages/${urlPath}.json`)
+      pageData = JSON.parse(readFileSync(abs, 'utf-8'))
+    } catch {
+      // Squelette manquant — page rendue vide (ne casse pas le build)
+    }
+
+    return {
+      params: { path: urlPath },
+      props:  { node, ancestors, pageData },
+    }
+  })
+}
+
+const { node, ancestors, pageData } = Astro.props as {
+  node:      any
+  ancestors: any[]
+  pageData:  any | null
+}
+
+const isPillar    = ancestors.length === 0
+const rubrique    = isPillar ? node : ancestors[0]
+const segs        = [...ancestors.map(a => a.slug), node.slug]
+const currentPath = `/${segs.join('/')}/`
+const blocks      = (pageData?.blocks ?? []) as any[]
+
+const seoTitle       = pageData?.seoTitle       ?? `${node.label} | KONTFEEL`
+const seoDescription = pageData?.seoDescription ?? `Découvrez ${node.label} sur mesure par KONTFEEL. Fabrication française, devis gratuit sous 24h.`
+const ogImage        = pageData?.ogImage ?? undefined
+
+const crumbs = [
+  { label: 'Accueil', href: '/' },
+  ...ancestors.map(a => ({ label: a.label, href: a.href })),
+  { label: node.label },
+]
+---
+
+{isPillar ? (
+  <PillarLayout
+    seoTitle={seoTitle}
+    seoDescription={seoDescription}
+    siloSlug={rubrique.slug}
+    siloLabel={node.label}
+    ogImage={ogImage}
+    blocks={blocks}
+  />
+) : (
+  <ChildLayout
+    seoTitle={seoTitle}
+    seoDescription={seoDescription}
+    siloSlug={rubrique.slug}
+    pageLabel={node.label}
+    crumbs={crumbs}
+    currentPath={currentPath}
+    ogImage={ogImage}
+    blocks={blocks}
+  />
+)}

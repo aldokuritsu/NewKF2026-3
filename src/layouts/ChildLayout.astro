@@ -1,14 +1,15 @@
 ---
 /**
- * ChildLayout — Layout des pages enfants (ex : /plv-carton/totem-carton/)
+ * ChildLayout — Layout des pages catégorie / sous-catégorie
+ * (ex : /plv-carton/totems/ ou /plv-carton/totems/elliptiques/)
  *
  * Props :
  *   seoTitle       : string
  *   seoDescription : string
- *   siloSlug       : string   — ex : "plv-carton"
- *   siloLabel      : string   — ex : "PLV carton" (breadcrumb)
- *   pageLabel      : string   — ex : "Totem carton" (breadcrumb)
- *   currentPath    : string   — URL courante pour l'état actif (sub-nav + mega-menu navbar)
+ *   siloSlug       : string     — slug de la rubrique de 1er niveau (active le mega-menu)
+ *   pageLabel      : string     — libellé de la page courante (pré-remplit le devis)
+ *   crumbs         : Crumb[]    — fil d'Ariane complet (Accueil › … › page courante)
+ *   currentPath    : string     — URL courante pour l'état actif (sub-nav + mega-menu)
  *   ogImage?       : string
  */
 import BaseLayout    from './BaseLayout.astro'
@@ -16,14 +17,18 @@ import Breadcrumb    from '../components/Breadcrumb.astro'
 import BlockRenderer from '../components/blocks/BlockRenderer.astro'
 import SubNav        from '../components/SubNav.astro'
 import { buildSubNav } from '../lib/blockNav'
-import { silos }     from '../data/silos'
+
+interface Crumb {
+  label: string
+  href?: string
+}
 
 interface Props {
   seoTitle:       string
   seoDescription: string
   siloSlug:       string
-  siloLabel:      string
   pageLabel:      string
+  crumbs:         Crumb[]
   currentPath:    string
   ogImage?:       string
   blocks:         any[]
@@ -31,13 +36,9 @@ interface Props {
 
 const {
   seoTitle, seoDescription,
-  siloSlug, siloLabel, pageLabel,
+  siloSlug, pageLabel, crumbs,
   currentPath, ogImage, blocks
 } = Astro.props
-
-// URL de la page pilier pour le breadcrumb
-const silo = silos.find(s => s.slug === siloSlug)
-const pillarHref = silo?.href ?? `/${siloSlug}/`
 
 const subNavEntries = buildSubNav(blocks)
 ---
@@ -53,12 +54,8 @@ const subNavEntries = buildSubNav(blocks)
   <!-- Sub-nav (raccourcis d'ancres dans la page) -->
   <SubNav entries={subNavEntries} />
 
-  <!-- Breadcrumb : Accueil › Pilier › Enfant -->
-  <Breadcrumb crumbs={[
-    { label: 'Accueil',  href: '/' },
-    { label: siloLabel,  href: pillarHref },
-    { label: pageLabel },
-  ]} />
+  <!-- Breadcrumb : Accueil › Rubrique › … › Page courante -->
+  <Breadcrumb crumbs={crumbs} />
 
   <!-- Blocs de contenu -->
   <BlockRenderer blocks={blocks} />

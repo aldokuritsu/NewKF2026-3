@@ -373,39 +373,29 @@ collections:
           - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
           - *blocks_field
 
-  # ── Silos (pages piliers) ─────────────────────────────────────
-  - name: silos
-    label: Silos (pages piliers)
-    label_singular: Silo
-    folder: src/content/silos
-    format: json
-    extension: json
-    create: true
-    slug: "{{slug}}"
-    identifier_field: seoTitle
-    fields:
-      - { name: seoTitle,       label: Titre SEO,       widget: string }
-      - { name: seoDescription, label: Description SEO, widget: text,   required: false }
-      - { name: siloSlug,       label: Slug du silo,    widget: string, required: false }
-      - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
-      - *blocks_field
-
-  # ── Pages enfants (groupées par silo via dossier imbriqué) ────
+  # ── Pages (arbre unique : rubrique › catégorie › sous-catégorie) ──
+  #
+  # Depuis la refonte 2026, piliers et pages enfants vivent dans un seul
+  # arbre miroir des URLs (src/content/pages/<chemin>.json) :
+  #   plv-carton.json                       → /plv-carton/
+  #   plv-carton/totems.json                → /plv-carton/totems/
+  #   plv-carton/totems/elliptiques.json    → /plv-carton/totems/elliptiques/
+  # La collection « silos » a été supprimée (fusionnée ici).
   - name: pages
-    label: Pages enfants
+    label: Pages (rubriques & catégories)
     label_singular: Page
     folder: src/content/pages
     format: json
     extension: json
     create: true
-    nested: { depth: 2 }
-    path: "{{fields.siloSlug}}/{{slug}}"
+    nested: { depth: 3 }
+    path: "{{slug}}"
     slug: "{{slug}}"
     identifier_field: seoTitle
     fields:
       - { name: seoTitle,       label: Titre SEO,       widget: string }
       - { name: seoDescription, label: Description SEO, widget: text,   required: false }
-      - { name: siloSlug,       label: Silo (slug),     widget: string, required: false }
+      - { name: siloSlug,       label: Rubrique (slug), widget: string, required: false, hint: "Slug de la rubrique de 1er niveau (informatif)" }
       - { name: ogImage,        label: Image Open Graph, widget: image, required: false }
       - *blocks_field
 

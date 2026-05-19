@@ -2,17 +2,16 @@
 /**
  * Navbar — Navbar principale unifiée (toutes les pages).
  *
- * - Les 6 silos sont toujours visibles en top-level (liens piliers).
- * - Seul le silo courant ouvre son tiroir (mega-menu desktop / accordéon mobile).
- * - Sur la home (showAllMegaMenus=true), tous les silos ouvrent leur tiroir.
- * - Mobile : même logique que desktop — les silos non-courants restent des
- *   liens plats, seul le silo courant (ou tous, sur la home) sont déployables.
+ * - Les 6 rubriques sont toujours visibles en top-level (liens piliers).
+ * - Seule la rubrique courante ouvre son tiroir (mega-menu desktop / accordéon mobile).
+ * - Sur la home (showAllMegaMenus=true), toutes les rubriques ouvrent leur tiroir.
+ * - Le mega-menu gère 3 niveaux : rubrique › catégorie › sous-catégorie.
  * - Triggers du tiroir : hover, clic, clavier (Enter/Space toggle, Escape ferme).
  *
  * Props :
- *   currentSiloSlug?   : string  — slug du silo courant (active le tiroir + état actif)
- *   currentPath?       : string  — chemin URL pour marquer l'enfant actif
- *   showAllMegaMenus?  : boolean — déploie tous les silos en tiroir (home)
+ *   currentSiloSlug?   : string  — slug de la rubrique courante (active le tiroir + état actif)
+ *   currentPath?       : string  — chemin URL pour marquer l'élément actif
+ *   showAllMegaMenus?  : boolean — déploie toutes les rubriques en tiroir (home)
  */
 import { silos } from '../data/silos'
 
@@ -69,14 +68,29 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
                 Voir tout : {silo.label} <span aria-hidden="true">→</span>
               </a>
               <div class="mega-grid">
-                {silo.children.map(child => (
-                  <a
-                    href={child.href}
-                    role="menuitem"
-                    class:list={['mega-link', { active: currentPath === child.href }]}
-                  >
-                    {child.label}
-                  </a>
+                {silo.children?.map(cat => (
+                  <div class="mega-col">
+                    <a
+                      href={cat.href}
+                      role="menuitem"
+                      class:list={['mega-cat', { active: currentPath === cat.href, 'has-sub': !!cat.children?.length }]}
+                    >
+                      {cat.label}
+                    </a>
+                    {cat.children?.length ? (
+                      <div class="mega-sublist">
+                        {cat.children.map(sub => (
+                          <a
+                            href={sub.href}
+                            role="menuitem"
+                            class:list={['mega-sublink', { active: currentPath === sub.href }]}
+                          >
+                            {sub.label}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
                 ))}
               </div>
             </div>
@@ -84,8 +98,6 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         )
       })}
     </nav>
-
-    <a href="/devis/" class="nav-cta">Devis gratuit →</a>
 
     <button class="hamburger" id="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
       <span></span><span></span><span></span>
@@ -119,13 +131,41 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
               >
                 Voir tout : {silo.label} <span aria-hidden="true">→</span>
               </a>
-              {silo.children.map(child => (
-                <a
-                  href={child.href}
-                  class:list={['mobile-link', 'mobile-child', { active: currentPath === child.href }]}
-                >
-                  {child.label}
-                </a>
+
+              {silo.children?.map(cat => (
+                cat.children?.length ? (
+                  <details class="mobile-subgroup">
+                    <summary class="mobile-subsummary">
+                      <span>{cat.label}</span>
+                      <svg class="mobile-caret" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true">
+                        <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </summary>
+                    <div class="mobile-subchildren">
+                      <a
+                        href={cat.href}
+                        class:list={['mobile-link', 'mobile-cat-link', { active: currentPath === cat.href }]}
+                      >
+                        Voir tout : {cat.label} <span aria-hidden="true">→</span>
+                      </a>
+                      {cat.children.map(sub => (
+                        <a
+                          href={sub.href}
+                          class:list={['mobile-link', 'mobile-child', { active: currentPath === sub.href }]}
+                        >
+                          {sub.label}
+                        </a>
+                      ))}
+                    </div>
+                  </details>
+                ) : (
+                  <a
+                    href={cat.href}
+                    class:list={['mobile-link', 'mobile-child', { active: currentPath === cat.href }]}
+                  >
+                    {cat.label}
+                  </a>
+                )
               ))}
             </div>
           </details>
@@ -148,14 +188,17 @@ for (const item of Array.from(items)) {
   let closeTimer: number | undefined
 
   const adjustAlignment = () => {
-    // Reset puis mesure : si le panneau (aligné à gauche par défaut)
-    // déborderait à droite de la fenêtre, on bascule en alignement à droite.
-    panel.classList.remove('align-right')
-    const rect = panel.getBoundingClientRect()
+    // Clamp dans le viewport : le panneau s'ancre sous le trigger (left:0
+    // relatif à l'item) puis est décalé juste ce qu'il faut pour rester
+    // entre les deux marges, sans jamais déborder à gauche NI à droite.
     const margin = 16
-    if (rect.right > window.innerWidth - margin) {
-      panel.classList.add('align-right')
-    }
+    panel.style.left = '0px'
+    const itemLeft   = item.getBoundingClientRect().left
+    const panelWidth = panel.offsetWidth
+    const maxLeft    = window.innerWidth - margin - panelWidth
+    // Position viewport souhaitée = sous l'item ; bornée à [margin, maxLeft].
+    const clampedLeft = Math.max(margin, Math.min(itemLeft, maxLeft))
+    panel.style.left = `${Math.round(clampedLeft - itemLeft)}px`
   }
 
   const open = () => {
@@ -243,12 +286,14 @@ if (hamburger && mobileMenu) {
   }
 
   .navbar-inner {
-    max-width: var(--max-w);
+    max-width: var(--header-max-w);
     margin: 0 auto;
+    /* Header centré (≤1250px), marge gauche du logo = marge droite du menu */
     padding: 0 24px;
     height: 72px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 24px;
   }
 
@@ -261,7 +306,6 @@ if (hamburger && mobileMenu) {
     display: flex;
     align-items: center;
     gap: 2px;
-    flex: 1;
   }
 
   .nav-link {
@@ -303,8 +347,11 @@ if (hamburger && mobileMenu) {
     position: absolute;
     top: calc(100% + 10px);
     left: 0;
-    min-width: 720px;
-    max-width: min(880px, 90vw);
+    width: max-content;
+    min-width: 760px;
+    max-width: min(1080px, 94vw);
+    max-height: min(72vh, 640px);
+    overflow-y: auto;
     background: var(--white);
     border: 1px solid var(--gray-100);
     border-radius: var(--radius);
@@ -323,9 +370,6 @@ if (hamburger && mobileMenu) {
     transform: translateY(0);
   }
 
-  /* Modificateur posé par JS quand le panneau déborderait à droite */
-  .mega-panel.align-right { left: auto; right: 0; }
-
   .mega-pillar {
     display: inline-flex;
     align-items: center;
@@ -343,18 +387,46 @@ if (hamburger && mobileMenu) {
 
   .mega-pillar:hover { background: rgba(232, 70, 124, .14); }
 
+  /* Flux multi-colonnes : chaque catégorie (+ ses sous-liens) ne se coupe pas */
   .mega-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2px 12px;
+    columns: 4 220px;
+    column-gap: 20px;
   }
 
-  .mega-link {
+  .mega-col {
+    break-inside: avoid;
+    margin-bottom: 14px;
+  }
+
+  .mega-cat {
+    display: block;
     font-size: 13px;
+    font-weight: 600;
+    color: var(--dark);
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: color .15s, background .15s;
+  }
+
+  .mega-cat:hover { color: var(--rose); background: var(--rose-light); }
+  .mega-cat.active { color: var(--rose); background: var(--rose-light); }
+
+  .mega-sublist {
+    display: flex;
+    flex-direction: column;
+    margin: 2px 0 0;
+    padding-left: 10px;
+    border-left: 2px solid var(--gray-100);
+    margin-left: 10px;
+  }
+
+  .mega-sublink {
+    font-size: 12.5px;
     font-weight: 500;
     color: var(--gray-700);
     text-decoration: none;
-    padding: 8px 10px;
+    padding: 5px 10px;
     border-radius: var(--radius-sm);
     transition: color .15s, background .15s;
     white-space: nowrap;
@@ -362,26 +434,8 @@ if (hamburger && mobileMenu) {
     text-overflow: ellipsis;
   }
 
-  .mega-link:hover { color: var(--rose); background: var(--rose-light); }
-  .mega-link.active { color: var(--rose); font-weight: 600; background: var(--rose-light); }
-
-  /* ── CTA ── */
-  .nav-cta {
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    background: var(--rose);
-    color: var(--white);
-    border-radius: var(--radius-sm);
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background .2s;
-    white-space: nowrap;
-  }
-
-  .nav-cta:hover { background: var(--rose-dark); }
+  .mega-sublink:hover { color: var(--rose); background: var(--rose-light); }
+  .mega-sublink.active { color: var(--rose); font-weight: 600; background: var(--rose-light); }
 
   /* ── Hamburger ── */
   .hamburger {
@@ -449,7 +503,7 @@ if (hamburger && mobileMenu) {
   .mobile-link:hover,
   .mobile-link.active { color: var(--rose); background: var(--rose-light); }
 
-  /* ── Accordéon mobile (un par silo) ── */
+  /* ── Accordéon mobile (un par rubrique) ── */
   .mobile-group {
     border-radius: var(--radius-sm);
   }
@@ -512,6 +566,49 @@ if (hamburger && mobileMenu) {
 
   .mobile-child { font-size: 14px; padding: 8px 12px; }
 
+  /* ── Sous-accordéon mobile (catégorie avec sous-catégories) ── */
+  .mobile-subgroup { border-radius: var(--radius-sm); }
+
+  .mobile-subsummary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    border-radius: var(--radius-sm);
+    transition: background .15s, color .15s;
+  }
+
+  .mobile-subsummary::-webkit-details-marker { display: none; }
+  .mobile-subsummary:hover { background: var(--gray-50); }
+  .mobile-subgroup[open] > .mobile-subsummary .mobile-caret { transform: rotate(180deg); }
+
+  .mobile-subchildren {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 2px 0 8px 10px;
+    border-left: 2px solid var(--gray-100);
+    margin: 0 0 4px 14px;
+  }
+
+  .mobile-cat-link {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--rose);
+    background: var(--rose-light);
+    padding: 7px 12px;
+    margin-bottom: 4px;
+  }
+
+  .mobile-cat-link:hover { background: rgba(232, 70, 124, .14); color: var(--rose); }
+
   .mobile-cta {
     margin-top: 12px;
     padding: 12px 20px;
@@ -525,13 +622,12 @@ if (hamburger && mobileMenu) {
 
   /* ── Responsive ── */
   @media (max-width: 1100px) {
-    .mega-panel { min-width: 600px; }
-    .mega-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mega-panel { min-width: 560px; }
+    .mega-grid { columns: 3 200px; }
   }
 
   @media (max-width: 900px) {
     .nav-links { display: none; }
-    .nav-cta   { display: none; }
     .hamburger { display: flex; }
     .mobile-menu { display: block; }
   }

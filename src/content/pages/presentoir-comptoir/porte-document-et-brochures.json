@@ -1,0 +1,41 @@
+{
+  "seoTitle": "Porte-document et brochures | KONTFEEL",
+  "seoDescription": "Porte-document et brochures sur mesure par KONTFEEL, fabricant français de PLV. Conception, fabrication et logistique. Devis gratuit sous 24h.",
+  "siloSlug": "presentoir-comptoir",
+  "blocks": [
+    {
+      "_template": "hero",
+      "heading": "Porte-document et brochures",
+      "subheading": "Porte-document et brochures personnalisable à votre image",
+      "badges": [
+        {
+          "text": "Fabrication française",
+          "green": false
+        },
+        {
+          "text": "Devis sous 24h",
+          "green": false
+        }
+      ],
+      "ctas": [
+        {
+          "label": "Demander un devis →",
+          "href": "#devis",
+          "variant": "primary"
+        },
+        {
+          "label": "02 78 77 53 93",
+          "href": "tel:0278775393",
+          "variant": "secondary"
+        }
+      ]
+    },
+    {
+      "_template": "cta_banner",
+      "heading": "Un projet porte-document et brochures ? Parlons-en.",
+      "body": "Conception, fabrication et logistique de A à Z. Devis gratuit sous 24h.",
+      "btnLabel": "Demander un devis gratuit →",
+      "btnHref": "#devis"
+    }
+  ]
+}

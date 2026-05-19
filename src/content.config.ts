@@ -57,6 +57,9 @@ const realisations = defineCollection({
 			linkHref: z.string(),
 			after: z.string().optional(),
 		}).optional(),
+		// Corps éditorial complet (migré depuis le site live) — système de blocs,
+		// rendu via BlockRenderer. Si présent, remplace l'affichage challenge/solution.
+		blocks: z.array(z.any()).optional(),
 		active: z.boolean().default(true),
 	}),
 });

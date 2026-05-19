@@ -1,0 +1,21 @@
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /event*
+Disallow: /member*
+Disallow: /upload*
+Disallow: /wp-admin/admin-ajax.php
+Disallow: /*/feed/
+
+# Pages sans valeur SEO (alignées avec SITEMAP_EXCLUDE dans astro.config.mjs).
+# Slash final obligatoire pour ne pas bloquer par préfixe les vraies rubriques :
+# /stand/ ≠ /stand-evenementiel/ , /realisations/ ≠ /realisations-plv/.
+Disallow: /success/
+Disallow: /cancel/
+Disallow: /test-stripe/
+Disallow: /digital/
+Disallow: /display/
+Disallow: /mobilier/
+Disallow: /stand/
+Disallow: /realisations/
+
+Sitemap: https://www.kontfeel.fr/sitemap-index.xml

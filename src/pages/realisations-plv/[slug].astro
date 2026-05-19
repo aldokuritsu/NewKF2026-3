@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AISummaryBanner from '../../components/AISummaryBanner.astro';
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro';
 
 export async function getStaticPaths() {
   const realisations = await getCollection('realisations', r => r.data.active !== false);
@@ -12,7 +13,8 @@ export async function getStaticPaths() {
 }
 
 const { realisation } = Astro.props;
-const { title, client, sector, date, description, challenge, solution, results, image, imageAlt, quote, relatedPost, relatedLinks, tldr } = realisation.data;
+const { title, client, sector, date, description, challenge, solution, results, image, imageAlt, quote, relatedPost, relatedLinks, tldr, blocks } = realisation.data;
+const hasRichBody = Array.isArray(blocks) && blocks.length > 0;
 
 const dateFormatted = new Date(date + '-01').toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' });
 ---
@@ -86,19 +88,27 @@ const dateFormatted = new Date(date + '-01').toLocaleDateString('fr-FR', { year:
             url={Astro.url.href}
           />
 
-          <section class="real-section">
-            <h2 class="real-section-title">Le défi</h2>
-            <div class="real-prose">
-              {challenge.split('\n\n').map(para => <p>{para}</p>)}
+          {hasRichBody ? (
+            <div class="real-richbody">
+              <BlockRenderer blocks={blocks} />
             </div>
-          </section>
+          ) : (
+            <>
+              <section class="real-section">
+                <h2 class="real-section-title">Le défi</h2>
+                <div class="real-prose">
+                  {challenge.split('\n\n').map(para => <p>{para}</p>)}
+                </div>
+              </section>
 
-          <section class="real-section">
-            <h2 class="real-section-title">Notre réponse</h2>
-            <div class="real-prose">
-              {solution.split('\n\n').map(para => <p>{para}</p>)}
-            </div>
-          </section>
+              <section class="real-section">
+                <h2 class="real-section-title">Notre réponse</h2>
+                <div class="real-prose">
+                  {solution.split('\n\n').map(para => <p>{para}</p>)}
+                </div>
+              </section>
+            </>
+          )}
 
           <!-- Citation client -->
           {quote && (

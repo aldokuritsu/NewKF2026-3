@@ -154,8 +154,8 @@ export const customMegaMenus: Record<string, CustomMegaMenu> = {
       {
         title: 'Gros volume & promo',
         href: '/presentoir-sol/gros-volume-et-promo/',
-        image: '/assets/images/no_image.png',
-        imageAlt: 'Présentoirs grand volume promotionnels',
+        image: '/assets/mega-menu/box-automatique.webp',
+        imageAlt: 'Box automatique en carton pour grande distribution',
         items: [
           { label: 'Box automatique',           href: '/presentoir-sol/box-automatique/' },
           { label: 'Box barquettes empilables', href: '/presentoir-sol/box-barquettes-emplilables/' },

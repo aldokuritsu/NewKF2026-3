@@ -1,0 +1,29 @@
+{
+  "title": "Présentoir comptoir personnalisé",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "PLV de comptoir",
+  "order": 34,
+  "description": "Confiez-nous la fabrication de votre présentoir comptoir personnalise, nous concevons votre futur présentoir en 3D pour un rendu unique.",
+  "challenge": "Confiez-nous la fabrication de votre présentoir comptoir personnalise, nous concevons votre futur présentoir en 3D pour un rendu unique.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-Bayard-Edtions-1170x780-Kontfeel.jpg",
+  "imageAlt": "Présentoir comptoir personnalisé",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Fabricant de présentoir comptoir personnalisé\n\nLe présentoir comptoir personnalisé est redoutable d’efficacité pour installer des produits sous les yeux des clients. Installées sur une table ou sur le devant d’une caisse en librairie, nos PLV pour l’édition sont fabriquées sur mesure et à la demande en quelques jours ouvrés. Nous adaptons nos conceptions selon le format et les décors souhaités. Vous pouvez confier le design et la fabrication de votre PLV de comptoir à notre équipe de designer PLV.\n\nPour un rendu spécifique, nous modélisons votre futur présentoir en 3D avec une découpe sur mesure et des décors ajoutés comme un stop rayon sur twister. Vous avez un projet de présentoir de comptoir personnalisé ? Faite votre [demande de devis](https://www.kontfeel.fr/devis) pour l’étude technique de votre future PLV.\n\n## Conception de PLV de comptoir sur mesure pour l’édition\n\n Fabriqués en carton recyclé ou en carton compact parfois, nos modèles de présentoir comptoir personnalisé** **sont éco conçus. Ils sont livrés à plat avec une notice de montage ou préalablement montés** **pour une installation rapide par le libraire.\n\nNous avons une large gamme de supports pour assurer la mise en avant des nouveautés des maisons d’édition : romans, livres pour enfants, mangas ou encore de bandes dessinées. Vous cherchez un fabricant de [présentoir comptoir](https://www.kontfeel.fr/display-plv/presentoir-comptoir) personnalisé ? [Contactez-nous](https://www.kontfeel.fr/contact) pour échanger sur votre prochain stop pile, [sabot de comptoir](https://www.kontfeel.fr/display-plv/sabot-de-comptoir), ou encore box escalier."
+    }
+  ],
+  "active": true
+}

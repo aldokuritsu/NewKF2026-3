@@ -1,0 +1,29 @@
+{
+  "title": "Impression de cache palette en rouleau",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "Signalétique",
+  "order": 43,
+  "description": "Matériel publicitaire pratique et impactant, le cache palette en rouleau est un habillage PLV facile et très rapide à installer en magasin.",
+  "challenge": "Matériel publicitaire pratique et impactant, le cache palette en rouleau est un habillage PLV facile et très rapide à installer en magasin.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Cache-palette-plv.jpg",
+  "imageAlt": "Impression de cache palette en rouleau",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## PLV Jupe de palette personnalisée\n\nSpécialise de la publicité sur le lieu de vente, l’Agence Kontfeel propose l’impression de jupe de palette personnalisée, de cache palette, d’habillage de bacs ou de bandes de rives pour le linéaire. Nous proposons différents types de PLV en rouleaux afin d’augmenter la visibilité de nos clients durant leurs campagnes de marketing sur le point de vente. Sur différents supports : en papier, en Pvc type polyéthylène, nos réalisations de jupe de palette habillent les palettes et décorent les dispositifs promotionnels des plus grandes marques.\n\nPLV indispensable pour une mise en avant réussie, nous disposons d’une large gamme de supports imprimés en numérique, en offset ou en flexographie selon la quantité avec la possibilité de proposer des finitions spécifiques : pelliculée, adhésive, indéchirable, etc. Vous souhaitez obtenir un devis pour l’impression de jupe de palette personnalisée ? [Contactez-nous ](https://www.kontfeel.fr/contact)\n\n## Habillage cache palette en carton imprimé\n\nChaque détail a son importance sur le point de vente et nous proposons en plus de l’habillage de palette en carton imprimé : l’habillage de bac frais, l’habillage de rayon ou de tête de gondole. Fabriquées à la demande, les PLV en rouleaux que nous proposons s’ajustent en hauteur, selon vos contraintes, pour permettre de se démarquer tout en assurant une implantation aboutie et soignée.\n\nMatériel publicitaire pratique et impactant, nos réalisations d’habillage palette permettent d’assurer une présence forte de la marque tout en étant facile et très rapide à installer. Comparable aux dispositifs de bandes rives que nous proposons aussi en rouleaux, l’installation de jupe de palette délimite votre emplacement et marque votre présence au sein du magasin. Vous souhaitez recevoir des échantillons de cache palette, de bandes de rives ou de bas de palette imprimée ? [Contactez-nous ](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

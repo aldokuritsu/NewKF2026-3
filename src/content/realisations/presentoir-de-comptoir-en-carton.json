@@ -1,0 +1,29 @@
+{
+  "title": "Présentoir de comptoir en carton",
+  "client": "Client confidentiel",
+  "sector": "Spiritueux & Boissons",
+  "category": "PLV 3D",
+  "order": 64,
+  "description": "La réalisation de simulation 3d permet d'imaginer votre future PLV sous forme de présentoir de comptoir en carton avec le remplissage de vos produits",
+  "challenge": "La réalisation de simulation 3d permet d'imaginer votre future PLV sous forme de présentoir de comptoir en carton avec le remplissage de vos produits",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-Produits-Asie-1170x780px-Kontfeel.jpg",
+  "imageAlt": "Présentoir de comptoir en carton",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "Vous recherchez à faire fabriquer votre prochaine prochaine PLV présentoir de comptoir en carton ? Vous pouvez nous solliciter pour une étude personnalisée ! La simulation 3d de votre futur [PLV de comptoir](https://www.kontfeel.fr/display-plv/presentoir-comptoir) imprimée sur carton permettra d’imaginer le matériel au plus proche de la réalité, avec vos couleurs et vos produits. Cela permet aussi de valider le remplissage ou l’encombrement mais aussi l’aspect graphique et créatif de votre publicité sur le lieu de vente\n\n## Plviste pour la fabrication de présentoir carton\n\nNous assurons la maîtrise d’oeuvre de nombreux outils de communication sur le point de vente et accompagnons des grandes marques dans leurs campagnes de marketing opérationnel : [fabricant de PLV sur mesure](https://www.kontfeel.fr), éco conception, montage et installation de PLV en magasin ou encore logistique d’outils marketing.\n\nNous avons une boîte à outils très fonctionnelle pour mener l’exécution marketing de nos clients. De la fabrication de PLV carton à la création de mobilier commercial en multi matériaux mais aussi de l’installation de plan merchandising complet au montage de stand expo.\n\n## Agence spécialiste de la publicité en magasin et du marketing point de vente\n\nSituées en Normandie, et fortes d’une expertise de 10 ans dans leurs domaines, les équipes de l’Agence Kontfeel se réinventent à chaque projet et proposent des dispositifs de marketing point de vente fabriqués en France auprès de professionnels des industries graphiques et d’un réseau d’usines certifiées. Vous souhaitez échanger sur votre prochain présentoir de comptoir en carton ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\nNos connaissances en développement créatif et dans les outils de production sont de réels atouts qui rassurent nos interlocuteurs et nous permettent d’intervenir sur des problématiques d’aménagement d’espace, de visibilité magasin ou de fabrication d’outils d’aide à la vente.\n\nCette réalisation illustre notre capacité à concevoir tout type de [presentoir carton personnalisable](https://www.kontfeel.fr/display-plv/presentoir-carton-sur-mesure), des comptoirs de pharmacie aux displays d'édition, entièrement sur mesure."
+    }
+  ],
+  "active": true
+}

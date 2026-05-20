@@ -1,0 +1,29 @@
+{
+  "title": "Conception de PLV d’aide au choix",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "Signalétique",
+  "order": 30,
+  "description": "La PLV aide au choix permet de guider et informer le visiteur sur une gamme de produits et encourage l'acte d'achat en autonomie en magasin.",
+  "challenge": "La PLV aide au choix permet de guider et informer le visiteur sur une gamme de produits et encourage l'acte d'achat en autonomie en magasin.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Aide-au-choix-plv.jpg",
+  "imageAlt": "Conception de PLV d’aide au choix",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## La réalisation de PLV d’aide au choix\n\nLa PLV aide au choix est un support de communication qui s’installe en linéaire ou en rayon. Support d’aide à la vente accroché à l’aide de magnétique ou suspendu par une chaînette, il permet de guider et informer le visiteur sur une gamme de produits pour développer l’acte d’achat en autonomie. Nous imprimons votre PLV aide au choix avec disque tournant sur demande. Prenant parfois la forme de [kakémono suspendu](https://www.kontfeel.fr/plv/joue-lineaire) ou encore de totem triptyque, notre large gamme d’ILV guide de choix s’adapte à vos contraintes pour offrir un outil d’aide à la vente ludique pour vos clients. Vous réfléchissez à concevoir votre prochain nuancier de matière, un tableau de compatibilité ou une PLV porte échantillons ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## Fournisseur de PLV pour magasin et grande distribution\n\nFabricant de PLV sur mesure, vous pouvez solliciter nos experts en merchandising pour le développement d’une PLV d’aide à la vente spécifique. Complémentaire au balisage de linéaire, à un stop rayon ou à une [réglette de linéaire](https://www.kontfeel.fr/impression/reglette-de-lineaire), nous concevons votre prochaine ILV guide de choix en passant par la réalisation de prototype pour assurer la bonne présentation de vos produits. Imprimé sur différents supports comme le carton recyclé ou le PVC souple, nous assurons la parfaite intégration du matériel dans vos dispositifs merchandising en proposant des fixations spécifiques. Vous cherchez un fabricant pour l’impression d’un panneau magnétique et ainsi installer une tablette aide au choix en magasin ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

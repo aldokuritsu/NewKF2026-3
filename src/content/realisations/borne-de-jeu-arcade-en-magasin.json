@@ -1,0 +1,29 @@
+{
+  "title": "Borne de jeu arcade en magasin",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "Événementielle",
+  "order": 77,
+  "description": "Réalisation de publicité sur lieu de vente pour magasin sous forme de borne de jeu conçu pour la sortie du film Transformers",
+  "challenge": "Réalisation de publicité sur lieu de vente pour magasin sous forme de borne de jeu conçu pour la sortie du film Transformers",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/borne-digitale.jpg",
+  "imageAlt": "Borne de jeu arcade en magasin",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Fabricant de PLV et borne interactive sur mesure\n\nA l’occasion de la sortie du premier spin-off de la saga Transformers basé sur l’autobot jaune, Paramount pictures a souhaité développer des bornes d’arcade au style rétro pour la promotion du film Bumblebee dans les cinémas. Pour la partie opérationnelle, les équipes de l’Agence ont travaillé avec des spécialistes et des passionnés afin d’assurer une conception conforme aux modèles rétro de bornes d’arcade des cafés des années 90. [PLV digitale ](https://www.kontfeel.fr/plv-digitale)installées dans les salles de cinéma en France, en Allemagne, au Royaume-Uni, aux Etats-Unis ou encore au Brésil, l’accessibilité et la sécurité de la borne ont été spécialement pensés pour le projet. Vous avez un projet de borne de jeu magasin ? Nos équipes créatives et techniques sont à votre disposition pour étudier votre projet et des contenus numériques spécifique : jeu, application, vidéo, motion design, etc.\n\n## Borne digitale et totem tactile pour magasin\n\nHabituées au développement de PLV digitale type [totem écran](https://www.kontfeel.fr/plv-digitale/totem-ecran) ou [borne tactile](https://www.kontfeel.fr/plv-digitale/borne-tactile), les équipes ont relevé un défi de taille pour fabriquer une PLV sur mesure sous forme de borne d’arcade rétro pour la sortie du film. Toute l’expérience des équipes dans la conception de mobilier commercial et de PLV digitale a permis de développer une structure originale pouvant accueillir de l’informatique : PC, écran, clavier mais surtout intégrant de l’électronique spécifique : panel composé de joysticks et boutons, système lumineux, enceinte, nécessaires à l’utilisateur pour jouer sur une véritable borne d’arcade. Vous souhaitez en savoir plus sur la fabrication de [borne de jeu](https://www.kontfeel.fr/plv-digitale/borne-de-jeu) magasin sur mesure ? [Contactez-nous](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

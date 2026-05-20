@@ -1,0 +1,29 @@
+{
+  "title": "PLV de comptoir en métal",
+  "client": "Client confidentiel",
+  "sector": "Bricolage & Maison",
+  "category": "PLV de comptoir",
+  "order": 32,
+  "description": "Sous la forme de socle métallique surmonté d'un fronton en PVC nos modèles de PLV de comptoir en métal permettent l'installation des produits",
+  "challenge": "Sous la forme de socle métallique surmonté d'un fronton en PVC nos modèles de PLV de comptoir en métal permettent l'installation des produits",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-comptoir-metallique.jpg",
+  "imageAlt": "PLV de comptoir en métal",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## PLV comptoir métal sur mesure pour la démonstration de produit sanitaire\n\nDe grandes marques font appel au savoir-faire de l’Agence de Marketing Opérationnel Kontfeel pour la fabrication de PLV comptoir métal. Avec la production de présentoir de table au design épuré, nous garantissons une mise en valeur des produits comme des accessoires sanitaires mais aussi de l’électronique ou des articles de fitness. Sous la forme de socle métallique surmonté d’un fronton en PVC imprimé, nos modèles de PLV de comptoir permettent l’installation de produits techniques comme des robinets à l’aide d’empreinte, de découpe ou de visserie spécifique. Vous avez un projet de [PLV de comptoir](https://www.kontfeel.fr/realisations/plv-de-comptoir) en métal ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## PLV glorifier made in France\n\nInstaller dans un show room ou en concession, à poser sur une table ou en rayonnage nos fabrications de PLV glorifier assurent une excellente visibilité des produits en point de vente. Selon votre cahier des charges et les contraintes techniques nous proposons une PLV 100% métallique ou mixant les matériaux pour offrir un [mobilier commercial](https://www.kontfeel.fr/mobilier-commercial) adapté aux contraintes des distributeurs et des revendeurs. Parfois équipée d’un écran, d’une tablette tactile ou d’électronique, notre gamme de PLV digitale est fabriquée en France dans des délais courts. Matériel cross merchandising, PLV cravate, ou présentoir avec broches nous imaginons les supports avec en simulation 3d pour glorifier votre offre en magasin. Vous souhaitez développer une PLV métallique pour mettre en avant vos produits durablement ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

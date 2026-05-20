@@ -1,0 +1,29 @@
+{
+  "title": "Présentoir et PLV MANGA",
+  "client": "Client confidentiel",
+  "sector": "Édition & Culture",
+  "category": "PLV 3D",
+  "order": 52,
+  "description": "Plébiscitées par les libraires le design de nos fabrications de PLV pour l'univers du manga sont attractives.",
+  "challenge": "Plébiscitées par les libraires le design de nos fabrications de PLV pour l'univers du manga sont attractives.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/PLV-colonne-edition.jpg",
+  "imageAlt": "Présentoir et PLV MANGA",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Présentoir carton et colonne de présentation pour livres\n\nLe design de présentoir carton sur mesure est un excellent moyen pour accompagner la sortie d’un manga ou d’une collection de livres en magasin. Plébiscitées par les libraires, nos fabrications de PLV pour l’édition type : colonne carton, box escalier, tourniquet métallique sont attractives. Elles s’adaptent aux formats des ouvrages et à l’univers de la collection à paraître. Livrés à plat mais aussi parfois montés et remplis, nos présentoirs sont prêts à l’emploi pour être installées rapidement en point de vente.\n\nVous recherchez un [fabricant de PLV](https://www.kontfeel.fr) pour votre prochaine colonne de sol pour la parution de mangas ? [Contactez-nous](https://www.kontfeel.fr/contact). Nous imaginons votre prochaine PLV en 3d en prenant en compte vos contraintes techniques et le cahier des charges des principaux distributeurs comme Hachette, Interforum, Sodis, Dilisco, etc.\n\n## PLV stop pile en librairie\n\nPLV pleine, à poser sur une table ou sur un comptoir, le [stop pile](https://www.kontfeel.fr/plv/stop-pile) est un support incontournable à la présentation des nouveautés en librairie. Sur carton imprimé et découpé à la forme, le stop pile, appelé aussi arrêt de pile est efficace pour animer les tables de présentation des libraires. Publicité sur lieu de vente peu encombrante, ce display s’adapte aux dimensions des ouvrages et à la hauteur de pile souhaitée.\n\nDisponible pour de faible tirage : 50 ou 100 exemplaires mais aussi pour des plus grandes séries : 250, ou 500 exemplaires. Le stop pile convient aux romans, aux polars, aux cahiers de vacances, aux livres de poche, aux bandes dessinées mais aussi aux mangas. Vous avez un projet de fabrication de [stop pile en carton](https://www.kontfeel.fr/plv/stop-pile) ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

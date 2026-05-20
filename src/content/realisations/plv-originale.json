@@ -1,0 +1,29 @@
+{
+  "title": "PLV originale en plastique",
+  "client": "Client confidentiel",
+  "sector": "Spiritueux & Boissons",
+  "category": "PLV 3D",
+  "order": 56,
+  "description": "Les équipes sont heureuses de rejoindre l'Association des Professionnels du Marketing Point de Vente afin de présenter leurs productions de PLV originale",
+  "challenge": "Les équipes sont heureuses de rejoindre l'Association des Professionnels du Marketing Point de Vente afin de présenter leurs productions de PLV originale",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-Compex-1170x780px-V1-1.jpg",
+  "imageAlt": "PLV originale en plastique",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Notre métier : appliquer votre stratégie de marketing point de vente\n\nInterviewé par le Popai France dans le cadre des rencontres des experts en marketing point de vente, Baptiste Grente présente le savoir faire de l’Agence dans la [fabrication de PLV sur mesure](https://www.kontfeel.fr). La PLV fait partie des éléments clés d’un point de vente bien agencé. En fonction de sa position, du modèle choisi et de son objectif marketing, elle est susceptible d’avoir un bénéfice majeur sur le parcours client et ses actes d’achat. Les équipes, spécialisées dans la fabrication de publicité sur lieu de vente font partie des nouveaux adhérents du Popai, référence pour tous les professionnels qui opèrent dans le domaine de la communication en point de vente et dans les stratégies associées. A nos côtés, mettez au point des PLV et ILV innovantes qui donneront toutes leurs chances à vos lancements de produits. Vous souhaitez développer une PLV originale ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## Développer le Retail avec de la PLV originale et du merchandising innovant\n\nReconnu par l’ensemble de la profession, l’Association des Professionnels du Marketing Point de Vente est une formidable vitrine pour les professionnels du domaine. Connu sous le nom POPAI, le syndicat fédère et représente les producteurs de solutions du Marketing Point de Vente (PLV, ILV, mobilier commercial, agencement, digital) son objectif principal est de présenter toute l’actualité, les tendances et toutes les innovations du Retail. Privée de salon en Mars 2020, événement pourtant incontournable pour traiter du marketing point de vente. Les équipes de Kontfeel vous propose leur expertise dans le marketing opérationnel, pour réfléchir à vos côtés, aux meilleures stratégies de développement de votre futur [PLV display](https://www.kontfeel.fr/display-plv), [mobilier commercial](https://www.kontfeel.fr/mobilier-commercial) ou encore [vitrine de magasin](https://www.kontfeel.fr/mobilier-commercial/plv-vitrine). Retrouvez l’ensemble des outils que nous proposons dans le domaine du MPV avec la fabrication de PLV originale et des supports merchandising innovant pour des lancements de produit en magasin réussis."
+    }
+  ],
+  "active": true
+}

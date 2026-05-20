@@ -1,0 +1,29 @@
+{
+  "title": "L’éco conception de PLV magasin",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "ILV",
+  "order": 61,
+  "description": "Notre équipe est engagée dans la transition écologique avec la protection des ressources de notre planète, et propose l'éco conception de PLV",
+  "challenge": "Notre équipe est engagée dans la transition écologique avec la protection des ressources de notre planète, et propose l'éco conception de PLV",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Totem-Hesperide-1170x780-Kontfeel-1.jpg",
+  "imageAlt": "L’éco conception de PLV magasin",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Fournisseur de PLV responsable : spécialiste de l’éco conception\n\nL’Agence de marketing opérationnel Kontfeel met ses connaissances dans les outils de production graphique écologique et responsable au service de ses clients. Engagés dans le développement durable et la protection des ressources de notre planète, nous proposons l’éco conception de PLV pour magasin et un service d’impression durable.\n\nGrâce à une équipe de professionnels créatifs et techniques, nous assurons également la production de [display PLV](https://www.kontfeel.fr/display-plv) en carton mais aussi du [mobilier commercial](https://www.kontfeel.fr/mobilier-commercial) sur mesure en bois, en métal ou en plastique. Nous imaginons le design d’outils marketing, puis fabriquons les supports auprès d’usines partenaires certifiées et engagées avec nous dans une démarche de respect des engagements et d’éco-conception.\n\n## Empreinte carbone maîtrisée dans la gestion de la logistique des PLV\n\nLa prise de conscience de la nécessité d’un développement durable et responsable est une préoccupation primordiale au sein de nos équipes mais aussi dans notre sélection de partenaires. Acteurs engagés dans une démarche de protection de notre environnement, nous aidons nos clients dans la conception et la réalisation de supports de communication éco-responsables avec la réelle volonté de réduire les impacts environnementaux des outils marketing produits tout en conservant leurs performances.\n\nFournisseur de [totem carton](https://www.kontfeel.fr/plv/totem-carton) à montage automatique, de [stickers de sol, ](https://www.kontfeel.fr/impression/sticker-de-sol)de vitrophanie mais aussi de nombreux supports de merchandising pour assurer la visibilité des marques en linéaire, nous tachons de produire des matériels au plus proche de nos clients pour gagner en délai mais surtout pour limiter les distances de livraisons entre l’usine de production et les bases logistiques. Vous souhaitez en savoir plus sur l’éco conception de PLV pour magasin ? [Contactez-nous ](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

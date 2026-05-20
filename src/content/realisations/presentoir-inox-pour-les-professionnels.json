@@ -1,0 +1,29 @@
+{
+  "title": "Présentoir inox pour les professionnels",
+  "client": "Client confidentiel",
+  "sector": "Spiritueux & Boissons",
+  "category": "PLV de comptoir",
+  "order": 41,
+  "description": "Professionnels de la PLV et du marketing point de vente, nous imaginons votre prochain présentoir inox à votre mesure fabriqué en France.",
+  "challenge": "Professionnels de la PLV et du marketing point de vente, nous imaginons votre prochain présentoir inox à votre mesure fabriqué en France.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-Inox.jpg",
+  "imageAlt": "Présentoir inox pour les professionnels",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Présentoir inox et PLV sur mesure\n\nProfessionnels de la publicité sur le lieu de vente, nous imaginons votre prochain présentoir inox à votre mesure. Nos conceptions de présentoirs en acier inoxydable sont adaptées à l’univers de la cuisine, de la médecine ou du bâtiment notamment pour son excellente résistance à la corrosion. Alliage composé de fer et de carbone, celui-ci ne rouille pas et est entièrement recyclable ce qui en fait un matériau intéressant pour la fabrication de [PLV écologique](https://www.kontfeel.fr/plv-ecologique).\n\nNos fabrications de présentoirs inox sont transformées, usinées et assemblées pour obtenir une PLV originale. Avec une grande variété de finitions en surfaces, le traitement de l’acier inoxydable offre de grandes possibilités pour fabriquer des présentoirs esthétiques et hygiéniques. Vous souhaitez un présentoir inox ? [Contactez-nous](https://www.kontfeel.fr/contact)\n\n## Mobilier commercial métallique de présentation\n\nNous assurons la fabrication de présentoirs en inox pour les professionnels de la restauration ou de l’hôtellerie. Nous imaginons des solutions avec des étagères spécifiques pour répondre à des problématiques d’hygiène, d’entretien et de durée de vie.\n\nVous pouvez nous confier la présentation de vos produits dans nos supports adaptés et totalement sur mesure. Vous souhaitez assurer la présence de vos produits alimentaires en point de vente, dans les cantines scolaires ou dans des restaurants d’entreprises ? [Contactez-nous](https://www.kontfeel.fr/contact) pour imaginer votre prochain [mobilier commercial](https://www.kontfeel.fr/mobilier-commercial) métallique ?"
+    }
+  ],
+  "active": true
+}

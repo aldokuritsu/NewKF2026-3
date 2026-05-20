@@ -1,0 +1,29 @@
+{
+  "title": "Fabrication de présentoir bois pour bouteilles de vin",
+  "client": "Client confidentiel",
+  "sector": "Spiritueux & Boissons",
+  "category": "PLV 3D",
+  "order": 38,
+  "description": "Nos créations de présentoir bois pour bouteilles subliment votre marque avec la mise en avant des produits dans un mobilier original",
+  "challenge": "Nos créations de présentoir bois pour bouteilles subliment votre marque avec la mise en avant des produits dans un mobilier original",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-bois-pour-bouteilles.jpg",
+  "imageAlt": "Fabrication de présentoir bois pour bouteilles de vin",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## La conception de PLV spécifique pour bouteilles\n\nNotre méthode de conception de présentoir bois pour bouteilles accentue la visibilité des produits en magasin. Offrant une excellente durée de vie, nos PLV en bois sont faciles à monter en magasin, sans nécessairement avoir besoin d’outils. Nos créations subliment votre marque avec la mise en avant de bouteilles de vin, bouteilles de jus de fruit, bouteilles de rhum ou de whisky dans un mobilier commercial original.\n\nComposé de plusieurs étagères avec des décors et des formes personnalisés, nous réalisons également des déclinaisons avec des présentoirs de comptoir pour sublimer des séries spéciales, des champagnes ou des grands crus d’exception par exemple. Vous souhaitez vous démarquer avec la fabrication d’un présentoir bois pour bouteilles sur mesure ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## Design de présentoir en bois sur mesure\n\nExperts en fabrication de PLV sur mesure, nos équipes de designers imaginent votre prochain [mobilier commercial](https://www.kontfeel.fr/mobilier-commercial) en 3D. Nous nous chargeons de la conception technique et du design de votre prochain présentoir de sol ou présentoir de comptoir en bois. Fabriqués à la demande, nos réalisations de présentoir pour les magasins s’adaptent aux différents circuits de distribution.\n\n[PLV écologique](https://www.kontfeel.fr/plv-ecologique) d’excellente qualité, le présentoir en bois est durable dans le temps et convient particulièrement pour la mise en avant de produits alimentaires ou cosmétiques bio mais aussi pour produits culturels comme des livres pour enfants. Vous souhaitez nous solliciter pour le design d’un présentoir en bois sur mesure ? [Contactez-nous](https://www.kontfeel.fr/contact/)."
+    }
+  ],
+  "active": true
+}

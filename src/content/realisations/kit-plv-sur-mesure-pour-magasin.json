@@ -1,0 +1,29 @@
+{
+  "title": "Kit PLV sur mesure pour magasin",
+  "client": "Client confidentiel",
+  "sector": "Événementiel",
+  "category": "Événementielle",
+  "order": 60,
+  "description": "Nous imprimons votre Kit PLV sur mesure pour magasin en proposant du matériel de stand expo solide, robuste et reconnu de haute qualité",
+  "challenge": "Nous imprimons votre Kit PLV sur mesure pour magasin en proposant du matériel de stand expo solide, robuste et reconnu de haute qualité",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Display-Quitoque-Kontfeel-1170x780px.jpg",
+  "imageAlt": "Kit PLV sur mesure pour magasin",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## La fabrication de publicité sur lieu de vente sur mesure\n\nVous désirez constituer un Kit PLV sur mesure pour votre équipe de vente adapté au terrain ? Alors vous pouvez faire appel au savoir-faire des équipes de Kontfeel pour la fabrication de PLV en carton sur mesure et l’impression de matériel de [stand expo](https://www.kontfeel.fr/stand-expo). Nous nous chargeons de l’impression des supports à destination de vos équipes commerciales en proposant du matériel de stand expo solide, robuste et reconnu de haute qualité : [roll-up](https://www.kontfeel.fr/stand-expo/roll-up), stand parapluie, mur d’image, tente pliante, [nappe publicitaire](https://www.kontfeel.fr/impression/nappe-personnalisee), [valise de démonstration](https://www.kontfeel.fr/impression/valise-commerciale) ou encore comptoir publicitaire.\n\nImprimées en France, nos publicités sur lieu de vente sont entièrement personnalisables et permettent de constituer un espace de marque à votre image pour :\n\n- inviter à la dégustation de vos produits,\n- découvrir l’étendue de votre gamme,\n- organiser une journée de formation,\n- ou encore participer à la démonstration de vos produits.\n\nNos solutions d’aménagement d’espace pour salon ou magasin sont adaptées en fonction de la représentation commerciale à réaliser en intérieur mais aussi en extérieur.\n\n## Boostez son offre commerciale avec un kit PLV\n\nNous constituons des dispositifs de kit PLV sur mesure accueillant, chaleureux en mettant l’utilisateur final au centre de nos préoccupations. Le montage est rapide et le démontage du matériel simple pour un usage soutenu et des animations répétées dans le temps. Notre force est de proposer des kits PLV ré-utilisables assurant la mobilité et l’autonomie des équipes sur le terrain.\n\nA l’écoute des contraintes utilisateurs, nous fournissons des notices ou vidéo de montage si nécessaire. Nous attachons également une importance particulière aux contraintes logistiques de nos matériels en adaptant le colisage et le conditionnement de nos supports dans des housses de protection, mais aussi dans des formats de carton ajusté pour être transporter en voiture ou dans les transports en commun. Vous avez un projet d’animation en magasin ? [Contactez-nous.](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

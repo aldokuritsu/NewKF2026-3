@@ -12,12 +12,15 @@ n'existe que sur kontfeel.fr. Ce script :
      `text_editorial` portant l'article complet (rendu via BlockRenderer).
 
 Usage :
-  python3 scripts/import_realisations.py                 # toutes les réalisations
+  python3 scripts/import_realisations.py                 # toutes (skip si déjà présent)
   python3 scripts/import_realisations.py slug1 slug2 …   # seulement celles-ci
+  python3 scripts/import_realisations.py --force         # écrase les fichiers existants
+  python3 scripts/import_realisations.py --force slug1   # écrase ce slug précis
 
-⚠️ `date`, `client`, `sector`, `results` ne sont PAS dans la source (xlsx ni
-   site) → heuristiques + placeholders, À VALIDER. Le corps d'article, lui,
-   est repris verbatim.
+⚠️ `client`, `sector`, `results` ne sont PAS dans la source (xlsx ni site)
+   → heuristiques + placeholders, À VALIDER. Le corps d'article, lui, est
+   repris verbatim. `date` n'est plus généré (retiré du modèle) ; l'ordre
+   d'affichage vient de scripts/enrich_realisations.py (crawl du live).
 """
 import sys, os, re, json, time, html, zipfile, subprocess
 import xml.etree.ElementTree as ET
@@ -186,7 +189,9 @@ def fetch(url):
     return r.stdout.decode("utf-8", "ignore")
 
 def main():
-    only = set(sys.argv[1:])
+    args = sys.argv[1:]
+    force = "--force" in args
+    only = {a for a in args if not a.startswith("--")}
     rows = read_rows()
     os.makedirs(OUT, exist_ok=True)
     done = skipped = 0
@@ -197,6 +202,9 @@ def main():
             continue
         if d.get("http_status") not in ("", "200", None):
             print(f"  skip {slug} (HTTP {d.get('http_status')})"); skipped += 1; continue
+        out_path = os.path.join(OUT, slug + ".json")
+        if os.path.exists(out_path) and not force:
+            print(f"  skip {slug} (déjà présent — utiliser --force pour écraser)"); skipped += 1; continue
         try:
             page = fetch(url)
         except Exception as e:
@@ -220,7 +228,9 @@ def main():
             "title": title,
             "client": client,
             "sector": sector,
-            "date": "2025-01",  # ⚠ ABSENT de la source — placeholder à valider
+            # `date` non porté : pas dans la source xlsx + retiré du modèle
+            # (cf. content.config.ts). Le tri se fait sur `order` (ajouté ensuite
+            # par scripts/enrich_realisations.py depuis le crawl du site live).
             "description": desc,
             "challenge": desc,
             "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
@@ -232,7 +242,7 @@ def main():
             ],
             "active": True,
         }
-        with open(os.path.join(OUT, slug + ".json"), "w", encoding="utf-8") as f:
+        with open(out_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
             f.write("\n")
         print(f"  ✓ {slug}  ({len(md)} car. markdown)")

@@ -1,0 +1,29 @@
+{
+  "title": "PLV table de magasin rétro éclairé",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "Événementielle",
+  "order": 66,
+  "description": "Habillage table de magasin sur mesure pour la mise en avant des produits electroménager de la marque SMEG sur PVC imprimés et écran intégré",
+  "challenge": "Habillage table de magasin sur mesure pour la mise en avant des produits electroménager de la marque SMEG sur PVC imprimés et écran intégré",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/contenu.jpg",
+  "imageAlt": "PLV table de magasin rétro éclairé",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## L’impression d’un habillage de table pour les magasins\n\nL’impression numérique permet la fabrication d’habillage pour table de magasin et de produire un merchandising sur mesure. S’adaptant au mobilier existant et aux différentes contraintes des magasins nos décors sont imprimés à la demande en seulement quelques jours. Plébiscité en surface de vente, nous proposons la personnalisation d’espace de marque en boutique avec l’installation de PLV dynamique.\n\nNous avons conçu ce corner spécifique en magasin avec un kit PLV équipé d’un écran pour diffuser les vidéos de produits électroménagers de la marque SMEG. Vous souhaitez en savoir plus sur ce dispositif et nos réalisations d’habillage table en magasin ? [Contactez-nous](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

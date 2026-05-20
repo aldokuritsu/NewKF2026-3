@@ -1,0 +1,29 @@
+{
+  "title": "Stand de démonstration PVC",
+  "client": "Client confidentiel",
+  "sector": "Événementiel",
+  "category": "PLV de sol",
+  "order": 40,
+  "description": "Le montage du stand de démonstration pvc est très simple et nécessite seulement quelques secondes d'installation en magasin.",
+  "challenge": "Le montage du stand de démonstration pvc est très simple et nécessite seulement quelques secondes d'installation en magasin.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Comptoir-de-degustation.jpg",
+  "imageAlt": "Stand de démonstration PVC",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Stand de démonstration PVC pour magasin\n\nLe montage du stand de démonstration PVC est très simple et nécessite seulement quelques secondes d’installation. Comptoirs de promotions pliables mais robuste, nos modèles se déclinent en comptoir plastique avec fronton, en borne d’accueil pliante ou encore en comptoir textile, dit aussi comptoir parapluie. Pour réussir à coup sûr vos animations en point de vente ou sur un salon, découvrez notre large gamme de matériel de [stand expo](https://www.kontfeel.fr/stand-expo) réutilisable.\n\nRésistant aux chocs ou aux traces, notre stand de démonstration PVC sert aussi de stand de dégustation car Il se nettoie avec un simple chiffon et de l’eau. Celui-ci est idéal pour faire découvrir un produit alimentaire sans tacher ou endommager le visuel. Vous souhaitez faire imprimer votre prochain [comptoir publicitaire PVC](https://www.kontfeel.fr/stand-expo/comptoir-publicitaire-pvc) ? [Contactez-nous](https://www.kontfeel.fr/contact)\n\n## L’impression de votre stand de dégustation personnalisé\n\nPLV économique, le comptoir de démonstration ou stand de dégustation est également disponible sous forme de présentoir de sol en carton. Indispensable pour la promotion en grande surface, dans un hall ou une galerie marchande de magasin, le comptoir d’accueil se personnalise également de fronton surélevé et de décors découpés sur mesure.\n\nVous recherchez des modèles de stand de dégustation promotionnel ? Contactez-nous pour imaginer votre prochain stand d’accueil, stand de démonstration ou encore stand carton recyclé."
+    }
+  ],
+  "active": true
+}

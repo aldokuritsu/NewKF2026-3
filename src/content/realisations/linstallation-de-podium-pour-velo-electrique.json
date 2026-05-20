@@ -1,0 +1,29 @@
+{
+  "title": "L’installation de podium pour vélo électrique",
+  "client": "Client confidentiel",
+  "sector": "Bricolage & Maison",
+  "category": "Événementielle",
+  "order": 35,
+  "description": "Nous fabriquons votre podium vélo et assurons la fabrication de vos PLV sur différents supports : présentoir carton, métal, bois ou plastique",
+  "challenge": "Nous fabriquons votre podium vélo et assurons la fabrication de vos PLV sur différents supports : présentoir carton, métal, bois ou plastique",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Podium-1170x780-1.jpg",
+  "imageAlt": "L’installation de podium pour vélo électrique",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## La fabrication de PLV podium vélo\n\nVous cherchez un podium vélo pour assurer la visibilité de votre marque de cycle ? Vous pouvez solliciter nos experts pour assurer une conception sur mesure d’estrade de présentation. Nous assurons la fabrication de PLV sur différents supports : présentoir en carton, [mobilier commercial](https://www.kontfeel.fr/mobilier-commercial) permanent en bois ou en métal. Nous gérons aussi l’impression sur différentes matières comme le PVC forex ou le dibond.\n\nPour une communication en magasin, pour des salons professionnels ou des manifestations sportives, nous étudions votre besoin et proposons le support adapté à vos attentes. Vous souhaitez échanger sur nos solutions de podium vélo ? [Contactez-nous](http://kontfeel.fr/contact).\n\n## Confiez votre brief à un expert en PLV sur mesure\n\nFabrication de [podium carton](https://www.kontfeel.fr/plv/podium-carton) sur mesure, nous accompagnons des marques reconnus dans l’univers du cyclisme mais aussi des jeunes start up spécialiste du vélo électrique.\n\nNous assurons la présence de nos clients en vitrine de magasin ou lors de dispositifs promotionnels avec la réalisation de podium carton, de drapeaux, de kakémono ou de mur d’image pour offrir une visibilité maximale en point de vente pour les vélos ou des accessoires de cycle. Vous recherchez un dispositif pour présenter un vélo ? [Contactez-nous](http://kontfeel.fr/contact) pour la réalisation d’un corner spécifique pour votre marque de vélo électrique par exemple."
+    }
+  ],
+  "active": true
+}

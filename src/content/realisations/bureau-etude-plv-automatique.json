@@ -1,0 +1,29 @@
+{
+  "title": "Bureau d’étude pour PLV automatique",
+  "client": "PLV automatique Le bureau d’étude PLV aut",
+  "sector": "Spiritueux & Boissons",
+  "category": "ILV",
+  "order": 62,
+  "description": "Le bureau d’étude PLV automatique se charge de trouver les solutions adaptées à votre problématique de présentoir, de packaging en carton",
+  "challenge": "Le bureau d’étude PLV automatique se charge de trouver les solutions adaptées à votre problématique de présentoir, de packaging en carton",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/TotemFlyer-Wurth-Kontfeel-1170x780-1.jpg",
+  "imageAlt": "Bureau d’étude pour PLV automatique",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## L’impression de PLV carton originale\n\nPour la réalisation publicité sur le lieu de vente ou la création d’ILV originale à destination d’un secteur spécifique, le rôle des équipes de Kontfeel et du bureau d’étude PLV est d’assurer la bonne mise en fabrication et le suivi de production de vos outils de communication prenant la forme de display carton, [box automatique, ](https://www.kontfeel.fr/display-plv/box-automatique)ou encore de totem carton à montage rapide. Simple à installer en point de vente, un totem automatique se déploie en un instant et offre une visibilité importante sur deux faces. Intégrant un porte leaflets transparent, la PLV totem permet la distribution de flyers avec un encombrement maîtrisé en magasin.\n\nNos conseillers techniques se mettent à votre disposition pour définir votre besoin en publicité sur le lieu de vente. Notre rôle : écouter vos attentes, répondre à vos interrogations, prendre en compte vos contraintes ou spécificités et proposer un support rapide à installer pour être visible en magasin.\n\n## L’étude de votre brief PLV\n\nSuite à l’étude de votre besoin avec un conseiller commercial, arrive l’analyse approfondie de votre projet PLV par un bureau d’étude technique. Associé à des pôles de production spécifique, le bureau d’étude PLV se charge de trouver les solutions adaptées à votre problématique de packaging, de merchandising ou encore de présentoir comme avec le [totem carton](https://www.kontfeel.fr/plv/totem-carton) avec distributeur de flyers intégré. Les équipes techniques se chargent d’établir un retour en fonction de votre cahier des charges :\n\n- Élaboration de chiffrage et devis\n- Réalisation de maquette PLV en carton\n- Proposition de prototype ou de 1er de série de PLV multi matériaux\n- Projection de PLV en rough ou croquis\n- Production de PLV en simulation 3d\n\nLa prise en compte par les équipes techniques des caractéristiques les plus importantes comme la finition, la résistance, la capacité de charges, le choix des matériaux donne la garantie de disposer d’un matériel à la conception optimisée et totalement maîtrisée pour une fabrication en série. C’est ensemble que créatifs et techniciens, donnent vie à votre future PLV en proposant des supports adaptés pour le point de vente. En manque d’inspiration ou à la recherche de nouveautés pour dynamiser votre communication en magasin ? [Contactez](https://www.kontfeel.fr/contact) le bureau d’étude pour une PLV à montage automatique."
+    }
+  ],
+  "active": true
+}

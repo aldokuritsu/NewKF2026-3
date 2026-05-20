@@ -1,0 +1,29 @@
+{
+  "title": "Balisage de linéaire en magasin",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "PLV 3D",
+  "order": 47,
+  "description": "Il existe de multiples techniques de merchandising pour faire un balisage de linéaire efficace en magasin : PLV, stop rayon, fronton, etc.",
+  "challenge": "Il existe de multiples techniques de merchandising pour faire un balisage de linéaire efficace en magasin : PLV, stop rayon, fronton, etc.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/habillage-TG.jpg",
+  "imageAlt": "Balisage de linéaire en magasin",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Balisage de linéaire et habillage tête de gondole\n\nIl existe de multiples techniques de merchandising pour faire un balisage de linéaire efficace en magasin : [stop rayon](https://www.kontfeel.fr/plv/stop-rayon), fronton, kakémono suspendu, habillage de tablettes, ou encore rouleaux pour équiper les bandes de rives des gondoles. Nos équipes interviennent pour la mise en avant de l’offre et ainsi permettre aux consommateurs d’identifier plus rapidement et en un coup d’œil la promotion en tête de gondole ou la nouveauté en linéaire. D’ailleurs pour réorganiser une gamme de produits disponibles en rayonnages, nos experts en merchandising interviennent sur des planogrammes pour clarifier l’offre en rayon et ainsi encourager l’acte d’achat. Vous avez un projet de balisage de linéaire ou de mise en avant en gondole de magasin ? [Contactez l’un de nos experts ](https://www.kontfeel.fr/contact)en merchandising.\n\n## Impression de PLV en PVC : display, stop rayon, plateau, séparateurs\n\nNos fabrications de PLV et [présentoir plastique](https://www.kontfeel.fr/mobilier-commercial/presentoir-plastique), pour segmenter l’offre en linéaire ou habiller une gondole, ont un réel impact sur la visibilité des produits. La clarification de l’offre rend les produits plus accessibles et permet souvent un référencement plus grand de l’offre ou de la gamme avec notamment la mise en avant des produits par la multiplication du façing produit. Nos réalisations de PLV en PVC souple ou sur PVC recyclé prennent la forme de barquettes, de stop rayon, de plateau, de kakémono suspendu et permettent ainsi d’appliquer nos techniques de balisages pour tout type de commerce. Vous souhaitez un balisage de linéaire en point de vente efficace et durable ? [Sollicitez nos équipes de merchandiseur](https://www.kontfeel.fr/contact) expert en marketing point de vente."
+    }
+  ],
+  "active": true
+}

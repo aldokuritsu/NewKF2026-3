@@ -1,0 +1,29 @@
+{
+  "title": "PLV Normandie Impressionniste",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "PLV de sol",
+  "order": 50,
+  "description": "Agence de fabrication de PLV carton et accessoires publicitaires à Rouen en Normandie, à Paris et Région Parisienne",
+  "challenge": "Agence de fabrication de PLV carton et accessoires publicitaires à Rouen en Normandie, à Paris et Région Parisienne",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Totem-Normandie-Impressioniste-1170x780px-Kontfeel.jpg",
+  "imageAlt": "PLV Normandie Impressionniste",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Spécialiste de la PLV à Rouen en Normandie\n\nLes équipes de la Métropole de Rouen ont fait appel au savoir-faire de Kontfeel pour l’impression de PLV sur mesure pour l’édition 2020 du Festival Normandie Impressionniste. Pour répondre à leurs objectifs de visibilité, notre agence a proposé un [totem carton](https://www.kontfeel.fr/plv/totem-carton), à montage automatique qui est très facile à installer et qui offre une importante zone de communication avec un visuel imprimé sur les 2 faces, au recto et au verso.\n\nDispositif très simple à installer, cette PLV sur mesure permet d’identifier les lieux du festival en un coup d’œil. Livré plié dans un emballage réduit pour maîtriser les frais logistiques, le totem est équipé d’un système de montage breveté. Il se déploie sans effort pour laisser place à un support de plus de 1m90 de hauteur. Retrouvez le montage de cette PLV en vidéo, vous découvrirez que le totem peut également se replier pour être redéployer plusieurs fois. En fin de vie, le totem fabriqué en carton, sera mis au recyclage.\n\n## L’impression de PLV carton et d’accessoires publicitaires\n\nEn plein cœur de la métropole de Rouen et à 1H de Paris et de la Région Parisienne, notre Agence de publicité est spécialisée dans la communication et le marketing sur le point de vente. Nous disposons d’une large gamme de supports type roll up, stand parapluie, comptoir personnalisé mais aussi des supports destinés à un usage extérieur comme des [drapeaux](https://www.kontfeel.fr/stand-expo/drapeau), des oriflammes, ou des bâches.\n\nImprimés à la demande et disponible en quelques jours ouvrés, l’ILV ou le totem carton est idéal pour assurer votre présence en magasin mais aussi lors de manifestations comme un festival, un salon ou encore un séminaire commercial. Vous avez un besoin d’impression de signalétique ou de PLV sur mesure ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

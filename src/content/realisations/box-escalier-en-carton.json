@@ -1,0 +1,29 @@
+{
+  "title": "Box escalier en carton",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "PLV de sol",
+  "order": 31,
+  "description": "Expert en marketing point de vente, nous déclinons le box escalier en comptoir en réalisant un présentoir escalier pliable",
+  "challenge": "Expert en marketing point de vente, nous déclinons le box escalier en comptoir en réalisant un présentoir escalier pliable",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-mangas.jpg",
+  "imageAlt": "Box escalier en carton",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Display de sol sous forme de box escalier\n\nLe box escalier est une PLV incontournable en magasin comme en librairie.Display de sol fabriqué généralement en carton, cette PLV écologique permet une bonne visibilité de l’offre grâce au fronton positionné en haut et une excellente mise en avant des produits sur plusieurs niveaux. Publicité sur le lieu de vente résistante, elle s’installe directement au sol en magasin ou sur une palette bois. Nous adaptons nos box escalier en carton aux produits à présenter avec l’installation de renfort ou de croisillons positionnés sous les marches. Vous recherchez un fabricant de [présentoir escalier](https://www.kontfeel.fr/display-plv/presentoir-escalier) 3 marches ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## Fabricant de présentoirs à escaliers pour l’édition\n\nExpert en marketing point de vente, nous déclinons le box escalier en comptoir en réalisant un présentoir escalier pliable. La PLV de comptoir est toujours facile à installer, l’escalier permet de maîtriser l’encombrement disponible sur une table ou dans le linéaire tout en offrant une bonne visibilité des produits en façings. Complémentaire au [box palette](https://www.kontfeel.fr/display-plv/box-palette), le présentoir de comptoir est adapté au plus petite surface de vente comme les librairies. Vous avez un projet de présentoir produits avec des dimensions spécifiques ? Faites votre [demande de devis](https://www.kontfeel.fr/devis) en ligne auprès d’un fabricant de PLV sur mesure."
+    }
+  ],
+  "active": true
+}

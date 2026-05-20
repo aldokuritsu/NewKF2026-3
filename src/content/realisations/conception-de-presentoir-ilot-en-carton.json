@@ -1,0 +1,29 @@
+{
+  "title": "Conception de présentoir îlot en carton",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "Événementielle",
+  "order": 28,
+  "description": "Vous recherchez un dispositif PLV clé en main ? Nous assurons l'impression de présentoir îlot sous forme de kit PLV carton prêt à monter.",
+  "challenge": "Vous recherchez un dispositif PLV clé en main ? Nous assurons l'impression de présentoir îlot sous forme de kit PLV carton prêt à monter.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/pre%CC%81sentoir-i%CC%82lot-en-carton_1.jpg",
+  "imageAlt": "Conception de présentoir îlot en carton",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Fabricant de PLV carton sous forme de présentoir îlot\n\nLe présentoir îlot est une solution marketing stratégique qui crée un effet de masse et attire le regard des consommateurs en magasin. Dans l’univers du retail, par définition l’îlot central ou l’îlot de vente est un[ mobilier commercial ](https://www.kontfeel.fr/mobilier-commercial)autour duquel les consommateurs peuvent circuler et prendre en libre service les produits présentés. Nos équipes de professionnels du marketing point de vente maîtrisent la création de [PLV événementielle](https://www.kontfeel.fr/realisations/plv-evenementielle) et la conception de box carton personnalisée pour les magasins, vous pouvez donc nous contacter pour fabriquer un îlot marketing à votre image. [Contactez-nous pour en discuter.](https://www.kontfeel.fr/contact)\n\n## Création d’un présentoir carton à 360 degrés sur 3 niveaux\n\nFournisseur de présentoir pour magasin, nous assurons l’impression de présentoir 360 degrés ou d’îlot central rond. Imaginées, conçues et testées à l’aide de prototype, nos réalisations de [display PLV ](https://www.kontfeel.fr/display-plv)carton prennent la forme de box ou de colonne de présentation originale. Le présentoir à 360 degrés offre une vue d’ensemble incomparable. Disponibles sur 4 faces, les produits sont alors plus accessibles car à la portée de main des clients. Vous cherchez à développer un présentoir sur mesure sous forme d’îlot événementiel ? Nous adaptons nos conceptions aux produits à présenter : jouets et peluches, produits de beauté et cosmétiques ou encore bouteilles. Vous recherchez un dispositif PLV clé en main ? Nous assurons l’impression de présentoir îlot sous forme de kit PLV carton prêt à monter."
+    }
+  ],
+  "active": true
+}

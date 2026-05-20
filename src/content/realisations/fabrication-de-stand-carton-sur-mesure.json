@@ -1,0 +1,29 @@
+{
+  "title": "Fabrication de stand carton sur mesure",
+  "client": "Client confidentiel",
+  "sector": "Événementiel",
+  "category": "Événementielle",
+  "order": 29,
+  "description": "Le stand carton est une PLV fabriquée 100% à la demande et présente l'avantage d'être entièrement recyclable.",
+  "challenge": "Le stand carton est une PLV fabriquée 100% à la demande et présente l'avantage d'être entièrement recyclable.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Stand-carton-avec-fronton-sur-mat.jpg",
+  "imageAlt": "Fabrication de stand carton sur mesure",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## De la création à l’impression de stand carton personnalisé\n\nLe stand carton est un support promotionnel incontournable en point de vente. Imprimé à la demande, nos modèles de borne d’accueil assurent la visibilité durant les animations commerciales en magasin. Indispensable lors d’une démonstration de produits ou lors d’une dégustation en GMS, le stand promo s’installe en quelques secondes seulement.\n\nFourni avec un plateau et un mât surmonté d’un panneau en haut, le comptoir de promotion se personnalise avec l’impression d’un visuel HD ou d’une découpe spécifique sur le fronton. Livré à plat sous carton, il est possible de compléter cette PLV avec un [totem carton](https://www.kontfeel.fr/plv/totem-carton), ou un sticker de sol pour scénariser l’offre en point de vente. Vous avez un projet de présentoir carton ? [Contactez-nous](https://www.kontfeel.fr/contact) pour l’étude de votre brief PLV.\n\n## Fabrication de PLV et présentoirs en carton recyclé\n\nLe stand carton est une PLV fabriquée à 100% en carton, elle est entièrement recyclable après son utilisation. Déclinable en taille ou dans la forme, nous avons des solutions labellisées PEFC ou produite en carton FSC ou FSC recyclé. Avec l’emploi de matières adaptées et la production de PLV auprès d’usine certifiée, nous nous engageons dans des pratiques de fabrications durables et limitons l’impact de nos productions sur l’environnement.\n\nPersonnalisé à la demande à partir de 25 ou 50 exemplaires, le [podium carton](https://www.kontfeel.fr/plv/podium-carton) est une PLV écologique qui offre de la visibilité en magasin avec une large zone de communication mais aussi une excellente notoriété avec la présence d’un animateur ou encore d’une hôtesse de vente. Vous recherchez un fabricant de stand carton écologique ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

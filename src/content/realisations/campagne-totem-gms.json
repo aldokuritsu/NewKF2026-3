@@ -2,15 +2,28 @@
   "title": "150 totems automatiques pour le lancement d'une gamme bio en réseau GMS national",
   "client": "Marque agroalimentaire (anonymisé à la demande du client)",
   "sector": "Agroalimentaire · Grande distribution",
-  "date": "2025-09",
+  "category": "PLV de sol",
+  "order": 9999,
   "description": "Déploiement de 150 totems carton automatiques sur un réseau GMS national en 10 jours ouvrés : du brief validé à la livraison en centrale logistique.",
   "challenge": "Notre client lançait une nouvelle gamme de produits bio positionnés en entrée de rayon dans 150 GMS répartis sur toute la France. La contrainte principale était non-négociable : 10 jours ouvrés entre la validation du brief créatif et la présence en centrale logistique, liée au calendrier de référencement enseigne.\n\nLa PLV devait pouvoir être montée sans compétence spécifique par les équipes terrain ou les revendeurs, être acceptée sans discussion à la réception enseigne, et tenir 5 semaines en conditions d'allée centrale à fort trafic. Les commandes précédentes du client, passées auprès d'un prestataire généraliste, avaient enregistré 18 % de sinistres (totems tombés, surfaces abîmées) sur des campagnes comparables.",
   "solution": "Nous avons opté pour le totem carton automatique elliptique 2 faces (format 500 × 1 900 mm, double-cannelure BC). L'argument décisif dans ce contexte : le déploiement sans outil en moins de 30 secondes, essentiel pour des équipes terrain non spécialisées opérant sur 150 sites en quelques jours.\n\nLe BAT a été validé sous 48h grâce à un brief structuré fourni par le client en DAM. La production s'est déroulée sur 6 jours ouvrés avec une impression offset quadri et pelliculage mat, suivi d'une livraison consolidée en centrale logistique à J+9. Chaque carton était conditionné en étui individuel avec étiquette EAN, notice de montage illustrée en 3 étapes et fiche de sécurité au sol — intégrant les exigences de réception de l'enseigne, documentées dès le démarrage du projet.",
   "results": [
-    { "value": "10 j", "label": "Du brief validé à la livraison en centrale" },
-    { "value": "150",  "label": "Points de vente livrés simultanément" },
-    { "value": "98 %", "label": "Taux d'acceptation en quai de réception" },
-    { "value": "< 2 %","label": "Taux de sinistre sur 5 semaines de campagne" }
+    {
+      "value": "10 j",
+      "label": "Du brief validé à la livraison en centrale"
+    },
+    {
+      "value": "150",
+      "label": "Points de vente livrés simultanément"
+    },
+    {
+      "value": "98 %",
+      "label": "Taux d'acceptation en quai de réception"
+    },
+    {
+      "value": "< 2 %",
+      "label": "Taux de sinistre sur 5 semaines de campagne"
+    }
   ],
   "image": "/assets/realisations/theatralisation-magasin-avec-plvc-carton-sur-mesure.jpg",
   "imageAlt": "Totem carton automatique elliptique déployé en allée centrale GMS lors d'un lancement de gamme bio",
@@ -19,16 +32,22 @@
     "author": "Responsable trade marketing",
     "role": "Agroalimentaire — réseau GMS national"
   },
+  "relatedPost": "totem-carton-gms",
+  "relatedLinks": [
+    {
+      "label": "Totem carton automatique",
+      "href": "/plv-carton/totem-carton-automatique/"
+    },
+    {
+      "label": "Solutions PLV grande distribution",
+      "href": "/solutions/plv-grande-distribution/"
+    }
+  ],
   "tldr": {
     "before": "Lancement bio, 150 GMS nationaux, délai contraint à 10 jours. La solution retenue :",
     "linkLabel": "un totem PLV elliptique auto-déployant en double-cannelure BC",
     "linkHref": "/plv-carton/totem-carton-automatique/",
     "after": "Conditionné conforme aux exigences de réception enseigne dès la conception — 98 % d'acceptation en quai, moins de 2 % de sinistres sur 5 semaines."
   },
-  "relatedPost": "totem-carton-gms",
-  "relatedLinks": [
-    { "label": "Totem carton automatique",          "href": "/plv-carton/totem-carton-automatique/" },
-    { "label": "Solutions PLV grande distribution", "href": "/solutions/plv-grande-distribution/" }
-  ],
   "active": true
 }

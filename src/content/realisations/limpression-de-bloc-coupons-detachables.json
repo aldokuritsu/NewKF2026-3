@@ -1,0 +1,29 @@
+{
+  "title": "L'impression de bloc coupons détachables",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "PLV de comptoir",
+  "order": 26,
+  "description": "Nous proposons l'impression de bloc coupons dans de multiples formats pour relayer un jeu concours en magasin ou offrir un bon de réduction",
+  "challenge": "Nous proposons l'impression de bloc coupons dans de multiples formats pour relayer un jeu concours en magasin ou offrir un bon de réduction",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/porte-coupons-1170x780-300DPI-3_1.jpg",
+  "imageAlt": "L'impression de bloc coupons détachables",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Le bloc coupons : l’outil promotionnel indispensable en grande distribution et supermarchés\n\nPar définition, le bloc coupons est composé de plusieurs flyers formant un carnet. Composé de 30 ou 50 feuillets détachables, l’ensemble est généralement agrafé et soutenu par une cartonnette au dos. Nous proposons l’impression de PLV coupons dans de multiples formats pour relayer un jeu concours en magasin ou offrir un bon de réduction valable au passage en caisse.\n\nInstallé en rayon et en libre service, le coupon in-store est idéal pour faire émerger son produit en linéaire. Vous souhaitez imprimer vos flyers sous forme de bloc coupons ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## La conception de stop rayon avec bloc coupons détachables\n\nFabricant de PLV stop rayon sur mesure nous imaginons les supports imprimés des plus grandes marques. Nous relayons leurs offres marketing en proposant l’impression de bloc coupons avec accroche spécifique comme le stop rayon clipsable en linéaire. Nous proposons la fabrication de porte coupons en polypro, de PLV sous forme de [réglette ](https://www.kontfeel.fr/impression/reglette-de-lineaire)en plastique, de chevalet carton mais aussi la conception de [stop rayon](https://www.kontfeel.fr/plv/stop-rayon) spécifique pour faciliter la distribution du prospectus ou du flyer en magasin.\n\nConfiez l’impression de vos coupons à Kontfeel : votre fabricant de PLV carton ! [Contactez-nous ](https://www.kontfeel.fr/contact)pour imaginer et concevoir votre prochain stop rayon avec coupons détachables."
+    }
+  ],
+  "active": true
+}

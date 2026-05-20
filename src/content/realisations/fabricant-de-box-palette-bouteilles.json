@@ -1,0 +1,29 @@
+{
+  "title": "Fabrication de box palette en carton",
+  "client": "Client confidentiel",
+  "sector": "Spiritueux & Boissons",
+  "category": "PLV de sol",
+  "order": 37,
+  "description": "Conception et fabrication de box palette en carton sur mesure pour la mise en avant de vos bouteilles de vins en magasin",
+  "challenge": "Conception et fabrication de box palette en carton sur mesure pour la mise en avant de vos bouteilles de vins en magasin",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Presentoir-Raphael-Midoir-1170x780-Kontfeel.jpg",
+  "imageAlt": "Fabrication de box palette en carton",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Fabricant de box palette pour bouteilles\n\nNos créations de présentoir carton bouteilles s’adaptent à la taille des palettes standard du marché. Appelés également « box palette », nos présentoirs en carton sont éco-conçus. Notre format quart de palette, appelé box 600 x 400 peut recevoir entre 60 et 150 bouteilles. PLV carton fabriquée à la demande, nos modèles de box comme le modèle ¼ palette sont destinés à la grande distribution ou à des réseaux plus spécifiques comme les cavistes.\n\nPratiques et économiques, nos présentoirs sont plébiscités pour assurer la mise en avant de bouteilles de vins, de spiritueux ou de champagnes sur plusieurs étages.. Vous avez un projet de fabrication de [box palette](https://www.kontfeel.fr/display-plv/box-palette/) carton pour la mise en avant de vos bouteilles ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## Impression personnalisée de box palette en carton\n\nKontfeel imagine et fabrique votre quart de palette en carton à partir de votre brief PLV. Nous déterminons l’encombrement au sol, le format et la hauteur ainsi que le nombre de barquettes nécessaires au stockage de vos bouteilles. Avec trois faces visibles imprimées à vos couleurs, nos displays permettent d’augmenter votre visibilité et vos ventes en magasin.\n\nSurmontés d’un fronton ou d’une casquette, nos modèles assurent également la protection de vos bouteilles en magasin ou durant le transport avec une excellente résistance à la charge. Fabriqués en quelques jours ouvrés, nous imprimons votre future [PLV made in France](https://www.kontfeel.fr). Nous vous conseillons sur le nombre de niveaux, l’usage d’une coiffe de transport ou l’installation de palette bois ou plastique. Vous recherchez un fabricant de box palette pour bouteilles de vin ? [Contactez-nous](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

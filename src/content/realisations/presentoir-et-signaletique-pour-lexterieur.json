@@ -1,0 +1,29 @@
+{
+  "title": "Présentoir et signalétique pour l’extérieur",
+  "client": "Client confidentiel",
+  "sector": "Bricolage & Maison",
+  "category": "PLV de sol",
+  "order": 74,
+  "description": "Découvrez une PLV sur mesure composée de présentoir extérieur en bois traité autoclave et de signalétique imprimé sur PVC expansé",
+  "challenge": "Découvrez une PLV sur mesure composée de présentoir extérieur en bois traité autoclave et de signalétique imprimé sur PVC expansé",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Expo-penez.jpg",
+  "imageAlt": "Présentoir et signalétique pour l’extérieur",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## PLV extérieure et signalétique en magasin\n\nPour notre client spécialiste de l'aménagement extérieur, nous avons développé un [présentoir bois](https://www.kontfeel.fr/mobilier-commercial/presentoir-bois) à installer à l'extérieur en magasin. Disposés en surfaces de bricolage et jardineries, ces dispositifs de présentation sur palette permettent la mise en avant de produits de décoration et présentent les possibilités d’aménagement de jardin, balcon et terrasse.\n\nAvec une signalétique imprimée et installée sur le fond du présentoir bois, cette PLV outdoor s’adapte à l’implantation produits réalisée par la force de vente ou par le magasin et permet d’intégrer dans un environnement similaire : pavés, roches, paillages, graviers, galets, pierres, bordures ou encore pas japonais. Découvrez en photos différentes implantations en magasin de ces espaces de marque dédiés aux produits d’aménagement et de décoration du jardin.\n\n## Présentoir extérieur avec traitement autoclave pour une PLV outdoor\n\nLivré en kit prêt à être installé, le dispositif fabriqué en bois a reçu un traitement autoclave spécifique pour garantir la pérennité de la PLV dans le temps. L’installation se fait en quelques minutes et permet d’assembler plusieurs modules pour réaliser un corner de marque évolutif et personnalisable à souhait. Vous souhaitez en savoir plus sur la fabrication de présentoir extérieur de magasin ? [Contactez-nous](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

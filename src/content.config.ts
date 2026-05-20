@@ -31,7 +31,15 @@ const realisations = defineCollection({
 		title: z.string(),
 		client: z.string(),
 		sector: z.string(),
-		date: z.string(),
+		// Catégorie d'affichage (= filtres de /realisations-plv/) :
+		// "PLV 3D" | "PLV de comptoir" | "PLV de sol" | "Événementielle"
+		// | "ILV" | "Signalétique" | "Théâtralisation"
+		category: z.string().optional(),
+		// Ordre éditorial (asc) repris du site live ; absent ou 9999 → en queue
+		order: z.number().optional(),
+		// `date` retiré du modèle : non porté par la source xlsx (placeholder
+		// arbitraire) — on s'aligne désormais sur `order` pour le tri.
+		date: z.string().optional(),
 		description: z.string(),
 		challenge: z.string(),
 		solution: z.string(),

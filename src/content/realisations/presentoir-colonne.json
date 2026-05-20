@@ -1,0 +1,29 @@
+{
+  "title": "Fabricant de présentoir colonne",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "PLV de sol",
+  "order": 27,
+  "description": "Déclinable sur la forme et dans ses dimensions le présentoir colonne est une alternative au box palette ou au présentoir de sol de GMS",
+  "challenge": "Déclinable sur la forme et dans ses dimensions le présentoir colonne est une alternative au box palette ou au présentoir de sol de GMS",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/PLV-colonne-carton_1.jpg",
+  "imageAlt": "Fabricant de présentoir colonne",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Présentoir colonne personnalisé en carton à disposer au sol\n\nLe présentoir colonne est une publicité sur le lieu de vente avec un encombrement au sol optimisé. Généralement équipés de plusieurs niveaux superposés, la colonne assure une bonne visibilité des produits installés à l’intérieur. Ce présentoir carton offre une excellente résistante à la charge avec des conceptions maîtrisées comme le FSDU ou le [box automatique](https://www.kontfeel.fr/display-plv/box-automatique). Avec plusieurs étages selon le nombre de produits à présenter, il est possible d’ajouter d’un fronton ou des éléments de communication comme un porte flyer ou un bloc coupon pour distribuer des ODR (Offre De Remboursement). Vous avez un projet de PLV colonne ? [Contactez-nous](https://www.kontfeel.fr/contact) pour l’étude de votre brief créatif.\n\n## Une PLV prenant la forme d’une tour de présentation\n\nDéclinable sur la forme et les dimensions, le présentoir sous forme de colonne est une alternative au box palette ou au présentoir de sol de GMS. Fabriqués à la demande, nos modèles de tour en carton sur mesure sont faciles à monter et fournis avec des instructions de montage pour installer cette PLV rapidement. Comme pour le [totem carton,](https://www.kontfeel.fr/plv/totem-carton) le présentoir colonne est un meuble de promotion vertical adapté pour la présentation de livres, de produits culturels mais aussi des produits alimentaires comme des bouteilles ou des paquets de chips. Vous recherchez un fabricant de PLV carton ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

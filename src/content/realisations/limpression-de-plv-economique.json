@@ -1,0 +1,29 @@
+{
+  "title": "L’impression de PLV économique",
+  "client": "Client confidentiel",
+  "sector": "Événementiel",
+  "category": "PLV de sol",
+  "order": 33,
+  "description": "Retrouvez un large choix de PLV économique robuste et fiable pour une utilisation répétée en magasin ou lors de salon professionnel",
+  "challenge": "Retrouvez un large choix de PLV économique robuste et fiable pour une utilisation répétée en magasin ou lors de salon professionnel",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/RollupStrucureX-Kontfeel-1170x780-Kontfeel.jpg",
+  "imageAlt": "L’impression de PLV économique",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Le roll up : la PLV économique par excellence\n\nVous recherchez une PLV économique, rapide à installer et offrant une importante zone de communication ? Le [roll up](https://www.kontfeel.fr/stand-expo/roll-up) ou stand enrouleur est une solution incontournable pour communiquer en magasin ou assurer la visibilité de son offre sur un salon. Composé généralement d’un carter aluminium en pied avec un mécanisme à enrouleur à l’intérieur, le kakémono se déroule pour atteindre une hauteur d’environ deux mètres. Imprimés à la demande, nous avons un large choix de matériels avec des largeurs différentes pour vous offrir une PLV économique mais toujours robuste et fiable pour une utilisation nomade et répétée. Vous souhaitez faire imprimer une bâche pour stand enrouleur ou pour installer sur une structure en croix ? [Contactez-nous](http://kontfeel.fr/contact).\n\n## Augmenter votre visibilité en magasin avec de la PLV pas chère\n\nPLV est l’abréviation de publicité sur le lieu de vente et regroupe des matériels très différents : présentoir de comptoir, display de sol, totem automatique, cube, etc. Supports généralement fabriqués en carton, l’emploi de cette matière permet la fabrication de PLV pas chère en quantité avec des formes originales. L’impression de support cartonné est économique et écologique, la PLV carton est incontournable pour promouvoir une nouveauté produit en dehors du linéaire ou pour scénariser les espaces de promotion en magasin. Par définition, la PLV regroupe l’ensemble des supports publicitaires que nous pouvons retrouver sur le lieu de vente. Complémentaire au dispositif merchandising ou encore à du mobilier commercial permanent, la PLV carton est une solution intéressante pour présenter son offre sur une durée limitée. Comme le roll up, le carton est une alternative intéressante pour communiquer en magasin. Vous souhaitez un devis pour un présentoir carton ? [Contactez-nous](http://kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

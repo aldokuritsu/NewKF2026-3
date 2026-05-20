@@ -1,0 +1,29 @@
+{
+  "title": "Rappel de marque plastique",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "PLV de comptoir",
+  "order": 45,
+  "description": "Confiez l'impression de votre rappel de marque plastique à nos experts en impression numérique avec blanc de soutien.",
+  "challenge": "Confiez l'impression de votre rappel de marque plastique à nos experts en impression numérique avec blanc de soutien.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/RAPPEL-DE-MARQUE-PLEXIGLASS.jpg",
+  "imageAlt": "Rappel de marque plastique",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Rappel de marque pour opticien\n\nNos fabrications de rappel de marque plastique prennent la forme de [bloc plexiglass](https://www.kontfeel.fr/mobilier-commercial/rappel-de-marque-plexi) gravé ou imprimé avec le logo de votre marque pour un rendu très qualitatif. Incontournable en vitrine ou sur les comptoirs des opticiens, le [rappel de marque](https://www.kontfeel.fr/plv/rappel-de-marque) attire le regard et sublime une collection de lunettes ou une marque de chaussure avec une[ PLV personnalisée](https://www.kontfeel.fr/mobilier-commercial/rappel-de-marque-personnalise).\n\nDisponible à partir de 50 exemplaires, nos réalisations de rappel de marque “made in France” sont fabriquées sur PVC transparent mais aussi en carton, en bois ou sur métal selon les usages. Ainsi, nous reflétons votre image de marque grâce à un présentoir totalement sur mesure et personnalisé dans la forme. Vous souhaitez développer votre prochain rappel de marque en plastique ? [Contactez-nous.](https://www.kontfeel.fr/contact)\n\n## Fabrication de présentoir à lunettes\n\nFabricant de présentoir commercial sur mesure, nous concevons votre prochain meuble pour la présentation de lunettes de vue ou de lunettes de soleil pour les magasins d’optique. Nous accompagnons nos clients dans le développement de PLV métalliques mais aussi des meubles spécifiques pour la mise en avant de masques de ski ou de casques de vélo par exemple.\n\nNous imaginons votre prochain mobilier commercial en intégrant des miroirs, de la lumière mais aussi des solutions dynamiques comme des écrans vidéos ou tactiles pour créer une solution originale d’essayage en magasin. Experts dans l’univers du prêt à porter, de la lingerie, du sport ou de l’optique, nos designers proposent la modélisation 3D de votre PLV avec l’objectif d’assurer votre visibilité en point de vente. Vous cherchez un fabricant de présentoir à lunettes ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

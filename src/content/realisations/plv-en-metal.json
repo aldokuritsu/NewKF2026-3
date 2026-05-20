@@ -1,0 +1,29 @@
+{
+  "title": "PLV en métal pour magasin",
+  "client": "Client confidentiel",
+  "sector": "Bricolage & Maison",
+  "category": "PLV de sol",
+  "order": 44,
+  "description": "La conception de PLV en métal sur mesure assure la visibilité de vos produits en magasin et pérennise votre présence sur le point de vente.",
+  "challenge": "La conception de PLV en métal sur mesure assure la visibilité de vos produits en magasin et pérennise votre présence sur le point de vente.",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/mobilier-commercial-metal_1.jpg",
+  "imageAlt": "PLV en métal pour magasin",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Confiez-nous la conception de votre présentoir commercial\n\nLa conception de PLV en métal sur mesure assure la visibilité de vos produits en magasin et pérennise votre présence sur le point de vente. Pour la réalisation de podium de présentation, de meuble stockeur, de présentoir broches vous pouvez solliciter nos designers et les équipes du bureau d’études techniques. Nous imaginons votre futur présentoir métal avec la réalisation de crayonné ou en passant par la modélisation 3d de PLV originale.\n\nRéactif et disponible nous assurons la mise en fabrication de vos outils d’aide à la vente dans le respect des délais et avec des productions de qualité garanties. Vous avez une idée de conception de présentoir commercial ? Nos équipes techniques sont à votre écoute pour faire aboutir au plus vite vos réalisations. [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## Votre fabricant de présentoir métal et PLV métallique\n\nNous intervenons de la conception technique au stockage de vos mobiliers de communication métallique en France. Les équipes assurent le travail du fil, du tube et de la tôle grâce à une longue expérience dans le domaine de la fabrication de PLV permanente et de [mobilier commercial](https://www.kontfeel.fr/mobilier-commercial). En passant par les étapes de découpe laser, de peinture, d’assemblage ou de finitions spécifiques telles que le montage d’électronique ou l’installation d’écran, nous obtenons des réalisations conformes aux attentes des plus grandes marques dans l’univers du luxe et des produits hauts de gamme.\n\nSouvent accompagnées de décors plastique ou de PLV carton, nous assurons également l’impression de support de communication pour obtenir une PLV métal prête à l’emploi en magasin. Découvrez, par exemple, l’impression sur support magnétique pour obtenir une communication évolutive avec uniquement des habillages aimantés à renouveler sur le mobilier commercial. Vous avez un projet de fabrication de [présentoir métal](https://www.kontfeel.fr/mobilier-commercial/presentoir-metal) ? Nous sommes à votre disposition pour répondre à toutes vos questions, [contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

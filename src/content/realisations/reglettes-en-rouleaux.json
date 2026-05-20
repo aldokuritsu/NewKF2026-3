@@ -1,0 +1,29 @@
+{
+  "title": "Impression de réglettes en rouleaux",
+  "client": "Client confidentiel",
+  "sector": "Retail & GMS",
+  "category": "Événementielle",
+  "order": 39,
+  "description": "Nos réglettes en rouleaux sont imprimés en PVC ou sur papier en quelques jours ouvrés pour compléter votre plan merchandising",
+  "challenge": "Nos réglettes en rouleaux sont imprimés en PVC ou sur papier en quelques jours ouvrés pour compléter votre plan merchandising",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/Reglette-de-lineaire.jpg",
+  "imageAlt": "Impression de réglettes en rouleaux",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Baliser le linéaire à l’aide de bande de rive en rouleau\n\nLa réglette en rouleau est un support publicitaire indispensable pour être visible en rayon de magasin. A insérer dans un porte étiquette ou à poser à la manière d’un bandeau, les réglettes sont livrées en rouleau et se découpent facilement pour être implantées.\n\nNos réglettes en rouleaux sont imprimées en PVC ou sur papier en quelques jours ouvrés pour compléter votre plan merchandising ou sublimer vos dispositifs PLV. Vous souhaitez faire imprimer vos bandes de rives ou vos réglettes de linéaire ? [Contactez-nous](https://www.kontfeel.fr/contact).\n\n## Réglettes en rouleaux sur PVC, en papier ou en adhésif.\n\nNous proposons l’impression de réglettes en rouleaux sur PVC pour offrir un support publicitaire indéchirable et résistant dans le temps. Nous réalisons également l’impression de bande de rive sur support adhésif idéal pour habiller un display carton ou un meuble frigorifique.\n\nSupport publicitaire complémentaire à l’installation de joue de linéaire, de [stop rayon](https://www.kontfeel.fr/plv/stop-rayon), de kakémono suspendu, nous assurons également l’impression de bandes de rive découpées. Vous avez un projet de PLV linéaire ? [Contactez-nous](https://www.kontfeel.fr/contact)."
+    }
+  ],
+  "active": true
+}

@@ -1,0 +1,29 @@
+{
+  "title": "Présentoir de livres en bibliothèque",
+  "client": "Client confidentiel",
+  "sector": "Spiritueux & Boissons",
+  "category": "PLV de sol",
+  "order": 75,
+  "description": "Nos équipes ont imaginé un présentoir livres en bois et totalement mesure, pour promouvoir les ouvrages et les boites de jeux",
+  "challenge": "Nos équipes ont imaginé un présentoir livres en bois et totalement mesure, pour promouvoir les ouvrages et les boites de jeux",
+  "solution": "Conception, fabrication et logistique sur mesure par KONTFEEL — détail du projet ci-dessous.",
+  "results": [
+    {
+      "value": "Sur mesure",
+      "label": "Conception & fabrication"
+    },
+    {
+      "value": "Fabrication française",
+      "label": "Production intégrée"
+    }
+  ],
+  "image": "https://www.kontfeel.fr/assets/realisations/plv-bois.jpg",
+  "imageAlt": "Présentoir de livres en bibliothèque",
+  "blocks": [
+    {
+      "_template": "text_editorial",
+      "content": "## Une PLV en bois pour la promotion des livres\n\nDéjà reconnue dans le monde de l’enseignement, la méthode des Alphas offre un nouvel apprentissage de la lecture. Les éditions Récréalire nous ont sollicité pour la création d'un [mobilier commercial ](https://www.kontfeel.fr/mobilier-commercial)solide et durable, adapté aux contraintes des librairies. Nos équipes ont imaginé une PLV sous forme de [présentoir bois](https://www.kontfeel.fr/mobilier-commercial/presentoir-bois) naturel pour recevoir des livres pour enfant à la manière d'une bibliothèque.\n\nPublicité sur le lieu de vente permanente, le bureau d'étude technique a également conçu un présentoir bois de sol avec une faible profondeur pour être implanter facilement en magasin tout en veillant à conserver une bonne stabilité. Vous avez un projet de présentoir livres ? Contactez-nous.\n\n## La fabrication de présentoir carton ou de présentoir tourniquet pour les livres\n\nL'implantation de ce mobilier en bois permet la présentation de la gamme complète des Alphas avec des produits et des jeux éducatifs pour accompagner l’apprentissage de la lecture dès l’âge de 4 ans et jusqu'à 10 ans. Installés en bibliothèque, les livres et titres de l'éditeur sont facilement identifiables comme dans un rayonnage de magasin.\n\nEn habillant les côtés du présentoir bois avec un PVC imprimé avec les différentes lettres aux formes amusantes, le mobilier commercial s'adapte parfaitement à l’univers des enfants et trouve une place particulière en librairie. Vous souhaitez en savoir plus sur la fabrication [présentoir édition](https://www.kontfeel.fr/display-plv/presentoir-edition) ? Nous restons à votre disposition pour étudier votre brief PLV, [contactez-nous.](https://www.kontfeel.fr/contact)"
+    }
+  ],
+  "active": true
+}

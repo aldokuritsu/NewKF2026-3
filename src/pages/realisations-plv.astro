@@ -3,9 +3,23 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const allRealisations = await getCollection('realisations', r => r.data.active !== false);
+// Tri par `order` ascendant (ordre éditorial repris du site d'origine) ;
+// les fiches sans `order` (ou order=9999) tombent en fin de liste.
 const realisations = allRealisations.sort((a, b) =>
-  b.data.date.localeCompare(a.data.date)
+  (a.data.order ?? 9999) - (b.data.order ?? 9999)
 );
+
+// Catégories filtrables (= colonnes "isotope" du site d'origine).
+// "Toutes" est ajouté en tête côté template.
+const FILTERS = [
+  'PLV 3D',
+  'PLV de comptoir',
+  'PLV de sol',
+  'Événementielle',
+  'ILV',
+  'Signalétique',
+  'Théâtralisation',
+];
 ---
 
 <BaseLayout
@@ -23,46 +37,65 @@ const realisations = allRealisations.sort((a, b) =>
       {realisations.length === 0 ? (
         <p class="real-empty">Réalisations à venir.</p>
       ) : (
-        <ul class="real-grid">
-          {realisations.map(real => {
-            const date = new Date(real.data.date + '-01').toLocaleDateString('fr-FR', {
-              year: 'numeric', month: 'long'
-            });
-            const firstResult = real.data.results[0];
-            return (
-              <li class="real-card">
-                <a href={`/realisations-plv/${real.id}/`} class="real-card-img-link">
-                  <img
-                    src={real.data.image}
-                    alt={real.data.imageAlt ?? real.data.title}
-                    class="real-card-img"
-                    loading="lazy"
-                  />
-                  {firstResult && (
-                    <div class="real-card-badge">
-                      <span class="badge-value">{firstResult.value}</span>
-                      <span class="badge-label">{firstResult.label}</span>
-                    </div>
-                  )}
-                </a>
-                <div class="real-card-body">
-                  <div class="real-card-meta">
-                    <span class="real-card-sector">{real.data.sector}</span>
-                    <span class="real-card-sep">·</span>
-                    <span class="real-card-date">{date}</span>
-                  </div>
-                  <h2 class="real-card-title">
-                    <a href={`/realisations-plv/${real.id}/`}>{real.data.title}</a>
-                  </h2>
-                  <p class="real-card-desc">{real.data.description}</p>
-                  <a href={`/realisations-plv/${real.id}/`} class="real-card-link">
-                    Lire la réalisation →
+        <>
+          <nav class="real-filters" aria-label="Filtrer les réalisations">
+            <button type="button" class="real-filter is-active" data-filter="all">
+              Toutes
+            </button>
+            {FILTERS.map(label => (
+              <button type="button" class="real-filter" data-filter={label}>
+                {label}
+              </button>
+            ))}
+          </nav>
+
+          <ul class="real-grid">
+            {realisations.map(real => {
+              const firstResult = real.data.results[0];
+              const category = real.data.category ?? '';
+              return (
+                <li class="real-card" data-category={category}>
+                  <a href={`/realisations-plv/${real.id}/`} class="real-card-img-link">
+                    <img
+                      src={real.data.image}
+                      alt={real.data.imageAlt ?? real.data.title}
+                      class="real-card-img"
+                      loading="lazy"
+                    />
+                    {firstResult && (
+                      <div class="real-card-badge">
+                        <span class="badge-value">{firstResult.value}</span>
+                        <span class="badge-label">{firstResult.label}</span>
+                      </div>
+                    )}
                   </a>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                  <div class="real-card-body">
+                    <div class="real-card-meta">
+                      <span class="real-card-sector">{real.data.sector}</span>
+                      {category && (
+                        <>
+                          <span class="real-card-sep">·</span>
+                          <span class="real-card-cat">{category}</span>
+                        </>
+                      )}
+                    </div>
+                    <h2 class="real-card-title">
+                      <a href={`/realisations-plv/${real.id}/`}>{real.data.title}</a>
+                    </h2>
+                    <p class="real-card-desc">{real.data.description}</p>
+                    <a href={`/realisations-plv/${real.id}/`} class="real-card-link">
+                      Lire la réalisation →
+                    </a>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          <p class="real-empty-filter is-hidden" data-empty-filter>
+            Aucune réalisation dans cette catégorie pour le moment.
+          </p>
+        </>
       )}
 
     </div>
@@ -96,6 +129,58 @@ const realisations = allRealisations.sort((a, b) =>
     color: var(--gray-500);
     font-size: 16px;
   }
+
+  /* ═══ Filtres catégorie (vanilla, scroll horizontal mobile) ═══ */
+  .real-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 600px) {
+    .real-filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      scrollbar-width: thin;
+    }
+    .real-filter { flex-shrink: 0; }
+  }
+  .real-filter {
+    appearance: none;
+    border: 1.5px solid var(--gray-100, #e5e7eb);
+    background: #fff;
+    color: var(--dark, #1a1a2e);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, color .15s;
+  }
+  .real-filter:hover { border-color: var(--rose, #E8336D); color: var(--rose, #E8336D); }
+  .real-filter.is-active {
+    background: var(--rose, #E8336D);
+    border-color: var(--rose, #E8336D);
+    color: #fff;
+  }
+
+  .real-empty-filter {
+    color: var(--gray-500, #6b7280);
+    font-size: 15px;
+    text-align: center;
+    padding: 48px 0;
+  }
+  .real-empty-filter.is-hidden { display: none; }
+  .real-card.is-hidden { display: none; }
+
+  .real-card-cat { font-size: 12px; color: var(--gray-500, #6b7280); }
+
   .real-grid {
     list-style: none;
     padding: 0;
@@ -169,7 +254,6 @@ const realisations = allRealisations.sort((a, b) =>
     border-radius: 99px;
   }
   .real-card-sep { font-size: 12px; color: var(--gray-300); }
-  .real-card-date { font-size: 12px; color: var(--gray-500); }
 
   .real-card-title {
     font-size: 16px;
@@ -201,3 +285,30 @@ const realisations = allRealisations.sort((a, b) =>
   }
   .real-card-link:hover { text-decoration: underline; }
 </style>
+
+<script is:inline>
+  // Filtre client par catégorie (montre/cache les cartes selon data-category)
+  ;(function () {
+    const filters = document.querySelectorAll('.real-filter')
+    const cards   = document.querySelectorAll('.real-card[data-category]')
+    const empty   = document.querySelector('[data-empty-filter]')
+    if (!filters.length || !cards.length) return
+
+    function apply(value) {
+      let visible = 0
+      cards.forEach((card) => {
+        const ok = value === 'all' || card.dataset.category === value
+        card.classList.toggle('is-hidden', !ok)
+        if (ok) visible++
+      })
+      if (empty) empty.classList.toggle('is-hidden', visible > 0)
+    }
+
+    filters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filters.forEach((b) => b.classList.toggle('is-active', b === btn))
+        apply(btn.dataset.filter)
+      })
+    })
+  })()
+</script>

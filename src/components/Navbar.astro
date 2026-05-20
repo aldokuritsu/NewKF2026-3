@@ -67,6 +67,13 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         <img src="/assets/images/logo.svg" alt="KONTFEEL" width="160" height="48" />
       </a>
 
+      <!-- Hamburger (mobile uniquement, caché en desktop via CSS).
+           Placé juste après le logo pour qu'il s'y colle naturellement quand
+           la recherche/téléphone/panier disparaissent au breakpoint mobile. -->
+      <button class="hamburger" id="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+
       <!-- Recherche (index statique + matcher client) -->
       <form class="search" role="search" aria-label="Recherche sur le site" onsubmit="return false;">
         <input
@@ -120,10 +127,6 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         </svg>
         <span class="cart-badge" data-cart-count aria-hidden="true">0</span>
         <span class="cart-total" data-cart-total>0,00&nbsp;€</span>
-      </button>
-
-      <button class="hamburger" id="hamburger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
-        <span></span><span></span><span></span>
       </button>
 
     </div>
@@ -274,6 +277,28 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         />
       </form>
       <div class="mobile-search-results" id="mobile-search-results" role="listbox" aria-label="Résultats de recherche" hidden></div>
+
+      <!-- Panier mobile (ouvre le drawer panier, identique au bouton desktop) -->
+      <button
+        class="mobile-cart"
+        type="button"
+        data-cart-toggle
+        aria-label="Ouvrir le panier"
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-controls="cart-drawer"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 4h2l2.4 12.3a1 1 0 0 0 1 .8h9.2a1 1 0 0 0 1-.8L21 8H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="20" r="1.4" fill="currentColor"/>
+          <circle cx="18" cy="20" r="1.4" fill="currentColor"/>
+        </svg>
+        <span class="mobile-cart-label">Mon panier</span>
+        <span class="mobile-cart-meta">
+          <span class="mobile-cart-badge" data-cart-count>0</span>
+          <span class="mobile-cart-total" data-cart-total>0,00&nbsp;€</span>
+        </span>
+      </button>
 
       {silos.map(silo => {
         const isCurrent = silo.slug === currentSiloSlug
@@ -699,8 +724,8 @@ document
 ;(function initCart() {
   const drawer  = document.getElementById('cart-drawer')
   const overlay = document.querySelector<HTMLElement>('[data-cart-overlay]')
-  const toggle  = document.querySelector<HTMLButtonElement>('[data-cart-toggle]')
-  if (!drawer || !overlay || !toggle) return
+  const toggles = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-cart-toggle]'))
+  if (!drawer || !overlay || !toggles.length) return
 
   const linesEl = drawer.querySelector<HTMLElement>('[data-cart-lines]')!
   const emptyEl = drawer.querySelector<HTMLElement>('[data-cart-empty]')!
@@ -764,19 +789,28 @@ document
     overlay!.hidden = false
     requestAnimationFrame(() => overlay!.classList.add('is-open'))
     drawer!.setAttribute('aria-hidden', 'false')
-    toggle!.setAttribute('aria-expanded', 'true')
+    toggles.forEach((t) => t.setAttribute('aria-expanded', 'true'))
     document.body.style.overflow = 'hidden'
+    // Si le menu mobile est ouvert, on le ferme (le panier prend la main).
+    const ham = document.getElementById('hamburger')
+    const mm  = document.getElementById('mobile-menu')
+    if (ham?.getAttribute('aria-expanded') === 'true' && mm) {
+      ham.setAttribute('aria-expanded', 'false')
+      mm.setAttribute('aria-hidden', 'true')
+      ham.classList.remove('is-open')
+      mm.classList.remove('is-open')
+    }
   }
   function close() {
     drawer!.classList.remove('is-open')
     overlay!.classList.remove('is-open')
     drawer!.setAttribute('aria-hidden', 'true')
-    toggle!.setAttribute('aria-expanded', 'false')
+    toggles.forEach((t) => t.setAttribute('aria-expanded', 'false'))
     document.body.style.overflow = ''
     setTimeout(() => { if (!drawer!.classList.contains('is-open')) overlay!.hidden = true }, 250)
   }
 
-  toggle.addEventListener('click', open)
+  toggles.forEach((t) => t.addEventListener('click', open))
   overlay.addEventListener('click', close)
   drawer.querySelector('[data-cart-close]')?.addEventListener('click', close)
   document.addEventListener('keydown', (e) => {
@@ -1608,7 +1642,10 @@ document
     align-self: flex-start;
   }
 
-  /* ── Hamburger ── */
+  /* ── Hamburger ──
+     Placé juste après le logo dans le DOM ; caché en desktop, affiché en
+     mobile où il se retrouve naturellement collé au logo (les éléments
+     intermédiaires search/téléphone/cart sont masqués au même breakpoint). */
   .hamburger {
     display: none;
     flex-direction: column;
@@ -1684,6 +1721,55 @@ document
   }
 
   .mobile-search input::placeholder { color: var(--gray-500); }
+
+  /* ── Panier mobile (dans le menu déroulant, ouvre le drawer) ── */
+  .mobile-cart {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 16px;
+    margin: 6px 0 10px;
+    background: var(--rose);
+    color: var(--white);
+    border: none;
+    border-radius: 99px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s;
+  }
+
+  .mobile-cart:hover { background: var(--rose-dark); }
+
+  .mobile-cart svg { flex-shrink: 0; }
+
+  .mobile-cart-label { flex: 1; text-align: left; }
+
+  .mobile-cart-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+
+  .mobile-cart-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    background: var(--white);
+    color: var(--rose);
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .mobile-cart-total { white-space: nowrap; font-weight: 700; }
 
   /* Résultats recherche mobile : liste en ligne (pas de dropdown) */
   .mobile-search-results {
@@ -1879,9 +1965,12 @@ document
     .header-nav { display: none; }
     .search { display: none; }
     .header-phone { display: none; }
+    /* Panier déplacé dans le menu mobile (.mobile-cart) */
+    .cart { display: none; }
     .hamburger { display: flex; }
     .mobile-menu { display: block; }
-    .header-top-inner { justify-content: space-between; gap: 12px; }
+    /* Hamburger collé au logo (justify-content: flex-start) ; rien à droite. */
+    .header-top-inner { justify-content: flex-start; gap: 8px; }
   }
 
   @media (max-width: 640px) {

@@ -166,8 +166,8 @@ export const customMegaMenus: Record<string, CustomMegaMenu> = {
       {
         title: 'Display & présentoirs spécifiques',
         href: '/presentoir-sol/display-et-presentoirs-specifiques/',
-        image: '/assets/images/no_image.png',
-        imageAlt: 'Présentoirs spécifiques pour magasin',
+        image: '/assets/mega-menu/Display-et-presentoirs-specifiques.webp',
+        imageAlt: 'Display et présentoirs spécifiques pour magasin',
         items: [
           { label: 'Présentoir bouteilles', href: '/presentoir-sol/presentoirs-bouteilles/' },
           { label: 'FSDU',                  href: '/presentoir-sol/fsdu/' },

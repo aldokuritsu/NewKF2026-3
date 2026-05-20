@@ -309,8 +309,14 @@ const productJson = product
 
 <script>
   // @ts-nocheck
-  import { upload } from '@vercel/blob/client'
-  ;(window as any).__pbBlobUpload = upload
+  // Lazy-load du SDK Vercel Blob : on n'importe le bundle qu'à la 1ère sélection de fichier
+  // (évite de bloquer le critical path quand l'utilisateur ne customise pas)
+  ;(window as any).__loadPbBlobUpload = async () => {
+    if ((window as any).__pbBlobUpload) return (window as any).__pbBlobUpload
+    const { upload } = await import('@vercel/blob/client')
+    ;(window as any).__pbBlobUpload = upload
+    return upload
+  }
 </script>
 
 <script is:inline define:vars={{ productJson }}>
@@ -375,13 +381,8 @@ const productJson = product
       btn.disabled = true
       setFileStatus('Upload en cours…', 'info')
       try {
-        let attempts = 0
-        while (!window.__pbBlobUpload && attempts < 50) {
-          await new Promise((r) => setTimeout(r, 100))
-          attempts++
-        }
-        if (!window.__pbBlobUpload) throw new Error('Module upload non chargé')
-        const blob = await window.__pbBlobUpload(file.name, file, {
+        const upload = await window.__loadPbBlobUpload()
+        const blob = await upload(file.name, file, {
           access: 'public',
           handleUploadUrl: '/api/upload',
         })

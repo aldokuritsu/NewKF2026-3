@@ -394,9 +394,15 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
 </style>
 
 <script>
-  // @ts-nocheck — Vercel Blob client SDK chargé en ESM
-  import { upload } from '@vercel/blob/client'
-  ;(window as any).__devisBlobUpload = upload
+  // @ts-nocheck
+  // Vercel Blob SDK chargé en lazy : on n'importe le bundle qu'au premier upload
+  // (sinon il bloquerait le critical path de toutes les pages via BaseLayout → DevisModal)
+  ;(window as any).__loadDevisBlobUpload = async () => {
+    if ((window as any).__devisBlobUpload) return (window as any).__devisBlobUpload
+    const { upload } = await import('@vercel/blob/client')
+    ;(window as any).__devisBlobUpload = upload
+    return upload
+  }
 </script>
 
 <script is:inline define:vars={{ endpoint }}>
@@ -518,14 +524,9 @@ const endpoint = import.meta.env.PUBLIC_DEVIS_ENDPOINT ?? ''
       submit.disabled = true
       setFilesStatus(`Upload de ${files.length} fichier(s)…`, 'info')
       try {
-        let attempts = 0
-        while (!window.__devisBlobUpload && attempts < 50) {
-          await new Promise((r) => setTimeout(r, 100))
-          attempts++
-        }
-        if (!window.__devisBlobUpload) throw new Error('Module upload non chargé')
+        const upload = await window.__loadDevisBlobUpload()
         for (const file of files) {
-          const blob = await window.__devisBlobUpload(file.name, file, {
+          const blob = await upload(file.name, file, {
             access: 'public',
             handleUploadUrl: '/api/upload',
           })

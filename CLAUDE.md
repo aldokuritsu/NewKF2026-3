@@ -152,9 +152,24 @@ Pages are built from **blocks**—typed JSON objects with a `_template` field. E
   - **Brand row** (`.header-top`, the **only sticky** part — `.navbar` is
     `display:contents` so this stays pinned for the whole page): logo · search ·
     phone+accroche · cart.
-  - **Nav row** (`.header-nav`, not sticky): the 7 rubriques, each with its 3-level
-    mega-menu. Keyboard support (Enter/Space/Arrow/Escape). JS clamps the mega-panel
-    inside the viewport (`adjustAlignment` — never overflows left nor right).
+  - **Nav row** (`.header-nav`, not sticky): the 7 rubriques, each with its mega-menu.
+    Two rendering modes coexist (decided at build time):
+    - **Default — auto-generated from `silos.ts`**: tree (catégories + sous-cat.)
+      flowed into a multi-column panel. Width clamped to viewport via
+      `adjustAlignment` (JS) — never overflows left nor right.
+    - **Custom mega-menu** (`src/data/mega-menus.ts`): when the rubrique's slug has
+      an entry in `customMegaMenus`, the panel renders a **full-width grid** calé
+      sur la largeur de `.nav-links` (donc bridé par `--header-max-w`). Each column
+      is curated: titre cliquable + image d'en-tête optionnelle + sous-liens. A 4ᵉ
+      slot promo ("offre du moment" : eyebrow + titre + image + texte + CTA) est
+      optionnel. Custom CTA d'en-tête personnalisable via `pillarCta`. Layouts :
+      `fixed4` (défaut, 1 ligne de 4), `grid-3x2` (6 cols secteurs sur 2 lignes +
+      promo col 4 sur 2 lignes — ex. solutions-metiers), `auto` (auto-fit, 5+ cols
+      sans promo). Keyboard support (Enter/Space/Arrow/Escape) identique.
+    - **Cocon SEO** : le mode custom *peut* pointer vers d'autres rubriques (ex.
+      "Rappel de marque" sous Présentoir comptoir → `/signaletique-et-lineaire/…`).
+      Ce sont des liens cross-rubrique assumés au cas par cas — contournent la règle
+      "no cross-silo links" qui s'applique au footer et au mode default.
   - **Search**: functional. Lazy-fetches `/search-index.json`, client matcher
     (accent-insensitive, multi-token AND, weighted scoring), dropdown autocomplete
     on desktop + inline results in the mobile menu. ⚠️ Result items are injected via
@@ -304,10 +319,20 @@ overwritten). Never `mkdir` content by hand outside the tree (the script prunes 
 
 ### Modifying the Navbar / header
 
-- Rubrique/menu structure: edit `TREE` in `scripts/gen-arbo-2026.mjs`, then re-run it
-  (NOT `silos.ts` directly).
+- Rubrique/menu structure (default mode): edit `TREE` in `scripts/gen-arbo-2026.mjs`,
+  then re-run it (NOT `silos.ts` directly).
+- **Custom mega-menu per rubrique**: edit `src/data/mega-menus.ts`. Entry key =
+  rubrique slug. Each entry defines `pillarCta?`, `layout?` (`fixed4` | `grid-3x2`
+  | `auto`), `columns[]` (`title`, `href`, `image?`, `imageAlt?`, `items[]`), and
+  an optional `promo` (eyebrow, title, text, image, href, ctaLabel). Removing the
+  entry falls back to the auto-generated tree. The mobile accordion reflects the
+  same custom structure (sub-`<details>` per column + promo as a compact link).
 - Header markup (dark band, brand row, nav row, search, mobile menu), styling and
   JS (mega-menu, hamburger, search matcher) all live in `src/components/Navbar.astro`.
+  The custom mega adds CSS classes `.mega-panel--custom`, `.mega-custom-grid`
+  (+ variants `--auto`/`--3x2`), `.mega-ccol`/`.mega-ccol--no-img`, `.mega-promo`.
+  JS `adjustAlignment` détecte `data-mega-wide="true"` et cale alors `left`/`width`
+  sur le conteneur `.nav-links` au lieu du clamp viewport.
 - Search behaviour: client logic in Navbar `<script>`; index content in
   `src/pages/search-index.json.ts`.
 - Header/footer width: `--header-max-w` token in `src/styles/global.css`.
@@ -379,7 +404,10 @@ All `href` values in `silos.ts` end with `/`. Static pages also use trailing sla
   **not** list the 7 rubriques — earlier doc claiming "6 pillar links" was wrong.)
 - Navbar mega-menu: only the **current rubrique** opens (all 3 of its levels);
   other rubriques are flat top-level links. On the home, all rubriques open. No
-  cross-rubrique deep links.
+  cross-rubrique deep links **dans le mode default**. ⚠️ Le **mode custom**
+  (`src/data/mega-menus.ts`) peut, par choix éditorial, lier vers d'autres
+  rubriques (ex. *Rappel de marque* / *Glorifier* sous Présentoir comptoir
+  pointent vers `/signaletique-et-lineaire/…`). Ces exceptions sont assumées.
 - `ObfuscatedLink` hides legal/contact URLs from crawlers via XOR encoding. The `bypass` prop on the home page allows a standard `<a href>` for PageRank transfer.
 
 ### Styling conventions
@@ -442,6 +470,17 @@ tldr:
 11. **External PHP devis endpoint**: `PUBLIC_DEVIS_ENDPOINT` has no visible fallback. Failures surface as generic error to the user.
 12. **`plan-du-site.astro` and `contact.astro` are placeholders**: No sitemap.xml generated; contact page has no form. (Note: `/contact/` is now linked from the header dark band, so the empty page is more visible.)
 13. **URL obfuscation key is public**: The XOR key `'kf26-x9m-q-zt'` is in source. Effective against crawlers, not against humans.
+14. **Custom mega-menu ↔ silos.ts drift**: `src/data/mega-menus.ts` references URLs
+    by string. If `TREE` in `gen-arbo-2026.mjs` changes (renamed slug, removed
+    cat), the custom mega keeps pointing to the old URL → dead link. Pas de
+    validation au build. Always grep `mega-menus.ts` après une refonte d'arbo.
+    Concrètement aujourd'hui : plusieurs liens pointent vers des pages "groupe"
+    qui n'existent pas encore (ex. `/presentoir-comptoir/signaletique-d-accueil/`,
+    `/presentoir-sol/stele-d-exposition/`, `/solutions-metiers/maison-jardin-industrie/`).
+    Et "Théâtralisation magasin" / "Animations commerciales" pointent vers
+    `/plv-carton/…/` alors qu'ils résident encore sous `signaletique-et-lineaire`
+    dans `silos.ts`. Pages à créer (script `gen-arbo-2026.mjs`) ou liens à
+    corriger.
 
 ## Important Constraints & Gotchas
 
@@ -493,6 +532,10 @@ tldr:
 - **`scripts/gen-arbo-2026.mjs`**: the `TREE` constant — **real source of truth** for
   the arborescence/menu (generates `silos.ts` + page skeletons)
 - `src/data/silos.ts`: generated recursive tree + `walkSilos()` / `getSiloBySlug()`
+- **`src/data/mega-menus.ts`**: configs de mega-menus contextuels personnalisés
+  (par slug de rubrique) — surcouche éditoriale au-dessus de `silos.ts`, lue par
+  `Navbar.astro` pour rendre un panneau 4 colonnes pleine largeur avec image
+  d'en-tête et slot promo. Layouts : `fixed4` / `grid-3x2` / `auto`.
 - `src/pages/[...path].astro`: single recursive route for all rubrique/cat/sous-cat pages
 - `src/pages/p/[slug].astro` + `src/content/produits/`: flat product pages `/p/<slug>/`
 - `src/scripts/cart.ts`: client cart store (localStorage, `window.__kfCart`)

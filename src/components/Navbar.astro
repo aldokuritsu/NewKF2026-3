@@ -2,16 +2,22 @@
 /**
  * Navbar — En-tête principal sur 2 lignes (toutes les pages).
  *
- * Ligne 1 (marque) : logo · recherche (placeholder) · liens utilitaires
- *                     (Réalisations, Blog, Contact, téléphone) · panier (placeholder).
- * Ligne 2 (nav)    : les rubriques, chacune avec son mega-menu (3 niveaux).
+ * Ligne 1 (marque) : logo · recherche (fonctionnelle, index statique) · liens
+ *                     utilitaires (intégrés au bandeau foncé) · téléphone · panier.
+ * Ligne 2 (nav)    : les 7 rubriques, chacune avec son mega-menu.
+ *
+ * Deux modes de rendu du mega-menu :
+ *   1. Default (auto-généré) : arbre depuis `src/data/silos.ts`, panneau en flow
+ *      multi-colonnes, largeur clampée au viewport (`adjustAlignment`).
+ *   2. Custom (`src/data/mega-menus.ts`) : si la rubrique a une entrée dans
+ *      `customMegaMenus`, le panneau bascule sur une grille pleine largeur
+ *      (calée sur `.nav-links`) avec colonnes éditoriales (titre + image
+ *      d'en-tête optionnelle + sous-liens) et un slot promo optionnel.
+ *      Layouts : `fixed4` / `grid-3x2` / `auto`. CTA d'en-tête via `pillarCta`.
  *
  * - Seule la rubrique courante ouvre son tiroir (mega desktop / accordéon mobile).
  * - Sur la home (showAllMegaMenus=true), toutes les rubriques ouvrent leur tiroir.
  * - Triggers du tiroir : hover, clic, clavier (Enter/Space toggle, Escape ferme).
- *
- * ⚠️ Recherche et panier sont des PLACEHOLDERS visuels non fonctionnels
- *    (site statique — câblage ultérieur).
  *
  * Props :
  *   currentSiloSlug?   : string  — slug de la rubrique courante
@@ -19,6 +25,7 @@
  *   showAllMegaMenus?  : boolean — déploie toutes les rubriques (home)
  */
 import { silos } from '../data/silos'
+import { getCustomMega } from '../data/mega-menus'
 
 interface Props {
   currentSiloSlug?: string
@@ -129,6 +136,7 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         const isCurrent = silo.slug === currentSiloSlug
         const showMega = showAllMegaMenus || isCurrent
         const panelId = `mega-${silo.slug}`
+        const customMega = getCustomMega(silo.slug)
 
         if (!showMega) {
           return (
@@ -137,7 +145,7 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
         }
 
         return (
-          <div class="nav-item nav-item--mega" data-mega-item>
+          <div class:list={['nav-item', 'nav-item--mega', { 'nav-item--mega-wide': !!customMega }]} data-mega-item data-mega-wide={customMega ? 'true' : undefined}>
             <button
               type="button"
               class:list={['nav-link', 'nav-trigger', { 'is-active': isCurrent }]}
@@ -152,40 +160,94 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
             </button>
 
             <div
-              class="mega-panel"
+              class:list={['mega-panel', { 'mega-panel--custom': !!customMega }]}
               id={panelId}
               role="menu"
               aria-hidden="true"
             >
-              <a href={silo.href} class:list={['mega-pillar', { active: currentPath === silo.href }]} role="menuitem">
-                Voir tout : {silo.label} <span aria-hidden="true">→</span>
-              </a>
-              <div class="mega-grid">
-                {silo.children?.map(cat => (
-                  <div class="mega-col">
-                    <a
-                      href={cat.href}
-                      role="menuitem"
-                      class:list={['mega-cat', { active: currentPath === cat.href, 'has-sub': !!cat.children?.length }]}
-                    >
-                      {cat.label}
-                    </a>
-                    {cat.children?.length ? (
-                      <div class="mega-sublist">
-                        {cat.children.map(sub => (
-                          <a
-                            href={sub.href}
-                            role="menuitem"
-                            class:list={['mega-sublink', { active: currentPath === sub.href }]}
-                          >
-                            {sub.label}
+              {customMega ? (
+                <>
+                  <a href={silo.href} class:list={['mega-pillar', 'mega-pillar--cta', { active: currentPath === silo.href }]} role="menuitem">
+                    {customMega.pillarCta ?? `Voir tout : ${silo.label}`} <span aria-hidden="true">→</span>
+                  </a>
+                  <div class:list={['mega-custom-grid', {
+                    'mega-custom-grid--auto':   customMega.layout === 'auto',
+                    'mega-custom-grid--3x2':    customMega.layout === 'grid-3x2',
+                  }]}>
+                    {customMega.columns.map(col => (
+                      <div class:list={['mega-ccol', { 'mega-ccol--no-img': !col.image }]}>
+                        <a
+                          href={col.href}
+                          role="menuitem"
+                          class:list={['mega-ccol-title', { active: currentPath === col.href }]}
+                        >
+                          {col.title}
+                          <span class="mega-ccol-arrow" aria-hidden="true">→</span>
+                        </a>
+                        {col.image ? (
+                          <a href={col.href} class="mega-ccol-img" tabindex="-1" aria-hidden="true">
+                            <img src={col.image} alt={col.imageAlt ?? ''} loading="lazy" />
                           </a>
-                        ))}
+                        ) : null}
+                        <div class="mega-ccol-list">
+                          {col.items.map(it => (
+                            <a
+                              href={it.href}
+                              role="menuitem"
+                              class:list={['mega-ccol-link', { active: currentPath === it.href }]}
+                            >
+                              {it.label}
+                            </a>
+                          ))}
+                        </div>
                       </div>
+                    ))}
+                    {customMega.promo ? (
+                      <a href={customMega.promo.href} class="mega-promo" role="menuitem">
+                        {customMega.promo.eyebrow ? <span class="mega-promo-eyebrow">{customMega.promo.eyebrow}</span> : null}
+                        <span class="mega-promo-title">{customMega.promo.title}</span>
+                        {customMega.promo.image ? (
+                          <span class="mega-promo-img"><img src={customMega.promo.image} alt={customMega.promo.imageAlt ?? ''} loading="lazy" /></span>
+                        ) : null}
+                        {customMega.promo.text ? <span class="mega-promo-text">{customMega.promo.text}</span> : null}
+                        <span class="mega-promo-cta">{customMega.promo.ctaLabel} <span aria-hidden="true">→</span></span>
+                      </a>
                     ) : null}
                   </div>
-                ))}
-              </div>
+                </>
+              ) : (
+                <>
+                  <a href={silo.href} class:list={['mega-pillar', { active: currentPath === silo.href }]} role="menuitem">
+                    Voir tout : {silo.label} <span aria-hidden="true">→</span>
+                  </a>
+                  <div class="mega-grid">
+                    {silo.children?.map(cat => (
+                      <div class="mega-col">
+                        <a
+                          href={cat.href}
+                          role="menuitem"
+                          class:list={['mega-cat', { active: currentPath === cat.href, 'has-sub': !!cat.children?.length }]}
+                        >
+                          {cat.label}
+                        </a>
+                        {cat.children?.length ? (
+                          <div class="mega-sublist">
+                            {cat.children.map(sub => (
+                              <a
+                                href={sub.href}
+                                role="menuitem"
+                                class:list={['mega-sublink', { active: currentPath === sub.href }]}
+                              >
+                                {sub.label}
+                              </a>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )
@@ -216,6 +278,7 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
       {silos.map(silo => {
         const isCurrent = silo.slug === currentSiloSlug
         const showMega = showAllMegaMenus || isCurrent
+        const customMega = getCustomMega(silo.slug)
 
         if (!showMega) {
           return <a href={silo.href} class="mobile-link">{silo.label}</a>
@@ -234,44 +297,81 @@ const { currentSiloSlug, currentPath = '', showAllMegaMenus = false } = Astro.pr
                 href={silo.href}
                 class:list={['mobile-link', 'mobile-pillar-link', { active: currentPath === silo.href }]}
               >
-                Voir tout : {silo.label} <span aria-hidden="true">→</span>
+                {customMega?.pillarCta ?? `Voir tout : ${silo.label}`} <span aria-hidden="true">→</span>
               </a>
 
-              {silo.children?.map(cat => (
-                cat.children?.length ? (
-                  <details class="mobile-subgroup">
-                    <summary class="mobile-subsummary">
-                      <span>{cat.label}</span>
-                      <svg class="mobile-caret" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true">
-                        <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </summary>
-                    <div class="mobile-subchildren">
-                      <a
-                        href={cat.href}
-                        class:list={['mobile-link', 'mobile-cat-link', { active: currentPath === cat.href }]}
-                      >
-                        Voir tout : {cat.label} <span aria-hidden="true">→</span>
-                      </a>
-                      {cat.children.map(sub => (
+              {customMega ? (
+                <>
+                  {customMega.columns.map(col => (
+                    <details class="mobile-subgroup">
+                      <summary class="mobile-subsummary">
+                        <span>{col.title}</span>
+                        <svg class="mobile-caret" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true">
+                          <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </summary>
+                      <div class="mobile-subchildren">
                         <a
-                          href={sub.href}
-                          class:list={['mobile-link', 'mobile-child', { active: currentPath === sub.href }]}
+                          href={col.href}
+                          class:list={['mobile-link', 'mobile-cat-link', { active: currentPath === col.href }]}
                         >
-                          {sub.label}
+                          Voir tout : {col.title} <span aria-hidden="true">→</span>
                         </a>
-                      ))}
-                    </div>
-                  </details>
-                ) : (
-                  <a
-                    href={cat.href}
-                    class:list={['mobile-link', 'mobile-child', { active: currentPath === cat.href }]}
-                  >
-                    {cat.label}
-                  </a>
-                )
-              ))}
+                        {col.items.map(it => (
+                          <a
+                            href={it.href}
+                            class:list={['mobile-link', 'mobile-child', { active: currentPath === it.href }]}
+                          >
+                            {it.label}
+                          </a>
+                        ))}
+                      </div>
+                    </details>
+                  ))}
+                  {customMega.promo ? (
+                    <a href={customMega.promo.href} class="mobile-link mobile-promo-link">
+                      {customMega.promo.eyebrow ? <span class="mobile-promo-eyebrow">{customMega.promo.eyebrow}</span> : null}
+                      <span>{customMega.promo.title} <span aria-hidden="true">→</span></span>
+                    </a>
+                  ) : null}
+                </>
+              ) : (
+                silo.children?.map(cat => (
+                  cat.children?.length ? (
+                    <details class="mobile-subgroup">
+                      <summary class="mobile-subsummary">
+                        <span>{cat.label}</span>
+                        <svg class="mobile-caret" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true">
+                          <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </summary>
+                      <div class="mobile-subchildren">
+                        <a
+                          href={cat.href}
+                          class:list={['mobile-link', 'mobile-cat-link', { active: currentPath === cat.href }]}
+                        >
+                          Voir tout : {cat.label} <span aria-hidden="true">→</span>
+                        </a>
+                        {cat.children.map(sub => (
+                          <a
+                            href={sub.href}
+                            class:list={['mobile-link', 'mobile-child', { active: currentPath === sub.href }]}
+                          >
+                            {sub.label}
+                          </a>
+                        ))}
+                      </div>
+                    </details>
+                  ) : (
+                    <a
+                      href={cat.href}
+                      class:list={['mobile-link', 'mobile-child', { active: currentPath === cat.href }]}
+                    >
+                      {cat.label}
+                    </a>
+                  )
+                ))
+              )}
             </div>
           </details>
         )
@@ -339,6 +439,20 @@ for (const item of Array.from(items)) {
   let closeTimer: number | undefined
 
   const adjustAlignment = () => {
+    const isWide = item.dataset.megaWide === 'true'
+
+    if (isWide) {
+      // Mega large : aligne le panneau sur la largeur du conteneur .nav-links
+      // (donc sur toute la largeur du header limitée par --header-max-w).
+      const navLinks = item.closest<HTMLElement>('.nav-links')
+      if (!navLinks) return
+      const navRect  = navLinks.getBoundingClientRect()
+      const itemRect = item.getBoundingClientRect()
+      panel.style.width = `${Math.round(navRect.width)}px`
+      panel.style.left  = `${Math.round(navRect.left - itemRect.left)}px`
+      return
+    }
+
     // Clamp dans le viewport : le panneau s'ancre sous le trigger (left:0
     // relatif à l'item) puis est décalé juste ce qu'il faut pour rester
     // entre les deux marges, sans jamais déborder à gauche NI à droite.
@@ -1322,6 +1436,178 @@ document
   .mega-sublink:hover { color: var(--rose); background: var(--rose-light); }
   .mega-sublink.active { color: var(--rose); font-weight: 600; background: var(--rose-light); }
 
+  /* ══ Mega-menu custom (4 colonnes pleine largeur avec image d'en-tête) ══ */
+  .mega-panel--custom {
+    /* width et left sont fixés en JS pour caler le panneau sur .nav-links */
+    min-width: 0;
+    max-width: none;
+    padding: 18px;
+  }
+
+  .mega-custom-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    align-items: start;
+  }
+
+  /* Variante auto-fit pour les rubriques à beaucoup de colonnes (ex. solutions-metiers) :
+     s'organise en 3 cols puis wrap selon la largeur du panneau. */
+  .mega-custom-grid--auto {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px 18px;
+  }
+
+  /* Variante 4 cols × 2 lignes : 6 secteurs en cols 1-3, promo en col 4 sur 2 lignes
+     (ex. solutions-metiers). La promo est explicitement positionnée → les secteurs
+     auto-flow contournent la cellule col 4 row 1. */
+  .mega-custom-grid--3x2 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: 14px 18px;
+  }
+  .mega-custom-grid--3x2 .mega-promo {
+    grid-column: 4;
+    grid-row: 1 / span 2;
+  }
+
+  .mega-ccol {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  /* Variante compacte (colonnes sans image — ex. solutions-metiers) */
+  .mega-ccol--no-img .mega-ccol-title {
+    padding-top: 0;
+    margin-bottom: 6px;
+  }
+
+  .mega-ccol-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark);
+    text-decoration: none;
+    padding: 4px 2px 8px;
+    border-bottom: 1px solid var(--gray-100);
+    margin-bottom: 10px;
+    transition: color .15s;
+  }
+
+  .mega-ccol-title:hover,
+  .mega-ccol-title.active { color: var(--rose); }
+
+  .mega-ccol-arrow {
+    font-size: 14px;
+    line-height: 1;
+    transition: transform .15s;
+  }
+
+  .mega-ccol-title:hover .mega-ccol-arrow { transform: translateX(2px); }
+
+  .mega-ccol-img {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: var(--gray-50);
+    margin-bottom: 10px;
+  }
+
+  .mega-ccol-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .25s;
+  }
+
+  .mega-ccol-img:hover img { transform: scale(1.04); }
+
+  .mega-ccol-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .mega-ccol-link {
+    font-size: 13px;
+    color: var(--gray-700);
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
+    transition: color .15s, background .15s;
+  }
+
+  .mega-ccol-link:hover { color: var(--rose); background: var(--rose-light); }
+  .mega-ccol-link.active { color: var(--rose); font-weight: 600; background: var(--rose-light); }
+
+  /* Slot promo (4ᵉ colonne) */
+  .mega-promo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    background: var(--rose-light);
+    border: 1px solid rgba(232, 70, 124, .18);
+    border-radius: var(--radius);
+    padding: 14px;
+    color: var(--dark);
+    transition: background .15s, border-color .15s, transform .15s;
+  }
+
+  .mega-promo:hover {
+    background: rgba(232, 70, 124, .14);
+    border-color: var(--rose);
+  }
+
+  .mega-promo-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--rose);
+  }
+
+  .mega-promo-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .mega-promo-img {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    margin: 4px 0 2px;
+  }
+
+  .mega-promo-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .mega-promo-text {
+    font-size: 12.5px;
+    color: var(--gray-700);
+    line-height: 1.4;
+  }
+
+  .mega-promo-cta {
+    margin-top: auto;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--rose);
+    align-self: flex-start;
+  }
+
   /* ── Hamburger ── */
   .hamburger {
     display: none;
@@ -1528,6 +1814,30 @@ document
   }
 
   .mobile-cat-link:hover { background: rgba(232, 70, 124, .14); color: var(--rose); }
+
+  /* Lien promo (mobile, version compacte du slot 4ᵉ colonne) */
+  .mobile-promo-link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 6px;
+    padding: 10px 12px;
+    background: var(--rose-light);
+    border: 1px solid rgba(232, 70, 124, .18);
+    border-radius: var(--radius-sm);
+    color: var(--dark);
+    font-weight: 600;
+  }
+
+  .mobile-promo-link:hover { background: rgba(232, 70, 124, .14); color: var(--rose); }
+
+  .mobile-promo-eyebrow {
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--rose);
+  }
 
   .mobile-utils {
     display: flex;

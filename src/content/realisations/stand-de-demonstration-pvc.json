@@ -17,7 +17,7 @@
       "label": "Production intégrée"
     }
   ],
-  "image": "https://www.kontfeel.fr/assets/realisations/Comptoir-de-degustation.jpg",
+  "image": "/assets/realisations/Comptoir-de-degustation.jpg",
   "imageAlt": "Stand de démonstration PVC",
   "blocks": [
     {

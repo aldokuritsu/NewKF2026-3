@@ -17,7 +17,7 @@
       "label": "Production intégrée"
     }
   ],
-  "image": "https://www.kontfeel.fr/assets/realisations/borne-digitale.jpg",
+  "image": "/assets/realisations/borne-digitale.jpg",
   "imageAlt": "Borne de jeu arcade en magasin",
   "blocks": [
     {

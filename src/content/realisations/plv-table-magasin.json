@@ -17,7 +17,7 @@
       "label": "Production intégrée"
     }
   ],
-  "image": "https://www.kontfeel.fr/assets/realisations/contenu.jpg",
+  "image": "/assets/realisations/contenu.jpg",
   "imageAlt": "PLV table de magasin rétro éclairé",
   "blocks": [
     {

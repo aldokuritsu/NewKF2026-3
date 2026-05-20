@@ -8,8 +8,13 @@ n'existe que sur kontfeel.fr. Ce script :
      meta_description, images_urls)
   2. curl la page live, extrait `div.port-info` (corps d'article) → Markdown
      fidèle (h2/h3/p/ul/strong/a/blockquote préservés) + `div.port-meta`
-  3. écrit src/content/realisations/<slug>.json : champs structurés + un bloc
+  3. télécharge l'image principale dans public/assets/realisations/ sous un
+     nom kebab-case propre (cf. localize_image) → `image` pointe en local
+  4. écrit src/content/realisations/<slug>.json : champs structurés + un bloc
      `text_editorial` portant l'article complet (rendu via BlockRenderer).
+
+Pour rapatrier les images d'anciennes fiches (qui pointent encore en URL
+distante), utiliser scripts/localize_realisation_images.py — idempotent.
 
 Usage :
   python3 scripts/import_realisations.py                 # toutes (skip si déjà présent)
@@ -22,13 +27,15 @@ Usage :
    repris verbatim. `date` n'est plus généré (retiré du modèle) ; l'ordre
    d'affichage vient de scripts/enrich_realisations.py (crawl du live).
 """
-import sys, os, re, json, time, html, zipfile, subprocess
+import sys, os, re, json, time, html, zipfile, subprocess, unicodedata, urllib.parse
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 XLSX = os.path.join(ROOT, "kontfeel_seo_full.xlsx")
 OUT  = os.path.join(ROOT, "src", "content", "realisations")
+IMG_OUT = os.path.join(ROOT, "public", "assets", "realisations")
+IMG_WEB = "/assets/realisations"
 NS   = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 
 # ── 1. Lecture xlsx (stdlib, inlineStr) ──────────────────────────────────────
@@ -188,6 +195,42 @@ def fetch(url):
         raise RuntimeError(f"curl rc={r.returncode}: {r.stderr.decode('utf-8','ignore')[:120]}")
     return r.stdout.decode("utf-8", "ignore")
 
+# Slugify pour les noms de fichiers téléchargés : ASCII, kebab-case, ext conservée.
+def _kebab(name):
+    base, ext = os.path.splitext(name)
+    base = unicodedata.normalize("NFKD", base)
+    base = "".join(c for c in base if not unicodedata.combining(c))
+    base = base.lower()
+    base = re.sub(r"[^a-z0-9]+", "-", base).strip("-")
+    return (base or "image") + ext.lower()
+
+def localize_image(url):
+    """Télécharge url dans public/assets/realisations/ et renvoie le chemin web
+    `/assets/realisations/<clean-name>`. Skip si déjà présent. Sur échec, renvoie
+    l'URL d'origine pour que la fiche reste affichable (warning loggué)."""
+    if not url.startswith(("http://", "https://")):
+        return url
+    raw = urllib.parse.unquote(url.split("/")[-1])
+    raw = unicodedata.normalize("NFC", raw)
+    clean = _kebab(raw)
+    dest = os.path.join(IMG_OUT, clean)
+    web  = f"{IMG_WEB}/{clean}"
+    if os.path.exists(dest):
+        return web
+    os.makedirs(IMG_OUT, exist_ok=True)
+    r = subprocess.run(
+        ["curl", "-sSL", "--fail", "--max-time", "30",
+         "-A", "Mozilla/5.0 (KontfeelMigration)", "-o", dest, url],
+        capture_output=True,
+    )
+    if r.returncode != 0:
+        print(f"  ⚠ image non téléchargée ({url}): rc={r.returncode}")
+        # ne laisse pas un fichier 0-byte
+        if os.path.exists(dest) and os.path.getsize(dest) == 0:
+            os.remove(dest)
+        return url
+    return web
+
 def main():
     args = sys.argv[1:]
     force = "--force" in args
@@ -218,8 +261,11 @@ def main():
 
         title = (d.get("h1") or d.get("title") or slug).strip()
         desc = (d.get("meta_description") or title).strip()
-        img = (d.get("images_urls") or "").split("|")[0].strip() or \
-              "/assets/realisations/arche-evenementielle-sur-mesure.jpg"
+        img_src = (d.get("images_urls") or "").split("|")[0].strip() or \
+                  "/assets/realisations/arche-evenementielle-sur-mesure.jpg"
+        # Rapatrie l'image en local si l'xlsx donne une URL distante (sinon
+        # passe-through pour les chemins déjà locaux comme le fallback).
+        img = localize_image(img_src)
         body_text = re.sub("<[^>]+>", " ", body_html)
         sector = infer_sector(title + " " + desc + " " + d.get("url", ""))
         client = infer_client(title, d.get("h1", ""), desc, body_text)

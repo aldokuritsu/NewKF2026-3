@@ -10,6 +10,10 @@ const posts = defineCollection({
 		image: z.string().optional(),
 		imageAlt: z.string().optional(),
 		author: z.string().default('Équipe Kontfeel'),
+		// Slug de catégorie blog (cf. src/data/blog-categories.json) :
+		// experience-shopper | guide-plv | graphisme-plv | plv-durable-et-rse
+		// | salons | conseils-et-astuces-plv
+		category: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 		relatedRealisation: z.string().optional(),
 		relatedLinks: z.array(z.object({

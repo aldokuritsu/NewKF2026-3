@@ -5,26 +5,32 @@ import_posts.py — Migration des articles de blog depuis le site live.
 Pipeline jumeau de import_realisations.py mais ciblé sur /blog-plv/<slug> :
   1. lit les lignes `blog-plv/...` du xlsx (url, title, h1, meta_description,
      images_urls)
-  2. curl la page live, extrait `div.port-info` (corps d'article, MÊME classe
-     que les réalisations — le site utilise un template unifié) → Markdown
-  3. extrait depuis le HTML : date publiée (icône calendar), catégorie blog
-     (icône folder-open)
-  4. télécharge l'image principale dans public/assets/actualites/ sous un
-     nom kebab-case propre → `image` pointe en local (idempotent)
-  5. écrit src/content/posts/<slug>.md avec frontmatter YAML
-     (title/date/description/image/imageAlt/author/tags/...) suivi du
-     corps Markdown.
+  2. curl la page live, puis tranche ARTICLE vs PAGE-CATÉGORIE selon la
+     présence du corps `div.port-info` :
+       • ARTICLE  → extrait port-info → Markdown ; capte date (icône calendar),
+                    catégorie (icône folder-open), image → src/content/posts/<slug>.md
+       • CATÉGORIE (pas de port-info, ex. /blog-plv/experience-shopper)
+                  → capte slug + label (H1) + meta description + intro, et
+                    l'ajoute au manifeste src/data/blog-categories.json
+  3. télécharge l'image principale dans public/assets/actualites/ sous un nom
+     kebab-case propre → `image` pointe en local (idempotent ; réutilise une
+     image déjà présente sous public/assets/**).
+
+Le manifeste blog-categories.json permettra de régénérer les pages catégorie
+côté front (route à créer, ex. /actualites-plv/categorie/<slug>/). Chaque
+article porte un champ `category` (slug) reliant à ce manifeste.
 
 Usage :
-  python3 scripts/import_posts.py                 # tous (skip si déjà présent)
+  python3 scripts/import_posts.py                 # tout (skip articles déjà présents)
   python3 scripts/import_posts.py slug1 slug2 …   # seulement ceux-ci
   python3 scripts/import_posts.py --force         # écrase les .md existants
   python3 scripts/import_posts.py --dry-run       # n'écrit aucun fichier
 
-⚠️ `tags` et `relatedRealisation`/`relatedLinks`/`tldr` ne sont pas dans la
-   source → tags inférés par heuristique mots-clés ; les autres restent à
-   compléter à la main pour le maillage SEO (cf. CLAUDE.md). Le corps
-   d'article, lui, est repris verbatim.
+⚠️ `tags`/`relatedRealisation`/`relatedLinks`/`tldr` ne sont pas dans la
+   source → tags inférés par heuristique ; les autres restent à compléter à la
+   main pour le maillage SEO (cf. CLAUDE.md). Date = critère de routage de la
+   liste /actualites-plv/ : un article sans date détectée est signalé en fin
+   de run. Le corps d'article, lui, est repris verbatim.
 """
 import sys, os, re, time, html, zipfile, subprocess, unicodedata, urllib.parse
 import xml.etree.ElementTree as ET
@@ -39,6 +45,9 @@ OUT  = os.path.join(ROOT, "src", "content", "posts")
 IMG_OUT = os.path.join(ROOT, "public", "assets", "actualites")
 IMG_WEB = "/assets/actualites"
 PUBLIC_ASSETS = os.path.join(ROOT, "public", "assets")
+# Manifeste des catégories blog (slug + label + intro) — sert à régénérer les
+# pages catégorie (type kontfeel.fr/blog-plv/experience-shopper) côté front.
+CATS_OUT = os.path.join(ROOT, "src", "data", "blog-categories.json")
 NS   = "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
 
 # ── 1. Lecture xlsx, filtre sur /blog-plv/ ───────────────────────────────────
@@ -66,12 +75,12 @@ def read_blog_rows():
             letter = re.match(r"[A-Z]+", c.get("r")).group(0)
             d[cmap.get(letter, letter)] = cell_text(c)
         url = d.get("url", "")
-        # Garde uniquement les vrais articles : /blog-plv/<slug> (pas la page
-        # index `/blog-plv/conseils-et-astuces-plv` qui est elle-même le hub).
         if "/blog-plv/" not in url:
             continue
         slug = url.split("/blog-plv/")[-1].strip("/")
-        if not slug or slug == "conseils-et-astuces-plv":
+        # Slug à segment unique uniquement. Article vs page-catégorie est
+        # tranché au runtime selon la présence du corps `port-info` (cf. main).
+        if not slug or "/" in slug:
             continue
         d["_slug"] = slug
         out.append(d)
@@ -83,6 +92,10 @@ DATE_RX = re.compile(r"calendar[^<]*</i>\s*(\d{1,2})/(\d{1,2})/(\d{4})", re.I)
 # enveloppé dans un <a href="/blog-plv/<cat>">Libellé</a>.
 CAT_RX  = re.compile(
     r"folder-open[^<]*</i>\s*(?:<a[^>]*>)?\s*([^<\n]+?)\s*<", re.I)
+# Slug de la catégorie depuis le href du lien folder-open.
+CAT_HREF_RX = re.compile(
+    r"folder-open[^<]*</i>\s*<a[^>]*href=\"[^\"]*/blog-plv/([a-z0-9-]+)\"", re.I)
+H1_RX = re.compile(r"<h1[^>]*>(.*?)</h1>", re.S | re.I)
 
 def extract_date(htmltext):
     """Renvoie 'YYYY-MM-DD' ou None."""
@@ -93,11 +106,25 @@ def extract_date(htmltext):
     return f"{yyyy}-{int(mm):02d}-{int(dd):02d}"
 
 def extract_category(htmltext):
-    """Renvoie le libellé de catégorie blog (ex. 'Conseils et Astuces PLV')."""
-    m = CAT_RX.search(htmltext)
-    if not m:
-        return None
-    return html.unescape(m.group(1).strip()) or None
+    """Renvoie (slug, label) de la catégorie blog de l'article, ou (None, None)."""
+    label_m = CAT_RX.search(htmltext)
+    slug_m  = CAT_HREF_RX.search(htmltext)
+    label = html.unescape(label_m.group(1).strip()) if label_m else None
+    slug  = slug_m.group(1) if slug_m else None
+    return slug, label
+
+def extract_h1(htmltext):
+    m = H1_RX.search(htmltext)
+    return html.unescape(re.sub("<[^>]+>", "", m.group(1)).strip()) if m else None
+
+def extract_intro(htmltext):
+    """1er paragraphe substantiel après le H1 (sert d'intro de page catégorie)."""
+    seg = htmltext[htmltext.find("<h1"):] if "<h1" in htmltext else htmltext
+    for p in re.findall(r"<p[^>]*>(.*?)</p>", seg, re.S):
+        t = html.unescape(re.sub(r"\s+", " ", re.sub("<[^>]+>", "", p)).strip())
+        if len(t) > 40:
+            return t
+    return None
 
 # ── 3. Heuristique tags (depuis titre + description + catégorie) ────────────
 TAG_RULES = [
@@ -193,7 +220,7 @@ def yaml_list(items):
     parts = [yaml_string(i) for i in items]
     return "[" + ", ".join(parts) + "]"
 
-def build_frontmatter(*, title, date, description, image, image_alt, tags):
+def build_frontmatter(*, title, date, description, image, image_alt, category, tags):
     lines = ["---"]
     lines.append(f"title: {yaml_string(title)}")
     if date:
@@ -205,21 +232,49 @@ def build_frontmatter(*, title, date, description, image, image_alt, tags):
     if image_alt:
         lines.append(f"imageAlt: {yaml_string(image_alt)}")
     lines.append('author: "Équipe Kontfeel"')
+    if category:
+        lines.append(f"category: {yaml_string(category)}")
     if tags:
         lines.append(f"tags: {yaml_list(tags)}")
     lines.append("---\n")
     return "\n".join(lines)
 
 # ── 6. Pipeline ──────────────────────────────────────────────────────────────
+def write_categories_manifest(categories, dry_run):
+    """Écrit src/data/blog-categories.json (trié par label). Idempotent :
+    fusionne avec l'existant pour ne pas perdre d'éventuels ajustements manuels
+    sur des catégories non revues lors de ce run."""
+    existing = {}
+    if os.path.exists(CATS_OUT):
+        try:
+            with open(CATS_OUT, encoding="utf-8") as f:
+                for c in __import__("json").load(f):
+                    existing[c["slug"]] = c
+        except Exception:
+            pass
+    existing.update({c["slug"]: c for c in categories})
+    merged = sorted(existing.values(), key=lambda c: c.get("label", c["slug"]).lower())
+    if dry_run:
+        print(f"  (dry-run) manifeste catégories : {len(merged)} entrées → {CATS_OUT}")
+        return
+    os.makedirs(os.path.dirname(CATS_OUT), exist_ok=True)
+    import json
+    with open(CATS_OUT, "w", encoding="utf-8") as f:
+        json.dump(merged, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    print(f"  ✓ manifeste catégories : {len(merged)} entrées → src/data/blog-categories.json")
+
+
 def main():
     args = sys.argv[1:]
     force   = "--force"   in args
     dry_run = "--dry-run" in args
     only = {a for a in args if not a.startswith("--")}
     rows = read_blog_rows()
-    print(f"Articles relevés dans le xlsx : {len(rows)}")
+    print(f"Pages /blog-plv/ relevées dans le xlsx : {len(rows)}")
     os.makedirs(OUT, exist_ok=True)
-    done = skipped = errors = 0
+    done = skipped = errors = cats = no_date = 0
+    categories = []
     for d in rows:
         slug = d["_slug"]
         if only and slug not in only:
@@ -227,46 +282,77 @@ def main():
         url = d.get("final_url") or d["url"]
         if d.get("http_status") not in ("", "200", None):
             print(f"  skip {slug} (HTTP {d.get('http_status')})"); skipped += 1; continue
-        out_path = os.path.join(OUT, slug + ".md")
-        if os.path.exists(out_path) and not force:
-            print(f"  skip {slug} (déjà présent — --force pour écraser)")
-            skipped += 1
-            continue
         try:
             page = fetch(url)
         except Exception as e:
             print(f"  ERREUR fetch {slug}: {e}"); errors += 1; continue
+
         body_html = grab_div(page, "port-info")
-        if not body_html or len(body_html) < 200:
-            print(f"  ⚠ {slug}: port-info introuvable/court — ignoré"); skipped += 1; continue
+        is_article = bool(body_html and len(body_html) >= 200)
+
+        # ── Page CATÉGORIE (pas de corps port-info) → manifeste, pas un .md ──
+        if not is_article:
+            label = extract_h1(page) or (d.get("h1") or d.get("title") or slug).strip()
+            desc = (d.get("meta_description") or "").strip()
+            intro = extract_intro(page) or ""
+            categories.append({
+                "slug": slug,
+                "label": label,
+                "description": desc,
+                "intro": intro,
+            })
+            print(f"  ⊞ catégorie : {slug}  («{label}»)")
+            cats += 1
+            time.sleep(0.6)
+            continue
+
+        # ── ARTICLE ─────────────────────────────────────────────────────────
+        out_path = os.path.join(OUT, slug + ".md")
+        if os.path.exists(out_path) and not force:
+            print(f"  skip {slug} (déjà présent — --force pour écraser)")
+            skipped += 1
+            time.sleep(0.6)
+            continue
         md = to_markdown(body_html)
         body_text = re.sub("<[^>]+>", " ", body_html)
         title = (d.get("h1") or d.get("title") or slug).strip()
         desc = (d.get("meta_description") or "").strip()
         date = extract_date(page)
-        category = extract_category(page)
+        if not date:
+            print(f"  ⚠ {slug}: date introuvable dans la page (à renseigner à la main)")
+            no_date += 1
+        cat_slug, cat_label = extract_category(page)
         img_src = (d.get("images_urls") or "").split("|")[0].strip()
         image = localize_image(img_src) if img_src else ""
-        tags = infer_tags(title, desc, category, body_text)
+        tags = infer_tags(title, desc, cat_label, body_text)
         fm = build_frontmatter(
             title=title,
             date=date,
             description=desc or title,
             image=image,
             image_alt=title,
+            category=cat_slug,
             tags=tags,
         )
         content = fm + "\n" + md + "\n"
         if dry_run:
-            print(f"  (dry-run) {slug}  date={date}  cat={category}  tags={tags}  img={image[:60]}")
+            print(f"  (dry-run) {slug}  date={date}  cat={cat_slug}  tags={tags}  img={image[:50]}")
         else:
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(content)
-            print(f"  ✓ {slug}  ({len(md)} car. md, date={date}, {len(tags)} tags)")
+            print(f"  ✓ {slug}  ({len(md)} car. md, date={date}, cat={cat_slug})")
         done += 1
         time.sleep(0.6)  # politesse
+
+    if categories:
+        write_categories_manifest(categories, dry_run)
+
     mode = "(dry-run) " if dry_run else ""
-    print(f"\n{mode}Terminé : {done} traités, {skipped} ignorés, {errors} erreurs.")
+    print(f"\n{mode}Terminé : {done} articles, {cats} catégories, "
+          f"{skipped} ignorés, {errors} erreurs.")
+    if no_date:
+        print(f"⚠ {no_date} article(s) sans date détectée — la liste "
+              f"/actualites-plv/ ne route que les posts AVEC date.")
 
 if __name__ == "__main__":
     main()

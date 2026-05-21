@@ -1,11 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import blogCategories from '../data/blog-categories.json';
 
 const allPosts = await getCollection('posts', p => !!p.data.date);
 const posts = allPosts.sort((a, b) =>
   new Date(b.data.date!).getTime() - new Date(a.data.date!).getTime()
 );
+
+// Filtres = catégories réellement utilisées par au moins un article, dans
+// l'ordre du manifeste (slug → label). Un article sans `category` reste
+// visible seulement sous "Tous".
+const labelBySlug = new Map(blogCategories.map(c => [c.slug, c.label]));
+const usedSlugs = new Set(posts.map(p => p.data.category).filter(Boolean));
+const filters = blogCategories
+  .filter(c => usedSlugs.has(c.slug))
+  .map(c => ({ slug: c.slug, label: c.label }));
 ---
 
 <BaseLayout
@@ -23,47 +33,66 @@ const posts = allPosts.sort((a, b) =>
       {posts.length === 0 ? (
         <p class="blog-empty">Articles à venir.</p>
       ) : (
-        <ul class="blog-grid">
-          {posts.map(post => {
-            const date = new Date(post.data.date!).toLocaleDateString('fr-FR', {
-              year: 'numeric', month: 'long', day: 'numeric'
-            });
-            return (
-              <li class="blog-card">
-                {post.data.image && (
-                  <a href={`/actualites-plv/${post.id}/`}>
-                    <img
-                      src={post.data.image}
-                      alt={post.data.imageAlt ?? post.data.title}
-                      class="blog-card-img"
-                      loading="lazy"
-                    />
-                  </a>
-                )}
-                <div class="blog-card-body">
-                  {post.data.tags && post.data.tags.length > 0 && (
-                    <div class="blog-card-tags">
-                      {post.data.tags.slice(0, 2).map(tag => (
-                        <span class="blog-card-tag">{tag}</span>
-                      ))}
+        <>
+          {filters.length > 0 && (
+            <nav class="blog-filters" aria-label="Filtrer les articles par catégorie">
+              <button type="button" class="blog-filter is-active" data-filter="all">
+                Tous
+              </button>
+              {filters.map(f => (
+                <button type="button" class="blog-filter" data-filter={f.slug}>
+                  {f.label}
+                </button>
+              ))}
+            </nav>
+          )}
+
+          <ul class="blog-grid">
+            {posts.map(post => {
+              const date = new Date(post.data.date!).toLocaleDateString('fr-FR', {
+                year: 'numeric', month: 'long', day: 'numeric'
+              });
+              const category = post.data.category ?? '';
+              const catLabel = category ? labelBySlug.get(category) : undefined;
+              return (
+                <li class="blog-card" data-category={category}>
+                  {post.data.image && (
+                    <a href={`/actualites-plv/${post.id}/`}>
+                      <img
+                        src={post.data.image}
+                        alt={post.data.imageAlt ?? post.data.title}
+                        class="blog-card-img"
+                        loading="lazy"
+                      />
+                    </a>
+                  )}
+                  <div class="blog-card-body">
+                    {catLabel && (
+                      <div class="blog-card-tags">
+                        <span class="blog-card-tag">{catLabel}</span>
+                      </div>
+                    )}
+                    <h2 class="blog-card-title">
+                      <a href={`/actualites-plv/${post.id}/`}>{post.data.title}</a>
+                    </h2>
+                    {post.data.description && (
+                      <p class="blog-card-desc">{post.data.description}</p>
+                    )}
+                    <div class="blog-card-meta">
+                      <time datetime={post.data.date}>{date}</time>
+                      <span>·</span>
+                      <span>{post.data.author}</span>
                     </div>
-                  )}
-                  <h2 class="blog-card-title">
-                    <a href={`/actualites-plv/${post.id}/`}>{post.data.title}</a>
-                  </h2>
-                  {post.data.description && (
-                    <p class="blog-card-desc">{post.data.description}</p>
-                  )}
-                  <div class="blog-card-meta">
-                    <time datetime={post.data.date}>{date}</time>
-                    <span>·</span>
-                    <span>{post.data.author}</span>
                   </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                </li>
+              );
+            })}
+          </ul>
+
+          <p class="blog-empty-filter is-hidden" data-empty-filter>
+            Aucun article dans cette catégorie pour le moment.
+          </p>
+        </>
       )}
 
     </div>
@@ -97,6 +126,56 @@ const posts = allPosts.sort((a, b) =>
     color: var(--gray-500);
     font-size: 16px;
   }
+
+  /* ═══ Filtres catégorie (vanilla, scroll horizontal mobile) ═══ */
+  .blog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 600px) {
+    .blog-filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-left: -24px;
+      margin-right: -24px;
+      padding-left: 24px;
+      padding-right: 24px;
+      scrollbar-width: thin;
+    }
+    .blog-filter { flex-shrink: 0; }
+  }
+  .blog-filter {
+    appearance: none;
+    border: 1.5px solid var(--gray-100, #e5e7eb);
+    background: #fff;
+    color: var(--dark, #1a1a2e);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, color .15s;
+  }
+  .blog-filter:hover { border-color: var(--rose, #E8336D); color: var(--rose, #E8336D); }
+  .blog-filter.is-active {
+    background: var(--rose, #E8336D);
+    border-color: var(--rose, #E8336D);
+    color: #fff;
+  }
+
+  .blog-empty-filter {
+    color: var(--gray-500, #6b7280);
+    font-size: 15px;
+    text-align: center;
+    padding: 48px 0;
+  }
+  .blog-empty-filter.is-hidden { display: none; }
+  .blog-card.is-hidden { display: none; }
+
   .blog-grid {
     list-style: none;
     padding: 0;
@@ -164,3 +243,30 @@ const posts = allPosts.sort((a, b) =>
     color: var(--gray-500);
   }
 </style>
+
+<script is:inline>
+  // Filtre client par catégorie (montre/cache les cartes selon data-category)
+  ;(function () {
+    const filters = document.querySelectorAll('.blog-filter')
+    const cards   = document.querySelectorAll('.blog-card[data-category]')
+    const empty   = document.querySelector('[data-empty-filter]')
+    if (!filters.length || !cards.length) return
+
+    function apply(value) {
+      let visible = 0
+      cards.forEach((card) => {
+        const ok = value === 'all' || card.dataset.category === value
+        card.classList.toggle('is-hidden', !ok)
+        if (ok) visible++
+      })
+      if (empty) empty.classList.toggle('is-hidden', visible > 0)
+    }
+
+    filters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filters.forEach((b) => b.classList.toggle('is-active', b === btn))
+        apply(btn.dataset.filter)
+      })
+    })
+  })()
+</script>
